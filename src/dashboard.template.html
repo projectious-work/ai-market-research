@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Market Briefing · Bernhard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c10;
+  --bg-elev: #11141a;
+  --bg-card: #161a22;
+  --border: #232936;
+  --border-strong: #2e3645;
+  --text: #d8dde6;
+  --text-dim: #8892a6;
+  --text-faint: #5a6377;
+  --accent: #ffb84d;
+  --accent-hot: #ff5e3a;
+  --accent-cool: #4dd0ff;
+  --green: #4ade80;
+  --red: #ef4444;
+  --yellow: #fbbf24;
+  --anthropic: #d97757;
+  --openai: #10a37f;
+  --google: #4285f4;
+  --mistral: #ff7000;
+  --grok: #999999;
+  --deepseek: #5b8def;
+  --minimax: #b285ff;
+  --meta: #0866ff;
+  --alibaba: #ff6a00;
+  --opensource: #4ade80;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --serif: 'Fraunces', Georgia, serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+body { min-height: 100vh; }
+a { color: var(--accent-cool); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ============ HEADER ============ */
+.masthead {
+  border-bottom: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, #0d1016 0%, var(--bg) 100%);
+  padding: 1.5rem 2rem 1.25rem;
+}
+.masthead-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.brand {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: 1.85rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.brand .accent { color: var(--accent); font-style: italic; }
+.dateline {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+}
+.controls {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+  flex-wrap: wrap;
+}
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.control-group select {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.control-group select:focus { outline: 1px solid var(--accent); }
+
+/* ============ TABS ============ */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-strong);
+  padding: 0 2rem;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+}
+.tab {
+  padding: 1rem 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab .num {
+  display: inline-block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  margin-right: 0.5rem;
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+.tab.active .num { color: var(--accent); }
+
+/* ============ MAIN ============ */
+main {
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ============ DASHBOARD TAB ============ */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.25rem;
+}
+.dash-headline {
+  grid-column: span 12;
+  padding: 1.5rem 1.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+}
+.dash-headline h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+.dash-headline p {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+.stat-tile {
+  grid-column: span 3;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1rem 1.1rem;
+  position: relative;
+}
+.stat-tile .label {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.5rem;
+}
+.stat-tile .value {
+  font-family: var(--serif);
+  font-size: 2.1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text);
+}
+.stat-tile .value .unit {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  margin-left: 0.3rem;
+  letter-spacing: 0;
+}
+.stat-tile .delta {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  margin-top: 0.5rem;
+  color: var(--text-dim);
+}
+.stat-tile .delta.up { color: var(--green); }
+.stat-tile .delta.down { color: var(--red); }
+.stat-tile .delta.neutral { color: var(--text-dim); }
+
+.dash-section {
+  grid-column: span 6;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.5rem 1.75rem;
+}
+.dash-section.full { grid-column: span 12; }
+.dash-section h3 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px dashed var(--border);
+}
+.dash-section h4 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 1rem 0 0.4rem;
+  color: var(--text);
+}
+.dash-section h4:first-of-type { margin-top: 0; }
+.dash-section p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.65;
+  margin-bottom: 0.5rem;
+}
+.changelog-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.83rem;
+}
+.changelog-item:last-child { border-bottom: none; }
+.changelog-date {
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  padding-top: 0.1rem;
+  min-width: 70px;
+}
+.changelog-text { color: var(--text); flex: 1; }
+.changelog-tag {
+  display: inline-block;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  margin-right: 0.5rem;
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  vertical-align: middle;
+}
+.changelog-tag.model { border-color: var(--accent); color: var(--accent); }
+.changelog-tag.harness { border-color: var(--accent-cool); color: var(--accent-cool); }
+.changelog-tag.policy { border-color: var(--accent-hot); color: var(--accent-hot); }
+.changelog-tag.local { border-color: var(--opensource); color: var(--opensource); }
+
+.action-list { list-style: none; padding: 0; }
+.action-list li {
+  padding: 0.65rem 0 0.65rem 1.5rem;
+  position: relative;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.action-list li:last-child { border-bottom: none; }
+.action-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  color: var(--accent);
+  font-family: var(--mono);
+}
+
+/* ============ SPARKLINE ============ */
+.spark-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+.spark-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  padding: 1rem;
+}
+.spark-card .label {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.4rem;
+}
+.spark-card .current {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.spark-card svg { display: block; margin-top: 0.5rem; width: 100%; height: 40px; }
+
+/* ============ TABLES ============ */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  margin-bottom: 1.5rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+thead th {
+  background: var(--bg-elev);
+  text-align: left;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+tbody td {
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tbody tr:hover { background: rgba(255, 184, 77, 0.04); }
+tbody tr:last-child td { border-bottom: none; }
+.tnum { font-variant-numeric: tabular-nums; text-align: right; }
+.mono { font-family: var(--mono); }
+td.model-name { font-weight: 600; color: var(--text); }
+td.model-name .sublabel {
+  display: block;
+  font-weight: 400;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin-top: 0.15rem;
+}
+
+/* ============ PROVIDER PILLS ============ */
+.pill {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  border: 1px solid currentColor;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.pill-anthropic { color: var(--anthropic); }
+.pill-openai { color: var(--openai); }
+.pill-google { color: var(--google); }
+.pill-mistral { color: var(--mistral); }
+.pill-grok { color: var(--grok); }
+.pill-deepseek { color: var(--deepseek); }
+.pill-minimax { color: var(--minimax); }
+.pill-meta { color: var(--meta); }
+.pill-alibaba { color: var(--alibaba); }
+.pill-opensource { color: var(--opensource); }
+
+/* ============ QUALITY BAR ============ */
+.qbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 160px;
+}
+.qbar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.qbar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-hot), var(--accent));
+}
+.qbar-fill.over { background: linear-gradient(90deg, var(--accent), var(--green)); }
+.qbar-num {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  min-width: 50px;
+  text-align: right;
+  font-weight: 500;
+}
+
+/* ============ SECTION HEADERS ============ */
+.sect-head {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 2rem 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+.sect-head:first-child { margin-top: 0; }
+.sect-sub {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+  font-family: var(--serif);
+}
+
+/* ============ FILTER BAR ============ */
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+}
+.filter-btn {
+  background: var(--bg-card);
+  color: var(--text-dim);
+  border: 1px solid var(--border-strong);
+  padding: 0.35rem 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.filter-btn:hover { color: var(--text); border-color: var(--text-dim); }
+.filter-btn.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+/* ============ HARNESS MATRIX ============ */
+.matrix-table .feature-yes { color: var(--green); font-weight: 700; }
+.matrix-table .feature-no { color: var(--red); }
+.matrix-table .feature-partial { color: var(--yellow); }
+.matrix-table td { text-align: center; }
+.matrix-table td:first-child, .matrix-table td:nth-child(2) { text-align: left; }
+
+/* ============ BURN MATRIX ============ */
+.burn-matrix-block { margin-bottom: 2rem; }
+.burn-matrix-block h4 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.burn-matrix-block .sub-note {
+  color: var(--text-faint);
+  font-size: 0.78rem;
+  font-style: italic;
+  font-family: var(--serif);
+  margin-bottom: 0.75rem;
+}
+.burn-matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.burn-matrix-table th {
+  background: var(--bg-elev);
+  text-align: center;
+  padding: 0.6rem 0.5rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-strong);
+}
+.burn-matrix-table th:first-child { text-align: left; }
+.burn-matrix-table td {
+  padding: 0.55rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+  vertical-align: middle;
+}
+.burn-matrix-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  font-size: 0.78rem;
+}
+.burn-matrix-table .baseline-cell-flag {
+  outline: 1.5px solid var(--accent);
+  outline-offset: -2px;
+}
+.burn-matrix-table .legacy-row { opacity: 0.55; }
+.burn-matrix-table .nodata { color: var(--text-faint); }
+.burn-cell-note {
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  font-style: italic;
+}
+/* E2 cell encoding */
+.bm-cell { padding: 0.5rem 0.55rem !important; min-width: 92px; }
+.bm-cell-numbers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.1;
+  font-family: var(--mono);
+}
+.bm-cell-numbers .burn-num { font-weight: 600; color: var(--text); }
+.bm-cell-numbers .qual-num { color: var(--text-dim); }
+.bm-bar-track {
+  height: 4px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+.bm-bar-track:last-child { margin-bottom: 0; }
+.bm-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+/* burn bar colours */
+.bm-burn-low    { background: #4ade80; }   /* < 0.5× */
+.bm-burn-mid    { background: #fbbf24; }   /* 0.5-1.5× */
+.bm-burn-high   { background: #ff5e3a; }   /* 1.5-3× */
+.bm-burn-xhigh  { background: #ef4444; }   /* >3× */
+/* quality bar colours */
+.bm-qual-poor   { background: #ef4444; }   /* <70% */
+.bm-qual-mid    { background: #fbbf24; }   /* 70-85% */
+.bm-qual-good   { background: #84cc16; }   /* 85-95% */
+.bm-qual-best   { background: #22c55e; }   /* >=95% */
+
+.burn-stack-chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-elev);
+  border: 1px dashed var(--border);
+  font-size: 0.72rem;
+}
+.burn-stack-chips strong {
+  color: var(--accent);
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  margin-right: 0.4rem;
+}
+.burn-stack-chips .chip {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--border-strong);
+  font-family: var(--mono);
+  color: var(--text-dim);
+}
+
+/* ============ EFFICIENCY LEADERS PANEL ============ */
+.eff-leaders {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent-cool);
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+}
+.eff-leaders h4 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-cool);
+  margin-bottom: 0.4rem;
+}
+.eff-leaders .sub-note {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  font-style: italic;
+  font-family: var(--serif);
+  margin-bottom: 1rem;
+}
+.eff-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.eff-controls select, .eff-controls input[type="number"] {
+  background: var(--bg-elev);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.5rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.eff-controls select:focus, .eff-controls input[type="number"]:focus { outline: 1px solid var(--accent-cool); }
+.eff-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.eff-table th {
+  background: var(--bg-elev);
+  text-align: left;
+  padding: 0.55rem 0.6rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.eff-table td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+.eff-table tr:last-child td { border-bottom: none; }
+.eff-rank {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent-cool);
+}
+.eff-rank.top3 { background: var(--accent-cool); color: var(--bg); border-color: var(--accent-cool); }
+.eff-model { font-weight: 600; color: var(--text); white-space: nowrap; }
+.eff-effort {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.66rem;
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.eff-score {
+  font-weight: 600;
+  color: var(--green);
+}
+.eff-score.mid { color: var(--yellow); }
+.eff-score.poor { color: var(--accent-hot); }
+
+/* ============ TASK FIT ============ */
+.taskfit-section { margin-top: 2.5rem; }
+.taskfit-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  align-items: center;
+}
+.taskfit-filter {
+  background: var(--bg-card);
+  color: var(--text-dim);
+  border: 1px solid var(--border-strong);
+  padding: 0.3rem 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.taskfit-filter:hover { color: var(--text); border-color: var(--text-dim); }
+.taskfit-filter.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.taskfit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.taskfit-table th {
+  background: var(--bg-elev);
+  text-align: left;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+.taskfit-table th.task-col { width: 18%; }
+.taskfit-table th .col-provider {
+  display: block;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+.taskfit-table td {
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  font-size: 0.78rem;
+}
+.taskfit-table tr:last-child td { border-bottom: none; }
+.taskfit-task {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.25;
+}
+.taskfit-task-desc {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--text-faint);
+  margin-top: 0.3rem;
+  line-height: 1.4;
+}
+.taskfit-cell {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.taskfit-cell:hover { background: rgba(255, 184, 77, 0.04); }
+.taskfit-cell-empty {
+  color: var(--text-faint);
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 0.75rem;
+}
+.taskfit-model {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.82rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.taskfit-effort {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.62rem;
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+  margin-right: 0.4rem;
+  vertical-align: 1px;
+}
+.taskfit-burn {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  vertical-align: 1px;
+}
+.taskfit-rationale {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 0.35rem;
+  font-style: italic;
+  font-family: var(--serif);
+  line-height: 1.4;
+}
+.taskfit-expand-hint {
+  font-size: 0.62rem;
+  color: var(--accent-cool);
+  margin-top: 0.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+.taskfit-cell.expanded .taskfit-expand-hint { color: var(--accent); }
+.taskfit-runnerups {
+  display: none;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border-strong);
+  font-size: 0.7rem;
+}
+.taskfit-cell.expanded .taskfit-runnerups { display: block; }
+.taskfit-runnerups .ru-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.3rem;
+}
+.taskfit-runnerups ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.taskfit-runnerups li {
+  padding: 0.15rem 0;
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+.taskfit-runnerups li::before {
+  content: "→ ";
+  color: var(--accent-cool);
+  margin-right: 0.2rem;
+}
+.taskfit-runnerups li:empty,
+.taskfit-runnerups ul:empty {
+  display: none;
+}
+
+/* ============ STRATEGY ============ */
+.strat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+.strat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  border-top: 3px solid var(--accent);
+}
+.strat-card.alt { border-top-color: var(--accent-cool); }
+.strat-card.warn { border-top-color: var(--accent-hot); }
+.strat-card h3 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.strat-card .price {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+.strat-card p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+}
+.strat-card ul { padding-left: 1.25rem; font-size: 0.83rem; color: var(--text); }
+.strat-card ul li { margin: 0.3rem 0; }
+
+/* ============ FOOTER ============ */
+footer {
+  border-top: 1px solid var(--border-strong);
+  padding: 1.5rem 2rem;
+  margin-top: 3rem;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.colophon { font-family: var(--serif); font-style: italic; }
+
+/* ============ DETAIL ROW ============ */
+details summary {
+  cursor: pointer;
+  padding: 0.4rem 0;
+  font-size: 0.78rem;
+  color: var(--accent-cool);
+  list-style: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before { content: "▸ "; transition: transform 0.15s; }
+details[open] summary::before { content: "▾ "; }
+details .detail-body {
+  padding: 0.75rem 1rem;
+  background: var(--bg-elev);
+  border-left: 2px solid var(--accent);
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1100px) {
+  .stat-tile { grid-column: span 6; }
+  .dash-section { grid-column: span 12; }
+  .strat-grid { grid-template-columns: 1fr; }
+  .spark-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .masthead, main, .tabs { padding-left: 1rem; padding-right: 1rem; }
+  .stat-tile { grid-column: span 12; }
+  .brand { font-size: 1.4rem; }
+  .tab { padding: 0.85rem 0.9rem; font-size: 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== EMBEDDED DATA ===== -->
+<script id="market-data" type="application/json">
+__MARKET_DATA__
+</script>
+
+<!-- ===== HEADER ===== -->
+<header class="masthead">
+  <div class="masthead-row">
+    <div>
+      <div class="brand">AI Market <span class="accent">Briefing</span></div>
+      <div class="subtitle">Frontier models, harnesses, self-hosting · daily intelligence</div>
+    </div>
+    <div class="dateline">
+      <div id="generated-at">Loading…</div>
+      <div style="margin-top:0.3rem; opacity:0.6;">v9 · for Bernhard</div>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="control-group">
+      <span>Reference model:</span>
+      <select id="ref-model"></select>
+    </div>
+    <div class="control-group">
+      <span>Jurisdiction:</span>
+      <select id="filter-jurisdiction">
+        <option value="all">All</option>
+        <option value="US">US only</option>
+        <option value="EU">EU only</option>
+        <option value="China">China only</option>
+        <option value="not-China">Exclude China</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <span>Workload:</span>
+      <select id="filter-workload" title="Cache hit rate assumption for burn calculations">
+        <option value="cold">Cold (0% cache)</option>
+        <option value="mixed" selected>Mixed (40% cache)</option>
+        <option value="warm">Warm (70% cache)</option>
+        <option value="hot">Hot (90% cache)</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<!-- ===== TABS ===== -->
+<nav class="tabs">
+  <button class="tab active" data-tab="dashboard"><span class="num">00</span>Dashboard</button>
+  <button class="tab" data-tab="models"><span class="num">01</span>Models</button>
+  <button class="tab" data-tab="harnesses"><span class="num">02</span>Harnesses</button>
+  <button class="tab" data-tab="self-hosting"><span class="num">03</span>Self-Hosting</button>
+  <button class="tab" data-tab="strategy"><span class="num">04</span>Strategy</button>
+</nav>
+
+<main>
+  <!-- ===== DASHBOARD TAB ===== -->
+  <section class="tab-panel active" id="tab-dashboard">
+    <div class="dash-grid" id="dash-grid"></div>
+  </section>
+
+  <!-- ===== MODELS TAB ===== -->
+  <section class="tab-panel" id="tab-models">
+    <h2 class="sect-head">Frontier model landscape</h2>
+    <p class="sect-sub">Quality % is computed against the selected reference (top-right). SWE-bench Pro is the trustworthy benchmark; Verified is contaminated.</p>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-model-filter="current">Current (frontier + fast)</button>
+      <button class="filter-btn" data-model-filter="frontier">Frontier only</button>
+      <button class="filter-btn" data-model-filter="fast">Fast/cheap only</button>
+      <button class="filter-btn" data-model-filter="legacy">Include legacy</button>
+      <button class="filter-btn" data-model-filter="all">All</button>
+    </div>
+    <div class="table-wrap">
+      <table id="models-table">
+        <thead><tr>
+          <th>Model</th>
+          <th>Provider</th>
+          <th>Quality vs ref</th>
+          <th class="tnum">SWE-Pro</th>
+          <th class="tnum">SWE-Ver</th>
+          <th class="tnum">LCB</th>
+          <th class="tnum">AIME</th>
+          <th class="tnum">In $/Mtok</th>
+          <th class="tnum">Out $/Mtok</th>
+          <th class="tnum">Cache</th>
+          <th>Context</th>
+          <th class="tnum">tok/s</th>
+          <th>Released</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 class="sect-head">Quota burn cross-matrix</h2>
+    <p class="sect-sub">Burn ratios shown as multiples of the selected reference model at medium effort. OpenAI (Codex <code>/effort</code>) and Anthropic (Claude Code <code>/effort</code>) share the same vocabulary — low / medium / high / xhigh — with Anthropic adding 'max' for Opus 4.7. Google uses thinking budgets. Multipliers stack: Fast mode ×2.0, cached input ×0.6, plan mode forces high. <strong style="color:var(--accent);">Switch the reference dropdown at the top of the page to recompute all ratios.</strong></p>
+
+    <div id="burn-matrix-container"></div>
+
+    <h2 class="sect-head">Subscription tiers</h2>
+    <div class="table-wrap">
+      <table id="subs-table">
+        <thead><tr>
+          <th>Provider</th><th>Tier</th><th class="tnum">$/mo</th><th>Limits</th><th>Models</th><th>Features</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 class="sect-head">Automated agent policy</h2>
+    <div class="table-wrap">
+      <table id="policy-table">
+        <thead><tr>
+          <th>Provider</th><th>Sub on automation</th><th>Enforcement</th><th>First-party exception</th><th>API needed?</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== HARNESSES TAB ===== -->
+  <section class="tab-panel" id="tab-harnesses">
+    <h2 class="sect-head">Agent harness landscape</h2>
+    <p class="sect-sub">Two workflow modes: supervised (you wait) and autonomous (overnight). Anthropic OAuth blocked third-party tools on April 4, 2026 — affected harnesses marked with *.</p>
+    <div class="table-wrap">
+      <table class="matrix-table" id="harnesses-table">
+        <thead><tr>
+          <th>Harness</th>
+          <th>Vendor</th>
+          <th>Category</th>
+          <th>MCP</th>
+          <th>Skills</th>
+          <th>Hooks</th>
+          <th>Subagents</th>
+          <th>Voice</th>
+          <th>Remote</th>
+          <th>Computer Use</th>
+          <th>LSP</th>
+          <th>Memory</th>
+          <th class="tnum">SWE-Pro</th>
+          <th>Pricing</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <h3 class="sect-head" style="font-size:1.05rem; margin-top:2rem;">Detailed profiles</h3>
+    <div id="harness-profiles"></div>
+  </section>
+
+  <!-- ===== SELF-HOSTING TAB ===== -->
+  <section class="tab-panel" id="tab-self-hosting">
+    <h2 class="sect-head">Hardware × model fit</h2>
+    <p class="sect-sub">Quantization, VRAM used, and tok/s estimates per hardware config. Quality % is vs selected reference.</p>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-hw-filter="all">All hardware</button>
+      <button class="filter-btn" data-hw-filter="cloud">Cloud only</button>
+      <button class="filter-btn" data-hw-filter="local">MacBook only</button>
+    </div>
+    <div class="table-wrap">
+      <table id="self-host-table">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 class="sect-head">Hardware options</h2>
+    <div class="table-wrap">
+      <table id="hardware-table">
+        <thead><tr>
+          <th>Hardware</th><th>Type</th><th class="tnum">VRAM</th><th>Cost</th><th>Notes</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 class="sect-head">Inference frameworks</h2>
+    <div class="table-wrap">
+      <table id="frameworks-table">
+        <thead><tr><th>Framework</th><th>Best for</th><th>Notes</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== STRATEGY TAB ===== -->
+  <section class="tab-panel" id="tab-strategy">
+    <div id="strategy-content"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="colophon">Compiled from research synthesised across multiple investigations · all figures approximate, double-check before quoting</div>
+  <div>Update: <code>claude -p &lt; briefing-prompt.md</code></div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+const data = JSON.parse(document.getElementById('market-data').textContent);
+let currentRef = data.meta.reference_default;
+let currentJurisdiction = 'all';
+let currentWorkload = data.quota_burn_matrix.default_workload || 'mixed';
+
+// Cache-aware burn helpers
+function workloadHitRate() {
+  const preset = data.quota_burn_matrix.workload_presets?.[currentWorkload];
+  return preset ? preset.cache_hit_rate : 0;
+}
+
+// Effective burn factor for a given cache_discount and current workload hit rate.
+// Returns multiplier applied to raw burn: (1-hit) × 1 + hit × discount.
+// For cold (hit=0): always 1.0. For warm with Anthropic (hit=0.7, disc=0.1): 0.37×.
+// For warm with DeepSeek (hit=0.7, disc=0.0083): 0.306× — barely paying for cache hits.
+function cacheBurnFactor(modelId) {
+  const model = data.models.find(m => m.id === modelId);
+  if (!model || typeof model.cache_discount !== 'number') return 1.0;
+  const hit = workloadHitRate();
+  return (1 - hit) * 1.0 + hit * model.cache_discount;
+}
+
+// ---------- INIT ----------
+function init() {
+  document.getElementById('generated-at').textContent =
+    new Date(data.meta.generated_at).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+
+  // Reference model selector
+  const refSel = document.getElementById('ref-model');
+  data.models.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = m.name;
+    if (m.id === currentRef) opt.selected = true;
+    refSel.appendChild(opt);
+  });
+  refSel.addEventListener('change', e => { currentRef = e.target.value; renderAll(); });
+
+  document.getElementById('filter-jurisdiction').addEventListener('change', e => {
+    currentJurisdiction = e.target.value; renderAll();
+  });
+
+  // Workload preset selector
+  const workloadSel = document.getElementById('filter-workload');
+  workloadSel.value = currentWorkload;
+  workloadSel.addEventListener('change', e => {
+    currentWorkload = e.target.value; renderAll();
+  });
+
+  // Tabs
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Filter bars
+  document.querySelectorAll('[data-model-filter]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      document.querySelectorAll('[data-model-filter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderModels(btn.dataset.modelFilter);
+    });
+  });
+  document.querySelectorAll('[data-hw-filter]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      document.querySelectorAll('[data-hw-filter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSelfHosting(btn.dataset.hwFilter);
+    });
+  });
+
+  renderAll();
+}
+
+function renderAll() {
+  renderDashboard();
+  renderModels(document.querySelector('[data-model-filter].active')?.dataset.modelFilter || 'current');
+  renderBurnMatrix();
+  renderSubs();
+  renderPolicy();
+  renderHarnesses();
+  renderSelfHosting(document.querySelector('[data-hw-filter].active')?.dataset.hwFilter || 'all');
+  renderHardware();
+  renderFrameworks();
+  renderStrategy();
+}
+
+// ---------- HELPERS ----------
+function getRefModel() { return data.models.find(m => m.id === currentRef); }
+function qualityPct(model) {
+  const ref = getRefModel();
+  if (!ref || !ref.swe_pro || !model.swe_pro) return null;
+  return Math.round(model.swe_pro / ref.swe_pro * 100);
+}
+function localQualityPct(localModel) {
+  const ref = getRefModel();
+  if (!ref || !ref.swe_pro || !localModel.swe_pro) return null;
+  return Math.round(localModel.swe_pro / ref.swe_pro * 100);
+}
+function jurisdictionMatch(j) {
+  if (currentJurisdiction === 'all') return true;
+  if (currentJurisdiction === 'not-China') return j !== 'China';
+  return j === currentJurisdiction;
+}
+function qbar(pct) {
+  if (pct === null || pct === undefined) return '<span style="color:var(--text-faint);">—</span>';
+  const cls = pct > 100 ? 'qbar-fill over' : 'qbar-fill';
+  const w = Math.min(pct, 120);
+  return `<div class="qbar"><div class="qbar-track"><div class="${cls}" style="width:${w}%"></div></div><div class="qbar-num">${pct}%</div></div>`;
+}
+function pill(provider) {
+  const slug = provider.toLowerCase().replace(/[^a-z]/g, '');
+  return `<span class="pill pill-${slug}">${provider}</span>`;
+}
+function fmtPrice(n) { return n === null || n === undefined ? '—' : '$' + n.toFixed(2); }
+function dash(v) { return v === null || v === undefined ? '<span style="color:var(--text-faint);">—</span>' : v; }
+
+// ---------- DASHBOARD ----------
+function renderDashboard() {
+  const grid = document.getElementById('dash-grid');
+  grid.innerHTML = '';
+
+  // Headline
+  const headline = document.createElement('div');
+  headline.className = 'dash-headline';
+  const ref = getRefModel();
+  headline.innerHTML = `
+    <h2>Where the market stands · ${new Date(data.meta.generated_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</h2>
+    <p>Reference model: <strong>${ref ? ref.name : '—'}</strong>. Profile: ${data.meta.user_profile}.</p>
+  `;
+  grid.appendChild(headline);
+
+  // Stat tiles
+  data.headline_stats.forEach(s => {
+    const tile = document.createElement('div');
+    tile.className = 'stat-tile';
+    tile.innerHTML = `
+      <div class="label">${s.label}</div>
+      <div class="value">${s.value}<span class="unit">${s.unit || ''}</span></div>
+      <div class="delta ${s.delta_dir}">${s.delta || ''}</div>
+    `;
+    grid.appendChild(tile);
+  });
+
+  // Executive summaries (4 sections)
+  const summaries = [
+    { title: '01 · Models', body: data.executive_summary.models },
+    { title: '02 · Harnesses', body: data.executive_summary.harnesses },
+    { title: '03 · Self-hosting', body: data.executive_summary.self_hosting },
+    { title: '04 · Strategy', body: data.executive_summary.strategy }
+  ];
+  summaries.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'dash-section';
+    div.innerHTML = `<h3>${s.title}</h3><p>${s.body}</p>`;
+    grid.appendChild(div);
+  });
+
+  // Trend sparklines
+  const trendSect = document.createElement('div');
+  trendSect.className = 'dash-section full';
+  trendSect.innerHTML = `<h3>Trends · last 6 months</h3><div class="spark-row" id="spark-row"></div>`;
+  grid.appendChild(trendSect);
+
+  Object.entries(data.trends).forEach(([key, t]) => {
+    const card = document.createElement('div');
+    card.className = 'spark-card';
+    const last = t.history[t.history.length - 1].value;
+    const first = t.history[0].value;
+    const change = last - first;
+    card.innerHTML = `
+      <div class="label">${t.label}</div>
+      <div class="current">${last}<span style="font-size:0.65rem; color:var(--text-faint); margin-left:0.5rem; font-family:var(--mono); font-weight:400;">
+        ${change > 0 ? '+' : ''}${change.toFixed(1)} since Nov
+      </span></div>
+      ${sparkline(t.history)}
+    `;
+    document.getElementById('spark-row') ? document.getElementById('spark-row').appendChild(card) : trendSect.querySelector('.spark-row').appendChild(card);
+  });
+
+  // Changelog
+  const cl = document.createElement('div');
+  cl.className = 'dash-section';
+  cl.innerHTML = `<h3>What changed recently</h3>` +
+    data.changelog.map(c => `
+      <div class="changelog-item">
+        <div class="changelog-date">${c.date}</div>
+        <div class="changelog-text"><span class="changelog-tag ${c.tag}">${c.tag}</span>${c.text}</div>
+      </div>
+    `).join('');
+  grid.appendChild(cl);
+
+  // Action items
+  const ac = document.createElement('div');
+  ac.className = 'dash-section';
+  ac.innerHTML = `<h3>Action items for you</h3><ul class="action-list">` +
+    data.actions.map(a => `<li>${a}</li>`).join('') + `</ul>`;
+  grid.appendChild(ac);
+}
+
+function sparkline(history) {
+  const w = 220, h = 40, pad = 2;
+  const values = history.map(p => p.value);
+  const min = Math.min(...values), max = Math.max(...values);
+  const range = max - min || 1;
+  const stepX = (w - pad * 2) / (values.length - 1);
+  const points = values.map((v, i) => {
+    const x = pad + i * stepX;
+    const y = h - pad - ((v - min) / range) * (h - pad * 2);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const lastX = pad + (values.length - 1) * stepX;
+  const lastY = h - pad - ((values[values.length - 1] - min) / range) * (h - pad * 2);
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <polyline points="${points}" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="2.5" fill="var(--accent)"/>
+  </svg>`;
+}
+
+// ---------- MODELS ----------
+function renderModels(filter) {
+  const tbody = document.querySelector('#models-table tbody');
+  tbody.innerHTML = '';
+  let models = data.models.filter(m => jurisdictionMatch(m.jurisdiction));
+  if (filter === 'current') models = models.filter(m => m.tier === 'frontier' || m.tier === 'fast');
+  else if (filter === 'frontier') models = models.filter(m => m.tier === 'frontier');
+  else if (filter === 'fast') models = models.filter(m => m.tier === 'fast');
+  else if (filter === 'legacy') models = models.filter(m => m.tier === 'legacy' || m.tier === 'frontier' || m.tier === 'fast');
+  // 'all' = no filter
+
+  models.forEach(m => {
+    const tr = document.createElement('tr');
+    if (m.tier === 'legacy') tr.style.opacity = '0.55';
+    tr.innerHTML = `
+      <td class="model-name">${m.name}<span class="sublabel">${m.license} · ${m.jurisdiction}${m.tier === 'legacy' ? ' · legacy' : ''}</span></td>
+      <td>${pill(m.provider)}</td>
+      <td>${qbar(qualityPct(m))}</td>
+      <td class="tnum mono">${dash(m.swe_pro)}</td>
+      <td class="tnum mono" style="color:var(--text-faint);">${dash(m.swe_verified)}</td>
+      <td class="tnum mono">${dash(m.livecodebench)}</td>
+      <td class="tnum mono">${dash(m.aime)}</td>
+      <td class="tnum mono">${fmtPrice(m.api_in)}</td>
+      <td class="tnum mono">${fmtPrice(m.api_out)}</td>
+      <td class="tnum mono" style="color:var(--text-dim);">${fmtPrice(m.api_cache_hit)}</td>
+      <td class="mono">${m.context_label}</td>
+      <td class="tnum mono">${m.tok_per_sec}</td>
+      <td class="mono" style="color:var(--text-dim); font-size:0.75rem;">${m.released}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function burnBarClass(v) {
+  if (v === null || v === undefined) return '';
+  if (v < 0.5) return 'bm-burn-low';
+  if (v < 1.5) return 'bm-burn-mid';
+  if (v < 3.0) return 'bm-burn-high';
+  return 'bm-burn-xhigh';
+}
+
+function qualBarClass(q) {
+  if (q === null || q === undefined) return '';
+  if (q < 70) return 'bm-qual-poor';
+  if (q < 85) return 'bm-qual-mid';
+  if (q < 95) return 'bm-qual-good';
+  return 'bm-qual-best';
+}
+
+function fmtBurn(v) {
+  if (v === null || v === undefined) return '<span class="nodata">—</span>';
+  if (v < 0.1) return v.toFixed(3) + '×';
+  if (v < 1) return v.toFixed(2) + '×';
+  if (v < 10) return v.toFixed(2) + '×';
+  return v.toFixed(1) + '×';
+}
+
+function modelById(id) { return data.models.find(m => m.id === id); }
+
+// Find a model's row in any of the three matrices and return it
+function findBurnRow(modelId) {
+  const matrix = data.quota_burn_matrix;
+  if (!matrix) return null;
+  for (const block of [matrix.openai_matrix, matrix.anthropic_matrix, matrix.google_matrix]) {
+    const row = block.find(r => r.model_id === modelId);
+    if (row) return row;
+  }
+  return null;
+}
+
+// The absolute burn value (in unit-anchor units) for the reference cell.
+// Used as the divisor for every displayed burn ratio in the matrix.
+// Reference effort defaults to 'medium'; for models without medium, we fall back
+// in this priority order: medium -> high -> low -> any defined value.
+// Reference unit is also discounted by the reference model's cache factor,
+// so ratios stay relative under the current workload preset.
+function referenceBurnUnit() {
+  const ref = getRefModel();
+  if (!ref) return 1.0;
+  const row = findBurnRow(ref.id);
+  if (!row) return 1.0;
+  const candidates = ['medium', 'high', 'low', 'xhigh', 'max', 'minimal', 'off', 'on-budget'];
+  for (const k of candidates) {
+    if (row[k] !== null && row[k] !== undefined && typeof row[k] === 'number') {
+      return row[k] * cacheBurnFactor(ref.id);
+    }
+  }
+  return 1.0;
+}
+
+// Compute the cell quality % for a given model + effort, against the current reference
+function cellQuality(modelId, effort) {
+  const model = modelById(modelId);
+  const ref = getRefModel();
+  if (!model || !ref || !model.swe_pro || !ref.swe_pro) return null;
+  const factors = data.quota_burn_matrix.effort_quality_factors || {};
+  const factor = factors[effort] !== undefined ? factors[effort] : 1.0;
+  return Math.round((model.swe_pro / ref.swe_pro) * factor * 100);
+}
+
+// Build the inner content of a single matrix cell using E2 encoding.
+// `absoluteBurn` is the stored value (in unit-anchor units, gpt-5.5 medium = 1.00).
+// We multiply by cacheBurnFactor (workload-dependent) then divide by referenceBurnUnit().
+function renderBmCell(absoluteBurn, modelId, effort, opts) {
+  opts = opts || {};
+  if (absoluteBurn === null || absoluteBurn === undefined) {
+    return `<td style="text-align:center; color:var(--text-faint);">—</td>`;
+  }
+  const refUnit = referenceBurnUnit();
+  const cacheFactor = cacheBurnFactor(modelId);
+  const burn = (absoluteBurn * cacheFactor) / refUnit;
+  const quality = cellQuality(modelId, effort);
+  // Burn bar: linear scale, clamped at 3.0× (anything above saturates)
+  const burnPct = Math.min(burn / 3.0, 1.0) * 100;
+  const qualPct = quality === null ? 0 : Math.min(quality, 100);
+  const baselineFlag = (modelId === getRefModel()?.id && (effort === 'medium' || (effort === 'high' && !findBurnRow(modelId)?.medium))) ? 'baseline-cell-flag' : '';
+  const noteAttr = opts.note ? ` title="${opts.note.replace(/"/g, '&quot;')}"` : '';
+  return `<td class="bm-cell ${baselineFlag}"${noteAttr}>
+    <div class="bm-cell-numbers">
+      <span class="burn-num">${fmtBurn(burn)}</span>
+      <span class="qual-num">${quality === null ? '—' : quality + '%'}</span>
+    </div>
+    <div class="bm-bar-track"><div class="bm-bar-fill ${burnBarClass(burn)}" style="width:${burnPct.toFixed(0)}%;"></div></div>
+    <div class="bm-bar-track"><div class="bm-bar-fill ${qualBarClass(quality)}" style="width:${qualPct.toFixed(0)}%;"></div></div>
+  </td>`;
+}
+
+function renderBurnMatrix() {
+  const matrix = data.quota_burn_matrix;
+  if (!matrix) return;
+  const c = document.getElementById('burn-matrix-container');
+  if (!c) return;
+  const ref = getRefModel();
+
+  const workload = data.quota_burn_matrix.workload_presets?.[currentWorkload];
+  const workloadLabel = workload ? workload.label : currentWorkload;
+  const workloadNote = workload ? workload.description : '';
+  const baselineLine = `<p style="margin-bottom:0.75rem; font-size:0.85rem; color:var(--text-dim);"><strong style="color:var(--accent);">Baseline:</strong> ${ref ? ref.name : 'reference'} at medium effort = 1.00× burn under <strong>${workloadLabel}</strong>. <span style="color:var(--text-faint);">Quality % computed against ${ref ? ref.name : 'reference'}. Switch reference or workload above to recompute.</span></p>
+  <p style="margin-bottom:0.75rem; font-size:0.78rem; color:var(--text-faint); font-style:italic; font-family:var(--serif);">${workloadNote}</p>`;
+
+  // Legend
+  const legendBlock = `
+    <div style="display:flex; gap:1.25rem; margin-bottom:1rem; padding:0.6rem 0.85rem; background:var(--bg-elev); border:1px dashed var(--border); font-size:0.7rem; color:var(--text-dim); flex-wrap:wrap;">
+      <span><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.62rem; margin-right:0.4rem;">Cell layout:</strong> top number = burn, right number = quality, top bar = burn (scale 0–3×), bottom bar = quality (0–100%)</span>
+    </div>
+    <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap; font-size:0.68rem; color:var(--text-dim);">
+      <span style="margin-right:0.5rem;"><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.6rem;">Burn:</strong></span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#4ade80; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&lt;0.5×</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#fbbf24; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>0.5–1.5×</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#ff5e3a; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>1.5–3×</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#ef4444; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&gt;3×</span>
+      <span style="margin-left:1rem;"><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.6rem;">Quality:</strong></span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#ef4444; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&lt;70%</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#fbbf24; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>70–85%</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#84cc16; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>85–95%</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#22c55e; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>≥95%</span>
+    </div>
+  `;
+
+  // OpenAI block
+  const oaiCols = ['minimal', 'low', 'medium', 'high', 'xhigh'];
+  let oaiRows = matrix.openai_matrix.map(row => {
+    const m = modelById(row.model_id);
+    const isLegacy = m?.tier === 'legacy';
+    const cells = oaiCols.map(eff => renderBmCell(row[eff], row.model_id, eff, { note: row.note })).join('');
+    const noteCell = row.note ? `<td class="burn-cell-note" style="text-align:left;">${row.note}</td>` : '<td></td>';
+    return `<tr class="${isLegacy ? 'legacy-row' : ''}"><td>${m?.name || row.model_id}</td>${cells}${noteCell}</tr>`;
+  }).join('');
+
+  const oaiBlock = `
+    <div class="burn-matrix-block">
+      <h4>OpenAI · effort levels (Codex /effort)</h4>
+      <div class="sub-note">Baseline cell outlined. Reasoning tokens count as output. Multipliers from community benchmarks (±20%).</div>
+      <table class="burn-matrix-table">
+        <thead><tr>
+          <th>Model</th>
+          <th>minimal</th><th>low</th><th>medium</th><th>high</th><th>xhigh</th>
+          <th style="text-align:left;">Note</th>
+        </tr></thead>
+        <tbody>${oaiRows}</tbody>
+      </table>
+    </div>
+  `;
+
+  // Anthropic block
+  const anthCols = ['low', 'medium', 'high', 'xhigh', 'max'];
+  let anthRows = matrix.anthropic_matrix.map(row => {
+    const m = modelById(row.model_id);
+    const cells = anthCols.map(eff => renderBmCell(row[eff], row.model_id, eff, { note: row.note })).join('');
+    const noteCell = row.note ? `<td class="burn-cell-note" style="text-align:left;">${row.note}</td>` : '<td></td>';
+    return `<tr><td>${m?.name || row.model_id}</td>${cells}${noteCell}</tr>`;
+  }).join('');
+
+  const anthBlock = `
+    <div class="burn-matrix-block">
+      <h4>Anthropic · effort levels (Claude Code /effort)</h4>
+      <div class="sub-note">Adaptive thinking via /effort. Same vocabulary as OpenAI plus a 'max' tier on top. Opus 4.7 default is xhigh; Sonnet 4.6 default is high. Haiku has no effort control (fixed-rate).</div>
+      <table class="burn-matrix-table">
+        <thead><tr>
+          <th>Model</th>
+          <th>low</th><th>medium</th><th>high</th><th>xhigh</th><th>max</th>
+          <th style="text-align:left;">Note</th>
+        </tr></thead>
+        <tbody>${anthRows}</tbody>
+      </table>
+    </div>
+  `;
+
+  // Google block
+  const gglCols = ['off', 'low', 'medium', 'high'];
+  let gglRows = matrix.google_matrix.map(row => {
+    const m = modelById(row.model_id);
+    const cells = gglCols.map(eff => renderBmCell(row[eff], row.model_id, eff)).join('');
+    return `<tr><td>${m?.name || row.model_id}</td>${cells}</tr>`;
+  }).join('');
+
+  const gglBlock = `
+    <div class="burn-matrix-block">
+      <h4>Google · thinking budget tiers</h4>
+      <div class="sub-note">Gemini uses a thinking budget set by the developer. Tiers are approximate mappings.</div>
+      <table class="burn-matrix-table">
+        <thead><tr>
+          <th>Model</th>
+          <th>off</th><th>low budget</th><th>medium budget</th><th>high budget</th>
+        </tr></thead>
+        <tbody>${gglRows}</tbody>
+      </table>
+    </div>
+  `;
+
+  // Stacking multipliers
+  const chips = matrix.stacking_multipliers.map(s =>
+    `<span class="chip">${s.name}: <strong style="color:var(--text); font-family:var(--mono); font-size:0.75rem; text-transform:none; letter-spacing:0; margin:0;">×${typeof s.multiplier === 'number' ? s.multiplier.toFixed(1) : s.multiplier}</strong></span>`
+  ).join('');
+  const stackBlock = `<div class="burn-stack-chips"><strong>Stacking:</strong>${chips}</div>`;
+
+  // Non-reasoning note
+  const flatBlock = `
+    <div class="burn-matrix-block" style="margin-top:1rem;">
+      <h4>No effort control · fixed burn per model</h4>
+      <div class="sub-note">${matrix.non_reasoning_note}</div>
+    </div>
+  `;
+
+  // Methodology note
+  const methodology = `<p style="margin-top:1rem; font-size:0.75rem; color:var(--text-faint); font-style:italic; font-family:var(--serif);">${matrix.methodology}</p>`;
+  const qualMethodology = matrix.quality_methodology ? `<p style="margin-top:0.4rem; font-size:0.75rem; color:var(--text-faint); font-style:italic; font-family:var(--serif);">${matrix.quality_methodology}</p>` : '';
+
+  // Efficiency leaders panel
+  const efficiencyBlock = `
+    <div class="eff-leaders" id="eff-leaders-panel">
+      <h4>Efficiency leaders · top 10 across all models × efforts</h4>
+      <div class="sub-note">Lowest burn-per-quality-point. Filter by minimum quality to surface combinations that meet your floor.</div>
+      <div class="eff-controls">
+        <span>Min quality:</span>
+        <select id="eff-min-quality">
+          <option value="0">No floor</option>
+          <option value="70">≥ 70%</option>
+          <option value="80" selected>≥ 80%</option>
+          <option value="90">≥ 90%</option>
+          <option value="95">≥ 95%</option>
+          <option value="100">≥ 100%</option>
+        </select>
+        <span style="margin-left:0.75rem;">Provider:</span>
+        <select id="eff-provider-filter">
+          <option value="all" selected>All</option>
+          <option value="OpenAI">OpenAI only</option>
+          <option value="Anthropic">Anthropic only</option>
+          <option value="Google">Google only</option>
+        </select>
+        <span style="margin-left:0.75rem;">Include legacy:</span>
+        <select id="eff-legacy">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+      <div id="eff-leaders-table"></div>
+    </div>
+  `;
+
+  c.innerHTML = baselineLine + legendBlock + oaiBlock + anthBlock + gglBlock + stackBlock + flatBlock + methodology + qualMethodology + efficiencyBlock;
+
+  // Wire up the efficiency leaders controls
+  document.getElementById('eff-min-quality').addEventListener('change', renderEfficiencyLeaders);
+  document.getElementById('eff-provider-filter').addEventListener('change', renderEfficiencyLeaders);
+  document.getElementById('eff-legacy').addEventListener('change', renderEfficiencyLeaders);
+  renderEfficiencyLeaders();
+}
+
+function renderEfficiencyLeaders() {
+  const matrix = data.quota_burn_matrix;
+  if (!matrix) return;
+  const tableEl = document.getElementById('eff-leaders-table');
+  if (!tableEl) return;
+
+  const minQuality = parseInt(document.getElementById('eff-min-quality').value, 10);
+  const providerFilter = document.getElementById('eff-provider-filter').value;
+  const includeLegacy = document.getElementById('eff-legacy').value === 'yes';
+
+  const refUnit = referenceBurnUnit();
+
+  // Build a flat list of {modelId, effort, displayedBurn, quality, efficiency, provider, tier}
+  const cells = [];
+  const sources = [
+    { matrix: matrix.openai_matrix, efforts: ['minimal', 'low', 'medium', 'high', 'xhigh'] },
+    { matrix: matrix.anthropic_matrix, efforts: ['low', 'medium', 'high', 'xhigh', 'max'] },
+    { matrix: matrix.google_matrix, efforts: ['off', 'low', 'medium', 'high'] }
+  ];
+  sources.forEach(src => {
+    src.matrix.forEach(row => {
+      const m = modelById(row.model_id);
+      if (!m) return;
+      src.efforts.forEach(eff => {
+        const absoluteBurn = row[eff];
+        if (absoluteBurn === null || absoluteBurn === undefined) return;
+        const quality = cellQuality(row.model_id, eff);
+        if (quality === null) return;
+        const cacheFactor = cacheBurnFactor(row.model_id);
+        const displayedBurn = (absoluteBurn * cacheFactor) / refUnit;
+        cells.push({
+          modelId: row.model_id,
+          modelName: m.name,
+          provider: m.provider,
+          tier: m.tier,
+          effort: eff,
+          burn: displayedBurn,
+          quality: quality,
+          efficiency: displayedBurn / (quality / 100)
+        });
+      });
+    });
+  });
+
+  // Apply filters
+  let filtered = cells.filter(c => c.quality >= minQuality);
+  if (providerFilter !== 'all') filtered = filtered.filter(c => c.provider === providerFilter);
+  if (!includeLegacy) filtered = filtered.filter(c => c.tier !== 'legacy');
+  if (currentJurisdiction !== 'all') {
+    filtered = filtered.filter(c => {
+      const m = modelById(c.modelId);
+      return jurisdictionMatch(m.jurisdiction);
+    });
+  }
+
+  // Sort by efficiency ascending (lower = better)
+  filtered.sort((a, b) => a.efficiency - b.efficiency);
+  const top = filtered.slice(0, 10);
+
+  if (top.length === 0) {
+    tableEl.innerHTML = '<p style="color:var(--text-faint); font-style:italic; padding:1rem 0;">No combinations match the current filters.</p>';
+    return;
+  }
+
+  const rows = top.map((c, i) => {
+    const rank = i + 1;
+    const rankClass = rank <= 3 ? 'eff-rank top3' : 'eff-rank';
+    const effClass = c.efficiency < 1.0 ? 'eff-score' : (c.efficiency < 2.0 ? 'eff-score mid' : 'eff-score poor');
+    return `<tr>
+      <td><span class="${rankClass}">${rank}</span></td>
+      <td class="eff-model">${c.modelName}</td>
+      <td><span class="pill pill-${c.provider.toLowerCase().replace(/[^a-z]/g,'')}">${c.provider}</span></td>
+      <td><span class="eff-effort">${c.effort}</span></td>
+      <td>${fmtBurn(c.burn)}</td>
+      <td>${c.quality}%</td>
+      <td><span class="${effClass}">${c.efficiency.toFixed(2)}</span></td>
+    </tr>`;
+  }).join('');
+
+  const ref = getRefModel();
+  const refNote = ref ? `<p style="font-size:0.7rem; color:var(--text-faint); margin-top:0.5rem; font-style:italic; font-family:var(--serif);">Burn shown as × of ${ref.name} medium · efficiency = burn ÷ (quality/100), lower is better</p>` : '';
+
+  tableEl.innerHTML = `
+    <table class="eff-table">
+      <thead><tr>
+        <th style="width:36px;">#</th>
+        <th>Model</th>
+        <th>Provider</th>
+        <th>Effort</th>
+        <th>Burn</th>
+        <th>Quality</th>
+        <th>Burn/Quality</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>${refNote}
+  `;
+}
+
+function renderSubs() {
+  const tbody = document.querySelector('#subs-table tbody');
+  tbody.innerHTML = '';
+  data.subscriptions.forEach(s => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${pill(s.provider)}</td>
+        <td class="model-name">${s.tier}</td>
+        <td class="tnum mono">${s.price_usd === null ? '—' : '$' + s.price_usd}</td>
+        <td>${s.limits}</td>
+        <td>${s.models}</td>
+        <td style="color:var(--text-dim);">${s.features}</td>
+      </tr>
+    `;
+  });
+}
+
+function renderPolicy() {
+  const tbody = document.querySelector('#policy-table tbody');
+  tbody.innerHTML = '';
+  data.agent_policies.forEach(p => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${pill(p.provider)}</td>
+        <td>${p.subscription_automated}</td>
+        <td>${p.enforcement}</td>
+        <td>${p.first_party_exception}</td>
+        <td>${p.api_required_for_automation ? '<span style="color:var(--accent-hot);">Yes</span>' : '<span style="color:var(--green);">No</span>'}</td>
+      </tr>
+    `;
+  });
+}
+
+// ---------- HARNESSES ----------
+function fmtBool(v) {
+  if (v === true) return '<span class="feature-yes">●</span>';
+  if (v === false) return '<span class="feature-no">○</span>';
+  if (v === 'passthrough') return '<span class="feature-partial">↗</span>';
+  return '<span style="color:var(--text-faint);">—</span>';
+}
+
+function renderHarnesses() {
+  const tbody = document.querySelector('#harnesses-table tbody');
+  tbody.innerHTML = '';
+  data.harnesses.forEach(h => {
+    tbody.innerHTML += `
+      <tr>
+        <td class="model-name" style="text-align:left;">${h.name}</td>
+        <td style="text-align:left;">${h.vendor}</td>
+        <td class="mono" style="font-size:0.72rem;">${h.category}</td>
+        <td>${fmtBool(h.mcp)}</td>
+        <td>${fmtBool(h.skills)}</td>
+        <td>${fmtBool(h.hooks)}</td>
+        <td>${fmtBool(h.subagents)}</td>
+        <td>${fmtBool(h.voice)}</td>
+        <td>${fmtBool(h.remote)}</td>
+        <td>${fmtBool(h.computer_use)}</td>
+        <td>${fmtBool(h.lsp)}</td>
+        <td class="mono" style="font-size:0.7rem;">${h.memory}</td>
+        <td class="tnum mono">${dash(h.swe_pro)}</td>
+        <td class="mono" style="font-size:0.72rem;">${h.pricing}</td>
+      </tr>
+    `;
+  });
+
+  const profilesDiv = document.getElementById('harness-profiles');
+  profilesDiv.innerHTML = data.harnesses.map(h => `
+    <details>
+      <summary><strong>${h.name}</strong> · ${h.vendor} · ${h.license}</summary>
+      <div class="detail-body">
+        <p><strong>Sweet spot:</strong> ${h.sweet_spot}</p>
+        <p style="margin-top:0.5rem;"><strong>Where it stumbles:</strong> ${h.stumbles}</p>
+        <p style="margin-top:0.5rem; color:var(--text-faint); font-size:0.78rem;">Providers: ${Array.isArray(h.providers) ? h.providers.join(', ') : h.providers}</p>
+      </div>
+    </details>
+  `).join('');
+}
+
+// ---------- SELF-HOSTING ----------
+function renderSelfHosting(hwFilter) {
+  const hardware = data.self_hosting.hardware_options.filter(hw => {
+    if (hwFilter === 'cloud') return hw.type === 'cloud';
+    if (hwFilter === 'local') return hw.type === 'local';
+    return true;
+  });
+
+  const thead = document.querySelector('#self-host-table thead');
+  thead.innerHTML = '<tr><th>Model</th><th>Quality vs ref</th>' +
+    hardware.map(hw => `<th style="text-align:center;">${hw.name}<br><span style="font-weight:400; color:var(--text-faint); font-size:0.65rem;">${hw.vram_gb}GB</span></th>`).join('') +
+    '</tr>';
+
+  const tbody = document.querySelector('#self-host-table tbody');
+  tbody.innerHTML = '';
+  data.self_hosting.models
+    .filter(m => jurisdictionMatch(m.jurisdiction))
+    .forEach(m => {
+      let row = `<td class="model-name">${m.name}<span class="sublabel">${m.license} · ${m.jurisdiction} · ${m.params_total}B (${m.params_active}B active)</span></td>`;
+      row += `<td>${qbar(localQualityPct(m))}</td>`;
+      hardware.forEach(hw => {
+        const fit = m.fits[hw.id];
+        if (!fit || !fit.quant) {
+          row += `<td style="text-align:center; color:var(--text-faint);">—</td>`;
+        } else {
+          row += `<td style="text-align:center;">
+            <div class="mono" style="font-size:0.78rem;"><strong>${fit.quant}</strong></div>
+            <div class="mono" style="font-size:0.7rem; color:var(--text-dim);">${fit.vram_used}GB · ${fit.tok_per_sec} t/s</div>
+          </td>`;
+        }
+      });
+      tbody.innerHTML += `<tr>${row}</tr>`;
+    });
+}
+
+function renderHardware() {
+  const tbody = document.querySelector('#hardware-table tbody');
+  tbody.innerHTML = '';
+  data.self_hosting.hardware_options.forEach(hw => {
+    tbody.innerHTML += `
+      <tr>
+        <td class="model-name">${hw.name}</td>
+        <td><span class="pill pill-${hw.type === 'cloud' ? 'opensource' : 'mistral'}">${hw.type}</span></td>
+        <td class="tnum mono">${hw.vram_gb} GB</td>
+        <td class="mono" style="font-size:0.78rem;">${hw.cost_label}</td>
+        <td style="color:var(--text-dim);">${hw.notes}</td>
+      </tr>
+    `;
+  });
+}
+
+function renderFrameworks() {
+  const tbody = document.querySelector('#frameworks-table tbody');
+  tbody.innerHTML = '';
+  data.self_hosting.frameworks.forEach(f => {
+    tbody.innerHTML += `
+      <tr>
+        <td class="model-name">${f.name}</td>
+        <td>${f.best_for}</td>
+        <td style="color:var(--text-dim);">${f.notes}</td>
+      </tr>
+    `;
+  });
+}
+
+// ---------- STRATEGY ----------
+function renderTaskFitTable(providerFilter) {
+  if (!data.strategy.task_fit) return '';
+  const tf = data.strategy.task_fit;
+  const refUnit = referenceBurnUnit();
+
+  // Map a model+effort to a display burn × ratio (derived from the matrix)
+  function burnFor(modelId, effort) {
+    if (!modelId) return null;
+    const row = findBurnRow(modelId);
+    if (!row) return null;
+    // For models without effort control, the only defined effort is what we use.
+    // For Anthropic Haiku (medium-only), effort='medium' uses row.medium.
+    let key = effort;
+    if (!key || row[key] === null || row[key] === undefined) {
+      // Fall back to any defined effort
+      for (const k of ['medium','high','low','xhigh','max','minimal','off','on-budget']) {
+        if (typeof row[k] === 'number') { key = k; break; }
+      }
+    }
+    if (typeof row[key] !== 'number') return null;
+    return (row[key] * cacheBurnFactor(modelId)) / refUnit;
+  }
+
+  const allProviders = [
+    { key: 'anthropic',   label: 'Anthropic',   pillProvider: 'Anthropic' },
+    { key: 'openai',      label: 'OpenAI',      pillProvider: 'OpenAI' },
+    { key: 'google',      label: 'Google',      pillProvider: 'Google' },
+    { key: 'self_hosted', label: 'Self-hosted', pillProvider: 'opensource' }
+  ];
+  const visibleProviders = providerFilter === 'all'
+    ? allProviders
+    : allProviders.filter(p => p.key === providerFilter);
+
+  const headerCells = visibleProviders.map(p =>
+    `<th><span class="col-provider">${p.label}</span></th>`
+  ).join('');
+
+  const bodyRows = tf.rows.map((row, rowIdx) => {
+    const taskCell = `<td>
+      <div class="taskfit-task">${row.task}</div>
+      <div class="taskfit-task-desc">${row.description}</div>
+    </td>`;
+
+    const providerCells = visibleProviders.map(p => {
+      const rec = row.recommendations[p.key];
+      const ru = row.runner_up_per_provider?.[p.key] || [];
+
+      if (!rec || !rec.model_id) {
+        const emptyRationale = rec?.rationale ? `<span class="taskfit-rationale">${rec.rationale}</span>` : '';
+        return `<td class="taskfit-cell-empty">— not recommended${emptyRationale}</td>`;
+      }
+
+      const model = modelById(rec.model_id);
+      const modelName = model ? model.name : rec.model_id;
+      const effortBadge = rec.effort ? `<span class="taskfit-effort">${rec.effort}</span>` : '';
+      const burn = burnFor(rec.model_id, rec.effort);
+      const burnDisplay = burn !== null ? `<span class="taskfit-burn">${fmtBurn(burn)}</span>` : '';
+      const runnerupBlock = ru.length > 0
+        ? `<div class="taskfit-runnerups">
+             <div class="ru-label">also considered</div>
+             <ul>${ru.map(r => `<li>${r}</li>`).join('')}</ul>
+           </div>`
+        : '';
+      const expandHint = ru.length > 0 ? `<div class="taskfit-expand-hint">${ru.length} runner-up${ru.length === 1 ? '' : 's'} · click</div>` : '';
+
+      return `<td class="taskfit-cell" data-row="${rowIdx}" data-provider="${p.key}">
+        <span class="taskfit-model">${modelName}</span>
+        <div>${effortBadge}${burnDisplay}</div>
+        <span class="taskfit-rationale">${rec.rationale}</span>
+        ${expandHint}
+        ${runnerupBlock}
+      </td>`;
+    }).join('');
+
+    return `<tr>${taskCell}${providerCells}</tr>`;
+  }).join('');
+
+  return `
+    <h2 class="sect-head" style="margin-top:2rem;">Task-fit recommendations</h2>
+    <p class="sect-sub">${tf.description}</p>
+    <div class="taskfit-controls">
+      <span>Provider:</span>
+      <button class="taskfit-filter active" data-tf-provider="all">All</button>
+      <button class="taskfit-filter" data-tf-provider="anthropic">Anthropic</button>
+      <button class="taskfit-filter" data-tf-provider="openai">OpenAI</button>
+      <button class="taskfit-filter" data-tf-provider="google">Google</button>
+      <button class="taskfit-filter" data-tf-provider="self_hosted">Self-hosted</button>
+    </div>
+    <div class="table-wrap">
+      <table class="taskfit-table">
+        <thead><tr><th class="task-col">Task</th>${headerCells}</tr></thead>
+        <tbody>${bodyRows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderStrategy() {
+  const s = data.strategy;
+  const div = document.getElementById('strategy-content');
+  const taskFitBlock = renderTaskFitTable('all');
+  div.innerHTML = `
+    <h2 class="sect-head">${s.current_recommendation.label}</h2>
+    <p class="sect-sub">Total: ~$${s.current_recommendation.monthly_usd}/mo</p>
+    <div class="strat-grid">
+      <div class="strat-card">
+        <h3>Recommended stack</h3>
+        <div class="price">~$${s.current_recommendation.monthly_usd}/mo total</div>
+        <ul>${s.current_recommendation.components.map(c => `<li>${c}</li>`).join('')}</ul>
+        <p style="margin-top:1rem;">${s.current_recommendation.rationale}</p>
+      </div>
+      <div class="strat-card alt">
+        <h3>Routing strategy</h3>
+        <div class="price">70 / 25 / 5 split</div>
+        <ul>${s.routing.map(r => `<li><strong>${r.tier}</strong>: ${r.use_for}<br><span style="color:var(--text-dim);">→ ${r.preferred} (${r.cost_label})</span></li>`).join('')}</ul>
+      </div>
+    </div>
+
+    ${taskFitBlock}
+
+    <h2 class="sect-head" style="margin-top:2rem;">Alternatives considered</h2>
+    <div class="strat-grid">
+      ${s.alternatives.map(alt => `
+        <div class="strat-card alt">
+          <h3>${alt.label}</h3>
+          <div class="price">~$${alt.monthly_usd}/mo</div>
+          <p>${alt.rationale}</p>
+          <p style="margin-top:0.6rem; color:var(--accent); font-style:italic; font-family:var(--serif);">Verdict: ${alt.verdict}</p>
+        </div>
+      `).join('')}
+    </div>
+
+    <h2 class="sect-head" style="margin-top:2rem;">Open questions</h2>
+    <div class="strat-card warn" style="grid-column:span 2;">
+      <ul>${s.open_questions.map(q => `<li>${q}</li>`).join('')}</ul>
+    </div>
+  `;
+
+  // Wire up click-to-expand on task-fit cells
+  div.addEventListener('click', e => {
+    const cell = e.target.closest('.taskfit-cell');
+    if (cell) {
+      cell.classList.toggle('expanded');
+    }
+    const filter = e.target.closest('[data-tf-provider]');
+    if (filter) {
+      div.querySelectorAll('[data-tf-provider]').forEach(b => b.classList.remove('active'));
+      filter.classList.add('active');
+      // Re-render the task-fit block with the new filter
+      const provider = filter.dataset.tfProvider;
+      const tableWrap = div.querySelector('.taskfit-table').closest('.table-wrap');
+      const newBlock = document.createElement('div');
+      newBlock.innerHTML = renderTaskFitTable(provider);
+      // Replace just the table-wrap
+      const newTableWrap = newBlock.querySelector('.table-wrap');
+      tableWrap.replaceWith(newTableWrap);
+    }
+  });
+}
+
+// ---------- BOOT ----------
+init();
+</script>
+
+</body>
+</html>

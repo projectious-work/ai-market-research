@@ -1,0 +1,52 @@
+# Daily-briefing cadence spec.
+#
+# This is the team-owned schedule for the AI Market Research Tool. The
+# trigger mechanism (host cron, in-container systemd timer, supervisor) is
+# named below but lives outside the repo. Whoever wires the trigger reads
+# this file as the source of truth for "when does Sage run?"
+#
+# Owner: Kai (TEAMMEMBER-kai, software-engineer).
+# Decision: DEC-20260515_1930-HopefulPlum (scheduler architecture).
+
+version: 1
+schedule:
+  cron: "17 6 * * *"            # 06:17 UTC daily. Off-the-hour to avoid global
+                                # synchronisation with every other "0 6" cron.
+  timezone: "UTC"
+  description: "Daily AI market briefing refresh"
+
+execution:
+  entrypoint: "src/scripts/run-briefing.sh"
+  working_dir: "${REPO_ROOT}"
+  runner: "claude -p"           # First-party Claude CLI; Max 5x subscription
+                                # absorbs the cost. No API key required.
+  default_model: "claude-sonnet-4-6"
+  fallback_models:
+    - "claude-haiku-4-5"        # For runs where Sonnet is rate-limited.
+  env:
+    CLAUDE_BIN: "claude"
+    RUN_BRIEFING_PUSH: "0"      # Set to "1" on the trigger host to push commits.
+  max_runtime_minutes: 30
+
+trigger_host:
+  # Where the cron actually fires. Open question — see WI-deployment-target.
+  proposed: "in-container systemd-user timer"
+  candidates:
+    - in_container_cron:        # Simplest; requires container to be running.
+        pros: ["no extra infra"]
+        cons: ["container must be up at trigger time"]
+    - host_cron_exec:           # `docker exec ai-market-research bash run-briefing.sh`
+        pros: ["container can be ephemeral", "host owns scheduling"]
+        cons: ["host setup outside this repo"]
+    - always_on_supervisor:     # tini/supervisord watching a python apscheduler
+        pros: ["self-contained"]
+        cons: ["adds a process"]
+
+failure_handling:
+  on_claude_failure: "abort before commit; archive snapshot already saved"
+  on_json_parse_error: "abort; previous state still on disk"
+  on_no_changes: "still commit (meta.generated_at advances)"
+  alert_target: null            # TODO: wire to a notification channel later.
+
+history:
+  - { date: "2026-05-15", note: "Cadence spec authored as part of team setup." }

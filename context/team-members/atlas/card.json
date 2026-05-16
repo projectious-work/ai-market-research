@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "a2a/v0.3",
+  "name": "Atlas",
+  "description": "",
+  "role": "ROLE-solutions-architect",
+  "seniority": "principal",
+  "skills": [],
+  "modalities": [
+    "text",
+    "tools"
+  ],
+  "provider": "processkit",
+  "contact": {},
+  "signature": {
+    "alg": "none",
+    "value": ""
+  }
+}
