@@ -200,9 +200,15 @@ lifecycle is stable.
 ## Setup
 
 ```sh
-bash src/scripts/build.sh
-bash src/scripts/release-check.sh
+bash src/scripts/build.sh           # build dist/dashboard.html
+bash src/scripts/release-check.sh   # validate + rebuild + sanity check
+bash src/scripts/deploy.sh          # push dist/ to GitHub Pages (gh-pages branch)
+bash src/scripts/release.sh 0.2.0   # release-check → tag → push → deploy → gh release
 ```
+
+Site lives at <https://projectious-work.github.io/ai-market-research/>.
+Deploy uses `git worktree` against a `gh-pages` branch — no GitHub Actions
+workflow. See `DEC-20260517_1455-DeftLynx` for the architecture.
 
 <!-- pk-managed:pk-commands BEGIN -->
 <!-- pk-commands BEGIN -->
