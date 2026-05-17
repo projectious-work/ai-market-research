@@ -109,8 +109,18 @@ run git tag -a "$TAG" -m "$TAG_MESSAGE"
 # ─── 3. push ────────────────────────────────────────────────────────────
 echo ""
 echo "═══ 3/5 push main + $TAG to origin ═══"
-run git push origin main
-run git push origin "$TAG"
+# Authenticate via gh's token so this works in containers without a
+# global git credential helper.
+GH_TOKEN_VAL="$(gh auth token 2>/dev/null || true)"
+if [ -z "$GH_TOKEN_VAL" ]; then
+  echo "fatal: gh auth token unavailable; run 'gh auth login' first" >&2
+  exit 1
+fi
+REMOTE_URL="$(git remote get-url origin)"
+REPO_SLUG="$(echo "$REMOTE_URL" | sed -E 's#(.*github\.com[:/])([^/]+/[^/.]+)(\.git)?$#\2#')"
+AUTH_URL="https://x-access-token:${GH_TOKEN_VAL}@github.com/${REPO_SLUG}.git"
+run git push "$AUTH_URL" main
+run git push "$AUTH_URL" "$TAG"
 
 # ─── 4. deploy ──────────────────────────────────────────────────────────
 echo ""
