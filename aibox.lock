@@ -1,14 +1,14 @@
 [aibox]
-cli_version = "0.26.5"
-synced_at = "2026-05-15T19:05:18.974414+00:00"
+cli_version = "0.26.7"
+synced_at = "2026-05-17T11:46:33.973512+00:00"
 
 [processkit]
 source = "https://github.com/projectious-work/processkit.git"
-version = "v0.26.13"
+version = "v0.26.14"
 src_path = "src"
-release_asset_sha256 = "340b47f22ff404ce88b2effced02e03b88172d766b3b3721670a7a9ce89a445c"
-installed_at = "2026-05-15T19:05:18.974414+00:00"
-processkit_install_hash = "v2:3bee82f74ca2212b29240b9f5bcd139bdc864ed84b841ce0f25eb3da44e4dc22"
+release_asset_sha256 = "c260f7ec44c0c0df814c7491721360627f41d61ee284d8fd450e03c1005b6cff"
+installed_at = "2026-05-17T11:46:33.973512+00:00"
+processkit_install_hash = "v2:5b73bb0295c186d0b57d6cfbc378be94977989643cff6dcc8f260915a16d3c0e"
 
 [addons]
 resolved_at = "2026-05-15T19:09:00Z"
@@ -29,11 +29,10 @@ python = [
 ]
 
 [runtime_home]
-generated_at = "2026-05-15T19:10:51.238091+00:00"
+generated_at = "2026-05-17T11:44:47.862002+00:00"
 
 [runtime_home.files]
 ".asoundrc" = "f34609b11d315cd613cb5333b561032baec860faf4a7eccb28b5567ae72019af"
-".claude.json" = "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
 ".claude/keybindings.json" = "187a3f75b831cbec4b025eecd23f06e76a77f46d6f47e4e730ef341f0d1db21c"
 ".config/aibox/theme-env.sh" = "eaeaadeafcf4caf20ad2177b2193d7b1a95575e4a04bfc8b665a7a0695db8ec1"
 ".config/cheatsheet.txt" = "2cccd6002a90d8539c187ea412f59a654c2622017519f868887668897985c32c"
@@ -48,7 +47,7 @@ generated_at = "2026-05-15T19:10:51.238091+00:00"
 ".config/tmux/layouts/cowork.sh" = "f4b53db1c86e99fdd120170f485815d7e1d40df2aeae6be8104788838d126212"
 ".config/tmux/layouts/dev.sh" = "1833e6bfd4c76f2ceb58e01c89462e99d818b5f955bdc7093f3242952c4d11a9"
 ".config/tmux/layouts/focus.sh" = "53c0224146269cdbf7cc7e4979c48c903472f766a2fccb97de8422426f2b2533"
-".config/tmux/tmux.conf" = "5b3bce1acc29dc32c93f429f55a3e3438c68f58dea3a1475d97a53360f2fa7ec"
+".config/tmux/tmux.conf" = "b95afa812532866c4e3f097061d8b7fab1b82c2bf5f89cf742b596a4c1e062cc"
 ".config/yazi/init.lua" = "eae04462c0b3bcbb486ee59aa9c2c9e9595680a0626997c942e5abb2ae5a48d7"
 ".config/yazi/keymap.toml" = "0b20be4e5f58d0af2ba72b8621e288ef2d6a7665a8a73c5fca5a172f83c6ebdd"
 ".config/yazi/plugins/dir-preview.yazi/main.lua" = "1700f0400a0a8362d895d247b27bfae2478c1e76385d4b076846a6a7c16c74f4"
@@ -62,19 +61,19 @@ generated_at = "2026-05-15T19:10:51.238091+00:00"
 ".config/yazi/theme.toml" = "2a825c08d3cb6a2c0a9be59397e67f17f7d03b605b7decf6233ba46cf84d7604"
 ".config/yazi/yazi.toml" = "2df8fa293ea293415dc4f3eefd3120f741ddbbcbf4cff4d59353acdbc192ed61"
 ".inputrc" = "3763b3a9d37f05ca7c035579bc5419b664c3b33c5ce9a0c4ce5d00fbe75ec237"
-".local/bin/aibox-copy" = "6dd491292c3c0f86b862112b7e2029cee02d2c79bbc95aef1fc037311a014402"
-".local/bin/aibox-powerkit-render-list" = "ee3bdd9285a195e14577176363b812ddf9e80570a7be30e463333817bb15d20f"
-".local/bin/aibox-powerkit-render-session" = "748d63a89f81b8571a7e78ec82643053ea5b461efd690514e330295524caad30"
+".local/bin/aibox-copy" = "8ad9b94df76a00b938aa933bbda8305d5222bf7f9374a3bd5afef5f0fc361654"
+".local/bin/aibox-powerkit-render-list" = "2fee132c86c69deb2198d2ed32d895d008c77ca7f5c68f910d1793e6edadfdbc"
+".local/bin/aibox-powerkit-render-session" = "3e5ca872bdc0bcec25616f5a2f469d64ec13bb9342415344171b204c42c28b77"
 ".local/bin/aibox-preview" = "d0d568ae510a3decb743da7458320755f84b5a3627703e601b82701e0fb4413c"
 ".local/bin/aibox-status-toggle" = "026c6a1dc7f1bcf650aa0bd4f587adfb5de6744df66fc138bef9b435bad1049a"
-".local/bin/aibox-tmux-cheatsheet" = "8319f862689cfbdf8143cccb4000379760121a107bba893220a6cd06f2fc41b2"
+".local/bin/aibox-tmux-cheatsheet" = "3056c72efd446a97d515f88146600ec21a0d029c05053afeea7f7ea9dd1b20ff"
 ".local/bin/aibox-tmux-confirm-and-switch" = "a8771bb55db28dc35a7c1cfb742ec60299784b96cd8550e45aaac1cae19446f2"
 ".local/bin/aibox-tmux-refresh-theme" = "9d356df104e44231733751623fb16731dc7fdb9b08e0c651e31f4098785ea528"
 ".local/bin/aibox-tmux-switch-layout" = "0bd371bed88078b2a0b40ab5a46039c2638ab667b976fe9570074da800364689"
 ".local/bin/open-in-editor" = "ec4c0ecf1c4c01582c8b16a1bb2a06f364f3a9a9bab14976c5da17573b047145"
 ".local/bin/pdf-watch" = "b6becd1df4a32ff27f5c93e514e6d31e5743f9282f40ce7290b8432207d85934"
 ".vim/colors/aibox.vim" = "7ce7c3088d0fa4c645d8d24a000c06d1e5b3cd027d898b73e4ddbe48aaf7299a"
-".vim/vimrc" = "9708b036a886ed2c0248bb6df3ce4b1ab627ad006e8ff41f7f525f864feada9e"
+".vim/vimrc" = "bd628ebab7566f53e98a8eabc5c698f8d2c927aa21cd5f0596673cc6b1c572b1"
 
 [harnesses]
 recorded_at = "2026-05-15T19:09:00Z"
