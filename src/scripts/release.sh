@@ -130,8 +130,10 @@ run git push "$AUTH_URL" "$TAG"
 # ─── 4. deploy ──────────────────────────────────────────────────────────
 echo ""
 echo "═══ 4/5 deploy to GitHub Pages ═══"
+# Rebuild (not --skip-build) so build-time __APP_VERSION__ injection
+# picks up the tag we just created.
 DEPLOY_MSG="deploy: $TAG ($(git rev-parse --short HEAD))"
-run bash "$REPO_ROOT/src/scripts/deploy.sh" --skip-build --message "$DEPLOY_MSG"
+run bash "$REPO_ROOT/src/scripts/deploy.sh" --message "$DEPLOY_MSG"
 
 # ─── 5. GitHub release ──────────────────────────────────────────────────
 echo ""
