@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Market Briefing · Bernhard</title>
+<title>AI Market Briefing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&display=swap" rel="stylesheet">
@@ -911,6 +911,86 @@ td.model-name .sublabel {
 .strat-card ul li { margin: 0.3rem 0; }
 
 /* ============ FOOTER ============ */
+.cite {
+  font-size: 0.62em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--accent);
+  margin-left: 0.1em;
+  font-family: var(--mono, monospace);
+  font-weight: 600;
+}
+.cite a { color: inherit; text-decoration: none; }
+.cite a:hover { text-decoration: underline; }
+.sources-grid {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: 1fr;
+}
+.sources-cat h3 {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  margin: 0 0 0.4rem 0;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.sources-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--border, #2a2a2a);
+}
+.sources-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border, #2a2a2a);
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  scroll-margin-top: 5rem;
+}
+.sources-list li:target {
+  background: rgba(255, 200, 80, 0.08);
+}
+.sources-list .sn {
+  color: var(--accent);
+  font-family: var(--mono, monospace);
+  font-weight: 600;
+  text-align: right;
+}
+.sources-list a { color: var(--text, #ddd); text-decoration: none; }
+.sources-list a:hover { color: var(--accent); text-decoration: underline; }
+.sources-list .src-url {
+  color: var(--text-dim);
+  font-family: var(--mono, monospace);
+  font-size: 0.78rem;
+  display: block;
+  margin-top: 0.15rem;
+  word-break: break-all;
+}
+.section-sources {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-top: -0.4rem;
+  margin-bottom: 1rem;
+}
+.section-sources .cite { font-size: 0.85em; vertical-align: baseline; }
+footer .disclaimer {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  margin-bottom: 0.7rem;
+}
+footer .license {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border, #2a2a2a);
+  padding-top: 0.7rem;
+  margin-top: 0.4rem;
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
 footer {
   border-top: 1px solid var(--border-strong);
   padding: 1.5rem 2rem;
@@ -976,7 +1056,10 @@ __MARKET_DATA__
     </div>
     <div class="dateline">
       <div id="generated-at">Loading…</div>
-      <div style="margin-top:0.3rem; opacity:0.6;">v9 · for Bernhard</div>
+      <div style="margin-top:0.3rem; opacity:0.6;">
+        <a href="https://github.com/projectious-work/ai-market-research/releases/tag/__APP_VERSION__"
+           target="_blank" rel="noopener" style="color:inherit;">__APP_VERSION__</a>
+      </div>
     </div>
   </div>
   <div class="controls">
@@ -1013,6 +1096,7 @@ __MARKET_DATA__
   <button class="tab" data-tab="harnesses"><span class="num">02</span>Harnesses</button>
   <button class="tab" data-tab="self-hosting"><span class="num">03</span>Self-Hosting</button>
   <button class="tab" data-tab="strategy"><span class="num">04</span>Strategy</button>
+  <button class="tab" data-tab="sources"><span class="num">05</span>Sources</button>
 </nav>
 
 <main>
@@ -1025,6 +1109,7 @@ __MARKET_DATA__
   <section class="tab-panel" id="tab-models">
     <h2 class="sect-head">Frontier model landscape</h2>
     <p class="sect-sub">Quality % is computed against the selected reference (top-right). SWE-bench Pro is the trustworthy benchmark; Verified is contaminated.</p>
+    <div data-section-sources="models"></div>
     <div class="filter-bar">
       <button class="filter-btn active" data-model-filter="current">Current (frontier + fast)</button>
       <button class="filter-btn" data-model-filter="frontier">Frontier only</button>
@@ -1083,6 +1168,7 @@ __MARKET_DATA__
   <section class="tab-panel" id="tab-harnesses">
     <h2 class="sect-head">Agent harness landscape</h2>
     <p class="sect-sub">Two workflow modes: supervised (you wait) and autonomous (overnight). Anthropic OAuth blocked third-party tools on April 4, 2026 — affected harnesses marked with *.</p>
+    <div data-section-sources="harnesses"></div>
     <div class="table-wrap">
       <table class="matrix-table" id="harnesses-table">
         <thead><tr>
@@ -1112,6 +1198,7 @@ __MARKET_DATA__
   <section class="tab-panel" id="tab-self-hosting">
     <h2 class="sect-head">Hardware × model fit</h2>
     <p class="sect-sub">Quantization, VRAM used, and tok/s estimates per hardware config. Quality % is vs selected reference.</p>
+    <div data-section-sources="self_hosting"></div>
     <div class="filter-bar">
       <button class="filter-btn active" data-hw-filter="all">All hardware</button>
       <button class="filter-btn" data-hw-filter="cloud">Cloud only</button>
@@ -1145,13 +1232,44 @@ __MARKET_DATA__
 
   <!-- ===== STRATEGY TAB ===== -->
   <section class="tab-panel" id="tab-strategy">
+    <div data-section-sources="strategy"></div>
     <div id="strategy-content"></div>
+  </section>
+
+  <!-- ===== SOURCES TAB ===== -->
+  <section class="tab-panel" id="tab-sources">
+    <div id="sources-content"></div>
   </section>
 </main>
 
 <footer>
-  <div class="colophon">Compiled from research synthesised across multiple investigations · all figures approximate, double-check before quoting</div>
-  <div>Update: <code>claude -p &lt; briefing-prompt.md</code></div>
+  <div class="disclaimer">
+    <strong>AI-generated, no warranty.</strong> This dashboard is compiled
+    by automated agents from public sources and is published <em>as-is</em>
+    for informational and personal-research purposes only. The publishers
+    make no representations or warranties of any kind — express or
+    implied — about completeness, accuracy, reliability, or suitability
+    for any purpose. Figures, prices, benchmarks, and policy details
+    change frequently and may be incorrect, stale, or paraphrased;
+    verify against the linked primary sources before quoting or acting.
+  </div>
+  <div class="disclaimer">
+    <strong>Not professional advice.</strong> Nothing on this page
+    constitutes financial, investment, legal, procurement, security,
+    or other professional advice. You assume all risk for decisions made
+    on the basis of this content. All third-party product names,
+    trademarks, and logos belong to their respective owners; references
+    are nominative fair use, not endorsement or affiliation.
+  </div>
+  <div class="license">
+    Code released under the
+    <a href="https://github.com/projectious-work/ai-market-research/blob/main/LICENSE"
+       target="_blank" rel="noopener">MIT License</a>.
+    The MIT License covers the code only; the content above is published
+    under the disclaimers in this footer. Source:
+    <a href="https://github.com/projectious-work/ai-market-research"
+       target="_blank" rel="noopener">github.com/projectious-work/ai-market-research</a>.
+  </div>
 </footer>
 
 <!-- ===== JAVASCRIPT ===== -->
@@ -1245,6 +1363,35 @@ function renderAll() {
   renderHardware();
   renderFrameworks();
   renderStrategy();
+  renderSources();
+  // Fill section-source strips after section bodies are populated.
+  document.querySelectorAll('[data-section-sources]').forEach(el => {
+    el.innerHTML = sectionSources(el.dataset.sectionSources);
+  });
+}
+
+// ---------- CITATION HELPERS ----------
+// data.sources = [{n, category, title, url}]
+// data.provider_sources = {"Anthropic": [1, 2], ...}
+// data.section_sources = {"models": [...], "harnesses": [...], ...}
+function cite(...nums) {
+  const flat = nums.flat().filter(n => n != null);
+  if (!flat.length) return '';
+  const seen = new Set();
+  const unique = flat.filter(n => !seen.has(n) && seen.add(n));
+  const inner = unique.map(n =>
+    `<a href="#src-${n}" title="Source ${n}">${n}</a>`).join(',');
+  return `<sup class="cite">${inner}</sup>`;
+}
+function provCite(provider) {
+  const map = (data.provider_sources || {});
+  return cite(map[provider] || []);
+}
+function sectionSources(sectionKey) {
+  const map = (data.section_sources || {});
+  const nums = map[sectionKey] || [];
+  if (!nums.length) return '';
+  return `<div class="section-sources">Sources: ${cite(nums)}</div>`;
 }
 
 // ---------- HELPERS ----------
@@ -1395,7 +1542,7 @@ function renderModels(filter) {
     if (m.tier === 'legacy') tr.style.opacity = '0.55';
     tr.innerHTML = `
       <td class="model-name">${m.name}<span class="sublabel">${m.license} · ${m.jurisdiction}${m.tier === 'legacy' ? ' · legacy' : ''}</span></td>
-      <td>${pill(m.provider)}</td>
+      <td>${pill(m.provider)}${provCite(m.provider)}</td>
       <td>${qbar(qualityPct(m))}</td>
       <td class="tnum mono">${dash(m.swe_pro)}</td>
       <td class="tnum mono" style="color:var(--text-faint);">${dash(m.swe_verified)}</td>
@@ -1772,7 +1919,7 @@ function renderSubs() {
   data.subscriptions.forEach(s => {
     tbody.innerHTML += `
       <tr>
-        <td>${pill(s.provider)}</td>
+        <td>${pill(s.provider)}${provCite(s.provider)}</td>
         <td class="model-name">${s.tier}</td>
         <td class="tnum mono">${s.price_usd === null ? '—' : '$' + s.price_usd}</td>
         <td>${s.limits}</td>
@@ -1789,9 +1936,9 @@ function renderPolicy() {
   data.agent_policies.forEach(p => {
     tbody.innerHTML += `
       <tr>
-        <td>${pill(p.provider)}</td>
+        <td>${pill(p.provider)}${provCite(p.provider)}</td>
         <td>${p.subscription_automated}</td>
-        <td>${p.enforcement}</td>
+        <td>${p.enforcement}${p.cite ? cite(p.cite) : ''}</td>
         <td>${p.first_party_exception}</td>
         <td>${p.api_required_for_automation ? '<span style="color:var(--accent-hot);">Yes</span>' : '<span style="color:var(--green);">No</span>'}</td>
       </tr>
@@ -1813,7 +1960,7 @@ function renderHarnesses() {
   data.harnesses.forEach(h => {
     tbody.innerHTML += `
       <tr>
-        <td class="model-name" style="text-align:left;">${h.name}</td>
+        <td class="model-name" style="text-align:left;">${h.name}${h.cite ? cite(h.cite) : ''}</td>
         <td style="text-align:left;">${h.vendor}</td>
         <td class="mono" style="font-size:0.72rem;">${h.category}</td>
         <td>${fmtBool(h.mcp)}</td>
@@ -2068,6 +2215,46 @@ function renderStrategy() {
       tableWrap.replaceWith(newTableWrap);
     }
   });
+}
+
+// ---------- SOURCES TAB ----------
+function renderSources() {
+  const div = document.getElementById('sources-content');
+  if (!div) return;
+  const sources = (data.sources || []).slice().sort((a, b) => a.n - b.n);
+  if (!sources.length) {
+    div.innerHTML = '<h2 class="sect-head">Sources</h2><p class="sect-sub">No sources recorded yet.</p>';
+    return;
+  }
+  // Group by category, preserving first-seen order.
+  const byCat = new Map();
+  sources.forEach(s => {
+    const cat = s.category || 'Other';
+    if (!byCat.has(cat)) byCat.set(cat, []);
+    byCat.get(cat).push(s);
+  });
+  const groups = Array.from(byCat.entries()).map(([cat, items]) => `
+    <div class="sources-cat">
+      <h3>${cat}</h3>
+      <ol class="sources-list">
+        ${items.map(s => `
+          <li id="src-${s.n}">
+            <span class="sn">${s.n}</span>
+            <span>
+              <a href="${s.url}" target="_blank" rel="noopener">${s.title || s.url}</a>
+              ${s.note ? `<span style="color:var(--text-dim); display:block; font-size:0.78rem; margin-top:0.15rem;">${s.note}</span>` : ''}
+              <span class="src-url">${s.url}</span>
+            </span>
+          </li>
+        `).join('')}
+      </ol>
+    </div>
+  `).join('');
+  div.innerHTML = `
+    <h2 class="sect-head">Sources</h2>
+    <p class="sect-sub">Every superscript number in this dashboard links to an entry below. Sources are grouped by category. Last verified: ${new Date(data.meta.generated_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}.</p>
+    <div class="sources-grid">${groups}</div>
+  `;
 }
 
 // ---------- BOOT ----------
