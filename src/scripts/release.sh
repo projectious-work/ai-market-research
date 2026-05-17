@@ -104,7 +104,12 @@ echo ""
 echo "═══ 2/5 tag $TAG ═══"
 TAG_MESSAGE="Release $TAG"
 [ -n "$NOTES" ] && TAG_MESSAGE="$TAG_MESSAGE"$'\n\n'"$NOTES"
-run git tag -a "$TAG" -m "$TAG_MESSAGE"
+# Annotated tags need a committer identity. Use git config when set;
+# fall back to the project's noreply identity so the script works in
+# fresh containers without touching global git config.
+TAG_NAME="$(git config user.name 2>/dev/null || echo "projectious")"
+TAG_EMAIL="$(git config user.email 2>/dev/null || echo "projectious@users.noreply.github.com")"
+run git -c "user.name=$TAG_NAME" -c "user.email=$TAG_EMAIL" tag -a "$TAG" -m "$TAG_MESSAGE"
 
 # ─── 3. push ────────────────────────────────────────────────────────────
 echo ""
