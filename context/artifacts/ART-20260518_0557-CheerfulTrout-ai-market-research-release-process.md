@@ -147,5 +147,39 @@ Never waive `release-build-smoke-ok`, `release-audit-clean`,
 
 1. Read this Artifact (`get_artifact`) to load the 10 phases + gate IDs.
 2. `create_process_instance(title="Release X.Y.Z", process_definition_artifact="ART-…", steps=["scope", "data-refresh", …])` — produces a WorkItem epic with one child step per phase.
-3. For each phase: do the work, then `evaluate_gate(id=<gate-id>, outcome="passed"|"failed"|"waived", evidence=...)` and transition the corresponding child WorkItem to `done`.
+3. For each phase: run `bash src/scripts/release.sh --phase N` (or `--from A --to B` for a range). On exit 0, call `evaluate_gate(id=<gate-id>, outcome="passed", evidence="dist/release-evidence/…")` and transition the corresponding child WorkItem to `done`. On non-zero exit, evaluate as `failed` and stop.
 4. After phase 9, transition the epic to `done` and log `release.published`.
+
+## Runnable scripts (canonical run path)
+
+The validator commands recorded on the individual Gate entities are
+illustrative; the canonical run path is the orchestrator at
+`src/scripts/release.sh` plus the per-phase scripts at
+`src/scripts/release/phaseN-*.sh`. These are pure
+bash/python3/git/gh/curl — no MCP coupling, so the gates can be
+evaluated from any harness (or none).
+
+| # | Phase script | Phase env honoured |
+|---|---|---|
+| 0 | `phase0-scope.sh` | `VERSION`, `SCOPE_NOTE` |
+| 1 | `phase1-data-refresh.sh` | `RELEASE_NO_DATA_CHANGE=1` waives |
+| 2 | `phase2-citations-valid.sh` | — |
+| 3 | `phase3-privacy-clean.sh` | reads `src/scripts/release/privacy-markers.txt` (gitignored) |
+| 4 | `phase4-build-smoke.sh` | `RELEASE_AUTO_CONFIRM=1` (non-interactive only) |
+| 5 | `phase5-audit-clean.sh` | — |
+| 6 | `phase6-docs-current.sh` | `RELEASE_NO_DOC_CHANGE=1` waives |
+| 7 | `phase7-notes-drafted.sh` | `VERSION`, optionally `NOTES` |
+| 8 | `phase8-cut.sh` | `VERSION`, `NOTES` |
+| 9 | `phase9-post-verified.sh` | `RELEASE_SITE_URL` override; reads markers file |
+
+Common orchestrator invocations:
+
+```sh
+src/scripts/release.sh --list                       # list phases
+src/scripts/release.sh --phase 3                    # privacy sweep only
+src/scripts/release.sh --from 2 --to 5              # citations → audit
+VERSION=0.2.3 NOTES="…" src/scripts/release.sh --all 0.2.3 --notes "…"
+```
+
+Evidence files land under `dist/release-evidence/` (gitignored). Pass
+their paths as the `evidence` parameter when calling `evaluate_gate`.

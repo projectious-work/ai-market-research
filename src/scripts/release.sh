@@ -1,158 +1,133 @@
 #!/usr/bin/env bash
-# Orchestrate a release end-to-end from this container:
-#   1. release-check   (validate JSON, rebuild, sanity-check artifact)
-#   2. tag             (annotated semver tag on current main HEAD)
-#   3. push            (commits + tag to origin)
-#   4. deploy          (push dist/ to gh-pages, ensure Pages enabled)
-#   5. gh release      (create GitHub Release with dashboard-vX.Y.Z.html asset)
+# release.sh — phase orchestrator for the 10-phase release process
+# (DEC-20260518_0554-DaringCoral, ART-20260518_0557-CheerfulTrout).
+#
+# Each phase is a separate script in src/scripts/release/phaseN-*.sh.
+# This orchestrator dispatches phase scripts in order, halting on the
+# first non-zero exit. Provider-independent: bash + python3 + git + gh
+# + curl. Does not call MCP tools; an agent wrapping this run may
+# record `evaluate_gate` after each phase.
 #
 # Usage:
-#   src/scripts/release.sh <version>           # e.g. 0.2.0  (leading 'v' optional)
-#   src/scripts/release.sh <version> --notes "free-form notes"
-#   src/scripts/release.sh <version> --dry-run # print steps, don't mutate
+#   release.sh --list
+#       List phases with their names and gate IDs.
 #
-# Pre-conditions:
-#   - On main, clean working tree, up-to-date with origin/main.
-#   - Tag does not already exist locally or on remote.
+#   release.sh --phase N [<version>] [--notes "..."]
+#       Run only phase N (0..9). VERSION must be passed for phases that
+#       need it (0, 7, 8, 9); see per-phase scripts for required env.
 #
-# See DEC-20260517_1455-DeftLynx for the deploy architecture.
+#   release.sh --from A --to B [<version>] [--notes "..."]
+#       Run phases A through B inclusive.
+#
+#   release.sh --all <version> --notes "..."
+#       Run all 10 phases (a full release).
+#
+# Per-phase environment overrides:
+#   RELEASE_NONINTERACTIVE=1   skip y/N prompts (paired with explicit confirms)
+#   RELEASE_AUTO_CONFIRM=1     treat all manual confirms as yes (use with care)
+#   RELEASE_NO_DATA_CHANGE=1   waive phase 1 (data refresh)
+#   RELEASE_NO_DOC_CHANGE=1    waive phase 6 (docs)
+#   RELEASE_SITE_URL=<url>     override phase 9's target URL
+#   NOTES="..."                release notes for phases 7 and 8
+#   SCOPE_NOTE="..."           scope paragraph for phase 0
 set -euo pipefail
 
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
-cd "$REPO_ROOT"
+PHASE_DIR="$REPO_ROOT/src/scripts/release"
 
-VERSION=""
-NOTES=""
-DRY_RUN=0
+# Phase ordinal → (script-basename, gate-name)
+PHASES=(
+  "phase0-scope            release-scope-decided"
+  "phase1-data-refresh     release-data-refreshed"
+  "phase2-citations-valid  release-citations-valid"
+  "phase3-privacy-clean    release-privacy-clean"
+  "phase4-build-smoke      release-build-smoke-ok"
+  "phase5-audit-clean      release-audit-clean"
+  "phase6-docs-current     release-docs-current"
+  "phase7-notes-drafted    release-notes-drafted"
+  "phase8-cut              release-cut"
+  "phase9-post-verified    release-post-verified"
+)
+PHASE_COUNT=${#PHASES[@]}
 
+usage() { sed -n '2,33p' "$0"; exit "${1:-0}"; }
+
+list_phases() {
+  echo "Release process phases (DEC-20260518_0554-DaringCoral):"
+  echo ""
+  printf "  %-3s %-25s %s\n" "#" "Script" "Gate"
+  printf "  %-3s %-25s %s\n" "-" "------" "----"
+  local i=0
+  for entry in "${PHASES[@]}"; do
+    read -r script gate <<<"$entry"
+    printf "  %-3s %-25s %s\n" "$i" "$script.sh" "$gate"
+    i=$((i + 1))
+  done
+}
+
+# Parse args.
+MODE=""; PHASE_N=""; FROM_N=""; TO_N=""
+VERSION=""; NOTES="${NOTES:-}"
 while [ $# -gt 0 ]; do
   case "$1" in
-    --notes) NOTES="$2"; shift 2 ;;
-    --dry-run) DRY_RUN=1; shift ;;
-    -h|--help) sed -n '2,18p' "$0"; exit 0 ;;
-    -*) echo "unknown flag: $1" >&2; exit 2 ;;
+    --list)       MODE="list"; shift ;;
+    --phase)      MODE="phase";  PHASE_N="$2"; shift 2 ;;
+    --from)       MODE="${MODE:-range}"; FROM_N="$2"; shift 2 ;;
+    --to)         MODE="${MODE:-range}"; TO_N="$2";   shift 2 ;;
+    --all)        MODE="all"; shift ;;
+    --notes)      NOTES="$2"; shift 2 ;;
+    -h|--help)    usage 0 ;;
+    -*)           echo "unknown flag: $1" >&2; usage 2 ;;
     *)
       if [ -z "$VERSION" ]; then VERSION="$1"; shift
-      else echo "unexpected positional arg: $1" >&2; exit 2; fi
-      ;;
+      else echo "unexpected arg: $1" >&2; usage 2; fi ;;
   esac
 done
 
-if [ -z "$VERSION" ]; then
-  echo "usage: $(basename "$0") <version> [--notes \"...\"] [--dry-run]" >&2
+[ -z "$MODE" ] && usage 2
+
+if [ "$MODE" = "list" ]; then list_phases; exit 0; fi
+
+# Determine start/end.
+start=0; end=$((PHASE_COUNT - 1))
+case "$MODE" in
+  phase) start="$PHASE_N";   end="$PHASE_N" ;;
+  range) start="${FROM_N:-0}"; end="${TO_N:-$end}" ;;
+  all)   : ;;  # full range
+esac
+
+# Validate bounds.
+if ! [[ "$start" =~ ^[0-9]+$ && "$end" =~ ^[0-9]+$ ]] \
+  || [ "$start" -lt 0 ] || [ "$end" -ge "$PHASE_COUNT" ] || [ "$start" -gt "$end" ]; then
+  echo "invalid phase range: $start..$end (have 0..$((PHASE_COUNT - 1)))" >&2
   exit 2
 fi
 
-# Normalize version: accept "0.2.0" or "v0.2.0", emit both forms.
-VERSION="${VERSION#v}"
-if ! echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+([-.+][A-Za-z0-9.-]+)?$'; then
-  echo "fatal: '$VERSION' is not a valid semver" >&2
-  exit 1
-fi
-TAG="v$VERSION"
+# Export the env phase scripts may consume.
+export VERSION NOTES
 
-run() {
-  if [ "$DRY_RUN" -eq 1 ]; then
-    echo "DRY-RUN: $*"
+cd "$REPO_ROOT"
+
+echo "Running phases $start..$end$( [ -n "$VERSION" ] && echo " for v$VERSION" )"
+echo ""
+
+overall=0
+for i in $(seq "$start" "$end"); do
+  entry="${PHASES[$i]}"
+  read -r script gate <<<"$entry"
+  echo "═══ Phase $i — $script  ($gate) ═══"
+  if bash "$PHASE_DIR/$script.sh"; then
+    echo ""
   else
-    "$@"
+    rc=$?
+    echo ""
+    echo "✗ phase $i ($script / $gate) failed with exit $rc"
+    overall=$rc
+    break
   fi
-}
+done
 
-# ─── Pre-conditions ─────────────────────────────────────────────────────
-CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-if [ "$CURRENT_BRANCH" != "main" ]; then
-  echo "fatal: must release from 'main' (current: $CURRENT_BRANCH)" >&2
-  exit 1
+if [ "$overall" -eq 0 ]; then
+  echo "All requested phases ($start..$end) passed."
 fi
-
-if [ -n "$(git status --porcelain)" ]; then
-  echo "fatal: working tree not clean — commit or stash first" >&2
-  git status --short >&2
-  exit 1
-fi
-
-git fetch --quiet origin
-LOCAL="$(git rev-parse HEAD)"
-REMOTE_MAIN="$(git rev-parse origin/main)"
-if [ "$LOCAL" != "$REMOTE_MAIN" ]; then
-  echo "fatal: local main is not in sync with origin/main" >&2
-  echo "  local:  $LOCAL" >&2
-  echo "  remote: $REMOTE_MAIN" >&2
-  exit 1
-fi
-
-if git rev-parse "$TAG" >/dev/null 2>&1; then
-  echo "fatal: tag $TAG already exists locally" >&2
-  exit 1
-fi
-if git ls-remote --tags origin "refs/tags/$TAG" | grep -q "$TAG"; then
-  echo "fatal: tag $TAG already exists on origin" >&2
-  exit 1
-fi
-
-echo "releasing $TAG from $(git rev-parse --short HEAD)"
-[ "$DRY_RUN" -eq 1 ] && echo "(dry-run — no mutations will occur)"
-
-# ─── 1. release-check ───────────────────────────────────────────────────
-echo ""
-echo "═══ 1/5 release-check ═══"
-run bash "$REPO_ROOT/src/scripts/release-check.sh"
-
-# ─── 2. tag ─────────────────────────────────────────────────────────────
-echo ""
-echo "═══ 2/5 tag $TAG ═══"
-TAG_MESSAGE="Release $TAG"
-[ -n "$NOTES" ] && TAG_MESSAGE="$TAG_MESSAGE"$'\n\n'"$NOTES"
-# Annotated tags need a committer identity. Use git config when set;
-# fall back to a privacy-safe noreply alias so the script works in
-# fresh containers without leaking a real email in the tag metadata.
-TAG_NAME="$(git config user.name 2>/dev/null || echo "projectious")"
-TAG_EMAIL="$(git config user.email 2>/dev/null || echo "projectious@users.noreply.github.com")"
-run git -c "user.name=$TAG_NAME" -c "user.email=$TAG_EMAIL" tag -a "$TAG" -m "$TAG_MESSAGE"
-
-# ─── 3. push ────────────────────────────────────────────────────────────
-echo ""
-echo "═══ 3/5 push main + $TAG to origin ═══"
-# Authenticate via gh's token so this works in containers without a
-# global git credential helper.
-GH_TOKEN_VAL="$(gh auth token 2>/dev/null || true)"
-if [ -z "$GH_TOKEN_VAL" ]; then
-  echo "fatal: gh auth token unavailable; run 'gh auth login' first" >&2
-  exit 1
-fi
-REMOTE_URL="$(git remote get-url origin)"
-REPO_SLUG="$(echo "$REMOTE_URL" | sed -E 's#(.*github\.com[:/])([^/]+/[^/.]+)(\.git)?$#\2#')"
-AUTH_URL="https://x-access-token:${GH_TOKEN_VAL}@github.com/${REPO_SLUG}.git"
-run git push "$AUTH_URL" main
-run git push "$AUTH_URL" "$TAG"
-
-# ─── 4. deploy ──────────────────────────────────────────────────────────
-echo ""
-echo "═══ 4/5 deploy to GitHub Pages ═══"
-# Rebuild (not --skip-build) so build-time __APP_VERSION__ injection
-# picks up the tag we just created.
-DEPLOY_MSG="deploy: $TAG ($(git rev-parse --short HEAD))"
-run bash "$REPO_ROOT/src/scripts/deploy.sh" --message "$DEPLOY_MSG"
-
-# ─── 5. GitHub release ──────────────────────────────────────────────────
-echo ""
-echo "═══ 5/5 publish GitHub Release ═══"
-ASSET="/tmp/dashboard-$TAG.html"
-run cp "$REPO_ROOT/dist/dashboard.html" "$ASSET"
-
-REL_NOTES="$NOTES"
-if [ -z "$REL_NOTES" ]; then
-  REL_NOTES="Release $TAG — dashboard built from $(git rev-parse --short HEAD)."
-fi
-
-run gh release create "$TAG" \
-  --title "$TAG" \
-  --notes "$REL_NOTES" \
-  "$ASSET#dashboard-$TAG.html"
-
-[ "$DRY_RUN" -eq 0 ] && rm -f "$ASSET"
-
-echo ""
-echo "release ok: $TAG"
-gh release view "$TAG" --json url --jq '.url' 2>/dev/null || true
+exit "$overall"

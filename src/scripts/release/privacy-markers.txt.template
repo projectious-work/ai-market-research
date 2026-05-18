@@ -1,0 +1,24 @@
+# Privacy-marker regex list — one extended-regex pattern per line.
+#
+# Copy this file to `privacy-markers.txt` (which is gitignored) and add
+# regex patterns for personal names, emails, hostnames, or any other
+# strings that must not leak into delivered code.
+#
+# Lines starting with `#` and blank lines are ignored. Patterns are
+# joined with `|` and fed to `grep -riIE` across the delivered surface
+# (see phase3-privacy-clean.sh).
+#
+# Example patterns (placeholder shapes — do not commit real markers
+# into this *template*; the maintainer adds them locally to the
+# untracked copy):
+#
+#   [Ff]irstname
+#   [Ll]astname
+#   firstname\.lastname@example\.com
+#   ^my-secret-host-name$
+#
+# NOTE: phase3-privacy-clean.sh treats a missing or empty markers file
+# as "WARN: no markers configured" and exits 0 — it does not fail-closed.
+# This is deliberate so a fresh clone can run the orchestrator without
+# the maintainer's marker list being present. Configure markers locally
+# before relying on the gate in earnest.

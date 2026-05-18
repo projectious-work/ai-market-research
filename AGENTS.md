@@ -297,21 +297,37 @@ full IDs via `list_gates` or `get_entity`):
 8. `release-cut` — `release.sh X.Y.Z --notes "..."` (kai)
 9. `release-post-verified` — HTTP 200, version stamp, no name leaks (cora)
 
+**Runnable artifacts (provider-independent, pure bash/python/git/gh/curl):**
+
+- `src/scripts/release.sh` — orchestrator. `--list | --phase N | --from
+  A --to B | --all <version> --notes "..."`. No MCP coupling.
+- `src/scripts/release/phaseN-*.sh` — one script per phase, runnable
+  standalone (e.g. `bash src/scripts/release/phase3-privacy-clean.sh`).
+- `src/scripts/release/privacy-markers.txt` (gitignored; copy from
+  `.template`) — regex list consumed by phases 3 and 9.
+- `dist/release-evidence/` (gitignored) — per-phase evidence files
+  (draft notes, doctor JSON, served HTML, etc.).
+
 **Agent workflow per release request:**
 
 1. `get_artifact(id="ART-20260518_0557-CheerfulTrout-...")` — load the
    canonical 10-phase spec.
 2. `create_process_instance(...)` — produces a WorkItem epic with one
    child step per phase.
-3. For each phase: do the work, then
-   `evaluate_gate(id=<gate-id>, outcome="passed"|"failed"|"waived", evidence=...)`
-   and transition the child step to `done`.
+3. For each phase: run `bash src/scripts/release.sh --phase N` (or
+   `--from … --to …` for a range). On exit 0, call
+   `evaluate_gate(id=<gate-id>, outcome="passed", evidence=<path to
+   dist/release-evidence/…>)` and transition the child step to `done`.
+   On non-zero exit, evaluate the gate as `failed` and stop.
 4. After phase 9: transition the epic to `done` and log a
    `release.published` event.
 
 Gates with `blocking: true` (all 10) cannot be skipped silently — use
 `evaluate_gate(outcome="waived", reason="...")` when intentional. The
-Artifact body lists which gates may be waived and which never may.
+Artifact body lists which gates may be waived and which never may. Some
+phase scripts honour env-var waivers for common cases:
+`RELEASE_NO_DATA_CHANGE=1` (phase 1), `RELEASE_NO_DOC_CHANGE=1` (phase
+6).
 
 ## MCP config manifest
 
