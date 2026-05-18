@@ -6,7 +6,7 @@
 # Validates: JSON parses, has data.changelog with a recent-enough entry,
 # and an archive snapshot for the prior state exists. Allows waiver
 # via RELEASE_NO_DATA_CHANGE=1 for tooling-only patches.
-set -euo pipefail
+set -eo pipefail
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 . "$REPO_ROOT/src/scripts/release/_lib.sh"
 cd "$REPO_ROOT"

@@ -75,12 +75,24 @@ entity) plus a manual check:
 - `src/sources.md` is still aligned with `data.sources` at category level
 
 ### 3 — Security & data privacy sweep · `release-privacy-clean`
-Per the v0.2.2 sweep template:
-- Grep across delivered surface (`src/`, `data/`, `dist/`, `.claude/agents/`,
-  root docs) for personal-name markers — must be zero
-- Check git history if anything sensitive was committed and force-push /
-  orphan-reset the `gh-pages` branch if needed
-- Confirm no new third-party content was pulled in without attribution
+Two-stage:
+
+- **3a · deterministic grep** across delivered surface (`src/`, `data/`,
+  `dist/`, `.claude/agents/`, root docs) against
+  `src/scripts/release/privacy-markers.txt` (gitignored, per-maintainer
+  literal + generic patterns). Must produce zero hits.
+- **3b · probabilistic AI review.** The script prepares a review-input
+  package at `dist/release-evidence/phase3-ai-review-input.md`
+  containing the delivered-surface diff since the previous tag plus the
+  current high-signal source files. The agent walking the release reads
+  the package, performs a privacy review using its own intelligence
+  (provider-independent — any LLM in any harness), and writes a
+  `PASS`/`FAIL` verdict to `dist/release-evidence/phase3-ai-verdict.txt`.
+  Phase 3 only passes when both 3a and 3b are green.
+
+Also during phase 3: check git history if anything sensitive was
+committed and force-push / orphan-reset the `gh-pages` branch if needed;
+confirm no new third-party content was pulled in without attribution.
 
 ### 4 — Build + UI smoke test · `release-build-smoke-ok`
 `bash src/scripts/release-check.sh` exits 0. Then a human (or sub-agent)
@@ -106,6 +118,18 @@ release's content changes. Specifically:
 If absolutely nothing user-facing changed, waive with reason `"no
 doc-relevant change in this release"`.
 
+**License safeguard.** Phase 6 also asserts:
+- The license name in `README.md`'s License section matches `LICENSE`'s
+  first line (e.g. README says `MIT License`, LICENSE starts with `MIT
+  License`).
+- README's License section contains the phrase `historical commits and
+  tags` (the retroactive coverage clause).
+
+The note's HTML-comment marker is `<!-- pk-release-license-note -->`.
+This safeguard prevents the README and LICENSE from drifting out of
+sync and prevents accidental deletion of the retroactive coverage
+statement.
+
 ### 7 — Release notes assembly · `release-notes-drafted`
 3–7 lines of prose for the GitHub Release body, plus the `--notes`
 string for `release.sh`. Derive from:
@@ -120,7 +144,14 @@ what changed in the repo plumbing.
 bash src/scripts/release.sh <X.Y.Z> --notes "<notes from phase 7>"
 ```
 This runs: release-check → tag → push (main + tag) → deploy (gh-pages)
-→ `gh release create` with the `dashboard-vX.Y.Z.html` asset.
+→ `gh release create` with the following assets:
+- `dashboard-vX.Y.Z.html` — the self-contained dashboard artifact
+- `LICENSE` — the license file, attached so consumers downloading the
+  dashboard also receive the licence terms
+
+GitHub additionally auto-generates a source-tarball (`.tar.gz`) and
+zip (`.zip`) for the tag, both of which include `LICENSE` because it
+sits at the repo root.
 
 Pre-condition: clean working tree on `main`, local == origin/main.
 

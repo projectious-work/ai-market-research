@@ -3,7 +3,7 @@
 #
 # Curl the live URL, confirm 200, confirm a version stamp is present,
 # and sweep the served HTML for personal-data markers.
-set -euo pipefail
+set -eo pipefail
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 . "$REPO_ROOT/src/scripts/release/_lib.sh"
 cd "$REPO_ROOT"

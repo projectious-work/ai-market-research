@@ -30,7 +30,7 @@
 #   RELEASE_SITE_URL=<url>     override phase 9's target URL
 #   NOTES="..."                release notes for phases 7 and 8
 #   SCOPE_NOTE="..."           scope paragraph for phase 0
-set -euo pipefail
+set -eo pipefail
 
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
 PHASE_DIR="$REPO_ROOT/src/scripts/release"

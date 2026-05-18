@@ -108,4 +108,13 @@ useful as a template for your own market-watching dashboards.
 
 ## License
 
-[MIT](LICENSE) © 2026 projectious
+Unless otherwise noted, the copyright holder grants the
+[**MIT License**](LICENSE) for **all versions of this repository,
+including historical commits and tags**. The full license text is in
+[LICENSE](LICENSE). © 2026 projectious.
+
+<!-- pk-release-license-note -->
+<!-- This block is verified during the release process (phase 6,
+     release-docs-current). The license name above must match
+     LICENSE's first line; the phrase "historical commits and tags"
+     must be present. Keep both intact when editing this section. -->

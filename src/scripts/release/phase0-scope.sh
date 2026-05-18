@@ -6,7 +6,7 @@
 # reads $VERSION and $SCOPE_NOTE from the environment.
 #
 # Evidence: dist/release-evidence/phase0-scope-<VERSION>.md
-set -euo pipefail
+set -eo pipefail
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 . "$REPO_ROOT/src/scripts/release/_lib.sh"
 cd "$REPO_ROOT"

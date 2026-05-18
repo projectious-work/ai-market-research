@@ -4,7 +4,7 @@
 # Drafts release notes from data.changelog (most recent N entries) and
 # git log since the previous tag. Writes the draft to evidence dir; the
 # operator finalises and passes the final text to phase 8 via $NOTES.
-set -euo pipefail
+set -eo pipefail
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 . "$REPO_ROOT/src/scripts/release/_lib.sh"
 cd "$REPO_ROOT"

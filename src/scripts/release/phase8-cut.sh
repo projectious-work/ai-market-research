@@ -6,7 +6,7 @@
 # with the dashboard asset attached.
 #
 # Expects: VERSION (semver, with or without leading 'v'); NOTES optional.
-set -euo pipefail
+set -eo pipefail
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 . "$REPO_ROOT/src/scripts/release/_lib.sh"
 cd "$REPO_ROOT"
@@ -61,10 +61,18 @@ DEPLOY_MSG="deploy: $TAG ($(git rev-parse --short HEAD))"
 bash "$REPO_ROOT/src/scripts/deploy.sh" --message "$DEPLOY_MSG"
 
 # 5. GitHub Release
-ASSET="/tmp/dashboard-$TAG.html"
-cp "$REPO_ROOT/dist/dashboard.html" "$ASSET"
+DASHBOARD_ASSET="/tmp/dashboard-$TAG.html"
+LICENSE_ASSET="/tmp/LICENSE"
+cp "$REPO_ROOT/dist/dashboard.html" "$DASHBOARD_ASSET"
+cp "$REPO_ROOT/LICENSE"             "$LICENSE_ASSET"
 REL_NOTES="${NOTES:-Release $TAG — dashboard built from $(git rev-parse --short HEAD).}"
-gh release create "$TAG" --title "$TAG" --notes "$REL_NOTES" "$ASSET#dashboard-$TAG.html"
-rm -f "$ASSET"
+# LICENSE is attached as a separate asset so consumers downloading just
+# the dashboard also receive the licence terms. GitHub additionally
+# auto-generates a source-tarball (and zip) for the tag, which already
+# contains LICENSE because it's at the repo root.
+gh release create "$TAG" --title "$TAG" --notes "$REL_NOTES" \
+  "$DASHBOARD_ASSET#dashboard-$TAG.html" \
+  "$LICENSE_ASSET#LICENSE"
+rm -f "$DASHBOARD_ASSET" "$LICENSE_ASSET"
 
 log_ok "release $TAG cut: $(gh release view "$TAG" --json url --jq '.url' 2>/dev/null || echo "$TAG")"

@@ -306,7 +306,31 @@ full IDs via `list_gates` or `get_entity`):
 - `src/scripts/release/privacy-markers.txt` (gitignored; copy from
   `.template`) — regex list consumed by phases 3 and 9.
 - `dist/release-evidence/` (gitignored) — per-phase evidence files
-  (draft notes, doctor JSON, served HTML, etc.).
+  (draft notes, doctor JSON, served HTML, AI-review verdict, etc.).
+
+**Phase 3 is a two-stage sweep (deterministic + probabilistic):**
+
+1. *3a — grep* against `privacy-markers.txt`. Auto-fails on any hit.
+2. *3b — AI review.* The script prepares
+   `dist/release-evidence/phase3-ai-review-input.md` (delivered-surface
+   diff since the previous tag + current high-signal files). The agent
+   walking the release reads it, performs the review with whatever
+   intelligence it has, and writes a verdict to
+   `dist/release-evidence/phase3-ai-verdict.txt` (first line `PASS` or
+   `FAIL`, details after). The phase script then gates on the verdict.
+   No specific LLM is hard-coded — any agent in any harness can produce
+   the verdict. Escape hatch for purely-tooling patches:
+   `RELEASE_SKIP_AI=1`.
+
+**License safeguards (phases 6 + 8):**
+
+- Phase 6 verifies `README.md` carries the retroactive license note —
+  i.e. that the license name in the README matches `LICENSE`'s first
+  line *and* the README contains the phrase "historical commits and
+  tags". The note's HTML comment marker is `<!-- pk-release-license-note -->`.
+- Phase 8 attaches the `LICENSE` file alongside `dashboard-vX.Y.Z.html`
+  as a GitHub Release asset. GitHub's auto-generated source tarball/zip
+  also includes `LICENSE` because it's at the repo root.
 
 **Agent workflow per release request:**
 

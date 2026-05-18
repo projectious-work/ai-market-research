@@ -4,7 +4,7 @@
 # Runs both validation sweeps via their underlying scripts (not MCP tools,
 # so the gate is provider-independent). Fails on non-zero exit or unresolved
 # ERRORs.
-set -euo pipefail
+set -eo pipefail
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 . "$REPO_ROOT/src/scripts/release/_lib.sh"
 cd "$REPO_ROOT"

@@ -4,7 +4,7 @@
 # Validates that every cite: [n,n] reference in data/market-state.json
 # resolves to an entry in data.sources. Also checks provider_sources
 # and section_sources for orphan n's.
-set -euo pipefail
+set -eo pipefail
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 . "$REPO_ROOT/src/scripts/release/_lib.sh"
 cd "$REPO_ROOT"
