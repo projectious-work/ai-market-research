@@ -142,9 +142,13 @@ if [ "$NO_CHANGES" -eq 0 ]; then
     exit 1
   fi
   AUTH_URL="https://x-access-token:${GH_TOKEN_VAL}@github.com/${OWNER}/${REPO}.git"
+  # gh-pages is a deploy artifact branch — each deploy rewrites the tip
+  # with a single commit. --force is the intended semantic; the
+  # --force-with-lease check fails here because pushing to an inline
+  # auth URL leaves git with no remote-tracking ref to lease against.
   (
     cd "$WORKTREE_DIR"
-    git push --quiet --force-with-lease "$AUTH_URL" "$PAGES_BRANCH"
+    git push --quiet --force "$AUTH_URL" "$PAGES_BRANCH"
   )
 else
   echo "[4/5] skipping push (no changes)"
