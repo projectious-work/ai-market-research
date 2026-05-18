@@ -98,6 +98,137 @@ The Strategy tab includes a Task-fit Recommendations table: 10 task types × 4 p
 - Empty cells (e.g. "self_hosted: not recommended for hard debugging") are intentional — they say "no model in this category meets the bar for this task." If a new open-weight model changes that, flip the cell.
 - Effort levels in recommendations should be defensible: minimal/low for trivial tasks, medium for normal work, high/xhigh for hard tasks, max only for autonomy. Don't recommend xhigh for "tiny edits" — that's a quality signal that something is off.
 
+## Capability radar — 6-axis rubric (v0.3.0+)
+
+The **04 Strategy** tab carries a capability radar chart for the
+chosen models versus the reference. Each model gets six 1-5 ratings
+in `data.models[].capability_levels`. **Sage rates each new frontier
+or fast model on these 6 axes during the daily briefing** using the
+rubric below. Ratings should cite a primary source where possible
+(the citations gate in the release process expects this).
+
+The schema lives at `data.capabilities`:
+- `axes`: ordered list of 6 axis definitions (key + label + short)
+- `level_labels`: short name per level per axis (rendered in the UI)
+- `focus_presets`: weight vectors for one-click focus boosting
+  (`Balanced` + one per axis at weight 2.0)
+- `methodology`: short prose summary (full rubric is in this file)
+
+The accepted DecisionRecord for this section is
+`DEC-20260518_1038-PolishedOak-6-axis-capability-taxonomy-weighted-radar`.
+
+### Composite formula
+
+```
+composite(model, weights) = Σ (weight[axis] × level[axis]) / Σ (weight[axis] × 5)
+```
+
+Result is 0.0–1.0 (displayed as 0–100 %). The dashboard shows both
+absolute composite and ratio-to-reference. Missing axis values
+(`null`) are excluded from both numerator and denominator so partial
+ratings still render a partial polygon.
+
+### Per-axis rubric (level 1 = none/basic, level 5 = frontier)
+
+**1. Coding** — implement, debug, refactor production code.
+| Level | Name | Means |
+|---|---|---|
+| 1 | Snippet | Single-file syntax fixes, regex replacements, formatting, docstrings, import sorting |
+| 2 | Standard | Single-function implementation, straightforward bug fixes, simple feature additions, boilerplate tests + fixtures |
+| 3 | Cross-file | Features spanning 3-10 files, cross-file context, parameterised test suites, mocking, mid-debug |
+| 4 | Hard | Race conditions, performance bottlenecks, refactors with long-term implications, deep debugging in unfamiliar code |
+| 5 | Frontier | Novel algorithms, framework-level design + implementation, large-repo modernisation, codebase-scale rewrites |
+
+Anchor benchmarks: SWE-bench Pro (preferred), SWE-bench Verified
+(qualified — contaminated), LiveCodeBench. Cite the exact benchmark
+value supporting the rating.
+
+**2. Reasoning & Architecture** — design systems, hard logic, math, multi-step planning.
+| Level | Name | Means |
+|---|---|---|
+| 1 | Apply known | Single-step reasoning, well-known templates, basic if/else |
+| 2 | Multi-step | Trade-off awareness within one domain, applies patterns to new contexts, single-service design |
+| 3 | Cross-cutting | Multi-service architecture, names alternatives with tradeoffs, plans across hours |
+| 4 | Novel system | Distributed/concurrent reasoning, performance modelling, plans across days/weeks |
+| 5 | Research-grade | Proves correctness, designs novel paradigms, cross-domain synthesis, identifies open problems |
+
+Anchor benchmarks: AIME, hard-reasoning evals, public system-design
+evaluations.
+
+**3. Knowledge & Research** — depth, synthesis, frontier awareness.
+| Level | Name | Means |
+|---|---|---|
+| 1 | Recall | Well-known facts, common APIs, standard library knowledge |
+| 2 | Contextual | Accurate citation when sources provided, summarises a corpus correctly |
+| 3 | Cross-domain | Distinguishes consensus from controversy, identifies tradeoffs from training, names primary sources |
+| 4 | Frontier | Current state-of-art across multiple domains, synthesises novel positions, calibrated uncertainty |
+| 5 | Original | Identifies open problems, generates novel insights, research-grade literature review |
+
+Anchor benchmarks: MMLU-Pro, GPQA, model-card knowledge-cutoff
+claims, community-validated SOTA awareness on specific topics.
+
+**4. Communication & Docs** — write, explain, diagram, code-review prose for humans.
+| Level | Name | Means |
+|---|---|---|
+| 1 | Grammatical | Comprehensible, no syntax errors |
+| 2 | Structured | Audience-appropriate tone, code comments explain WHY not WHAT, basic READMEs |
+| 3 | Tutorial | Multi-audience adaptation, prose builds mental models, diagrams in text form |
+| 4 | Editorial | Technical writing that survives editing, pedagogical pacing, explains tradeoffs |
+| 5 | Publishable | Generative explanations, original framings, would pass a serious editor |
+
+Anchor: human-pref prose-evaluation rounds (LMArena, custom A/B tests
+on technical writing), structural quality on long-form output.
+
+**5. Multimodal** — see, hear, produce non-text artefacts.
+| Level | Name | Means |
+|---|---|---|
+| 1 | Text only | No image/audio/video input or output |
+| 2 | Image-in | Describes screenshots, reads alt-text-style content |
+| 3 | Image reasoning | Interprets diagrams, charts, UI mocks, code-from-screenshot |
+| 4 | Video/audio | Multi-image / video / audio understanding (sequence reasoning, transcription) |
+| 5 | Cross-modal gen | Produces images, diagrams, audio, or video from text |
+
+Anchor: model-card declared modality support; published benchmark
+performance on image/document QA.
+
+**6. Agentic** — model-side coherence and calibration *with harness held constant*.
+The harness contribution (loop infrastructure, tool catalog, memory,
+sandbox, subagents) is scored separately on the **02 Harnesses** tab.
+
+| Level | Name | Means |
+|---|---|---|
+| 1 | Single-turn | Holds goal only within one response; no tool use |
+| 2 | Tool calls | Reliable tool selection + arg formatting + result parsing |
+| 3 | Plan coherence | Maintains goal across ~10 turns without drift; light self-correction |
+| 4 | Self-correcting | Notices own errors, asks vs. ploughs on, refuses ambiguous-but-risky paths |
+| 5 | Long-horizon | Sustains goal across 100+ turns, calibrated stopping, refusal hygiene under context accumulation |
+
+Anchor: tau-bench, SWE-bench Pro (uses a fixed agent harness), agent-loop
+transcripts from a Claude-Code-class harness baseline. **Always cite
+the harness used** — same model in different harnesses gets different
+observed autonomy.
+
+### Calibration anchors (frozen, 2026-05-18)
+
+- **Coding 5** = Opus 4.7 (64.3% SWE-Pro), GPT-5.5 Pro (~58.6%), DeepSeek V4-Pro (~55%)
+- **Reasoning 5** = Mythos Preview, GPT-5.5 Pro, Opus 4.7
+- **Multimodal 5** = Gemini 3.1 Pro (only model currently rated 5 — video + cross-modal gen)
+- **Agentic 5** = Opus 4.7 (only model currently rated 5)
+- **Comms 5** = Opus 4.7
+- **Knowledge 5** = GPT-5.5, GPT-5.5 Pro, Gemini 3.1 Pro, Mythos, Opus 4.7
+
+If a new model exceeds one of these anchors on the relevant benchmark,
+bump the anchor: that model gets the 5, the displaced anchor drops to 4
+on that axis. Cite the bump in the changelog.
+
+### When ratings are unknown
+
+Use `null` for unrated axes. The radar renders partial polygons; the
+composite formula skips null axes from both numerator and denominator
+(so a model rated only on 4 of 6 axes still gets a fair composite
+out of its rated dimensions). Tier-2 models (legacy) stay null until
+back-filled.
+
 ## File map (post v9 refactor, 2026-05-15)
 
 ```

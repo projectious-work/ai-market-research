@@ -1233,6 +1233,17 @@ __MARKET_DATA__
   <!-- ===== STRATEGY TAB ===== -->
   <section class="tab-panel" id="tab-strategy">
     <div data-section-sources="strategy"></div>
+
+    <h2 class="sect-head">Capability radar</h2>
+    <p class="sect-sub">
+      6-axis capability rating per model (1–5 each; see
+      <a href="https://github.com/projectious-work/ai-market-research/blob/main/src/dashboard-context.md#capability-radar--6-axis-rubric-v030"
+         target="_blank" rel="noopener">rubric</a>).
+      Composite is the weighted average of available axes. Reference model
+      below the chart is the one selected in the top-right dropdown.
+    </p>
+    <div id="capability-radar-content"></div>
+
     <div id="strategy-content"></div>
   </section>
 
@@ -1363,6 +1374,7 @@ function renderAll() {
   renderHardware();
   renderFrameworks();
   renderStrategy();
+  renderCapabilityRadar();
   renderSources();
   // Fill section-source strips after section bodies are populated.
   document.querySelectorAll('[data-section-sources]').forEach(el => {
@@ -2214,6 +2226,231 @@ function renderStrategy() {
       const newTableWrap = newBlock.querySelector('.table-wrap');
       tableWrap.replaceWith(newTableWrap);
     }
+  });
+}
+
+// ---------- CAPABILITY RADAR ----------
+let currentFocus   = (data.capabilities && data.capabilities.default_focus) || 'balanced';
+let currentCompare = ''; // model id to overlay onto the primary (empty = no overlay)
+let currentRadarPrimary = ''; // empty → use reference model
+
+function focusWeights() {
+  const presets = (data.capabilities && data.capabilities.focus_presets) || {};
+  return presets[currentFocus] || presets['balanced'] || {};
+}
+
+function composite(model, weights) {
+  if (!model || !model.capability_levels || !data.capabilities) return null;
+  let num = 0, den = 0;
+  for (const a of data.capabilities.axes) {
+    const v = model.capability_levels[a.key];
+    if (v == null) continue;
+    const w = (weights && weights[a.key] != null) ? weights[a.key] : 1;
+    num += w * v;
+    den += w * 5;
+  }
+  return den > 0 ? num / den : null;
+}
+
+function fmtComposite(v) {
+  if (v == null) return '—';
+  return (v * 100).toFixed(1) + '%';
+}
+
+function renderRadarSVG(model, overlay, opts = {}) {
+  if (!data.capabilities) return '';
+  const axes = data.capabilities.axes;
+  const size = opts.size || 320;
+  const cx = size / 2, cy = size / 2;
+  const r  = size * 0.36;
+  const max = 5;
+  const startAngle = -Math.PI / 2;
+  const weights = focusWeights();
+
+  const axisDef = axes.map((a, i) => {
+    const ang = startAngle + (2 * Math.PI * i / axes.length);
+    return {
+      key: a.key, label: a.label, short: a.short, ang,
+      x:  cx + r * Math.cos(ang),
+      y:  cy + r * Math.sin(ang),
+      lx: cx + (r + 22) * Math.cos(ang),
+      ly: cy + (r + 22) * Math.sin(ang),
+    };
+  });
+
+  function pts(m) {
+    if (!m || !m.capability_levels) return null;
+    return axes.map((a, i) => {
+      const v = m.capability_levels[a.key];
+      if (v == null) return null;
+      const t = v / max;
+      const ang = startAngle + (2 * Math.PI * i / axes.length);
+      return { x: cx + r * t * Math.cos(ang), y: cy + r * t * Math.sin(ang) };
+    });
+  }
+  function polyStr(p) {
+    return (p || []).filter(q => q).map(q => `${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(' ');
+  }
+
+  let svg = `<svg viewBox="0 0 ${size} ${size}" class="radar-svg" xmlns="http://www.w3.org/2000/svg">`;
+  // Concentric rings (levels 1..5)
+  for (let lvl = 1; lvl <= max; lvl++) {
+    const rr = r * lvl / max;
+    const ring = axes.map((_, i) => {
+      const ang = startAngle + (2 * Math.PI * i / axes.length);
+      return `${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`;
+    }).join(' ');
+    svg += `<polygon class="radar-ring" points="${ring}" />`;
+  }
+  // Axes
+  axisDef.forEach(p => {
+    const focused = weights[p.key] && weights[p.key] > 1;
+    svg += `<line class="radar-axis${focused ? ' focused' : ''}" x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" />`;
+  });
+  // Overlay polygon (drawn behind)
+  const overlayPts = pts(overlay);
+  if (overlayPts) svg += `<polygon class="radar-poly overlay" points="${polyStr(overlayPts)}" />`;
+  // Primary polygon + vertices
+  const primaryPts = pts(model);
+  if (primaryPts) {
+    svg += `<polygon class="radar-poly primary" points="${polyStr(primaryPts)}" />`;
+    primaryPts.forEach(p => {
+      if (p) svg += `<circle class="radar-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" />`;
+    });
+  }
+  // Axis labels
+  axisDef.forEach(p => {
+    let anchor = 'middle';
+    if (p.lx < cx - 5) anchor = 'end';
+    else if (p.lx > cx + 5) anchor = 'start';
+    svg += `<text class="radar-label" x="${p.lx.toFixed(1)}" y="${(p.ly + 4).toFixed(1)}" text-anchor="${anchor}">${p.short}</text>`;
+  });
+  svg += '</svg>';
+  return svg;
+}
+
+function renderAxisMini(model) {
+  if (!data.capabilities) return '';
+  const axes = data.capabilities.axes;
+  return '<span class="radar-axis-mini">' +
+    axes.map(a => {
+      const v = (model.capability_levels || {})[a.key];
+      const cls = v == null ? 'lvl-null' : `lvl-${v}`;
+      const label = v == null ? '—' : v;
+      return `<span class="${cls}" title="${a.label}: ${label}">${label}</span>`;
+    }).join('') + '</span>';
+}
+
+function renderCapabilityRadar() {
+  const div = document.getElementById('capability-radar-content');
+  if (!div || !data.capabilities) return;
+  const refModel = getRefModel();
+  if (!refModel) { div.innerHTML = '<p class="sect-sub">No reference model selected.</p>'; return; }
+
+  // Default primary to the highest-composite frontier model (other than ref).
+  const weights = focusWeights();
+  const rated = data.models.filter(m => m.capability_levels && (m.tier === 'frontier' || m.tier === 'fast'));
+  if (!currentRadarPrimary) {
+    const others = rated.filter(m => m.id !== refModel.id)
+                        .map(m => [m, composite(m, weights)])
+                        .filter(x => x[1] != null)
+                        .sort((a, b) => b[1] - a[1]);
+    currentRadarPrimary = (others[0] && others[0][0].id) || refModel.id;
+  }
+  const primary = modelById(currentRadarPrimary) || refModel;
+  const overlay = (currentCompare && modelById(currentCompare)) || refModel;
+
+  const presets = Object.keys(data.capabilities.focus_presets || {balanced:{}});
+  const focusOpts = presets.map(k => `<option value="${k}"${k===currentFocus?' selected':''}>${k.replace(/-/g, ' ')}</option>`).join('');
+  const modelOpts = m => rated.map(x => `<option value="${x.id}"${x.id===m.id?' selected':''}>${x.name}</option>`).join('');
+
+  const compPrimary = composite(primary, weights);
+  const compRef     = composite(refModel, weights);
+  const compOverlay = composite(overlay, weights);
+  const ratio = (compPrimary != null && compRef) ? (compPrimary / compRef) : null;
+
+  // Leaderboard rows (sorted by composite under current focus)
+  const board = rated.map(m => ({
+    m,
+    comp: composite(m, weights),
+    ratio: composite(m, weights) != null && compRef ? composite(m, weights) / compRef : null,
+  })).filter(x => x.comp != null)
+     .sort((a, b) => b.comp - a.comp);
+
+  div.innerHTML = `
+    <div class="radar-controls">
+      <label>Focus:
+        <select id="radar-focus">${focusOpts}</select>
+      </label>
+      <label>Primary:
+        <select id="radar-primary">${modelOpts(primary)}</select>
+      </label>
+      <label>Compare against:
+        <select id="radar-compare">
+          <option value="">— reference (${refModel.name}) —</option>
+          ${rated.filter(x => x.id !== refModel.id)
+                 .map(x => `<option value="${x.id}"${x.id===currentCompare?' selected':''}>${x.name}</option>`).join('')}
+        </select>
+      </label>
+    </div>
+
+    <div class="radar-block">
+      <div class="radar-card">
+        ${renderRadarSVG(primary, overlay)}
+        <div class="radar-meta">
+          <span class="label"><strong style="color:var(--accent);">●</strong> ${primary.name} <span style="color:var(--text-faint);">(primary)</span></span>
+          <span class="value primary">${fmtComposite(compPrimary)}</span>
+          <span class="label"><span style="color:var(--text-dim);">┄</span> ${overlay.name} <span style="color:var(--text-faint);">(overlay${overlay.id===refModel.id?' / ref':''})</span></span>
+          <span class="value">${fmtComposite(compOverlay)}</span>
+          ${ratio != null ? `
+            <span class="label">primary vs reference</span>
+            <span class="value primary">${(ratio*100).toFixed(0)}%</span>
+          ` : ''}
+          <span class="label">focus weighting</span>
+          <span class="value">${currentFocus.replace(/-/g, ' ')}</span>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="sect-head" style="font-size:1rem; margin-top:0;">Leaderboard · ${currentFocus.replace(/-/g, ' ')}</h3>
+        <p class="sect-sub" style="font-size:0.78rem;">Composite under the current focus weighting. <span style="color:var(--accent);">●</span> = reference. Click a row to switch primary.</p>
+        <div class="radar-leaderboard">
+          <table>
+            <thead><tr>
+              <th>#</th><th>Model</th><th>Axes (Code R&amp;A K&amp;R Comms MM Agent)</th><th class="tnum">Composite</th><th class="tnum">vs ref</th>
+            </tr></thead>
+            <tbody>
+              ${board.map((row, i) => `
+                <tr class="${row.m.id===refModel.id?'ref-row':''}" data-pick-model="${row.m.id}" style="cursor:pointer;">
+                  <td>${i+1}</td>
+                  <td>${row.m.id===refModel.id?'● ':''}${row.m.name}</td>
+                  <td>${renderAxisMini(row.m)}</td>
+                  <td class="tnum">${fmtComposite(row.comp)}</td>
+                  <td class="tnum">${row.ratio != null ? (row.ratio*100).toFixed(0)+'%' : '—'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Wire controls
+  div.querySelector('#radar-focus').addEventListener('change', e => {
+    currentFocus = e.target.value; renderCapabilityRadar();
+  });
+  div.querySelector('#radar-primary').addEventListener('change', e => {
+    currentRadarPrimary = e.target.value; renderCapabilityRadar();
+  });
+  div.querySelector('#radar-compare').addEventListener('change', e => {
+    currentCompare = e.target.value; renderCapabilityRadar();
+  });
+  div.querySelectorAll('[data-pick-model]').forEach(tr => {
+    tr.addEventListener('click', () => {
+      currentRadarPrimary = tr.dataset.pickModel;
+      renderCapabilityRadar();
+    });
   });
 }
 

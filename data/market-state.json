@@ -297,7 +297,15 @@
         "xhigh",
         "max"
       ],
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 5,
+        "reasoning": 5,
+        "knowledge": 5,
+        "comms": 5,
+        "multimodal": 3,
+        "agentic": 5
+      }
     },
     {
       "id": "sonnet-4.6",
@@ -329,7 +337,15 @@
         "high",
         "max"
       ],
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 4,
+        "reasoning": 4,
+        "knowledge": 4,
+        "comms": 4,
+        "multimodal": 3,
+        "agentic": 4
+      }
     },
     {
       "id": "haiku-4.5",
@@ -356,7 +372,15 @@
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 3,
+        "reasoning": 2,
+        "knowledge": 3,
+        "comms": 3,
+        "multimodal": 2,
+        "agentic": 3
+      }
     },
     {
       "id": "mythos-preview",
@@ -389,7 +413,15 @@
         "max"
       ],
       "notes": "Most capable Anthropic model. Currently limited release for cyber-security partners only via Project Glasswing. Best alignment metrics of any model trained.",
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 4,
+        "reasoning": 5,
+        "knowledge": 5,
+        "comms": 4,
+        "multimodal": 3,
+        "agentic": 4
+      }
     },
     {
       "id": "gpt-5.5",
@@ -422,7 +454,15 @@
         "xhigh"
       ],
       "notes": "Current SWE-Pro leader (58.6%). 2× per-token cost vs GPT-5.4, but ~20% more efficient on token count per task. 1M context with 2× input/1.5× output surcharge above 272K. Reasoning tokens billed as output.",
-      "cache_discount": 0.25
+      "cache_discount": 0.25,
+      "capability_levels": {
+        "coding": 4,
+        "reasoning": 4,
+        "knowledge": 5,
+        "comms": 4,
+        "multimodal": 4,
+        "agentic": 4
+      }
     },
     {
       "id": "gpt-5.5-pro",
@@ -453,7 +493,15 @@
         "xhigh"
       ],
       "notes": "Highest-intelligence OpenAI API option. $30/$180. Available in ChatGPT Pro $200 and as API. 6× cost of base 5.5.",
-      "cache_discount": 0.25
+      "cache_discount": 0.25,
+      "capability_levels": {
+        "coding": 5,
+        "reasoning": 5,
+        "knowledge": 5,
+        "comms": 4,
+        "multimodal": 4,
+        "agentic": 4
+      }
     },
     {
       "id": "gpt-5.4",
@@ -486,7 +534,15 @@
         "xhigh"
       ],
       "notes": "Best quality-per-credit. Held SWE-Pro lead Feb-April. Default for everyday coding.",
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 4,
+        "reasoning": 4,
+        "knowledge": 4,
+        "comms": 3,
+        "multimodal": 3,
+        "agentic": 3
+      }
     },
     {
       "id": "gpt-5.4-mini",
@@ -519,7 +575,15 @@
         "xhigh"
       ],
       "notes": "94% of GPT-5.4 coding at 6× less. Best subagent. ~1/20 burn vs GPT-5.5. Collapses at 64K+ context.",
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 3,
+        "reasoning": 3,
+        "knowledge": 3,
+        "comms": 3,
+        "multimodal": 3,
+        "agentic": 3
+      }
     },
     {
       "id": "gpt-5.4-nano",
@@ -550,7 +614,15 @@
         "medium"
       ],
       "notes": "Smallest reasoning model. API-only. For embeddable/edge inference at near-zero cost.",
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 2,
+        "reasoning": 2,
+        "knowledge": 2,
+        "comms": 2,
+        "multimodal": 2,
+        "agentic": 2
+      }
     },
     {
       "id": "gpt-5.3-codex",
@@ -583,7 +655,15 @@
         "xhigh"
       ],
       "notes": "Coding-specialised. ~⅓ burn vs GPT-5.5 for ~2pts less SWE-Pro. Often best $/quality for execution turns.",
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 5,
+        "reasoning": 3,
+        "knowledge": 3,
+        "comms": 3,
+        "multimodal": 1,
+        "agentic": 4
+      }
     },
     {
       "id": "gpt-5.3-codex-spark",
@@ -615,7 +695,15 @@
       "default_working_style": "Lightweight by default; makes minimal targeted edits and does not automatically run tests unless asked",
       "benchmark_notes": "OpenAI reports strong SWE-Bench Pro and Terminal-Bench 2.0 performance at a fraction of GPT-5.3-Codex runtime, but the launch post does not publish numeric scores",
       "notes": "Smaller GPT-5.3-Codex variant for real-time coding on Cerebras WSE-3. Text-only, 128K context, and optimized for near-instant interactive edits rather than long-horizon autonomous work.",
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 4,
+        "reasoning": 3,
+        "knowledge": 3,
+        "comms": 2,
+        "multimodal": 1,
+        "agentic": 4
+      }
     },
     {
       "id": "gpt-5.2",
@@ -766,7 +854,15 @@
       "effort_default": null,
       "effort_levels": [],
       "notes": "Non-reasoning daily driver. Replaced GPT-5.3 Instant as ChatGPT default May 5. Lower hallucination in law/medicine/finance. 81.2 AIME 2025.",
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 2,
+        "reasoning": 2,
+        "knowledge": 4,
+        "comms": 3,
+        "multimodal": 3,
+        "agentic": 1
+      }
     },
     {
       "id": "gpt-5.5-cyber",
@@ -798,7 +894,15 @@
         "xhigh"
       ],
       "notes": "GPT-5.5 variant trained to be more permissive on security tasks. OpenAI's answer to Mythos Preview.",
-      "cache_discount": 0.25
+      "cache_discount": 0.25,
+      "capability_levels": {
+        "coding": 4,
+        "reasoning": 4,
+        "knowledge": 4,
+        "comms": 3,
+        "multimodal": 3,
+        "agentic": 4
+      }
     },
     {
       "id": "gemini-3.1-pro",
@@ -830,7 +934,15 @@
         "medium",
         "high"
       ],
-      "cache_discount": 0.25
+      "cache_discount": 0.25,
+      "capability_levels": {
+        "coding": 4,
+        "reasoning": 4,
+        "knowledge": 5,
+        "comms": 4,
+        "multimodal": 5,
+        "agentic": 3
+      }
     },
     {
       "id": "gemini-3-flash",
@@ -862,7 +974,15 @@
         "medium",
         "high"
       ],
-      "cache_discount": 0.25
+      "cache_discount": 0.25,
+      "capability_levels": {
+        "coding": 3,
+        "reasoning": 3,
+        "knowledge": 4,
+        "comms": 3,
+        "multimodal": 4,
+        "agentic": 2
+      }
     },
     {
       "id": "deepseek-v4-pro",
@@ -889,7 +1009,15 @@
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
-      "cache_discount": 0.0083
+      "cache_discount": 0.0083,
+      "capability_levels": {
+        "coding": 5,
+        "reasoning": 4,
+        "knowledge": 4,
+        "comms": 3,
+        "multimodal": 1,
+        "agentic": 3
+      }
     },
     {
       "id": "minimax-m2.5",
@@ -916,7 +1044,15 @@
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
-      "cache_discount": 0.52
+      "cache_discount": 0.52,
+      "capability_levels": {
+        "coding": 3,
+        "reasoning": 3,
+        "knowledge": 3,
+        "comms": 3,
+        "multimodal": 2,
+        "agentic": 2
+      }
     },
     {
       "id": "grok-4",
@@ -946,7 +1082,15 @@
         "off",
         "on"
       ],
-      "cache_discount": 1.0
+      "cache_discount": 1.0,
+      "capability_levels": {
+        "coding": 4,
+        "reasoning": 4,
+        "knowledge": 4,
+        "comms": 3,
+        "multimodal": 3,
+        "agentic": 3
+      }
     },
     {
       "id": "mistral-medium-3.5",
@@ -973,7 +1117,15 @@
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
-      "cache_discount": 1.0
+      "cache_discount": 1.0,
+      "capability_levels": {
+        "coding": 4,
+        "reasoning": 3,
+        "knowledge": 4,
+        "comms": 3,
+        "multimodal": 1,
+        "agentic": 2
+      }
     }
   ],
   "subscriptions": [
@@ -2982,6 +3134,27 @@
       "category": "Aggregators",
       "title": "Hacker News (AI tags)",
       "url": "https://news.ycombinator.com/"
+    },
+    {
+      "n": 38,
+      "category": "Benchmarks",
+      "title": "AIME (math competition benchmark)",
+      "url": "https://aimeproblems.com/",
+      "note": "Used to anchor Reasoning axis ratings."
+    },
+    {
+      "n": 39,
+      "category": "Benchmarks",
+      "title": "MMLU / MMLU-Pro (knowledge benchmark)",
+      "url": "https://github.com/hendrycks/test",
+      "note": "Used to anchor Knowledge axis ratings."
+    },
+    {
+      "n": 40,
+      "category": "Benchmarks",
+      "title": "tau-bench (tool-use + agentic behaviour)",
+      "url": "https://github.com/sierra-research/tau-bench",
+      "note": "Used to anchor Agentic axis ratings."
     }
   ],
   "provider_sources": {
@@ -3082,5 +3255,144 @@
       35,
       36
     ]
+  },
+  "capabilities": {
+    "schema_version": "1.0",
+    "axes": [
+      {
+        "key": "coding",
+        "label": "Coding",
+        "short": "Code"
+      },
+      {
+        "key": "reasoning",
+        "label": "Reasoning & Architecture",
+        "short": "R&A"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge & Research",
+        "short": "K&R"
+      },
+      {
+        "key": "comms",
+        "label": "Communication & Docs",
+        "short": "Comms"
+      },
+      {
+        "key": "multimodal",
+        "label": "Multimodal",
+        "short": "MM"
+      },
+      {
+        "key": "agentic",
+        "label": "Agentic",
+        "short": "Agent"
+      }
+    ],
+    "level_labels": {
+      "coding": {
+        "1": "Snippet",
+        "2": "Standard",
+        "3": "Cross-file",
+        "4": "Hard",
+        "5": "Frontier"
+      },
+      "reasoning": {
+        "1": "Apply known",
+        "2": "Multi-step",
+        "3": "Cross-cutting",
+        "4": "Novel system",
+        "5": "Research-grade"
+      },
+      "knowledge": {
+        "1": "Recall",
+        "2": "Contextual",
+        "3": "Cross-domain",
+        "4": "Frontier",
+        "5": "Original"
+      },
+      "comms": {
+        "1": "Grammatical",
+        "2": "Structured",
+        "3": "Tutorial",
+        "4": "Editorial",
+        "5": "Publishable"
+      },
+      "multimodal": {
+        "1": "Text only",
+        "2": "Image-in",
+        "3": "Image reasoning",
+        "4": "Video/audio",
+        "5": "Cross-modal gen"
+      },
+      "agentic": {
+        "1": "Single-turn",
+        "2": "Tool calls",
+        "3": "Plan coherence",
+        "4": "Self-correcting",
+        "5": "Long-horizon"
+      }
+    },
+    "focus_presets": {
+      "balanced": {
+        "coding": 1,
+        "reasoning": 1,
+        "knowledge": 1,
+        "comms": 1,
+        "multimodal": 1,
+        "agentic": 1
+      },
+      "coding-focused": {
+        "coding": 2,
+        "reasoning": 1,
+        "knowledge": 1,
+        "comms": 1,
+        "multimodal": 1,
+        "agentic": 1
+      },
+      "architecture-focused": {
+        "coding": 1,
+        "reasoning": 2,
+        "knowledge": 1,
+        "comms": 1,
+        "multimodal": 1,
+        "agentic": 1
+      },
+      "research-focused": {
+        "coding": 1,
+        "reasoning": 1,
+        "knowledge": 2,
+        "comms": 1,
+        "multimodal": 1,
+        "agentic": 1
+      },
+      "writing-focused": {
+        "coding": 1,
+        "reasoning": 1,
+        "knowledge": 1,
+        "comms": 2,
+        "multimodal": 1,
+        "agentic": 1
+      },
+      "multimodal-focused": {
+        "coding": 1,
+        "reasoning": 1,
+        "knowledge": 1,
+        "comms": 1,
+        "multimodal": 2,
+        "agentic": 1
+      },
+      "agentic-focused": {
+        "coding": 1,
+        "reasoning": 1,
+        "knowledge": 1,
+        "comms": 1,
+        "multimodal": 1,
+        "agentic": 2
+      }
+    },
+    "default_focus": "balanced",
+    "methodology": "1-5 levels per axis; Coding rated against SWE-Pro / SWE-Verified evidence; Reasoning against AIME / LiveCodeBench / public hard-reasoning evals; Multimodal against published modality support (image/audio/video in/out); Agentic rated holding harness constant at Claude-Code-class baseline (plan coherence, tool-call quality, self-correction, calibrated stopping, refusal hygiene); Knowledge from model-card claims + community-validated state-of-art awareness; Comms from prose-evaluation rounds + structural quality. Ratings carry citation; see src/dashboard-context.md for the full rubric."
   }
 }
