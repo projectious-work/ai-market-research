@@ -910,6 +910,246 @@ td.model-name .sublabel {
 .strat-card ul { padding-left: 1.25rem; font-size: 0.83rem; color: var(--text); }
 .strat-card ul li { margin: 0.3rem 0; }
 
+/* ============ CAPABILITY RADAR (04 Strategy) ============ */
+.radar-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.4rem 0 1.2rem;
+}
+.radar-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.35rem 0.7rem;
+}
+.radar-chip select {
+  background: transparent;
+  color: var(--text);
+  border: none;
+  border-bottom: 1px solid var(--accent);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  text-transform: none;
+  letter-spacing: 0;
+  padding: 0.05rem 0.3rem 0.05rem 0;
+  outline: none;
+  cursor: pointer;
+}
+.radar-chip select:focus { border-bottom-color: var(--accent-hot); }
+.radar-chip select option { background: var(--bg-card); color: var(--text); }
+
+.radar-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.2fr) minmax(240px, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+@media (max-width: 860px) {
+  .radar-layout { grid-template-columns: 1fr; }
+}
+
+.radar-shell {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255,184,77,0.06) 0%, rgba(255,184,77,0) 55%),
+    var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.2rem 1.2rem 0.8rem;
+  position: relative;
+}
+.radar-shell::before, .radar-shell::after {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  border: 1px solid var(--border-strong);
+  opacity: 0.7;
+}
+.radar-shell::before { top: 8px; left: 8px;  border-right: none; border-bottom: none; }
+.radar-shell::after  { bottom: 8px; right: 8px; border-left: none;  border-top: none; }
+.radar-figure {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 460px;
+  margin: 0 auto;
+}
+.radar-figure svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.radar-center-readout {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  text-align: center;
+}
+.radar-center-readout .composite {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2.6rem;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 18px rgba(255,184,77,0.25);
+}
+.radar-center-readout .composite-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-dim);
+  margin-top: 0.35rem;
+}
+.radar-center-readout .model-tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  margin-top: 0.5rem;
+  max-width: 60%;
+}
+
+.radar-meta {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.1rem 1.2rem;
+}
+.radar-meta dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem 0;
+}
+.radar-meta dt {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-faint);
+}
+.radar-meta dd {
+  margin: 0.1rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+.radar-meta dd .swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 2px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.radar-meta dd .swatch.primary { background: var(--accent); }
+.radar-meta dd .swatch.overlay { background: var(--accent-cool); }
+.radar-meta dd.big {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+.radar-meta hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0.4rem 0;
+}
+
+.radar-leaderboard {
+  margin-top: 1.5rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem 1.1rem 0.6rem;
+}
+.radar-leaderboard h3 {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  margin: 0 0 0.8rem;
+  font-weight: 500;
+}
+.radar-leaderboard table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.radar-leaderboard th {
+  text-align: left;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1px solid var(--border-strong);
+}
+.radar-leaderboard th.tnum, .radar-leaderboard td.tnum {
+  text-align: right;
+  font-family: var(--mono);
+}
+.radar-leaderboard td {
+  padding: 0.5rem 0.55rem;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 100ms;
+  color: var(--text);
+}
+.radar-leaderboard tbody tr:hover td { background: var(--bg-card); }
+.radar-leaderboard tr.is-primary td { background: rgba(255,184,77,0.06); }
+.radar-leaderboard tr.is-primary td:first-child {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.radar-leaderboard tr.is-ref td:nth-child(2)::before { content: '\25C7 '; color: var(--accent-cool); }
+.radar-leaderboard .rank {
+  font-family: var(--mono);
+  color: var(--text-faint);
+  font-size: 0.72rem;
+}
+
+.radar-axis-mini {
+  display: inline-grid;
+  grid-template-columns: repeat(6, 1.55rem);
+  gap: 3px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+}
+.radar-axis-mini span {
+  text-align: center;
+  padding: 0.12rem 0;
+  border-radius: 2px;
+  background: var(--bg);
+  color: var(--text-faint);
+}
+.radar-axis-mini span[data-level="1"] { background: rgba(255,184,77,0.05); color: var(--text-dim); }
+.radar-axis-mini span[data-level="2"] { background: rgba(255,184,77,0.12); color: var(--text-dim); }
+.radar-axis-mini span[data-level="3"] { background: rgba(255,184,77,0.22); color: var(--text); }
+.radar-axis-mini span[data-level="4"] { background: rgba(255,184,77,0.38); color: var(--text); font-weight: 600; }
+.radar-axis-mini span[data-level="5"] { background: var(--accent); color: var(--bg); font-weight: 700; }
+
 /* ============ FOOTER ============ */
 .cite {
   font-size: 0.62em;
@@ -2258,73 +2498,116 @@ function fmtComposite(v) {
 }
 
 function renderRadarSVG(model, overlay, opts = {}) {
+  // "Editorial instrument" radar: inline fill/stroke fallbacks on every
+  // shape so it renders correctly even before CSS loads. CSS layer adds
+  // hover transitions, focused-axis glow, etc.
   if (!data.capabilities) return '';
   const axes = data.capabilities.axes;
-  const size = opts.size || 320;
+  const size = opts.size || 460;
   const cx = size / 2, cy = size / 2;
-  const r  = size * 0.36;
+  const r  = size * 0.33;
   const max = 5;
   const startAngle = -Math.PI / 2;
   const weights = focusWeights();
 
+  // Theme palette (inlined so the SVG is self-sufficient).
+  const C = {
+    bg:        '#0a0c10',
+    ring:      '#232936',
+    ringOuter: '#2e3645',
+    primary:   '#ffb84d',
+    overlay:   '#4dd0ff',
+    hot:       '#ff5e3a',
+    text:      '#d8dde6',
+    faint:     '#5a6377',
+  };
+
   const axisDef = axes.map((a, i) => {
     const ang = startAngle + (2 * Math.PI * i / axes.length);
+    const cos = Math.cos(ang), sin = Math.sin(ang);
     return {
-      key: a.key, label: a.label, short: a.short, ang,
-      x:  cx + r * Math.cos(ang),
-      y:  cy + r * Math.sin(ang),
-      lx: cx + (r + 22) * Math.cos(ang),
-      ly: cy + (r + 22) * Math.sin(ang),
+      key: a.key, label: a.label, short: a.short, cos, sin,
+      x:  cx + r * cos,         y:  cy + r * sin,
+      lx: cx + (r + 28) * cos,  ly: cy + (r + 28) * sin,
     };
   });
 
-  function pts(m) {
+  function ptsFor(m) {
     if (!m || !m.capability_levels) return null;
     return axes.map((a, i) => {
       const v = m.capability_levels[a.key];
       if (v == null) return null;
       const t = v / max;
-      const ang = startAngle + (2 * Math.PI * i / axes.length);
-      return { x: cx + r * t * Math.cos(ang), y: cy + r * t * Math.sin(ang) };
+      return { x: cx + r * t * axisDef[i].cos, y: cy + r * t * axisDef[i].sin, v };
     });
   }
-  function polyStr(p) {
-    return (p || []).filter(q => q).map(q => `${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(' ');
-  }
+  const polyStr = p => (p || []).filter(q => q).map(q => `${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(' ');
 
-  let svg = `<svg viewBox="0 0 ${size} ${size}" class="radar-svg" xmlns="http://www.w3.org/2000/svg">`;
-  // Concentric rings (levels 1..5)
+  let svg = `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">`;
+
+  // Backdrop circle (subtle readout halo)
+  svg += `<circle cx="${cx}" cy="${cy}" r="${(r * 1.04).toFixed(1)}" fill="#0d1118" stroke="none" />`;
+
+  // Concentric hex graticule rings (5 levels)
   for (let lvl = 1; lvl <= max; lvl++) {
     const rr = r * lvl / max;
     const ring = axes.map((_, i) => {
       const ang = startAngle + (2 * Math.PI * i / axes.length);
       return `${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`;
     }).join(' ');
-    svg += `<polygon class="radar-ring" points="${ring}" />`;
+    const isOuter = lvl === max;
+    svg += `<polygon points="${ring}" fill="none" stroke="${isOuter ? C.ringOuter : C.ring}" stroke-width="${isOuter ? 1 : 0.5}" />`;
   }
-  // Axes
+
+  // Spokes from center to each axis vertex
   axisDef.forEach(p => {
-    const focused = weights[p.key] && weights[p.key] > 1;
-    svg += `<line class="radar-axis${focused ? ' focused' : ''}" x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" />`;
+    const focused = (weights[p.key] || 1) > 1;
+    svg += `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="${focused ? C.hot : C.ring}" stroke-width="${focused ? 1.2 : 0.5}" />`;
   });
-  // Overlay polygon (drawn behind)
-  const overlayPts = pts(overlay);
-  if (overlayPts) svg += `<polygon class="radar-poly overlay" points="${polyStr(overlayPts)}" />`;
-  // Primary polygon + vertices
-  const primaryPts = pts(model);
+
+  // Level tick numbers (1..5) along the top axis
+  const tickAxis = axisDef[0];
+  for (let lvl = 1; lvl <= max; lvl++) {
+    const rr = r * lvl / max;
+    const tx = cx + rr * tickAxis.cos + 5;
+    const ty = cy + rr * tickAxis.sin + 3;
+    svg += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" fill="${C.faint}" font-family="JetBrains Mono, monospace" font-size="8">${lvl}</text>`;
+  }
+
+  // Overlay (comparison) polygon — drawn behind primary
+  const overlayPts = ptsFor(overlay);
+  if (overlayPts) {
+    svg += `<polygon points="${polyStr(overlayPts)}" fill="${C.overlay}" fill-opacity="0.08" stroke="${C.overlay}" stroke-width="1.2" stroke-dasharray="3 3" />`;
+  }
+
+  // Primary polygon
+  const primaryPts = ptsFor(model);
   if (primaryPts) {
-    svg += `<polygon class="radar-poly primary" points="${polyStr(primaryPts)}" />`;
+    svg += `<polygon points="${polyStr(primaryPts)}" fill="${C.primary}" fill-opacity="0.16" stroke="${C.primary}" stroke-width="1.8" stroke-linejoin="round" />`;
+    if (overlayPts) {
+      overlayPts.forEach(p => {
+        if (p) svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" fill="${C.overlay}" stroke="${C.bg}" stroke-width="1" />`;
+      });
+    }
     primaryPts.forEach(p => {
-      if (p) svg += `<circle class="radar-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" />`;
+      if (p) svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.8" fill="${C.primary}" stroke="${C.bg}" stroke-width="1.5"><title>level ${p.v}</title></circle>`;
     });
   }
-  // Axis labels
+
+  // Axis labels (short uppercase) + sublabel = current level name for primary
+  const labels = (data.capabilities.level_labels || {});
   axisDef.forEach(p => {
     let anchor = 'middle';
     if (p.lx < cx - 5) anchor = 'end';
     else if (p.lx > cx + 5) anchor = 'start';
-    svg += `<text class="radar-label" x="${p.lx.toFixed(1)}" y="${(p.ly + 4).toFixed(1)}" text-anchor="${anchor}">${p.short}</text>`;
+    svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${C.text}" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" letter-spacing="0.1em">${p.short.toUpperCase()}</text>`;
+    const v = (model && model.capability_levels || {})[p.key];
+    const sub = (labels[p.key] || {})[String(v)] || '';
+    if (sub) {
+      svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 16).toFixed(1)}" text-anchor="${anchor}" fill="${C.faint}" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.08em">${sub.toUpperCase()}</text>`;
+    }
   });
+
   svg += '</svg>';
   return svg;
 }
@@ -2335,9 +2618,9 @@ function renderAxisMini(model) {
   return '<span class="radar-axis-mini">' +
     axes.map(a => {
       const v = (model.capability_levels || {})[a.key];
-      const cls = v == null ? 'lvl-null' : `lvl-${v}`;
+      const lvl = v == null ? 'null' : String(v);
       const label = v == null ? '—' : v;
-      return `<span class="${cls}" title="${a.label}: ${label}">${label}</span>`;
+      return `<span data-level="${lvl}" title="${a.label}: ${label}">${label}</span>`;
     }).join('') + '</span>';
 }
 
@@ -2347,7 +2630,6 @@ function renderCapabilityRadar() {
   const refModel = getRefModel();
   if (!refModel) { div.innerHTML = '<p class="sect-sub">No reference model selected.</p>'; return; }
 
-  // Default primary to the highest-composite frontier model (other than ref).
   const weights = focusWeights();
   const rated = data.models.filter(m => m.capability_levels && (m.tier === 'frontier' || m.tier === 'fast'));
   if (!currentRadarPrimary) {
@@ -2368,8 +2650,8 @@ function renderCapabilityRadar() {
   const compRef     = composite(refModel, weights);
   const compOverlay = composite(overlay, weights);
   const ratio = (compPrimary != null && compRef) ? (compPrimary / compRef) : null;
+  const focusDisplay = currentFocus.replace(/-/g, ' ');
 
-  // Leaderboard rows (sorted by composite under current focus)
   const board = rated.map(m => ({
     m,
     comp: composite(m, weights),
@@ -2379,64 +2661,90 @@ function renderCapabilityRadar() {
 
   div.innerHTML = `
     <div class="radar-controls">
-      <label>Focus:
+      <span class="radar-chip">Focus
         <select id="radar-focus">${focusOpts}</select>
-      </label>
-      <label>Primary:
+      </span>
+      <span class="radar-chip">Primary
         <select id="radar-primary">${modelOpts(primary)}</select>
-      </label>
-      <label>Compare against:
+      </span>
+      <span class="radar-chip">Overlay
         <select id="radar-compare">
-          <option value="">— reference (${refModel.name}) —</option>
+          <option value="">${refModel.name} · reference</option>
           ${rated.filter(x => x.id !== refModel.id)
                  .map(x => `<option value="${x.id}"${x.id===currentCompare?' selected':''}>${x.name}</option>`).join('')}
         </select>
-      </label>
+      </span>
     </div>
 
-    <div class="radar-block">
-      <div class="radar-card">
-        ${renderRadarSVG(primary, overlay)}
-        <div class="radar-meta">
-          <span class="label"><strong style="color:var(--accent);">●</strong> ${primary.name} <span style="color:var(--text-faint);">(primary)</span></span>
-          <span class="value primary">${fmtComposite(compPrimary)}</span>
-          <span class="label"><span style="color:var(--text-dim);">┄</span> ${overlay.name} <span style="color:var(--text-faint);">(overlay${overlay.id===refModel.id?' / ref':''})</span></span>
-          <span class="value">${fmtComposite(compOverlay)}</span>
-          ${ratio != null ? `
-            <span class="label">primary vs reference</span>
-            <span class="value primary">${(ratio*100).toFixed(0)}%</span>
-          ` : ''}
-          <span class="label">focus weighting</span>
-          <span class="value">${currentFocus.replace(/-/g, ' ')}</span>
+    <div class="radar-layout">
+      <div class="radar-shell">
+        <div class="radar-figure">
+          ${renderRadarSVG(primary, overlay)}
+          <div class="radar-center-readout">
+            <div class="composite">${fmtComposite(compPrimary)}</div>
+            <div class="composite-label">composite · ${focusDisplay}</div>
+            <div class="model-tag">${primary.name}</div>
+          </div>
         </div>
       </div>
 
-      <div>
-        <h3 class="sect-head" style="font-size:1rem; margin-top:0;">Leaderboard · ${currentFocus.replace(/-/g, ' ')}</h3>
-        <p class="sect-sub" style="font-size:0.78rem;">Composite under the current focus weighting. <span style="color:var(--accent);">●</span> = reference. Click a row to switch primary.</p>
-        <div class="radar-leaderboard">
-          <table>
-            <thead><tr>
-              <th>#</th><th>Model</th><th>Axes (Code R&amp;A K&amp;R Comms MM Agent)</th><th class="tnum">Composite</th><th class="tnum">vs ref</th>
-            </tr></thead>
-            <tbody>
-              ${board.map((row, i) => `
-                <tr class="${row.m.id===refModel.id?'ref-row':''}" data-pick-model="${row.m.id}" style="cursor:pointer;">
-                  <td>${i+1}</td>
-                  <td>${row.m.id===refModel.id?'● ':''}${row.m.name}</td>
-                  <td>${renderAxisMini(row.m)}</td>
-                  <td class="tnum">${fmtComposite(row.comp)}</td>
-                  <td class="tnum">${row.ratio != null ? (row.ratio*100).toFixed(0)+'%' : '—'}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <aside class="radar-meta">
+        <dl>
+          <div>
+            <dt>Primary</dt>
+            <dd><span class="swatch primary"></span>${primary.name}</dd>
+          </div>
+          <div>
+            <dt>Composite</dt>
+            <dd class="big">${fmtComposite(compPrimary)}</dd>
+          </div>
+          ${ratio != null ? `
+          <div>
+            <dt>vs reference (${refModel.name})</dt>
+            <dd style="color:var(--accent);">${(ratio*100).toFixed(0)}%</dd>
+          </div>` : ''}
+          <hr>
+          <div>
+            <dt>Overlay</dt>
+            <dd><span class="swatch overlay"></span>${overlay.name}${overlay.id===refModel.id?' · ref':''}</dd>
+          </div>
+          <div>
+            <dt>Overlay composite</dt>
+            <dd>${fmtComposite(compOverlay)}</dd>
+          </div>
+          <hr>
+          <div>
+            <dt>Focus weighting</dt>
+            <dd>${focusDisplay}</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+
+    <div class="radar-leaderboard">
+      <h3>Leaderboard · ${focusDisplay}</h3>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Model</th><th>Provider</th>
+          <th>Code · R&amp;A · K&amp;R · Comms · MM · Agent</th>
+          <th class="tnum">Composite</th><th class="tnum">vs ref</th>
+        </tr></thead>
+        <tbody>
+          ${board.map((row, i) => `
+            <tr class="${row.m.id===primary.id?'is-primary':''} ${row.m.id===refModel.id?'is-ref':''}" data-pick-model="${row.m.id}">
+              <td class="rank">${String(i+1).padStart(2,'0')}</td>
+              <td>${row.m.name}</td>
+              <td style="color:var(--text-dim); font-size:0.78rem;">${row.m.provider}</td>
+              <td>${renderAxisMini(row.m)}</td>
+              <td class="tnum">${fmtComposite(row.comp)}</td>
+              <td class="tnum" style="color:${row.ratio>=1?'var(--accent)':'var(--text-dim)'};">${row.ratio != null ? (row.ratio*100).toFixed(0)+'%' : '—'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
     </div>
   `;
 
-  // Wire controls
   div.querySelector('#radar-focus').addEventListener('change', e => {
     currentFocus = e.target.value; renderCapabilityRadar();
   });
