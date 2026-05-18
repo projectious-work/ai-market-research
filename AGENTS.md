@@ -265,6 +265,54 @@ See [`context/team/roster.md`](context/team/roster.md) and
 - `apiVersion` locked through v1.x; `v2` requires a full migration.
 - `_find_lib()` uses cwd; smoke tests `os.chdir()` before invoking servers.
 
+## Release process
+
+When the user asks for "a patch / minor / major release" (or anything
+synonymous — "ship it", "tag a release", "cut v0.X.Y"), **do not run
+`src/scripts/release.sh` directly**. Load and follow the canonical
+release process instead.
+
+- **Definition (read this first):**
+  `ART-20260518_0557-CheerfulTrout-ai-market-research-release-process`
+  — `context/artifacts/ART-20260518_0557-CheerfulTrout-ai-market-research-release-process.md`
+- **Architecture decision:**
+  `DEC-20260518_0554-DaringCoral-10-phase-release-process-with-per`
+- **Pattern:** Option B — process-definition Artifact + per-phase Gate
+  entities. Each release becomes a `process_instance` WorkItem epic
+  with one child step per phase. `release.sh` only runs in phase 8
+  (`release-cut`), after the prior gates have passed or been
+  explicitly waived.
+
+The 10 phases and their Gate entities (kebab-case names; resolve to
+full IDs via `list_gates` or `get_entity`):
+
+0. `release-scope-decided` — patch/minor/major + scope
+1. `release-data-refreshed` — market data + archive snapshot (sage)
+2. `release-citations-valid` — every `cite:` reference resolves (sage)
+3. `release-privacy-clean` — personal-data sweep (cora)
+4. `release-build-smoke-ok` — `release-check.sh` + visual smoke (kai)
+5. `release-audit-clean` — `run_pk_doctor` + `run_pk_release_audit` (cora)
+6. `release-docs-current` — README and any docs updated (kai)
+7. `release-notes-drafted` — the `--notes` string for `release.sh` (cora)
+8. `release-cut` — `release.sh X.Y.Z --notes "..."` (kai)
+9. `release-post-verified` — HTTP 200, version stamp, no name leaks (cora)
+
+**Agent workflow per release request:**
+
+1. `get_artifact(id="ART-20260518_0557-CheerfulTrout-...")` — load the
+   canonical 10-phase spec.
+2. `create_process_instance(...)` — produces a WorkItem epic with one
+   child step per phase.
+3. For each phase: do the work, then
+   `evaluate_gate(id=<gate-id>, outcome="passed"|"failed"|"waived", evidence=...)`
+   and transition the child step to `done`.
+4. After phase 9: transition the epic to `done` and log a
+   `release.published` event.
+
+Gates with `blocking: true` (all 10) cannot be skipped silently — use
+`evaluate_gate(outcome="waived", reason="...")` when intentional. The
+Artifact body lists which gates may be waived and which never may.
+
 ## MCP config manifest
 
 `context/.processkit-mcp-manifest.json` records a sha256 per
