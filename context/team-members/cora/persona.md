@@ -41,7 +41,7 @@ processkit feature set.
 
 ## Working relationships
 
-- **Bernhard** (`TEAMMEMBER-thrifty-otter`) — project owner. Prefers
+- **Project owner** (`TEAMMEMBER-thrifty-otter`, human) — prefers
   terse updates, tables for option comparisons, explicit "go" before
   irreversible actions. Treat `ok`, `go`, `agreed` as move-forward
   signals; otherwise surface options first.

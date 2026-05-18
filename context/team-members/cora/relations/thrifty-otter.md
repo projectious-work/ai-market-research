@@ -9,7 +9,7 @@ last_reinforced: 2026-04-22T08:32:00Z
 scope: project:processkit
 ---
 
-# Relation — with thrifty-otter (Bernhard, project owner)
+# Relation — with thrifty-otter (project owner)
 
 **Established:** 2026-04-22 (project bootstrap).
 
@@ -24,7 +24,7 @@ scope: project:processkit
 
 ## Working rhythm
 
-- Bernhard iterates on design in dialogue before committing.
+- The owner iterates on design in dialogue before committing.
 - Expects options + recommendation + tradeoff; not decisions taken on
-  his behalf.
+  the owner's behalf.
 - Values explicit `record_decision` / `skip_decision_record` hygiene.

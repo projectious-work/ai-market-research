@@ -2,18 +2,34 @@
 
 ## What this repo is
 
-A self-updating intelligence dashboard tracking the AI model and tooling landscape, focused on decisions Bernhard needs to make. A scheduled GitHub Action runs `claude -p` daily against `briefing-prompt.md` to update `dashboard.html`.
+A self-updating intelligence dashboard tracking the AI model and
+tooling landscape, focused on the kinds of decisions an AI
+infrastructure–oriented developer actually has to make. A local cron
+job invokes `claude -p` daily against `briefing-prompt.md` to update
+`dashboard.html`.
 
-## User profile
+## Reader profile
 
-**Bernhard** — technically sophisticated developer, AI infrastructure focus.
+The dashboard targets a technically sophisticated developer with an AI
+infrastructure focus. Maintain the briefing as if writing for that
+audience — keep numbers precise, lead with the trustworthy benchmarks,
+and never assume the reader hasn't already noticed an inconsistency.
 
-- Currently on **Claude Max 5×** ($100/mo) — primary interactive coding tool
-- Self-hosted GPU: **2× A6000 (96GB VRAM total)** on Vast.ai (Docker-based, no upfront capex)
-- Considering: dual subscription (Claude Max + OpenAI Pro), additional MacBook Pro hardware
-- Uses Claude Code in Docker dev containers (so cron-on-host won't work — hence GitHub Actions)
-- Builds custom agentic multi-model systems
-- Reads benchmarks closely; catches inconsistencies; pushes for precision
+- Primary interactive coding tool: **Claude Max 5×** ($100/mo) class
+  subscription.
+- Self-hosted GPU reference setup: **2× A6000 (96 GB VRAM total)** on
+  Vast.ai (Docker-based, no upfront capex). Use this as the "what fits
+  on consumer-grade cloud GPU" anchor when discussing self-hosted
+  models.
+- Comparison context: dual-subscription scenarios (e.g. Claude Max +
+  OpenAI Pro) and Apple Silicon laptops (M4 Pro 64 GB, M5 Max 128 GB,
+  Air 32 GB) for local inference.
+- Runtime environment: Claude Code in Docker dev containers (host-side
+  cron is not available from inside the container — see the runner /
+  schedule notes below).
+- Focus area: agentic multi-model systems and rigorous benchmark
+  interpretation; if a vendor's number looks too clean, surface the
+  qualification rather than the headline.
 
 ## Investigation aspects tracked
 
@@ -115,13 +131,23 @@ The Strategy tab includes a Task-fit Recommendations table: 10 task types × 4 p
 
 ## Team (processkit-managed maintainers)
 
-- **Sage** (`TEAMMEMBER-sage`, research-scientist/senior, default Sonnet 4.6) — daily refresh, JSON updates, executive summaries.
-- **Kai** (`TEAMMEMBER-kai`, software-engineer/senior, default Sonnet 4.6 / Codex Spark for bounded coding passes) — template, build script, runner, archive plumbing, schedule artifact.
-- **Cora** (`TEAMMEMBER-cora`, product-manager/senior, default Sonnet 4.6 / GPT-5.5 for review) — cadence, prioritisation, weekly review.
-- **Bernhard** (`TEAMMEMBER-thrifty-otter`, CEO/principal, human) — strategic direction, deployment decisions.
+- **Sage** (`TEAMMEMBER-sage`, research-scientist/senior, default
+  Sonnet 4.6) — daily refresh, JSON updates, executive summaries.
+- **Kai** (`TEAMMEMBER-kai`, software-engineer/senior, default Sonnet
+  4.6 / Codex Spark for bounded coding passes) — template, build
+  script, runner, archive plumbing, schedule artifact.
+- **Cora** (`TEAMMEMBER-cora`, product-manager/senior, default Sonnet
+  4.6 / GPT-5.5 for review) — cadence, prioritisation, weekly review.
+- **Project owner** (human, principal) — strategic direction and
+  deployment decisions. Cora escalates to the owner; the owner's
+  identity is intentionally not named in this public source file.
 
 ## Update cadence
 
-- **Daily**: model/policy/harness deltas, changelog append, executive summary refresh. Owned by Sage.
-- **Weekly** (manual review): trends, headline stats sanity check, strategy recalibration. Owned by Cora.
-- **On major release** (e.g., new frontier model): manual review of `executive_summary` and `strategy.current_recommendation`. Cora escalates to Bernhard.
+- **Daily**: model/policy/harness deltas, changelog append, executive
+  summary refresh. Owned by Sage.
+- **Weekly** (manual review): trends, headline stats sanity check,
+  strategy recalibration. Owned by Cora.
+- **On major release** (e.g., new frontier model): manual review of
+  `executive_summary` and `strategy.current_recommendation`. Cora
+  escalates to the project owner.

@@ -2,13 +2,12 @@
   "meta": {
     "version": "v9",
     "generated_at": "2026-05-12T19:00:00Z",
-    "reference_default": "opus-4.7",
-    "user_profile": "Bernhard — Claude Max 5×, 2×A6000 96GB Vast.ai, dual-sub considering, agentic fan-out automation"
+    "reference_default": "opus-4.7"
   },
   "executive_summary": {
     "models": "Major shift since last update: Anthropic released Mythos Preview (April 7, limited cyber-research access — most capable Claude model). OpenAI released GPT-5.5 Instant (May 5, non-reasoning ChatGPT default) and GPT-5.5-Cyber (May 7, vetted partners) parallel to Mythos. Critical Opus 4.7 pricing correction: actually $5/$25, not $15/$75 (the dashboard was wrong from day one). Opus 4.7 confirmed at 64.3% SWE-Pro and 87.6% SWE-Verified — closes the gap to GPT-5.5 (58.6 Pro, 88.7 Verified). Gemini 3.2 expected May 19-20 at Google I/O — Flash variant already leaked at $0.25/$2 per Mtok.",
     "harnesses": "Claude Code added agent view (parallel session tracking) and /goal command (multi-turn completion) on May 11 — strong move toward autonomous workflows. Claude Platform on AWS launched (May 11) — Anthropic-managed infrastructure with AWS billing, full Claude features. Anthropic OAuth third-party block (April 4) remains. The supervised-vs-autonomous workflow split has deepened: Claude Code's /goal puts it firmly in autonomous territory alongside Codex CLI.",
-    "self_hosting": "Open-weight landscape transformed in late April. DeepSeek V4-Pro (April 24, MIT, 1.6T/49B MoE) hits 80.6% SWE-Verified and 55.4% SWE-Pro — strongest open coder. Qwen 3.6 family (April 11-21) ships three sizes; Plus is top open agentic coder with 1M context. Llama 4 (Scout 10M context, Maverick 400B MoE) released April 5. Mistral Medium 3.5 (April 29, Apache 2.0) is the best EU/non-Chinese open option at 77.6% SWE-Verified. Kimi K2.6 and GLM 5.1 expand the open frontier. Bernhard's 2× A6000 setup can run DeepSeek V4-Flash, Qwen 3.6 Plus Q4, Llama 4 Scout BF16, or Kimi K2.6 Q4 — DeepSeek V4-Pro needs 4× A6000 even at Q2_K.",
+    "self_hosting": "Open-weight landscape transformed in late April. DeepSeek V4-Pro (April 24, MIT, 1.6T/49B MoE) hits 80.6% SWE-Verified and 55.4% SWE-Pro — strongest open coder. Qwen 3.6 family (April 11-21) ships three sizes; Plus is top open agentic coder with 1M context. Llama 4 (Scout 10M context, Maverick 400B MoE) released April 5. Mistral Medium 3.5 (April 29, Apache 2.0) is the best EU/non-Chinese open option at 77.6% SWE-Verified. Kimi K2.6 and GLM 5.1 expand the open frontier. A 2× A6000 (96 GB VRAM) setup can run DeepSeek V4-Flash, Qwen 3.6 Plus Q4, Llama 4 Scout BF16, or Kimi K2.6 Q4 — DeepSeek V4-Pro needs 4× A6000 even at Q2_K.",
     "strategy": "Recommended stack unchanged: Claude Max 5× + Anthropic API ($30 cap) + Vast.ai self-hosted. But with Opus 4.7's correct pricing ($5/$25, not $15/$75), the API-only alternative is significantly more attractive than the dashboard previously implied — recheck whether Max 5× still wins for your specific usage volume. Self-hosted ladder upgraded: Gemma 4 26B MoE remains throughput champion; DeepSeek V4-Flash and Qwen 3.6 Plus now offer near-frontier quality on the same 2× A6000 setup."
   },
   "headline_stats": [
@@ -1486,7 +1485,7 @@
         "cost_label": "~$0.60/hr ≈ $430/mo (24/7)",
         "cost_per_hour": 0.6,
         "type": "cloud",
-        "notes": "Bernhard's current setup. No upfront capex. Docker templates, SSH/Cloudflare Zero Trust."
+        "notes": "Reference cloud-GPU setup for this dashboard. No upfront capex. Docker templates, SSH/Cloudflare Zero Trust."
       },
       {
         "id": "vast-3xa6000",
