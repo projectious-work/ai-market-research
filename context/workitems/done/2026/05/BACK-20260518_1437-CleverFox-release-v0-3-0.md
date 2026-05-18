@@ -4,10 +4,10 @@ kind: WorkItem
 metadata:
   id: BACK-20260518_1437-CleverFox-release-v0-3-0
   created: '2026-05-18T14:37:34+00:00'
-  updated: '2026-05-18T14:37:51+00:00'
+  updated: '2026-05-18T15:36:26+00:00'
 spec:
   title: Release v0.3.0
-  state: in-progress
+  state: done
   type: process-instance
   process_definition_artifact: ART-20260518_0557-CheerfulTrout-ai-market-research-release-process
   priority: high
@@ -17,8 +17,19 @@ spec:
     src/dashboard-context.md. Agentic axis is model-side only.'
   scope: SCOPE-20260515_1929-SwiftPearl-ai-market-research-tool
   started_at: '2026-05-18T14:37:51+00:00'
+  completed_at: '2026-05-18T15:36:26+00:00'
 ---
 
 ## Transition note (2026-05-18T14:37:51+00:00)
 
 Walking 10-phase release process for v0.3.0 (minor — capability radar).
+
+
+## Transition note (2026-05-18T15:36:18+00:00)
+
+All 10 gates passed (no waivers). v0.3.0 live.
+
+
+## Transition note (2026-05-18T15:36:26+00:00)
+
+Closing: v0.3.0 shipped, all 10 gates passed, release.published logged.
