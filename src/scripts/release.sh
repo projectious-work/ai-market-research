@@ -65,9 +65,11 @@ list_phases() {
   done
 }
 
-# Parse args.
+# Parse args. VERSION and NOTES honour pre-set env vars; positional
+# version arg and --notes override env when explicitly provided.
 MODE=""; PHASE_N=""; FROM_N=""; TO_N=""
-VERSION=""; NOTES="${NOTES:-}"
+VERSION="${VERSION:-}"; NOTES="${NOTES:-}"
+POSITIONAL_SEEN=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --list)       MODE="list"; shift ;;
@@ -79,7 +81,8 @@ while [ $# -gt 0 ]; do
     -h|--help)    usage 0 ;;
     -*)           echo "unknown flag: $1" >&2; usage 2 ;;
     *)
-      if [ -z "$VERSION" ]; then VERSION="$1"; shift
+      if [ "$POSITIONAL_SEEN" -eq 0 ]; then
+        VERSION="$1"; POSITIONAL_SEEN=1; shift
       else echo "unexpected arg: $1" >&2; usage 2; fi ;;
   esac
 done
