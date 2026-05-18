@@ -21,7 +21,9 @@ run_check() {
   log_info "running $name"
   local out rc
   set +e
-  out=$(uv run "$script" --json 2>&1)
+  # Capture stdout only — uv emits "Installed N packages" to stderr,
+  # which would corrupt JSON parsing if merged.
+  out=$(uv run "$script" --json 2>/dev/null)
   rc=$?
   set -e
   EV_DIR="$(ensure_evidence_dir)"
