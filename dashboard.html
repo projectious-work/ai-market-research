@@ -1,0 +1,2265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Market Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c10;
+  --bg-elev: #11141a;
+  --bg-card: #161a22;
+  --border: #232936;
+  --border-strong: #2e3645;
+  --text: #d8dde6;
+  --text-dim: #8892a6;
+  --text-faint: #5a6377;
+  --accent: #ffb84d;
+  --accent-hot: #ff5e3a;
+  --accent-cool: #4dd0ff;
+  --green: #4ade80;
+  --red: #ef4444;
+  --yellow: #fbbf24;
+  --anthropic: #d97757;
+  --openai: #10a37f;
+  --google: #4285f4;
+  --mistral: #ff7000;
+  --grok: #999999;
+  --deepseek: #5b8def;
+  --minimax: #b285ff;
+  --meta: #0866ff;
+  --alibaba: #ff6a00;
+  --opensource: #4ade80;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --serif: 'Fraunces', Georgia, serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+body { min-height: 100vh; }
+a { color: var(--accent-cool); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ============ HEADER ============ */
+.masthead {
+  border-bottom: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, #0d1016 0%, var(--bg) 100%);
+  padding: 1.5rem 2rem 1.25rem;
+}
+.masthead-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.brand {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: 1.85rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.brand .accent { color: var(--accent); font-style: italic; }
+.dateline {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+}
+.controls {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+  flex-wrap: wrap;
+}
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.control-group select {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.control-group select:focus { outline: 1px solid var(--accent); }
+
+/* ============ TABS ============ */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-strong);
+  padding: 0 2rem;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+}
+.tab {
+  padding: 1rem 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab .num {
+  display: inline-block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  margin-right: 0.5rem;
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+.tab.active .num { color: var(--accent); }
+
+/* ============ MAIN ============ */
+main {
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ============ DASHBOARD TAB ============ */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.25rem;
+}
+.dash-headline {
+  grid-column: span 12;
+  padding: 1.5rem 1.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+}
+.dash-headline h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+.dash-headline p {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+.stat-tile {
+  grid-column: span 3;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1rem 1.1rem;
+  position: relative;
+}
+.stat-tile .label {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.5rem;
+}
+.stat-tile .value {
+  font-family: var(--serif);
+  font-size: 2.1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text);
+}
+.stat-tile .value .unit {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  margin-left: 0.3rem;
+  letter-spacing: 0;
+}
+.stat-tile .delta {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  margin-top: 0.5rem;
+  color: var(--text-dim);
+}
+.stat-tile .delta.up { color: var(--green); }
+.stat-tile .delta.down { color: var(--red); }
+.stat-tile .delta.neutral { color: var(--text-dim); }
+
+.dash-section {
+  grid-column: span 6;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.5rem 1.75rem;
+}
+.dash-section.full { grid-column: span 12; }
+.dash-section h3 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px dashed var(--border);
+}
+.dash-section h4 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 1rem 0 0.4rem;
+  color: var(--text);
+}
+.dash-section h4:first-of-type { margin-top: 0; }
+.dash-section p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.65;
+  margin-bottom: 0.5rem;
+}
+.changelog-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.83rem;
+}
+.changelog-item:last-child { border-bottom: none; }
+.changelog-date {
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  padding-top: 0.1rem;
+  min-width: 70px;
+}
+.changelog-text { color: var(--text); flex: 1; }
+.changelog-tag {
+  display: inline-block;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  margin-right: 0.5rem;
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  vertical-align: middle;
+}
+.changelog-tag.model { border-color: var(--accent); color: var(--accent); }
+.changelog-tag.harness { border-color: var(--accent-cool); color: var(--accent-cool); }
+.changelog-tag.policy { border-color: var(--accent-hot); color: var(--accent-hot); }
+.changelog-tag.local { border-color: var(--opensource); color: var(--opensource); }
+
+.action-list { list-style: none; padding: 0; }
+.action-list li {
+  padding: 0.65rem 0 0.65rem 1.5rem;
+  position: relative;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.action-list li:last-child { border-bottom: none; }
+.action-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  color: var(--accent);
+  font-family: var(--mono);
+}
+
+/* ============ SPARKLINE ============ */
+.spark-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+.spark-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  padding: 1rem;
+}
+.spark-card .label {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.4rem;
+}
+.spark-card .current {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.spark-card svg { display: block; margin-top: 0.5rem; width: 100%; height: 40px; }
+
+/* ============ TABLES ============ */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  margin-bottom: 1.5rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+thead th {
+  background: var(--bg-elev);
+  text-align: left;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+tbody td {
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tbody tr:hover { background: rgba(255, 184, 77, 0.04); }
+tbody tr:last-child td { border-bottom: none; }
+.tnum { font-variant-numeric: tabular-nums; text-align: right; }
+.mono { font-family: var(--mono); }
+td.model-name { font-weight: 600; color: var(--text); }
+td.model-name .sublabel {
+  display: block;
+  font-weight: 400;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin-top: 0.15rem;
+}
+
+/* ============ PROVIDER PILLS ============ */
+.pill {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  border: 1px solid currentColor;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.pill-anthropic { color: var(--anthropic); }
+.pill-openai { color: var(--openai); }
+.pill-google { color: var(--google); }
+.pill-mistral { color: var(--mistral); }
+.pill-grok { color: var(--grok); }
+.pill-deepseek { color: var(--deepseek); }
+.pill-minimax { color: var(--minimax); }
+.pill-meta { color: var(--meta); }
+.pill-alibaba { color: var(--alibaba); }
+.pill-opensource { color: var(--opensource); }
+
+/* ============ QUALITY BAR ============ */
+.qbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 160px;
+}
+.qbar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.qbar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-hot), var(--accent));
+}
+.qbar-fill.over { background: linear-gradient(90deg, var(--accent), var(--green)); }
+.qbar-num {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  min-width: 50px;
+  text-align: right;
+  font-weight: 500;
+}
+
+/* ============ SECTION HEADERS ============ */
+.sect-head {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 2rem 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+.sect-head:first-child { margin-top: 0; }
+.sect-sub {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+  font-family: var(--serif);
+}
+
+/* ============ FILTER BAR ============ */
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+}
+.filter-btn {
+  background: var(--bg-card);
+  color: var(--text-dim);
+  border: 1px solid var(--border-strong);
+  padding: 0.35rem 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.filter-btn:hover { color: var(--text); border-color: var(--text-dim); }
+.filter-btn.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+/* ============ HARNESS MATRIX ============ */
+.matrix-table .feature-yes { color: var(--green); font-weight: 700; }
+.matrix-table .feature-no { color: var(--red); }
+.matrix-table .feature-partial { color: var(--yellow); }
+.matrix-table td { text-align: center; }
+.matrix-table td:first-child, .matrix-table td:nth-child(2) { text-align: left; }
+
+/* ============ BURN MATRIX ============ */
+.burn-matrix-block { margin-bottom: 2rem; }
+.burn-matrix-block h4 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.burn-matrix-block .sub-note {
+  color: var(--text-faint);
+  font-size: 0.78rem;
+  font-style: italic;
+  font-family: var(--serif);
+  margin-bottom: 0.75rem;
+}
+.burn-matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.burn-matrix-table th {
+  background: var(--bg-elev);
+  text-align: center;
+  padding: 0.6rem 0.5rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-strong);
+}
+.burn-matrix-table th:first-child { text-align: left; }
+.burn-matrix-table td {
+  padding: 0.55rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+  vertical-align: middle;
+}
+.burn-matrix-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  font-size: 0.78rem;
+}
+.burn-matrix-table .baseline-cell-flag {
+  outline: 1.5px solid var(--accent);
+  outline-offset: -2px;
+}
+.burn-matrix-table .legacy-row { opacity: 0.55; }
+.burn-matrix-table .nodata { color: var(--text-faint); }
+.burn-cell-note {
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  font-style: italic;
+}
+/* E2 cell encoding */
+.bm-cell { padding: 0.5rem 0.55rem !important; min-width: 92px; }
+.bm-cell-numbers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.1;
+  font-family: var(--mono);
+}
+.bm-cell-numbers .burn-num { font-weight: 600; color: var(--text); }
+.bm-cell-numbers .qual-num { color: var(--text-dim); }
+.bm-bar-track {
+  height: 4px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+.bm-bar-track:last-child { margin-bottom: 0; }
+.bm-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+/* burn bar colours */
+.bm-burn-low    { background: #4ade80; }   /* < 0.5× */
+.bm-burn-mid    { background: #fbbf24; }   /* 0.5-1.5× */
+.bm-burn-high   { background: #ff5e3a; }   /* 1.5-3× */
+.bm-burn-xhigh  { background: #ef4444; }   /* >3× */
+/* quality bar colours */
+.bm-qual-poor   { background: #ef4444; }   /* <70% */
+.bm-qual-mid    { background: #fbbf24; }   /* 70-85% */
+.bm-qual-good   { background: #84cc16; }   /* 85-95% */
+.bm-qual-best   { background: #22c55e; }   /* >=95% */
+
+.burn-stack-chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-elev);
+  border: 1px dashed var(--border);
+  font-size: 0.72rem;
+}
+.burn-stack-chips strong {
+  color: var(--accent);
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  margin-right: 0.4rem;
+}
+.burn-stack-chips .chip {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--border-strong);
+  font-family: var(--mono);
+  color: var(--text-dim);
+}
+
+/* ============ EFFICIENCY LEADERS PANEL ============ */
+.eff-leaders {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent-cool);
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+}
+.eff-leaders h4 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-cool);
+  margin-bottom: 0.4rem;
+}
+.eff-leaders .sub-note {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  font-style: italic;
+  font-family: var(--serif);
+  margin-bottom: 1rem;
+}
+.eff-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.eff-controls select, .eff-controls input[type="number"] {
+  background: var(--bg-elev);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.5rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.eff-controls select:focus, .eff-controls input[type="number"]:focus { outline: 1px solid var(--accent-cool); }
+.eff-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.eff-table th {
+  background: var(--bg-elev);
+  text-align: left;
+  padding: 0.55rem 0.6rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.eff-table td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+.eff-table tr:last-child td { border-bottom: none; }
+.eff-rank {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent-cool);
+}
+.eff-rank.top3 { background: var(--accent-cool); color: var(--bg); border-color: var(--accent-cool); }
+.eff-model { font-weight: 600; color: var(--text); white-space: nowrap; }
+.eff-effort {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.66rem;
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.eff-score {
+  font-weight: 600;
+  color: var(--green);
+}
+.eff-score.mid { color: var(--yellow); }
+.eff-score.poor { color: var(--accent-hot); }
+
+/* ============ TASK FIT ============ */
+.taskfit-section { margin-top: 2.5rem; }
+.taskfit-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  align-items: center;
+}
+.taskfit-filter {
+  background: var(--bg-card);
+  color: var(--text-dim);
+  border: 1px solid var(--border-strong);
+  padding: 0.3rem 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.taskfit-filter:hover { color: var(--text); border-color: var(--text-dim); }
+.taskfit-filter.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.taskfit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.taskfit-table th {
+  background: var(--bg-elev);
+  text-align: left;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+.taskfit-table th.task-col { width: 18%; }
+.taskfit-table th .col-provider {
+  display: block;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+.taskfit-table td {
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  font-size: 0.78rem;
+}
+.taskfit-table tr:last-child td { border-bottom: none; }
+.taskfit-task {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.25;
+}
+.taskfit-task-desc {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--text-faint);
+  margin-top: 0.3rem;
+  line-height: 1.4;
+}
+.taskfit-cell {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.taskfit-cell:hover { background: rgba(255, 184, 77, 0.04); }
+.taskfit-cell-empty {
+  color: var(--text-faint);
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 0.75rem;
+}
+.taskfit-model {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.82rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.taskfit-effort {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.62rem;
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+  margin-right: 0.4rem;
+  vertical-align: 1px;
+}
+.taskfit-burn {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  vertical-align: 1px;
+}
+.taskfit-rationale {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 0.35rem;
+  font-style: italic;
+  font-family: var(--serif);
+  line-height: 1.4;
+}
+.taskfit-expand-hint {
+  font-size: 0.62rem;
+  color: var(--accent-cool);
+  margin-top: 0.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+.taskfit-cell.expanded .taskfit-expand-hint { color: var(--accent); }
+.taskfit-runnerups {
+  display: none;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border-strong);
+  font-size: 0.7rem;
+}
+.taskfit-cell.expanded .taskfit-runnerups { display: block; }
+.taskfit-runnerups .ru-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.3rem;
+}
+.taskfit-runnerups ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.taskfit-runnerups li {
+  padding: 0.15rem 0;
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+.taskfit-runnerups li::before {
+  content: "→ ";
+  color: var(--accent-cool);
+  margin-right: 0.2rem;
+}
+.taskfit-runnerups li:empty,
+.taskfit-runnerups ul:empty {
+  display: none;
+}
+
+/* ============ STRATEGY ============ */
+.strat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+.strat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  border-top: 3px solid var(--accent);
+}
+.strat-card.alt { border-top-color: var(--accent-cool); }
+.strat-card.warn { border-top-color: var(--accent-hot); }
+.strat-card h3 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.strat-card .price {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+.strat-card p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+}
+.strat-card ul { padding-left: 1.25rem; font-size: 0.83rem; color: var(--text); }
+.strat-card ul li { margin: 0.3rem 0; }
+
+/* ============ FOOTER ============ */
+.cite {
+  font-size: 0.62em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--accent);
+  margin-left: 0.1em;
+  font-family: var(--mono, monospace);
+  font-weight: 600;
+}
+.cite a { color: inherit; text-decoration: none; }
+.cite a:hover { text-decoration: underline; }
+.sources-grid {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: 1fr;
+}
+.sources-cat h3 {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  margin: 0 0 0.4rem 0;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.sources-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--border, #2a2a2a);
+}
+.sources-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border, #2a2a2a);
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  scroll-margin-top: 5rem;
+}
+.sources-list li:target {
+  background: rgba(255, 200, 80, 0.08);
+}
+.sources-list .sn {
+  color: var(--accent);
+  font-family: var(--mono, monospace);
+  font-weight: 600;
+  text-align: right;
+}
+.sources-list a { color: var(--text, #ddd); text-decoration: none; }
+.sources-list a:hover { color: var(--accent); text-decoration: underline; }
+.sources-list .src-url {
+  color: var(--text-dim);
+  font-family: var(--mono, monospace);
+  font-size: 0.78rem;
+  display: block;
+  margin-top: 0.15rem;
+  word-break: break-all;
+}
+.section-sources {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-top: -0.4rem;
+  margin-bottom: 1rem;
+}
+.section-sources .cite { font-size: 0.85em; vertical-align: baseline; }
+footer .disclaimer {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  margin-bottom: 0.7rem;
+}
+footer .license {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border, #2a2a2a);
+  padding-top: 0.7rem;
+  margin-top: 0.4rem;
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+footer {
+  border-top: 1px solid var(--border-strong);
+  padding: 1.5rem 2rem;
+  margin-top: 3rem;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.colophon { font-family: var(--serif); font-style: italic; }
+
+/* ============ DETAIL ROW ============ */
+details summary {
+  cursor: pointer;
+  padding: 0.4rem 0;
+  font-size: 0.78rem;
+  color: var(--accent-cool);
+  list-style: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before { content: "▸ "; transition: transform 0.15s; }
+details[open] summary::before { content: "▾ "; }
+details .detail-body {
+  padding: 0.75rem 1rem;
+  background: var(--bg-elev);
+  border-left: 2px solid var(--accent);
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1100px) {
+  .stat-tile { grid-column: span 6; }
+  .dash-section { grid-column: span 12; }
+  .strat-grid { grid-template-columns: 1fr; }
+  .spark-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .masthead, main, .tabs { padding-left: 1rem; padding-right: 1rem; }
+  .stat-tile { grid-column: span 12; }
+  .brand { font-size: 1.4rem; }
+  .tab { padding: 0.85rem 0.9rem; font-size: 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== EMBEDDED DATA ===== -->
+<script id="market-data" type="application/json">
+{"meta":{"generated_at":"2026-05-16T10:32:05Z","reference_default":"opus-4.7"},"executive_summary":{"models":"Major shift since last update: Anthropic released Mythos Preview (April 7, limited cyber-research access — most capable Claude model). OpenAI released GPT-5.5 Instant (May 5, non-reasoning ChatGPT default) and GPT-5.5-Cyber (May 7, vetted partners) parallel to Mythos. Critical Opus 4.7 pricing correction: actually $5/$25, not $15/$75 (the dashboard was wrong from day one). Opus 4.7 confirmed at 64.3% SWE-Pro and 87.6% SWE-Verified — closes the gap to GPT-5.5 (58.6 Pro, 88.7 Verified). GPT-5.3-Codex-Spark remains a ChatGPT Pro research preview: 128K context, text-only, 1000+ tok/s, separate preview rate limits, and no final published credit rates yet. Gemini 3.2 expected May 19-20 at Google I/O — Flash variant already leaked at $0.25/$2 per Mtok.","harnesses":"Claude Code added agent view (parallel session tracking) and /goal command (multi-turn completion) on May 11 — strong move toward autonomous workflows. Claude Platform on AWS launched (May 11) — Anthropic-managed infrastructure with AWS billing, full Claude features. Anthropic OAuth third-party block (April 4) remains. The supervised-vs-autonomous workflow split has deepened: Claude Code's /goal puts it firmly in autonomous territory alongside Codex CLI.","self_hosting":"Open-weight landscape transformed in late April. DeepSeek V4-Pro (April 24, MIT, 1.6T/49B MoE) hits 80.6% SWE-Verified and 55.4% SWE-Pro — strongest open coder. Qwen 3.6 family (April 11-21) ships three sizes; Plus is top open agentic coder with 1M context. Llama 4 (Scout 10M context, Maverick 400B MoE) released April 5. Mistral Medium 3.5 (April 29, Apache 2.0) is the best EU/non-Chinese open option at 77.6% SWE-Verified. Kimi K2.6 and GLM 5.1 expand the open frontier. A 2× A6000 (96 GB VRAM) setup can run DeepSeek V4-Flash, Qwen 3.6 Plus Q4, Llama 4 Scout BF16, or Kimi K2.6 Q4 — DeepSeek V4-Pro needs 4× A6000 even at Q2_K.","strategy":"Recommended stack unchanged: Claude Max 5× + Anthropic API ($30 cap) + Vast.ai self-hosted. But with Opus 4.7's correct pricing ($5/$25, not $15/$75), the API-only alternative is significantly more attractive than the dashboard previously implied — recheck whether Max 5× still wins for your specific usage volume. Self-hosted ladder upgraded: Gemma 4 26B MoE remains throughput champion; DeepSeek V4-Flash and Qwen 3.6 Plus now offer near-frontier quality on the same 2× A6000 setup."},"headline_stats":[{"id":"frontier_count","label":"Frontier models tracked","value":17,"unit":"","delta":"+3 (Mythos, 5.5 Instant, 5.5-Cyber)","delta_dir":"up"},{"id":"best_open_pct","label":"Best open-weight vs Opus 4.7","value":86,"unit":"%","delta":"DeepSeek V4-Pro vs Opus 4.7","delta_dir":"up"},{"id":"cheapest_frontier_api","label":"Cheapest frontier $/Mtok out","value":0.42,"unit":"USD","delta":"DeepSeek V4-Pro $0.28/$0.42","delta_dir":"down"},{"id":"cheapest_local","label":"Self-hosted $/Mtok (effective)","value":0,"unit":"USD","delta":"GPU rental only","delta_dir":"neutral"},{"id":"max_context","label":"Largest usable context","value":"10M","unit":"tok","delta":"Llama 4 Scout (open-weight)","delta_dir":"up"},{"id":"harness_count","label":"Harnesses tracked","value":14,"unit":"","delta":"+1 (Hermes)","delta_dir":"up"},{"id":"policy_days","label":"Days since policy shift","value":38,"unit":"d","delta":"Anthropic OAuth block","delta_dir":"neutral"},{"id":"blended_cost","label":"Recommended monthly stack","value":130,"unit":"USD","delta":"Max 5× + API + GPU","delta_dir":"neutral"}],"trends":{"best_open_vs_opus":{"label":"Best open-weight % vs Opus 4.7","history":[{"date":"2025-11-01","value":68},{"date":"2025-12-01","value":72},{"date":"2026-01-01","value":78},{"date":"2026-02-01","value":80},{"date":"2026-03-01","value":83},{"date":"2026-04-01","value":86},{"date":"2026-05-01","value":88}]},"median_frontier_output_price":{"label":"Median frontier $/Mtok output","history":[{"date":"2025-11-01","value":18.0},{"date":"2025-12-01","value":17.0},{"date":"2026-01-01","value":15.5},{"date":"2026-02-01","value":14.5},{"date":"2026-03-01","value":13.0},{"date":"2026-04-01","value":12.5},{"date":"2026-05-01","value":12.0}]},"models_released_per_month":{"label":"Notable model releases per month","history":[{"date":"2025-11-01","value":3},{"date":"2025-12-01","value":4},{"date":"2026-01-01","value":5},{"date":"2026-02-01","value":6},{"date":"2026-03-01","value":4},{"date":"2026-04-01","value":7},{"date":"2026-05-01","value":5}]}},"changelog":[{"date":"2026-05-16","tag":"model","text":"Grounded GPT-5.3-Codex-Spark from OpenAI primary sources: 128K context, 1000+ tok/s, Codex app/CLI/VS Code research preview, separate preview quota; burn matrix now encodes zero standard-pool burn instead of blank cells pending final credit rates."},{"date":"2026-05-12","tag":"policy","text":"Dashboard v9: added cache hit/miss modeling. Per-model cache_discount field (Anthropic 10%, OpenAI 25%, DeepSeek 0.83-2%, MiniMax 52%, Mistral none). Four workload presets: Cold/Mixed/Warm/Hot. Burn matrix and Efficiency Leaders both honor the selected workload."},{"date":"2026-05-12","tag":"policy","text":"Dashboard v8: quality & burn matrix validation. Anthropic high/xhigh/max burns increased to match thinking-token budgets (DataCamp/ArtificialAnalysis); OpenAI xhigh raised to 3.5× medium (nxcode); quality factors refined per Hex/ampcode measurements. Added Mythos Preview row."},{"date":"2026-05-12","tag":"model","text":"Claude for Legal launches (TR, LexisNexis, Harvey, Legora integrations)"},{"date":"2026-05-12","tag":"model","text":"Anthropic + SAP partnership: Claude embedded across SAP Business AI Platform"},{"date":"2026-05-12","tag":"policy","text":"Dashboard market sweep v1.4.0: corrected Opus 4.7 pricing ($5/$25, not $15/$75), SWE-Pro 64.3%; refreshed open-weight roster"},{"date":"2026-05-11","tag":"policy","text":"Claude Platform on AWS launched — Anthropic-managed infrastructure with AWS billing/IAM"},{"date":"2026-05-11","tag":"harness","text":"Claude Code adds agent view and /goal command (multi-turn completion conditions)"},{"date":"2026-05-08","tag":"policy","text":"Dashboard v1.3.0: Strategy tab adds Task-fit Recommendations — 10 task types × 4 providers, with runners-up surfaced on click"},{"date":"2026-05-08","tag":"policy","text":"Dashboard v1.2.1: burn baseline now follows the reference dropdown — switching reference recomputes all burn × ratios against the chosen model"},{"date":"2026-05-08","tag":"policy","text":"Dashboard v1.2.0: burn matrix cells now show burn + quality together (E2 encoding); efficiency leaders panel added"},{"date":"2026-05-08","tag":"model","text":"Corrected Anthropic burn matrix: Claude Code uses /effort low/medium/high/xhigh/max (adaptive thinking), not legacy budget_tokens"},{"date":"2026-05-07","tag":"model","text":"OpenAI releases GPT-5.5-Cyber to vetted security teams (parallel to Mythos)"},{"date":"2026-05-05","tag":"model","text":"Gemini 3.2 Flash leaked at $0.25/$2 per Mtok; expected May 19-20 at Google I/O"},{"date":"2026-05-05","tag":"model","text":"OpenAI releases GPT-5.5 Instant as ChatGPT default (replaces GPT-5.3 Instant)"},{"date":"2026-05-05","tag":"model","text":"Anthropic releases Opus 4.7 with extended 1M context and improved long-context retention"}],"actions":["Verify Opus 4.7 effective cost on your workload — actual pricing $5/$25 (corrected); API alternative may be more attractive than dashboard previously implied","Test DeepSeek V4-Flash on Vast.ai 2× A6000 — near-frontier quality (55% SWE-Pro) at zero per-token cost","Validate GPT-5.3-Codex-Spark in Codex CLI or VS Code for live micro-edits — it uses a separate preview quota today, so treat it as latency-first rather than quota-comparable","Watch Google I/O May 19-20 for Gemini 3.2 official release — Flash leaked at $0.25/$2 per Mtok","Consider Claude Code's new /goal command for autonomous overnight runs — closes gap with Codex CLI on async workflows"],"models":[{"id":"opus-4.7","name":"Claude Opus 4.7","provider":"Anthropic","tier":"frontier","released":"2026-04-16","license":"proprietary","jurisdiction":"US","context":1000000,"context_label":"1M","swe_pro":64.3,"swe_verified":87.6,"livecodebench":79,"aime":88,"tau2":84,"api_in":5.0,"api_out":25.0,"api_cache_hit":0.5,"batch_discount":50,"tok_per_sec":50,"subscription":"Max 5× $100/mo · Pro $20/mo","notes":"Reference model. $5/$25 per Mtok (CORRECTION: was incorrectly $15/$75 in earlier dashboard versions). New tokenizer adds ~1.35× tokens. 1M context standard. Cache reads $0.50/Mtok (90% off). Fast Mode $30/$150 (6×). Released April 16, 2026.","reasoning_capable":true,"effort_default":"xhigh","effort_levels":["low","medium","high","xhigh","max"],"cache_discount":0.1},{"id":"sonnet-4.6","name":"Claude Sonnet 4.6","provider":"Anthropic","tier":"frontier","released":"2026-02-20","license":"proprietary","jurisdiction":"US","context":200000,"context_label":"200K","swe_pro":44,"swe_verified":77,"livecodebench":76,"aime":85,"tau2":81,"api_in":3,"api_out":15,"api_cache_hit":0.3,"batch_discount":50,"tok_per_sec":80,"subscription":"Max 5× $100/mo · Pro $20/mo","notes":"Best code style/intent understanding. With cache+batch: $0.30/$7.50 effective.","reasoning_capable":true,"effort_default":"high","effort_levels":["low","medium","high","max"],"cache_discount":0.1},{"id":"haiku-4.5","name":"Claude Haiku 4.5","provider":"Anthropic","tier":"fast","released":"2025-10-15","license":"proprietary","jurisdiction":"US","context":200000,"context_label":"200K","swe_pro":28,"swe_verified":62,"livecodebench":58,"aime":70,"tau2":65,"api_in":1,"api_out":5,"api_cache_hit":0.1,"batch_discount":50,"tok_per_sec":110,"subscription":"Available in all tiers","notes":"5× cheaper than Sonnet. Triage/classification champion.","reasoning_capable":false,"effort_default":null,"effort_levels":[],"cache_discount":0.1},{"id":"mythos-preview","name":"Claude Mythos Preview","provider":"Anthropic","tier":"frontier","released":"2026-04-07","license":"proprietary","jurisdiction":"US","context":1000000,"context_label":"1M","swe_pro":68,"swe_verified":90,"livecodebench":88,"aime":94,"tau2":88,"api_in":null,"api_out":null,"api_cache_hit":null,"batch_discount":50,"tok_per_sec":40,"subscription":"Limited release · Project Glasswing (vetted partners)","reasoning_capable":true,"effort_default":"xhigh","effort_levels":["low","medium","high","xhigh","max"],"notes":"Most capable Anthropic model. Currently limited release for cyber-security partners only via Project Glasswing. Best alignment metrics of any model trained.","cache_discount":0.1},{"id":"gpt-5.5","name":"GPT-5.5","provider":"OpenAI","tier":"frontier","released":"2026-04-23","license":"proprietary","jurisdiction":"US","context":1000000,"context_label":"1M (272K threshold)","swe_pro":58.6,"swe_verified":88.7,"livecodebench":84,"aime":92,"tau2":82,"api_in":5.0,"api_out":30.0,"api_cache_hit":0.5,"batch_discount":50,"tok_per_sec":55,"subscription":"Pro $200 · Pro Lite $100 · Plus $20","reasoning_capable":true,"effort_default":"medium","effort_levels":["minimal","low","medium","high","xhigh"],"notes":"Current SWE-Pro leader (58.6%). 2× per-token cost vs GPT-5.4, but ~20% more efficient on token count per task. 1M context with 2× input/1.5× output surcharge above 272K. Reasoning tokens billed as output.","cache_discount":0.25},{"id":"gpt-5.5-pro","name":"GPT-5.5 Pro","provider":"OpenAI","tier":"frontier","released":"2026-04-23","license":"proprietary","jurisdiction":"US","context":1000000,"context_label":"1M","swe_pro":60,"swe_verified":90,"livecodebench":86,"aime":94,"tau2":84,"api_in":30.0,"api_out":180.0,"api_cache_hit":3.0,"batch_discount":50,"tok_per_sec":35,"subscription":"Pro $200 only","reasoning_capable":true,"effort_default":"high","effort_levels":["medium","high","xhigh"],"notes":"Highest-intelligence OpenAI API option. $30/$180. Available in ChatGPT Pro $200 and as API. 6× cost of base 5.5.","cache_discount":0.25},{"id":"gpt-5.4","name":"GPT-5.4","provider":"OpenAI","tier":"frontier","released":"2026-03-15","license":"proprietary","jurisdiction":"US","context":400000,"context_label":"400K","swe_pro":57.7,"swe_verified":81,"livecodebench":81,"aime":90,"tau2":80,"api_in":2.5,"api_out":15.0,"api_cache_hit":0.25,"batch_discount":50,"tok_per_sec":60,"subscription":"All paid tiers","reasoning_capable":true,"effort_default":"medium","effort_levels":["minimal","low","medium","high","xhigh"],"notes":"Best quality-per-credit. Held SWE-Pro lead Feb-April. Default for everyday coding.","cache_discount":0.1},{"id":"gpt-5.4-mini","name":"GPT-5.4 Mini","provider":"OpenAI","tier":"fast","released":"2026-03-15","license":"proprietary","jurisdiction":"US","context":400000,"context_label":"400K","swe_pro":38,"swe_verified":73,"livecodebench":71,"aime":78,"tau2":70,"api_in":0.4,"api_out":1.6,"api_cache_hit":0.04,"batch_discount":50,"tok_per_sec":130,"subscription":"All paid tiers","reasoning_capable":true,"effort_default":"medium","effort_levels":["minimal","low","medium","high","xhigh"],"notes":"94% of GPT-5.4 coding at 6× less. Best subagent. ~1/20 burn vs GPT-5.5. Collapses at 64K+ context.","cache_discount":0.1},{"id":"gpt-5.4-nano","name":"GPT-5.4 Nano","provider":"OpenAI","tier":"fast","released":"2026-03-15","license":"proprietary","jurisdiction":"US","context":400000,"context_label":"400K","swe_pro":25,"swe_verified":60,"livecodebench":58,"aime":65,"tau2":55,"api_in":0.1,"api_out":0.4,"api_cache_hit":0.01,"batch_discount":50,"tok_per_sec":200,"subscription":"API only","reasoning_capable":true,"effort_default":"low","effort_levels":["minimal","low","medium"],"notes":"Smallest reasoning model. API-only. For embeddable/edge inference at near-zero cost.","cache_discount":0.1},{"id":"gpt-5.3-codex","name":"GPT-5.3-Codex","provider":"OpenAI","tier":"frontier","released":"2026-01-20","license":"proprietary","jurisdiction":"US","context":200000,"context_label":"200K","swe_pro":56.8,"swe_verified":85.0,"livecodebench":82,"aime":87,"tau2":78,"api_in":1.5,"api_out":10.0,"api_cache_hit":0.15,"batch_discount":50,"tok_per_sec":70,"subscription":"All paid tiers · Code Review uses this","reasoning_capable":true,"effort_default":"medium","effort_levels":["minimal","low","medium","high","xhigh"],"notes":"Coding-specialised. ~⅓ burn vs GPT-5.5 for ~2pts less SWE-Pro. Often best $/quality for execution turns.","cache_discount":0.1},{"id":"gpt-5.3-codex-spark","name":"GPT-5.3-Codex-Spark","provider":"OpenAI","tier":"fast","released":"2026-02-12","license":"proprietary","jurisdiction":"US","context":128000,"context_label":"128K","swe_pro":null,"swe_verified":null,"livecodebench":null,"aime":null,"tau2":null,"api_in":null,"api_out":null,"api_cache_hit":null,"batch_discount":null,"tok_per_sec":1000,"subscription":"ChatGPT Pro research preview · Codex app/CLI/VS Code","reasoning_capable":false,"effort_default":null,"effort_levels":[],"availability":"Research preview for ChatGPT Pro users; latest Codex app, CLI, and VS Code extension","api_access":"Small set of design partners","rate_limit_policy":"Separate preview rate limits; usage does not count toward standard rate limits and may queue under high demand","default_working_style":"Lightweight by default; makes minimal targeted edits and does not automatically run tests unless asked","benchmark_notes":"OpenAI reports strong SWE-Bench Pro and Terminal-Bench 2.0 performance at a fraction of GPT-5.3-Codex runtime, but the launch post does not publish numeric scores","notes":"Smaller GPT-5.3-Codex variant for real-time coding on Cerebras WSE-3. Text-only, 128K context, and optimized for near-instant interactive edits rather than long-horizon autonomous work.","cache_discount":0.1},{"id":"gpt-5.2","name":"GPT-5.2","provider":"OpenAI","tier":"legacy","released":"2025-11-10","license":"proprietary","jurisdiction":"US","context":200000,"context_label":"200K","swe_pro":52,"swe_verified":78,"livecodebench":76,"aime":84,"tau2":75,"api_in":1.25,"api_out":8.0,"api_cache_hit":0.125,"batch_discount":50,"tok_per_sec":65,"subscription":"Available but not recommended","reasoning_capable":true,"effort_default":"medium","effort_levels":["low","medium","high"],"notes":"Codex picker keeps it for 'long-running agents' (specifically tuned for autonomy). Otherwise eclipsed by 5.3-Codex.","cache_discount":0.1},{"id":"gpt-5.2-codex","name":"GPT-5.2-Codex","provider":"OpenAI","tier":"legacy","released":"2025-11-10","license":"proprietary","jurisdiction":"US","context":200000,"context_label":"200K","swe_pro":50,"swe_verified":76,"livecodebench":75,"aime":82,"tau2":73,"api_in":1.25,"api_out":8.0,"api_cache_hit":0.125,"batch_discount":50,"tok_per_sec":65,"subscription":"Legacy","reasoning_capable":true,"effort_default":"medium","effort_levels":["low","medium","high"],"notes":"Predecessor to 5.3-Codex. Legacy.","cache_discount":0.1},{"id":"gpt-5.1-codex-max","name":"GPT-5.1-Codex-Max","provider":"OpenAI","tier":"legacy","released":"2025-09-01","license":"proprietary","jurisdiction":"US","context":200000,"context_label":"200K","swe_pro":48,"swe_verified":74,"livecodebench":72,"aime":80,"tau2":70,"api_in":1.0,"api_out":6.0,"api_cache_hit":0.1,"batch_discount":50,"tok_per_sec":70,"subscription":"Legacy","reasoning_capable":true,"effort_default":"medium","effort_levels":["low","medium","high"],"notes":"30% fewer thinking tokens than GPT-5.1-Codex at same effort. Legacy.","cache_discount":0.1},{"id":"gpt-5.1-codex-mini","name":"GPT-5.1-Codex-Mini","provider":"OpenAI","tier":"legacy","released":"2025-09-01","license":"proprietary","jurisdiction":"US","context":200000,"context_label":"200K","swe_pro":32,"swe_verified":65,"livecodebench":60,"aime":68,"tau2":60,"api_in":0.3,"api_out":1.2,"api_cache_hit":0.03,"batch_discount":50,"tok_per_sec":140,"subscription":"Legacy","reasoning_capable":true,"effort_default":"low","effort_levels":["minimal","low","medium"],"notes":"Spark's predecessor (Spark beats it). Legacy.","cache_discount":0.1},{"id":"gpt-5.5-instant","name":"GPT-5.5 Instant","provider":"OpenAI","tier":"fast","released":"2026-05-05","license":"proprietary","jurisdiction":"US","context":400000,"context_label":"400K","swe_pro":35,"swe_verified":76,"livecodebench":72,"aime":81,"tau2":70,"api_in":1.5,"api_out":6.0,"api_cache_hit":0.15,"batch_discount":50,"tok_per_sec":200,"subscription":"Default ChatGPT model · API chat-latest","reasoning_capable":false,"effort_default":null,"effort_levels":[],"notes":"Non-reasoning daily driver. Replaced GPT-5.3 Instant as ChatGPT default May 5. Lower hallucination in law/medicine/finance. 81.2 AIME 2025.","cache_discount":0.1},{"id":"gpt-5.5-cyber","name":"GPT-5.5-Cyber","provider":"OpenAI","tier":"frontier","released":"2026-05-07","license":"proprietary","jurisdiction":"US","context":1000000,"context_label":"1M","swe_pro":null,"swe_verified":null,"livecodebench":null,"aime":null,"tau2":null,"api_in":null,"api_out":null,"api_cache_hit":null,"batch_discount":null,"tok_per_sec":55,"subscription":"Limited preview · vetted cybersecurity teams only","reasoning_capable":true,"effort_default":"high","effort_levels":["low","medium","high","xhigh"],"notes":"GPT-5.5 variant trained to be more permissive on security tasks. OpenAI's answer to Mythos Preview.","cache_discount":0.25},{"id":"gemini-3.1-pro","name":"Gemini 3.1 Pro","provider":"Google","tier":"frontier","released":"2026-04-10","license":"proprietary","jurisdiction":"US","context":1000000,"context_label":"1M","swe_pro":41,"swe_verified":78,"livecodebench":76,"aime":85,"tau2":78,"api_in":2,"api_out":12,"api_cache_hit":0.5,"batch_discount":50,"tok_per_sec":119,"subscription":"Gemini Advanced $20 · Ultra $100","notes":"1M context that actually works. 75% explicit cache discount. Strongest free-tier (CLI).","reasoning_capable":true,"effort_default":"thinking-budget","effort_levels":["off","low","medium","high"],"cache_discount":0.25},{"id":"gemini-3-flash","name":"Gemini 3 Flash","provider":"Google","tier":"fast","released":"2026-04-10","license":"proprietary","jurisdiction":"US","context":1000000,"context_label":"1M","swe_pro":30,"swe_verified":78,"livecodebench":70,"aime":75,"tau2":68,"api_in":0.3,"api_out":2.5,"api_cache_hit":0.075,"batch_discount":50,"tok_per_sec":180,"subscription":"Free CLI: 1000 req/day at 1M context","notes":"Free-tier champion via Gemini CLI. 78% SWE-bench Verified (note: contaminated).","reasoning_capable":true,"effort_default":"thinking-budget","effort_levels":["off","low","medium","high"],"cache_discount":0.25},{"id":"deepseek-v4-pro","name":"DeepSeek V4-Pro","provider":"DeepSeek","tier":"frontier","released":"2026-04-24","license":"MIT","jurisdiction":"China","context":1000000,"context_label":"1M","swe_pro":55.4,"swe_verified":80.6,"livecodebench":93.5,"aime":88,"tau2":78,"api_in":0.28,"api_out":0.42,"api_cache_hit":0.028,"batch_discount":null,"tok_per_sec":60,"subscription":"API only","notes":"Strongest open-weight model (replaces V3.2). 1.6T total / 49B active MoE. MIT license. Largest SWE-Verified-to-Pro gap of any model (contamination suspected on Verified).","reasoning_capable":false,"effort_default":null,"effort_levels":[],"cache_discount":0.0083},{"id":"minimax-m2.5","name":"MiniMax M2.5","provider":"MiniMax","tier":"frontier","released":"2026-01-20","license":"open-weight","jurisdiction":"China","context":200000,"context_label":"200K","swe_pro":40,"swe_verified":74,"livecodebench":72,"aime":80,"tau2":73,"api_in":0.15,"api_out":1.2,"api_cache_hit":null,"batch_discount":null,"tok_per_sec":70,"subscription":"API + open-weight","notes":"Eclipsed by DeepSeek V4 and Qwen 3.6 for most open-weight use cases. China jurisdiction. Maintained for cost-sensitive niche workloads.","reasoning_capable":false,"effort_default":null,"effort_levels":[],"cache_discount":0.52},{"id":"grok-4","name":"Grok 4","provider":"xAI","tier":"frontier","released":"2026-03-01","license":"proprietary","jurisdiction":"US","context":256000,"context_label":"256K","swe_pro":38,"swe_verified":75,"livecodebench":73,"aime":82,"tau2":72,"api_in":3,"api_out":15,"api_cache_hit":null,"batch_discount":null,"tok_per_sec":65,"subscription":"SuperGrok $30 · Heavy $300","notes":"Strong on STEM/math. Limited harness ecosystem.","reasoning_capable":true,"effort_default":"reasoning-on","effort_levels":["off","on"],"cache_discount":1.0},{"id":"mistral-medium-3.5","name":"Mistral Medium 3.5","provider":"Mistral","tier":"frontier","released":"2026-04-29","license":"Apache 2.0","jurisdiction":"EU","context":256000,"context_label":"256K","swe_pro":42,"swe_verified":77.6,"livecodebench":75,"aime":75,"tau2":65,"api_in":2,"api_out":6,"api_cache_hit":null,"batch_discount":null,"tok_per_sec":75,"subscription":"Le Chat Pro €20","notes":"EU jurisdiction. 128B dense, Apache 2.0. Strongest non-Chinese open-weight coding agent. Vibe agents (GitHub/Linear/Jira/Sentry integrations).","reasoning_capable":false,"effort_default":null,"effort_levels":[],"cache_discount":1.0}],"subscriptions":[{"provider":"Anthropic","tier":"Pro","price_usd":20,"limits":"~45 messages / 5h on Sonnet · limited Opus","models":"Sonnet 4.6, Haiku 4.5, limited Opus 4.7","features":"Claude Code · Projects · Artifacts"},{"provider":"Anthropic","tier":"Max 5×","price_usd":100,"limits":"5× Pro quotas · ~225 msg/5h Sonnet · expanded Opus","models":"Full Opus 4.7 · Sonnet 4.6 · Haiku 4.5","features":"Cache reads included flat-rate (key advantage)"},{"provider":"Anthropic","tier":"Max 20×","price_usd":200,"limits":"20× Pro quotas","models":"All","features":"For heavy Opus users"},{"provider":"OpenAI","tier":"Plus","price_usd":20,"limits":"~80 GPT-5.4 msg/3h","models":"GPT-5.4 (limited) · GPT-5.4 Mini · o-series","features":"ChatGPT · GPTs · Codex CLI 30-150 tasks/5h"},{"provider":"OpenAI","tier":"Pro 5×","price_usd":100,"limits":"5× Plus quotas (new tier April 2026)","models":"GPT-5.4 Thinking unlimited","features":"Released as Anthropic Max competitor"},{"provider":"OpenAI","tier":"Pro","price_usd":200,"limits":"Effectively unlimited","models":"All including o3-pro","features":"Original premium tier"},{"provider":"Google","tier":"Gemini Advanced","price_usd":20,"limits":"Generous, soft caps","models":"Gemini 3.1 Pro · Flash","features":"Workspace integration · 1M context"},{"provider":"Google","tier":"Ultra","price_usd":100,"limits":"Higher quotas + Veo video","models":"All Gemini + research preview","features":"Veo 3 video · Project Mariner"},{"provider":"Mistral","tier":"Le Chat Pro","price_usd":22,"limits":"Generous","models":"Mistral Large 3 · Codestral","features":"EU jurisdiction"},{"provider":"xAI","tier":"SuperGrok","price_usd":30,"limits":"Generous","models":"Grok 4 · Grok 4 Heavy","features":"X integration"},{"provider":"DeepSeek","tier":"API only","price_usd":null,"limits":"Pay per token","models":"V3.2","features":"Cheapest frontier API"}],"agent_policies":[{"provider":"Anthropic","subscription_automated":"Prohibited","enforcement":"Active (OAuth blocked Apr 4)","first_party_exception":"`claude -p` pipe mode and Claude Code itself","api_required_for_automation":true,"cite":[35]},{"provider":"OpenAI","subscription_automated":"Prohibited (ToS)","enforcement":"Currently tolerated","first_party_exception":"Codex CLI uses subscription quota","api_required_for_automation":false},{"provider":"Google","subscription_automated":"Allowed in CLI","enforcement":"—","first_party_exception":"Gemini CLI free tier 1000 req/day","api_required_for_automation":false},{"provider":"Mistral","subscription_automated":"Allowed","enforcement":"—","first_party_exception":"—","api_required_for_automation":false}],"harnesses":[{"id":"claude-code","name":"Claude Code","vendor":"Anthropic","license":"proprietary","category":"CLI + IDE","stars":49000,"providers":["Anthropic"],"mcp":true,"skills":true,"hooks":true,"subagents":true,"voice":false,"remote":true,"computer_use":true,"lsp":true,"git":true,"memory":"CLAUDE.md","sandbox":"local","swe_pro":46,"pricing":"Subscription Pro/Max","sweet_spot":"Deepest reasoning. Mobile remote control. Computer use since March 2026.","stumbles":"Anthropic-only. Some over-fitting to its own harness.","cite":[23,1]},{"id":"opencode","name":"OpenCode","vendor":"sst","license":"MIT","category":"CLI + ACP","stars":147000,"providers":["75+: Anthropic*, OpenAI, Google, Mistral, Kimi, GLM, Ollama, LM Studio"],"mcp":true,"skills":true,"hooks":true,"subagents":true,"voice":false,"remote":false,"computer_use":false,"lsp":true,"git":true,"memory":"AGENTS.md","sandbox":"local","swe_pro":null,"pricing":"Free (BYOK)","sweet_spot":"Privacy teams, multi-provider freedom. OSS flagship. 6.5M monthly devs.","stumbles":"Anthropic OAuth blocked Apr 4 — must use API key. Setup friction with local models.","cite":[24,35]},{"id":"codex-cli","name":"Codex CLI","vendor":"OpenAI","license":"Apache 2.0","category":"CLI + macOS app","stars":76800,"providers":["OpenAI"],"mcp":false,"skills":true,"hooks":false,"subagents":true,"voice":false,"remote":false,"computer_use":false,"lsp":false,"git":true,"memory":"AGENTS.md","sandbox":"cloud","swe_pro":56.8,"pricing":"Plus $20 / Pro $200","sweet_spot":"Async fire-and-forget. Cloud sandbox = strongest isolation. Tag @codex on GitHub issue.","stumbles":"OpenAI-only. No MCP, no hooks. Tightly coupled to apply_patch tool.","cite":[25,36]},{"id":"gemini-cli","name":"Gemini CLI","vendor":"Google","license":"Apache 2.0","category":"CLI","stars":96000,"providers":["Google"],"mcp":true,"skills":false,"hooks":false,"subagents":false,"voice":false,"remote":false,"computer_use":false,"lsp":false,"git":true,"memory":"GEMINI.md","sandbox":"local","swe_pro":null,"pricing":"Free 1000 req/day","sweet_spot":"Free-tier champion. 1M context. 60 req/min, 1000/day at no cost.","stumbles":"Google-only. Fewer agent features. SWE-bench numbers contaminated.","cite":[26]},{"id":"aider","name":"Aider","vendor":"paul-gauthier","license":"Apache 2.0","category":"CLI","stars":32000,"providers":["Anthropic*","OpenAI","Google","Ollama","100+"],"mcp":false,"skills":false,"hooks":false,"subagents":false,"voice":true,"remote":false,"computer_use":false,"lsp":false,"git":true,"memory":"CONVENTIONS.md","sandbox":"local","swe_pro":null,"pricing":"Free (BYOK)","sweet_spot":"Mature, lightweight, voice-input native. Pair-programmer mode.","stumbles":"No MCP, no hooks. Less ambitious than newer harnesses.","cite":[27]},{"id":"cline","name":"Cline","vendor":"cline-bot","license":"Apache 2.0","category":"VS Code extension","stars":35000,"providers":["Anthropic*","OpenAI","Google","Ollama","many"],"mcp":true,"skills":false,"hooks":false,"subagents":false,"voice":false,"remote":false,"computer_use":true,"lsp":true,"git":true,"memory":".clinerules","sandbox":"local","swe_pro":null,"pricing":"Free (BYOK)","sweet_spot":"Best VS Code-native agent. Plan/Act mode. Computer use built in.","stumbles":"Anthropic OAuth blocked. Can be expensive on long sessions.","cite":[28,35]},{"id":"roo-code","name":"Roo Code","vendor":"RooVetGit","license":"Apache 2.0","category":"VS Code extension","stars":18000,"providers":["Anthropic*","OpenAI","Google","Ollama","many"],"mcp":true,"skills":false,"hooks":true,"subagents":true,"voice":false,"remote":false,"computer_use":true,"lsp":true,"git":true,"memory":".roo","sandbox":"local","swe_pro":null,"pricing":"Free (BYOK)","sweet_spot":"Cline fork with custom modes (Architect/Code/Debug/Ask). More configurable.","stumbles":"Same OAuth situation. Configuration complexity.","cite":[29,35]},{"id":"cursor","name":"Cursor","vendor":"Anysphere","license":"proprietary","category":"IDE","stars":null,"providers":["Anthropic","OpenAI","Google","custom"],"mcp":true,"skills":false,"hooks":false,"subagents":true,"voice":false,"remote":false,"computer_use":false,"lsp":true,"git":true,"memory":".cursorrules","sandbox":"local","swe_pro":null,"pricing":"$20 Pro / $40 Business","sweet_spot":"Most polished IDE for AI-pair work. Tab autocomplete + Composer agent.","stumbles":"Closed source. Lock-in. Subscription required for serious use.","cite":[31]},{"id":"windsurf","name":"Windsurf","vendor":"Codeium","license":"proprietary","category":"IDE","stars":null,"providers":["Anthropic","OpenAI","Google","custom"],"mcp":true,"skills":false,"hooks":false,"subagents":true,"voice":false,"remote":false,"computer_use":false,"lsp":true,"git":true,"memory":"windsurfrules","sandbox":"local","swe_pro":null,"pricing":"$15 Pro","sweet_spot":"Cursor competitor. Cascade agent mode. Cheaper.","stumbles":"Smaller ecosystem than Cursor.","cite":[32]},{"id":"goose","name":"Goose","vendor":"Block","license":"Apache 2.0","category":"Desktop + CLI","stars":15000,"providers":["Anthropic*","OpenAI","Google","Ollama","many"],"mcp":true,"skills":false,"hooks":true,"subagents":true,"voice":false,"remote":false,"computer_use":true,"lsp":false,"git":true,"memory":".goosehints","sandbox":"local","swe_pro":null,"pricing":"Free (BYOK)","sweet_spot":"Block-backed. Strong MCP ecosystem. Recipes for repeatable workflows.","stumbles":"Anthropic OAuth blocked. Less mindshare than OpenCode.","cite":[30,35]},{"id":"omo","name":"Oh-My-OpenAgent (OMO)","vendor":"community","license":"MIT","category":"Multi-agent orchestrator","stars":8000,"providers":["multi-provider"],"mcp":true,"skills":true,"hooks":true,"subagents":true,"voice":false,"remote":false,"computer_use":false,"lsp":false,"git":true,"memory":"AGENTS.md","sandbox":"local","swe_pro":null,"pricing":"Free","sweet_spot":"Ultrawork mode for autonomous overnight runs. Multi-agent fan-out.","stumbles":"Niche. Steep learning curve."},{"id":"ccr","name":"Claude Code Router","vendor":"musistudio","license":"MIT","category":"Proxy/router","stars":12000,"providers":["proxies any to Claude Code"],"mcp":"passthrough","skills":"passthrough","hooks":"passthrough","subagents":"passthrough","voice":false,"remote":false,"computer_use":false,"lsp":false,"git":false,"memory":"—","sandbox":"—","swe_pro":null,"pricing":"Free","sweet_spot":"Use Claude Code with non-Anthropic models. Routes to any provider.","stumbles":"Violates Anthropic ToS. Quality varies by underlying model."},{"id":"hermes","name":"Hermes Agent","vendor":"community","license":"MIT","category":"CLI","stars":3500,"providers":["multi-provider"],"mcp":true,"skills":false,"hooks":false,"subagents":true,"voice":false,"remote":false,"computer_use":false,"lsp":false,"git":true,"memory":"AGENTS.md","sandbox":"local","swe_pro":null,"pricing":"Free","sweet_spot":"Lightweight alternative. Quick sub-agent definition.","stumbles":"Early stage. Smaller community."},{"id":"openclaw","name":"OpenClaw","vendor":"community","license":"MIT","category":"Personal AI gateway","stars":5500,"providers":["any LLM"],"mcp":true,"skills":false,"hooks":false,"subagents":true,"voice":true,"remote":true,"computer_use":false,"lsp":false,"git":false,"memory":"—","sandbox":"—","swe_pro":null,"pricing":"Free","sweet_spot":"Not a coding harness. Personal assistant on every messaging app. Delegates code to Pi/Codex/Claude Code.","stumbles":"Different problem space. Adjacent ecosystem."}],"self_hosting":{"hardware_options":[{"id":"vast-2xa6000","name":"Vast.ai 2× A6000","vram_gb":96,"cost_label":"~$0.60/hr ≈ $430/mo (24/7)","cost_per_hour":0.6,"type":"cloud","notes":"Reference cloud-GPU setup for this dashboard. No upfront capex. Docker templates, SSH/Cloudflare Zero Trust."},{"id":"vast-3xa6000","name":"Vast.ai 3× A6000","vram_gb":144,"cost_label":"~$0.90/hr","cost_per_hour":0.9,"type":"cloud","notes":"Headroom for Qwen 3 235B-A22B Q6_K."},{"id":"vast-4xa6000","name":"Vast.ai 4× A6000","vram_gb":192,"cost_label":"~$1.20/hr","cost_per_hour":1.2,"type":"cloud","notes":"Llama 3.1 405B Q4 territory."},{"id":"mbp-14-m4pro-64","name":"MacBook Pro 14\" M4 Pro 64GB","vram_gb":64,"cost_label":"~$3,200 capex","cost_per_hour":null,"type":"local","notes":"MoE sweet spot. 273 GB/s memory bandwidth."},{"id":"mbp-16-m5max-128","name":"MacBook Pro 16\" M5 Max 128GB","vram_gb":128,"cost_label":"~$5,500 capex","cost_per_hour":null,"type":"local","notes":"Best portable inference. ~545 GB/s bandwidth."},{"id":"mba-15-32","name":"MacBook Air 15\" 32GB","vram_gb":32,"cost_label":"~$1,900 capex","cost_per_hour":null,"type":"local","notes":"Hard 32GB ceiling. Limited to ~14B dense or 26B MoE Q4."}],"models":[{"id":"gemma-4-26b-moe","name":"Gemma 4 26B-A4B MoE","params_total":26,"params_active":4,"released":"2026-04-02","license":"Apache 2.0","jurisdiction":"US","swe_pro":35,"livecodebench":77,"aime":88,"fits":{"vast-2xa6000":{"quant":"BF16","vram_used":52,"tok_per_sec":130},"vast-3xa6000":{"quant":"BF16","vram_used":52,"tok_per_sec":130},"vast-4xa6000":{"quant":"BF16","vram_used":52,"tok_per_sec":130},"mbp-14-m4pro-64":{"quant":"Q6_K","vram_used":22,"tok_per_sec":75},"mbp-16-m5max-128":{"quant":"BF16","vram_used":52,"tok_per_sec":110},"mba-15-32":{"quant":"Q4_K_M","vram_used":16,"tok_per_sec":55}},"notes":"MoE — only 4B active per token. Faster than dense models 5× its size."},{"id":"gemma-4-31b-dense","name":"Gemma 4 31B Dense","params_total":31,"params_active":31,"released":"2026-04-02","license":"Apache 2.0","jurisdiction":"US","swe_pro":38,"livecodebench":80,"aime":89,"fits":{"vast-2xa6000":{"quant":"BF16","vram_used":62,"tok_per_sec":35},"vast-3xa6000":{"quant":"BF16","vram_used":62,"tok_per_sec":35},"vast-4xa6000":{"quant":"BF16","vram_used":62,"tok_per_sec":35},"mbp-14-m4pro-64":{"quant":"Q4_K_M","vram_used":19,"tok_per_sec":28},"mbp-16-m5max-128":{"quant":"Q6_K","vram_used":26,"tok_per_sec":38},"mba-15-32":{"quant":null,"vram_used":null,"tok_per_sec":null}},"notes":"Highest quality open Gemma. Slower per-token (full 31B active)."},{"id":"qwen-3.6-plus","name":"Qwen 3.6 Plus","params_total":397,"params_active":17,"released":"2026-04-11","license":"Apache 2.0","jurisdiction":"China","swe_pro":50,"livecodebench":71.4,"aime":87,"fits":{"vast-2xa6000":{"quant":"Q4_K_M","vram_used":90,"tok_per_sec":38},"vast-3xa6000":{"quant":"Q6_K","vram_used":130,"tok_per_sec":35},"vast-4xa6000":{"quant":"Q8_0","vram_used":175,"tok_per_sec":28},"mbp-14-m4pro-64":{"quant":null,"vram_used":null,"tok_per_sec":null},"mbp-16-m5max-128":{"quant":"Q4_K_M","vram_used":90,"tok_per_sec":18},"mba-15-32":{"quant":null,"vram_used":null,"tok_per_sec":null}},"notes":"1M context. Top open agentic coder. April 11 release.","swe_verified":68.2},{"id":"llama-4-maverick","name":"Llama 4 Maverick","params_total":400,"params_active":17,"released":"2026-04-05","license":"Llama 4 Community","jurisdiction":"US","swe_pro":42,"livecodebench":70,"aime":82,"fits":{"vast-2xa6000":{"quant":"Q3_K_M","vram_used":88,"tok_per_sec":28},"vast-3xa6000":{"quant":"Q4_K_M","vram_used":130,"tok_per_sec":25},"vast-4xa6000":{"quant":"Q6_K","vram_used":175,"tok_per_sec":22},"mbp-14-m4pro-64":{"quant":null,"vram_used":null,"tok_per_sec":null},"mbp-16-m5max-128":{"quant":"Q3_K_M","vram_used":88,"tok_per_sec":14},"mba-15-32":{"quant":null,"vram_used":null,"tok_per_sec":null}},"notes":"400B / 17B active MoE. 1M context. Strong MMLU-Pro (80.5%) but coding behind Chinese labs.","swe_verified":72},{"id":"minimax-m2.5-open","name":"MiniMax M2.5 (open weights)","params_total":456,"params_active":46,"released":"2026-01-20","license":"open-weight","jurisdiction":"China","swe_pro":40,"livecodebench":72,"aime":80,"fits":{"vast-2xa6000":{"quant":null,"vram_used":null,"tok_per_sec":null},"vast-3xa6000":{"quant":"Q4_K_M","vram_used":130,"tok_per_sec":30},"vast-4xa6000":{"quant":"Q4_K_M","vram_used":130,"tok_per_sec":30},"mbp-14-m4pro-64":{"quant":null,"vram_used":null,"tok_per_sec":null},"mbp-16-m5max-128":{"quant":null,"vram_used":null,"tok_per_sec":null},"mba-15-32":{"quant":null,"vram_used":null,"tok_per_sec":null}},"notes":"Eclipsed by DeepSeek V4 and Qwen 3.6 Plus. China jurisdiction. Maintained for niche workloads."},{"id":"deepseek-v4-pro-open","name":"DeepSeek V4-Pro (open weights)","params_total":1600,"params_active":49,"released":"2026-04-24","license":"MIT","jurisdiction":"China","swe_pro":55.4,"livecodebench":93.5,"aime":90,"fits":{"vast-2xa6000":{"quant":null,"vram_used":null,"tok_per_sec":null},"vast-3xa6000":{"quant":null,"vram_used":null,"tok_per_sec":null},"vast-4xa6000":{"quant":"Q2_K","vram_used":188,"tok_per_sec":14},"mbp-14-m4pro-64":{"quant":null,"vram_used":null,"tok_per_sec":null},"mbp-16-m5max-128":{"quant":null,"vram_used":null,"tok_per_sec":null},"mba-15-32":{"quant":null,"vram_used":null,"tok_per_sec":null}},"notes":"1.6T total / 49B active MoE. MIT license. Strongest open coder. Requires very large multi-GPU deployment."},{"id":"llama-4-scout","name":"Llama 4 Scout","params_total":109,"params_active":17,"released":"2026-04-05","license":"Llama 4 Community","jurisdiction":"US","swe_pro":36,"swe_verified":68,"livecodebench":66,"aime":78,"fits":{"vast-2xa6000":{"quant":"BF16","vram_used":88,"tok_per_sec":42},"vast-3xa6000":{"quant":"BF16","vram_used":88,"tok_per_sec":42},"vast-4xa6000":{"quant":"BF16","vram_used":88,"tok_per_sec":42},"mbp-14-m4pro-64":{"quant":"Q4_K_M","vram_used":32,"tok_per_sec":22},"mbp-16-m5max-128":{"quant":"Q6_K","vram_used":45,"tok_per_sec":32},"mba-15-32":{"quant":null,"vram_used":null,"tok_per_sec":null}},"notes":"10M token context (longest in any open model). 109B / 17B active MoE."},{"id":"kimi-k2.6","name":"Kimi K2.6","params_total":235,"params_active":21,"released":"2026-05-01","license":"Modified MIT","jurisdiction":"China","swe_pro":47,"swe_verified":75,"livecodebench":78,"aime":84,"fits":{"vast-2xa6000":{"quant":"Q4_K_M","vram_used":90,"tok_per_sec":36},"vast-3xa6000":{"quant":"Q6_K","vram_used":130,"tok_per_sec":32},"vast-4xa6000":{"quant":"Q8_0","vram_used":170,"tok_per_sec":28},"mbp-14-m4pro-64":{"quant":null,"vram_used":null,"tok_per_sec":null},"mbp-16-m5max-128":{"quant":"Q4_K_M","vram_used":90,"tok_per_sec":18},"mba-15-32":{"quant":null,"vram_used":null,"tok_per_sec":null}},"notes":"Best open-weight for sub-agent fan-out. Built for harness-driven parallel pipelines. Chinese-trained."},{"id":"glm-5.1","name":"GLM 5.1","params_total":358,"params_active":32,"released":"2026-04-22","license":"MIT","jurisdiction":"China","swe_pro":44,"swe_verified":73,"livecodebench":76,"aime":82,"fits":{"vast-2xa6000":{"quant":"Q4_K_M","vram_used":92,"tok_per_sec":32},"vast-3xa6000":{"quant":"Q6_K","vram_used":130,"tok_per_sec":30},"vast-4xa6000":{"quant":"Q8_0","vram_used":168,"tok_per_sec":25},"mbp-14-m4pro-64":{"quant":null,"vram_used":null,"tok_per_sec":null},"mbp-16-m5max-128":{"quant":"Q4_K_M","vram_used":92,"tok_per_sec":16},"mba-15-32":{"quant":null,"vram_used":null,"tok_per_sec":null}},"notes":"MIT license — rare among open frontier models besides DeepSeek. Strong for enterprise fine-tuning."},{"id":"mistral-small-4","name":"Mistral Small 4","params_total":24,"params_active":24,"released":"2026-04-18","license":"Apache 2.0","jurisdiction":"EU","swe_pro":28,"swe_verified":60,"livecodebench":58,"aime":68,"fits":{"vast-2xa6000":{"quant":"BF16","vram_used":48,"tok_per_sec":65},"vast-3xa6000":{"quant":"BF16","vram_used":48,"tok_per_sec":65},"vast-4xa6000":{"quant":"BF16","vram_used":48,"tok_per_sec":65},"mbp-14-m4pro-64":{"quant":"BF16","vram_used":48,"tok_per_sec":38},"mbp-16-m5max-128":{"quant":"BF16","vram_used":48,"tok_per_sec":55},"mba-15-32":{"quant":"Q4_K_M","vram_used":14,"tok_per_sec":30}},"notes":"6.5B effective parameters. EU jurisdiction. Best on-device option."}],"frameworks":[{"name":"llama.cpp","best_for":"Mac (MLX), broad GGUF support","notes":"Best Apple Silicon performance via Metal."},{"name":"vLLM","best_for":"Multi-GPU servers, throughput","notes":"Production serving. Tensor parallelism."},{"name":"Ollama","best_for":"Easiest setup, dev workflow","notes":"Wrapper around llama.cpp. One-line model pull."},{"name":"MLX","best_for":"Apple Silicon native","notes":"Apple's framework. Best M-series perf."}]},"strategy":{"current_recommendation":{"label":"Recommended stack for your profile","monthly_usd":130,"components":["Claude Max 5× — $100/mo — interactive coding, cache reads included","Anthropic API key — ~$30/mo (capped) — automated agentic fan-out","Vast.ai 2× A6000 — variable, ~$30–60/mo on-demand — Gemma 4 26B MoE for bulk tasks"],"rationale":"Subscription wins for human-driven work because cache reads are flat-rate. API isolates automation billing. Self-hosted Gemma 4 captures privacy + zero token cost for high-volume bulk loops."},"alternatives":[{"label":"Dual subscription (Claude Max + OpenAI Pro)","monthly_usd":230,"rationale":"Adds GPT-5.4 SWE-bench Pro lead and Codex CLI cloud sandbox. Worth $100/mo only if you frequently hit hard issues where Sonnet 4.6 plateaus.","verdict":"Defer until you have measured Sonnet plateau frequency for 30 days."},{"label":"API-only (no subscriptions)","monthly_usd":200,"rationale":"Pure pay-per-use. Maximum flexibility. Loses the subscription cache advantage — same workload costs 1.5–5× more for power users.","verdict":"Worse economics for your usage volume. Skip."},{"label":"Self-hosted maximalist","monthly_usd":80,"rationale":"Vast.ai 24/7 with Gemma 4 + Qwen 3 + occasional API top-up for frontier-only tasks.","verdict":"Cheapest if quality plateau at ~88% of Opus is acceptable. Operational overhead is real."}],"routing":[{"tier":"Bulk (70%)","use_for":"Classification, simple edits, triage, log parsing","preferred":"Gemma 4 26B MoE self-hosted · Haiku 4.5 if cloud","cost_label":"$0/tok or $1/$5 Mtok"},{"tier":"Mid (25%)","use_for":"Multi-file edits, code review, refactors, docs","preferred":"Sonnet 4.6 (subscription) or Sonnet API w/ cache+batch","cost_label":"Flat-rate or $0.30/$7.50 Mtok effective"},{"tier":"Premium (5%)","use_for":"Architecture, hard debugging, long-context refactors","preferred":"Opus 4.7 (subscription) or GPT-5.4 (API for SWE-Pro)","cost_label":"Flat-rate or $5/$20 Mtok"}],"open_questions":["Will Mythos Preview broaden access beyond Project Glasswing? The most capable Claude model is currently locked to cyber partners.","How does Gemini 3.2 (expected May 19-20) reshape the cost/quality frontier? Flash variant leaked at $0.25/$2 Mtok.","Anthropic OAuth — will the third-party block expand to API key usage in OpenCode?","Will Claude Platform on AWS reshape the harness landscape? Codex CLI runs on Bedrock; this is a more direct competitor.","Qwen 3.6 Max-Preview went closed-weight — first time for Alibaba. Signal of broader open-weight retreat?"],"task_fit":{"description":"For each task type, one recommended pick per provider drawn from the full roster. Click any cell to see runners-up that the daily briefing also considered. Burn × is derived from the matrix and recomputes when you change the reference dropdown.","rows":[{"task":"Tiny edits / boilerplate","description":"Single-file syntax fixes, regex replacements, formatting, docstrings, import sorting","recommendations":{"anthropic":{"model_id":"haiku-4.5","effort":"medium","rationale":"Fixed-rate, fastest paid Anthropic option"},"openai":{"model_id":"gpt-5.5","effort":"minimal","rationale":"Cheapest reasoning setting on flagship"},"google":{"model_id":"gemini-3-flash","effort":"low","rationale":"Free tier covers 1000 req/day at 1M context"},"self_hosted":{"model_id":"gemma-4-26b-moe","effort":null,"rationale":"Effectively $0/tok on existing Vast.ai infra"}},"runner_up_per_provider":{"openai":["gpt-5.4-mini @ minimal","gpt-5.3-codex-spark","gpt-5.4-nano @ minimal"],"anthropic":["sonnet-4.6 @ low"],"google":["gemini-3.1-pro @ off"],"self_hosted":["llama-3.1-70b @ Q6_K"]}},{"task":"Normal coding task","description":"Single-function implementation, straightforward bug fixes, simple feature additions","recommendations":{"anthropic":{"model_id":"sonnet-4.6","effort":"medium","rationale":"Best $/quality on Anthropic side; cache reads included in Max 5×"},"openai":{"model_id":"gpt-5.3-codex","effort":"medium","rationale":"Coding-specialised, ~⅓ burn of GPT-5.5 for near-identical SWE-Pro"},"google":{"model_id":"gemini-3.1-pro","effort":"low","rationale":"1M context that works, generous free tier"},"self_hosted":{"model_id":"gemma-4-31b-dense","effort":null,"rationale":"Highest-quality open Gemma at full BF16 in 96GB"}},"runner_up_per_provider":{"openai":["gpt-5.4 @ medium","gpt-5.5 @ low"],"anthropic":["opus-4.7 @ medium"],"google":["gemini-3-flash @ medium"],"self_hosted":["qwen-3-235b-a22b @ Q4_K_M"]}},{"task":"Multi-file implementation","description":"Feature spanning 3-10 files, requires understanding cross-file context","recommendations":{"anthropic":{"model_id":"sonnet-4.6","effort":"high","rationale":"Best style/intent understanding for code spanning files"},"openai":{"model_id":"gpt-5.5","effort":"medium","rationale":"Strong on planning; medium gives consistent multi-file edits"},"google":{"model_id":"gemini-3.1-pro","effort":"medium","rationale":"1M context shines when many files are involved"},"self_hosted":{"model_id":"qwen-3.6-plus","effort":null,"rationale":"Largest open MoE; strong reasoning across files"}},"runner_up_per_provider":{"openai":["gpt-5.3-codex @ high","gpt-5.4 @ high"],"anthropic":["opus-4.7 @ high"],"google":[],"self_hosted":["gemma-4-31b-dense"]}},{"task":"Hard debugging / architecture","description":"Race conditions, performance bottlenecks, design decisions with long-term implications","recommendations":{"anthropic":{"model_id":"opus-4.7","effort":"xhigh","rationale":"Default Claude Code effort for Opus; best long-context retention"},"openai":{"model_id":"gpt-5.5","effort":"high","rationale":"SWE-Pro leader; high effort balances depth and burn"},"google":{"model_id":"gemini-3.1-pro","effort":"high","rationale":"Strongest Google option; 1M context for whole-repo analysis"},"self_hosted":{"model_id":null,"effort":null,"rationale":"Open-weight models trail frontier ~10-15pts here; not yet ready for hardest cases"}},"runner_up_per_provider":{"openai":["gpt-5.5 @ xhigh","gpt-5.5-pro @ high"],"anthropic":["opus-4.7 @ high (lower burn)"],"google":[],"self_hosted":["qwen-3-235b-a22b — viable for some cases"]}},{"task":"Very hard autonomous repo task","description":"Overnight runs, agentic loops, tasks you don't supervise turn-by-turn","recommendations":{"anthropic":{"model_id":"opus-4.7","effort":"max","rationale":"Autonomy earns max effort's premium; no human in the loop to correct"},"openai":{"model_id":"gpt-5.5","effort":"xhigh","rationale":"Highest available reasoning budget on OpenAI side"},"google":{"model_id":null,"effort":null,"rationale":"Gemini lacks max-equivalent for unsupervised work"},"self_hosted":{"model_id":null,"effort":null,"rationale":"Not recommended — frontier models earn their cost on the hardest tasks"}},"runner_up_per_provider":{"openai":["gpt-5.5-pro @ xhigh — better but $100/mo gating"],"anthropic":["opus-4.7 @ xhigh — if max budget is too steep"],"google":[],"self_hosted":[]}},{"task":"Code review / PR comments","description":"Reviewing diffs, suggesting improvements, finding issues without writing code yourself","recommendations":{"anthropic":{"model_id":"sonnet-4.6","effort":"high","rationale":"Critical thinking at moderate burn; doesn't need Opus depth"},"openai":{"model_id":"gpt-5.3-codex","effort":"medium","rationale":"Coding-tuned reviewer at ⅓ burn of GPT-5.5"},"google":{"model_id":"gemini-3.1-pro","effort":"medium","rationale":"Reviews benefit from long context across the PR"},"self_hosted":{"model_id":"gemma-4-31b-dense","effort":null,"rationale":"Critique tasks don't need frontier; quality plateau acceptable"}},"runner_up_per_provider":{"openai":["gpt-5.4 @ medium"],"anthropic":["opus-4.7 @ medium"],"google":[],"self_hosted":["qwen-3-235b-a22b"]}},{"task":"Long-context refactor (50K+ tokens)","description":"Cross-cutting changes across a large codebase, where retention is the bottleneck","recommendations":{"anthropic":{"model_id":"opus-4.7","effort":"high","rationale":"1M context with retention that actually works; Opus's sweet spot"},"openai":{"model_id":"gpt-5.5","effort":"high","rationale":"400K API context; degrades faster than Opus past 200K"},"google":{"model_id":"gemini-3.1-pro","effort":"high","rationale":"1M context, strongest free-tier long-context option"},"self_hosted":{"model_id":null,"effort":null,"rationale":"Open models cap around 200K useful context; not yet competitive"}},"runner_up_per_provider":{"openai":["gpt-5.5 @ xhigh — if context fits in 256K"],"anthropic":["opus-4.7 @ xhigh"],"google":[],"self_hosted":[]}},{"task":"Subagent / delegated subtask","description":"Spawned by a main agent for focused work; quality threshold lower than user-facing","recommendations":{"anthropic":{"model_id":"haiku-4.5","effort":"medium","rationale":"Fast, cheap, no effort knob to manage"},"openai":{"model_id":"gpt-5.4-mini","effort":"medium","rationale":"Best subagent — 94% of GPT-5.4 coding at 6× less"},"google":{"model_id":"gemini-3-flash","effort":"low","rationale":"Free tier perfect for fan-out subagents"},"self_hosted":{"model_id":"gemma-4-26b-moe","effort":null,"rationale":"Zero per-token cost for high-volume subagent loops"}},"runner_up_per_provider":{"openai":["gpt-5.3-codex-spark","gpt-5.4-nano @ low"],"anthropic":["sonnet-4.6 @ low"],"google":[],"self_hosted":["llama-3.1-70b @ Q4_K_M"]}},{"task":"Documentation / explanation","description":"READMEs, code comments, tutorials, explaining existing code in prose","recommendations":{"anthropic":{"model_id":"sonnet-4.6","effort":"medium","rationale":"Best prose style on Anthropic side"},"openai":{"model_id":"gpt-5.4","effort":"medium","rationale":"Reasoning helps less here; medium-effort GPT-5.4 wins on $/quality"},"google":{"model_id":"gemini-3.1-pro","effort":"low","rationale":"Reasoning overkill; Gemini's prose competitive at low effort"},"self_hosted":{"model_id":"gemma-4-31b-dense","effort":null,"rationale":"Open models are competitive for prose tasks"}},"runner_up_per_provider":{"openai":["gpt-5.5 @ low"],"anthropic":["haiku-4.5"],"google":["gemini-3-flash @ medium"],"self_hosted":["qwen-3-235b-a22b @ Q4_K_M"]}},{"task":"Test scaffolding / fixtures","description":"Boilerplate test files, fixture generation, mocking, parameterised test suites","recommendations":{"anthropic":{"model_id":"haiku-4.5","effort":"medium","rationale":"Pattern-following work; doesn't need reasoning depth"},"openai":{"model_id":"gpt-5.4-mini","effort":"low","rationale":"Pattern-heavy; minimal reasoning, fast turnaround"},"google":{"model_id":"gemini-3-flash","effort":"low","rationale":"Free tier, fast"},"self_hosted":{"model_id":"gemma-4-26b-moe","effort":null,"rationale":"Bulk test scaffolding is exactly where self-hosted earns out"}},"runner_up_per_provider":{"openai":["gpt-5.3-codex @ low"],"anthropic":["sonnet-4.6 @ low"],"google":[],"self_hosted":["gemma-4-31b-dense"]}},{"task":"Cybersecurity / vulnerability research","description":"Penetration testing, red-teaming, vulnerability discovery — tasks where cyber-specific safeguards apply","recommendations":{"anthropic":{"model_id":"mythos-preview","effort":"xhigh","rationale":"Most capable cyber model; requires Project Glasswing access"},"openai":{"model_id":"gpt-5.5-cyber","effort":"high","rationale":"Permissive on security tasks; requires vetted-team access"},"google":{"model_id":null,"effort":null,"rationale":"No cyber-specialized Gemini variant"},"self_hosted":{"model_id":"deepseek-v4-pro","effort":null,"rationale":"Open-weight without safety filtering; deploy in isolated environment"}},"runner_up_per_provider":{"openai":["gpt-5.5 @ xhigh"],"anthropic":["opus-4.7 @ xhigh (with Cyber Verification Program)"],"google":[],"self_hosted":["qwen-3.6-plus","kimi-k2.6"]}}]}},"quota_burn_matrix":{"baseline_label":"selected reference model at medium effort = 1.00×","baseline_model_id":"gpt-5.5","baseline_effort":"medium","methodology":"Burn ratios are displayed as multiples of the selected reference model at medium effort. Underlying values stored as absolute units anchored to gpt-5.5 medium = 1.00. Per-model ratios from API list pricing (firm, ±5%). Per-effort multipliers grounded in: Anthropic's published thinking-token budgets (low=skip, medium=~1k, high=5k, xhigh=10k, max=20k tokens); ArtificialAnalysis's measurement of Sonnet 4.6 max ≈ 3× Sonnet 4.5 on the Intelligence Index; nxcode.io / OpenAI guidance that xhigh ≈ 3-5× medium; ampcode's GPT-5.5 cost analysis. Per-effort multipliers are ±20%. NOTE: quality vs effort is not strictly monotonic per task — aggregate quality trends upward, but individual tasks can see high beat xhigh or medium beat high. OpenAI explicitly warns that 'high is not automatically better than medium'. Models that run in a separate preview quota bucket with no standard-pool burn are encoded as 0.00x and annotated until final token or credit rates are published.","stacking_multipliers":[{"name":"Fast mode (/fast on)","multiplier":2.0,"scope":"any cell"},{"name":"Cached input (long thread)","multiplier":0.6,"scope":"any cell"},{"name":"Plan mode (/plan)","multiplier":"uses high effort","scope":"overrides default"}],"openai_matrix":[{"model_id":"gpt-5.5","minimal":0.2,"low":0.5,"medium":1.0,"high":2.0,"xhigh":3.5},{"model_id":"gpt-5.5-pro","minimal":null,"low":null,"medium":6.0,"high":12.0,"xhigh":21.0},{"model_id":"gpt-5.4","minimal":0.1,"low":0.25,"medium":0.5,"high":1.0,"xhigh":1.75},{"model_id":"gpt-5.4-mini","minimal":0.011,"low":0.027,"medium":0.053,"high":0.107,"xhigh":0.187},{"model_id":"gpt-5.4-nano","minimal":0.003,"low":0.007,"medium":0.013,"high":null,"xhigh":null},{"model_id":"gpt-5.3-codex","minimal":0.07,"low":0.17,"medium":0.33,"high":0.67,"xhigh":1.17},{"model_id":"gpt-5.3-codex-spark","minimal":0.0,"low":0.0,"medium":0.0,"high":0.0,"xhigh":0.0,"note":"Separate preview quota; usage does not count toward the standard pool. Encoded as 0.00x main-pool burn until final credit rates are published."},{"model_id":"gpt-5.2","minimal":null,"low":0.14,"medium":0.27,"high":0.53,"xhigh":null},{"model_id":"gpt-5.2-codex","minimal":null,"low":0.14,"medium":0.27,"high":0.53,"xhigh":null},{"model_id":"gpt-5.1-codex-max","minimal":null,"low":0.1,"medium":0.2,"high":0.4,"xhigh":null},{"model_id":"gpt-5.1-codex-mini","minimal":0.006,"low":0.015,"medium":0.027,"high":null,"xhigh":null}],"anthropic_matrix":[{"model_id":"opus-4.7","low":0.56,"medium":1.13,"high":2.8,"xhigh":4.5,"max":7.9,"note":"Thinking tokens: low=skip, medium=~1k, high=5k, xhigh=10k, max=20k. API default high; Claude Code default xhigh. New tokenizer +35% tokens vs 4.6."},{"model_id":"sonnet-4.6","low":0.25,"medium":0.5,"high":1.25,"xhigh":null,"max":3.5,"note":"API default high. No xhigh tier. AA measured max ≈ 3× Sonnet 4.5 cost."},{"model_id":"haiku-4.5","low":null,"medium":0.17,"high":null,"xhigh":null,"max":null,"note":"No effort control — fixed-rate model."},{"model_id":"mythos-preview","low":0.7,"medium":1.4,"high":3.5,"xhigh":5.6,"max":9.8,"note":"API pricing not public yet. Estimated 25% higher than Opus 4.7 per output token based on relative capability. Project Glasswing partners only."}],"google_matrix":[{"model_id":"gemini-3.1-pro","off":0.13,"low":0.2,"medium":0.3,"high":0.5},{"model_id":"gemini-3-flash","off":0.02,"low":0.03,"medium":0.05,"high":0.09}],"non_reasoning_note":"Models without reasoning controls: Haiku 4.5 (Anthropic matrix above as fixed rate), GPT-5.5 Instant (new May 5 ChatGPT default), Mistral Medium 3.5, DeepSeek V4-Pro/Flash, MiniMax M2.5, Codex-Spark, Kimi K2.6, GLM 5.1, Qwen 3.6 Plus, all Llama 4 variants — burn at fixed rate per model regardless of effort knob.","effort_quality_factors":{"minimal":0.65,"low":0.85,"medium":0.94,"high":0.98,"xhigh":1.0,"max":1.02,"off":0.85,"on":0.95},"quality_methodology":"Quality % = (model_swe_pro / reference_swe_pro × effort_quality_factor) × 100. Effort quality factors: minimal=0.65, low=0.85, medium=0.94, high=0.98, xhigh=1.00, max=1.02. Anchors: Anthropic's Hex measurement (low Opus 4.7 ≈ medium Opus 4.6 quality) anchors low ≈ 0.85; apiyi.com's report that max gains ~3pts over xhigh on hardest tasks anchors max=1.02; ampcode's GPT-5.5 analysis (medium captures 'most' of capability) anchors medium=0.94. IMPORTANT: these are AGGREGATE estimates. stet.sh found per-task reversals — high can beat xhigh on some tasks, medium can beat high. Treat as ±10% indicators, not precise measures.","unit_anchor":"gpt-5.5 medium","unit_anchor_note":"All burn values are stored as absolute units anchored to gpt-5.5 medium = 1.00. At render time, each cell is divided by the reference model's medium-effort cell (or its single datapoint for non-reasoning models) to produce the displayed ×-of-reference number. When the reference dropdown changes, all burn ratios recalculate against the new reference.","workload_presets":{"cold":{"label":"Cold (0% cache)","description":"One-off prompts, no context reuse. Worst-case burn.","cache_hit_rate":0.0},"mixed":{"label":"Mixed (40% cache)","description":"Interactive coding with some context reuse. Typical default.","cache_hit_rate":0.4},"warm":{"label":"Warm (70% cache)","description":"Sustained agentic session. AA's industry-standard 7:2:1 blend assumes this rate. danielvaughan.com's Codex CLI model uses 70%.","cache_hit_rate":0.7},"hot":{"label":"Hot (90% cache)","description":"Long warmer-pattern sessions with stable system prompts and reused context. vsits.co documented 99% achievable on Claude Code Max subscription with optimization.","cache_hit_rate":0.9}},"default_workload":"mixed","cache_methodology":"Cache discount = (cache_hit_price / input_price). Lower = better discount. Effective burn = (1 - cache_hit_rate) × raw_burn + cache_hit_rate × raw_burn × cache_discount. Per-provider cache discounts: Anthropic 10% (90% off), OpenAI 25% on flagship/10% on 5.4 family, DeepSeek V4-Pro 0.83% (99.2% off — most aggressive in industry), DeepSeek V4-Flash 2%, MiniMax 52%, Mistral & Grok no published cache pricing (modeled as 100% = no discount), Google ~25% plus per-hour storage fee (not modeled). IMPORTANT CAVEAT on Anthropic subscriptions: docs say cache reads count at 10% rate, but GitHub issue anthropics/claude-code#24147 reports cache reads burning quota at full rate on Max subscriptions. Treat the displayed cache benefit as accurate for API usage; subscription quota behavior is contested. Cache writes (1.25× / 2× of input rate on Anthropic) are not modeled — amortize across many reads in steady-state."},"sources":[{"n":1,"category":"Anthropic","title":"Anthropic news","url":"https://www.anthropic.com/news"},{"n":2,"category":"Anthropic","title":"Anthropic Claude model overview","url":"https://docs.claude.com/en/docs/about-claude/models/overview"},{"n":3,"category":"Anthropic","title":"Anthropic pricing","url":"https://www.anthropic.com/pricing"},{"n":4,"category":"OpenAI","title":"OpenAI news","url":"https://openai.com/news/"},{"n":5,"category":"OpenAI","title":"OpenAI model catalog","url":"https://platform.openai.com/docs/models"},{"n":6,"category":"OpenAI","title":"OpenAI API pricing","url":"https://openai.com/api/pricing/"},{"n":7,"category":"Google","title":"Google DeepMind blog","url":"https://blog.google/technology/google-deepmind/"},{"n":8,"category":"Google","title":"Gemini API models","url":"https://ai.google.dev/gemini-api/docs/models"},{"n":9,"category":"Google","title":"Gemini API pricing","url":"https://ai.google.dev/pricing"},{"n":10,"category":"Mistral","title":"Mistral news","url":"https://mistral.ai/news/"},{"n":11,"category":"Mistral","title":"Mistral La Plateforme pricing","url":"https://mistral.ai/products/la-plateforme#pricing"},{"n":12,"category":"xAI","title":"xAI blog (Grok)","url":"https://x.ai/blog"},{"n":13,"category":"DeepSeek","title":"DeepSeek API docs","url":"https://api-docs.deepseek.com/"},{"n":14,"category":"MiniMax","title":"MiniMax news","url":"https://www.minimaxi.com/en/news"},{"n":15,"category":"Benchmarks","title":"SWE-bench (Verified)","url":"https://www.swebench.com/","note":"SWE-bench Verified is widely considered contaminated; treat with skepticism."},{"n":16,"category":"Benchmarks","title":"SWE-bench Pro leaderboard","url":"https://scale.com/leaderboard/swe_bench_pro","note":"Preferred trustworthy code-agent benchmark."},{"n":17,"category":"Benchmarks","title":"LiveCodeBench","url":"https://livecodebench.github.io/"},{"n":18,"category":"Benchmarks","title":"Artificial Analysis (cross-provider pricing + benchmarks)","url":"https://artificialanalysis.ai/"},{"n":19,"category":"Benchmarks","title":"LMArena (chatbot arena)","url":"https://lmarena.ai/"},{"n":20,"category":"Open-weight","title":"Hugging Face — trending models","url":"https://huggingface.co/models?sort=trending"},{"n":21,"category":"Open-weight","title":"Hugging Face blog","url":"https://huggingface.co/blog"},{"n":22,"category":"Open-weight","title":"r/LocalLLaMA (community signal)","url":"https://www.reddit.com/r/LocalLLaMA/"},{"n":23,"category":"Harnesses","title":"Claude Code (anthropics/claude-code)","url":"https://github.com/anthropics/claude-code"},{"n":24,"category":"Harnesses","title":"OpenCode (sst/opencode)","url":"https://github.com/sst/opencode"},{"n":25,"category":"Harnesses","title":"Codex CLI (openai/codex)","url":"https://github.com/openai/codex"},{"n":26,"category":"Harnesses","title":"Gemini CLI (google-gemini/gemini-cli)","url":"https://github.com/google-gemini/gemini-cli"},{"n":27,"category":"Harnesses","title":"Aider (Aider-AI/aider)","url":"https://github.com/Aider-AI/aider"},{"n":28,"category":"Harnesses","title":"Cline (cline/cline)","url":"https://github.com/cline/cline"},{"n":29,"category":"Harnesses","title":"Roo Code (RooVetGit/Roo-Code)","url":"https://github.com/RooVetGit/Roo-Code"},{"n":30,"category":"Harnesses","title":"Goose (block/goose)","url":"https://github.com/block/goose"},{"n":31,"category":"Harnesses","title":"Cursor changelog","url":"https://cursor.com/changelog"},{"n":32,"category":"Harnesses","title":"Windsurf changelog","url":"https://windsurf.com/changelog"},{"n":33,"category":"Hardware","title":"Vast.ai (spot GPU pricing — A6000, H100)","url":"https://vast.ai/"},{"n":34,"category":"Hardware","title":"Apple MacBook Pro (M-series)","url":"https://www.apple.com/shop/buy-mac/macbook-pro"},{"n":35,"category":"Policy","title":"Anthropic OAuth third-party restrictions (Apr 4, 2026)","url":"https://www.anthropic.com/news"},{"n":36,"category":"Policy","title":"OpenAI Codex token-based pricing migration (Apr 2, 2026)","url":"https://openai.com/news/"},{"n":37,"category":"Aggregators","title":"Hacker News (AI tags)","url":"https://news.ycombinator.com/"}],"provider_sources":{"Anthropic":[1,2,3],"OpenAI":[4,5,6],"Google":[7,8,9],"Mistral":[10,11],"xAI":[12],"DeepSeek":[13],"MiniMax":[14],"Meta":[20,21],"Alibaba":[20,21],"Moonshot":[20,21],"Zhipu":[20,21]},"section_sources":{"models":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"harnesses":[23,24,25,26,27,28,29,30,31,32,35],"self_hosting":[20,21,22,33,34],"strategy":[1,3,4,6,16,18,33,35,36]}}
+</script>
+
+<!-- ===== HEADER ===== -->
+<header class="masthead">
+  <div class="masthead-row">
+    <div>
+      <div class="brand">AI Market <span class="accent">Briefing</span></div>
+      <div class="subtitle">Frontier models, harnesses, self-hosting · daily intelligence</div>
+    </div>
+    <div class="dateline">
+      <div id="generated-at">Loading…</div>
+      <div style="margin-top:0.3rem; opacity:0.6;">
+        <a href="https://github.com/projectious-work/ai-market-research/releases/tag/v0.2.2"
+           target="_blank" rel="noopener" style="color:inherit;">v0.2.2</a>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="control-group">
+      <span>Reference model:</span>
+      <select id="ref-model"></select>
+    </div>
+    <div class="control-group">
+      <span>Jurisdiction:</span>
+      <select id="filter-jurisdiction">
+        <option value="all">All</option>
+        <option value="US">US only</option>
+        <option value="EU">EU only</option>
+        <option value="China">China only</option>
+        <option value="not-China">Exclude China</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <span>Workload:</span>
+      <select id="filter-workload" title="Cache hit rate assumption for burn calculations">
+        <option value="cold">Cold (0% cache)</option>
+        <option value="mixed" selected>Mixed (40% cache)</option>
+        <option value="warm">Warm (70% cache)</option>
+        <option value="hot">Hot (90% cache)</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<!-- ===== TABS ===== -->
+<nav class="tabs">
+  <button class="tab active" data-tab="dashboard"><span class="num">00</span>Dashboard</button>
+  <button class="tab" data-tab="models"><span class="num">01</span>Models</button>
+  <button class="tab" data-tab="harnesses"><span class="num">02</span>Harnesses</button>
+  <button class="tab" data-tab="self-hosting"><span class="num">03</span>Self-Hosting</button>
+  <button class="tab" data-tab="strategy"><span class="num">04</span>Strategy</button>
+  <button class="tab" data-tab="sources"><span class="num">05</span>Sources</button>
+</nav>
+
+<main>
+  <!-- ===== DASHBOARD TAB ===== -->
+  <section class="tab-panel active" id="tab-dashboard">
+    <div class="dash-grid" id="dash-grid"></div>
+  </section>
+
+  <!-- ===== MODELS TAB ===== -->
+  <section class="tab-panel" id="tab-models">
+    <h2 class="sect-head">Frontier model landscape</h2>
+    <p class="sect-sub">Quality % is computed against the selected reference (top-right). SWE-bench Pro is the trustworthy benchmark; Verified is contaminated.</p>
+    <div data-section-sources="models"></div>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-model-filter="current">Current (frontier + fast)</button>
+      <button class="filter-btn" data-model-filter="frontier">Frontier only</button>
+      <button class="filter-btn" data-model-filter="fast">Fast/cheap only</button>
+      <button class="filter-btn" data-model-filter="legacy">Include legacy</button>
+      <button class="filter-btn" data-model-filter="all">All</button>
+    </div>
+    <div class="table-wrap">
+      <table id="models-table">
+        <thead><tr>
+          <th>Model</th>
+          <th>Provider</th>
+          <th>Quality vs ref</th>
+          <th class="tnum">SWE-Pro</th>
+          <th class="tnum">SWE-Ver</th>
+          <th class="tnum">LCB</th>
+          <th class="tnum">AIME</th>
+          <th class="tnum">In $/Mtok</th>
+          <th class="tnum">Out $/Mtok</th>
+          <th class="tnum">Cache</th>
+          <th>Context</th>
+          <th class="tnum">tok/s</th>
+          <th>Released</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 class="sect-head">Quota burn cross-matrix</h2>
+    <p class="sect-sub">Burn ratios shown as multiples of the selected reference model at medium effort. OpenAI (Codex <code>/effort</code>) and Anthropic (Claude Code <code>/effort</code>) share the same vocabulary — low / medium / high / xhigh — with Anthropic adding 'max' for Opus 4.7. Google uses thinking budgets. Multipliers stack: Fast mode ×2.0, cached input ×0.6, plan mode forces high. <strong style="color:var(--accent);">Switch the reference dropdown at the top of the page to recompute all ratios.</strong></p>
+
+    <div id="burn-matrix-container"></div>
+
+    <h2 class="sect-head">Subscription tiers</h2>
+    <div class="table-wrap">
+      <table id="subs-table">
+        <thead><tr>
+          <th>Provider</th><th>Tier</th><th class="tnum">$/mo</th><th>Limits</th><th>Models</th><th>Features</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 class="sect-head">Automated agent policy</h2>
+    <div class="table-wrap">
+      <table id="policy-table">
+        <thead><tr>
+          <th>Provider</th><th>Sub on automation</th><th>Enforcement</th><th>First-party exception</th><th>API needed?</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== HARNESSES TAB ===== -->
+  <section class="tab-panel" id="tab-harnesses">
+    <h2 class="sect-head">Agent harness landscape</h2>
+    <p class="sect-sub">Two workflow modes: supervised (you wait) and autonomous (overnight). Anthropic OAuth blocked third-party tools on April 4, 2026 — affected harnesses marked with *.</p>
+    <div data-section-sources="harnesses"></div>
+    <div class="table-wrap">
+      <table class="matrix-table" id="harnesses-table">
+        <thead><tr>
+          <th>Harness</th>
+          <th>Vendor</th>
+          <th>Category</th>
+          <th>MCP</th>
+          <th>Skills</th>
+          <th>Hooks</th>
+          <th>Subagents</th>
+          <th>Voice</th>
+          <th>Remote</th>
+          <th>Computer Use</th>
+          <th>LSP</th>
+          <th>Memory</th>
+          <th class="tnum">SWE-Pro</th>
+          <th>Pricing</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <h3 class="sect-head" style="font-size:1.05rem; margin-top:2rem;">Detailed profiles</h3>
+    <div id="harness-profiles"></div>
+  </section>
+
+  <!-- ===== SELF-HOSTING TAB ===== -->
+  <section class="tab-panel" id="tab-self-hosting">
+    <h2 class="sect-head">Hardware × model fit</h2>
+    <p class="sect-sub">Quantization, VRAM used, and tok/s estimates per hardware config. Quality % is vs selected reference.</p>
+    <div data-section-sources="self_hosting"></div>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-hw-filter="all">All hardware</button>
+      <button class="filter-btn" data-hw-filter="cloud">Cloud only</button>
+      <button class="filter-btn" data-hw-filter="local">MacBook only</button>
+    </div>
+    <div class="table-wrap">
+      <table id="self-host-table">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 class="sect-head">Hardware options</h2>
+    <div class="table-wrap">
+      <table id="hardware-table">
+        <thead><tr>
+          <th>Hardware</th><th>Type</th><th class="tnum">VRAM</th><th>Cost</th><th>Notes</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 class="sect-head">Inference frameworks</h2>
+    <div class="table-wrap">
+      <table id="frameworks-table">
+        <thead><tr><th>Framework</th><th>Best for</th><th>Notes</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== STRATEGY TAB ===== -->
+  <section class="tab-panel" id="tab-strategy">
+    <div data-section-sources="strategy"></div>
+    <div id="strategy-content"></div>
+  </section>
+
+  <!-- ===== SOURCES TAB ===== -->
+  <section class="tab-panel" id="tab-sources">
+    <div id="sources-content"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="disclaimer">
+    <strong>AI-generated, no warranty.</strong> This dashboard is compiled
+    by automated agents from public sources and is published <em>as-is</em>
+    for informational and personal-research purposes only. The publishers
+    make no representations or warranties of any kind — express or
+    implied — about completeness, accuracy, reliability, or suitability
+    for any purpose. Figures, prices, benchmarks, and policy details
+    change frequently and may be incorrect, stale, or paraphrased;
+    verify against the linked primary sources before quoting or acting.
+  </div>
+  <div class="disclaimer">
+    <strong>Not professional advice.</strong> Nothing on this page
+    constitutes financial, investment, legal, procurement, security,
+    or other professional advice. You assume all risk for decisions made
+    on the basis of this content. All third-party product names,
+    trademarks, and logos belong to their respective owners; references
+    are nominative fair use, not endorsement or affiliation.
+  </div>
+  <div class="license">
+    Code released under the
+    <a href="https://github.com/projectious-work/ai-market-research/blob/main/LICENSE"
+       target="_blank" rel="noopener">MIT License</a>.
+    The MIT License covers the code only; the content above is published
+    under the disclaimers in this footer. Source:
+    <a href="https://github.com/projectious-work/ai-market-research"
+       target="_blank" rel="noopener">github.com/projectious-work/ai-market-research</a>.
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+const data = JSON.parse(document.getElementById('market-data').textContent);
+let currentRef = data.meta.reference_default;
+let currentJurisdiction = 'all';
+let currentWorkload = data.quota_burn_matrix.default_workload || 'mixed';
+
+// Cache-aware burn helpers
+function workloadHitRate() {
+  const preset = data.quota_burn_matrix.workload_presets?.[currentWorkload];
+  return preset ? preset.cache_hit_rate : 0;
+}
+
+// Effective burn factor for a given cache_discount and current workload hit rate.
+// Returns multiplier applied to raw burn: (1-hit) × 1 + hit × discount.
+// For cold (hit=0): always 1.0. For warm with Anthropic (hit=0.7, disc=0.1): 0.37×.
+// For warm with DeepSeek (hit=0.7, disc=0.0083): 0.306× — barely paying for cache hits.
+function cacheBurnFactor(modelId) {
+  const model = data.models.find(m => m.id === modelId);
+  if (!model || typeof model.cache_discount !== 'number') return 1.0;
+  const hit = workloadHitRate();
+  return (1 - hit) * 1.0 + hit * model.cache_discount;
+}
+
+// ---------- INIT ----------
+function init() {
+  document.getElementById('generated-at').textContent =
+    new Date(data.meta.generated_at).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+
+  // Reference model selector
+  const refSel = document.getElementById('ref-model');
+  data.models.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = m.name;
+    if (m.id === currentRef) opt.selected = true;
+    refSel.appendChild(opt);
+  });
+  refSel.addEventListener('change', e => { currentRef = e.target.value; renderAll(); });
+
+  document.getElementById('filter-jurisdiction').addEventListener('change', e => {
+    currentJurisdiction = e.target.value; renderAll();
+  });
+
+  // Workload preset selector
+  const workloadSel = document.getElementById('filter-workload');
+  workloadSel.value = currentWorkload;
+  workloadSel.addEventListener('change', e => {
+    currentWorkload = e.target.value; renderAll();
+  });
+
+  // Tabs
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Filter bars
+  document.querySelectorAll('[data-model-filter]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      document.querySelectorAll('[data-model-filter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderModels(btn.dataset.modelFilter);
+    });
+  });
+  document.querySelectorAll('[data-hw-filter]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      document.querySelectorAll('[data-hw-filter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSelfHosting(btn.dataset.hwFilter);
+    });
+  });
+
+  renderAll();
+}
+
+function renderAll() {
+  renderDashboard();
+  renderModels(document.querySelector('[data-model-filter].active')?.dataset.modelFilter || 'current');
+  renderBurnMatrix();
+  renderSubs();
+  renderPolicy();
+  renderHarnesses();
+  renderSelfHosting(document.querySelector('[data-hw-filter].active')?.dataset.hwFilter || 'all');
+  renderHardware();
+  renderFrameworks();
+  renderStrategy();
+  renderSources();
+  // Fill section-source strips after section bodies are populated.
+  document.querySelectorAll('[data-section-sources]').forEach(el => {
+    el.innerHTML = sectionSources(el.dataset.sectionSources);
+  });
+}
+
+// ---------- CITATION HELPERS ----------
+// data.sources = [{n, category, title, url}]
+// data.provider_sources = {"Anthropic": [1, 2], ...}
+// data.section_sources = {"models": [...], "harnesses": [...], ...}
+function cite(...nums) {
+  const flat = nums.flat().filter(n => n != null);
+  if (!flat.length) return '';
+  const seen = new Set();
+  const unique = flat.filter(n => !seen.has(n) && seen.add(n));
+  const inner = unique.map(n =>
+    `<a href="#src-${n}" title="Source ${n}">${n}</a>`).join(',');
+  return `<sup class="cite">${inner}</sup>`;
+}
+function provCite(provider) {
+  const map = (data.provider_sources || {});
+  return cite(map[provider] || []);
+}
+function sectionSources(sectionKey) {
+  const map = (data.section_sources || {});
+  const nums = map[sectionKey] || [];
+  if (!nums.length) return '';
+  return `<div class="section-sources">Sources: ${cite(nums)}</div>`;
+}
+
+// ---------- HELPERS ----------
+function getRefModel() { return data.models.find(m => m.id === currentRef); }
+function qualityPct(model) {
+  const ref = getRefModel();
+  if (!ref || !ref.swe_pro || !model.swe_pro) return null;
+  return Math.round(model.swe_pro / ref.swe_pro * 100);
+}
+function localQualityPct(localModel) {
+  const ref = getRefModel();
+  if (!ref || !ref.swe_pro || !localModel.swe_pro) return null;
+  return Math.round(localModel.swe_pro / ref.swe_pro * 100);
+}
+function jurisdictionMatch(j) {
+  if (currentJurisdiction === 'all') return true;
+  if (currentJurisdiction === 'not-China') return j !== 'China';
+  return j === currentJurisdiction;
+}
+function qbar(pct) {
+  if (pct === null || pct === undefined) return '<span style="color:var(--text-faint);">—</span>';
+  const cls = pct > 100 ? 'qbar-fill over' : 'qbar-fill';
+  const w = Math.min(pct, 120);
+  return `<div class="qbar"><div class="qbar-track"><div class="${cls}" style="width:${w}%"></div></div><div class="qbar-num">${pct}%</div></div>`;
+}
+function pill(provider) {
+  const slug = provider.toLowerCase().replace(/[^a-z]/g, '');
+  return `<span class="pill pill-${slug}">${provider}</span>`;
+}
+function fmtPrice(n) { return n === null || n === undefined ? '—' : '$' + n.toFixed(2); }
+function dash(v) { return v === null || v === undefined ? '<span style="color:var(--text-faint);">—</span>' : v; }
+
+// ---------- DASHBOARD ----------
+function renderDashboard() {
+  const grid = document.getElementById('dash-grid');
+  grid.innerHTML = '';
+
+  // Headline
+  const headline = document.createElement('div');
+  headline.className = 'dash-headline';
+  const ref = getRefModel();
+  headline.innerHTML = `
+    <h2>Where the market stands · ${new Date(data.meta.generated_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</h2>
+    <p>Reference model: <strong>${ref ? ref.name : '—'}</strong>. Profile: ${data.meta.user_profile}.</p>
+  `;
+  grid.appendChild(headline);
+
+  // Stat tiles
+  data.headline_stats.forEach(s => {
+    const tile = document.createElement('div');
+    tile.className = 'stat-tile';
+    tile.innerHTML = `
+      <div class="label">${s.label}</div>
+      <div class="value">${s.value}<span class="unit">${s.unit || ''}</span></div>
+      <div class="delta ${s.delta_dir}">${s.delta || ''}</div>
+    `;
+    grid.appendChild(tile);
+  });
+
+  // Executive summaries (4 sections)
+  const summaries = [
+    { title: '01 · Models', body: data.executive_summary.models },
+    { title: '02 · Harnesses', body: data.executive_summary.harnesses },
+    { title: '03 · Self-hosting', body: data.executive_summary.self_hosting },
+    { title: '04 · Strategy', body: data.executive_summary.strategy }
+  ];
+  summaries.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'dash-section';
+    div.innerHTML = `<h3>${s.title}</h3><p>${s.body}</p>`;
+    grid.appendChild(div);
+  });
+
+  // Trend sparklines
+  const trendSect = document.createElement('div');
+  trendSect.className = 'dash-section full';
+  trendSect.innerHTML = `<h3>Trends · last 6 months</h3><div class="spark-row" id="spark-row"></div>`;
+  grid.appendChild(trendSect);
+
+  Object.entries(data.trends).forEach(([key, t]) => {
+    const card = document.createElement('div');
+    card.className = 'spark-card';
+    const last = t.history[t.history.length - 1].value;
+    const first = t.history[0].value;
+    const change = last - first;
+    card.innerHTML = `
+      <div class="label">${t.label}</div>
+      <div class="current">${last}<span style="font-size:0.65rem; color:var(--text-faint); margin-left:0.5rem; font-family:var(--mono); font-weight:400;">
+        ${change > 0 ? '+' : ''}${change.toFixed(1)} since Nov
+      </span></div>
+      ${sparkline(t.history)}
+    `;
+    document.getElementById('spark-row') ? document.getElementById('spark-row').appendChild(card) : trendSect.querySelector('.spark-row').appendChild(card);
+  });
+
+  // Changelog
+  const cl = document.createElement('div');
+  cl.className = 'dash-section';
+  cl.innerHTML = `<h3>What changed recently</h3>` +
+    data.changelog.map(c => `
+      <div class="changelog-item">
+        <div class="changelog-date">${c.date}</div>
+        <div class="changelog-text"><span class="changelog-tag ${c.tag}">${c.tag}</span>${c.text}</div>
+      </div>
+    `).join('');
+  grid.appendChild(cl);
+
+  // Action items
+  const ac = document.createElement('div');
+  ac.className = 'dash-section';
+  ac.innerHTML = `<h3>Action items for you</h3><ul class="action-list">` +
+    data.actions.map(a => `<li>${a}</li>`).join('') + `</ul>`;
+  grid.appendChild(ac);
+}
+
+function sparkline(history) {
+  const w = 220, h = 40, pad = 2;
+  const values = history.map(p => p.value);
+  const min = Math.min(...values), max = Math.max(...values);
+  const range = max - min || 1;
+  const stepX = (w - pad * 2) / (values.length - 1);
+  const points = values.map((v, i) => {
+    const x = pad + i * stepX;
+    const y = h - pad - ((v - min) / range) * (h - pad * 2);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const lastX = pad + (values.length - 1) * stepX;
+  const lastY = h - pad - ((values[values.length - 1] - min) / range) * (h - pad * 2);
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <polyline points="${points}" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="2.5" fill="var(--accent)"/>
+  </svg>`;
+}
+
+// ---------- MODELS ----------
+function renderModels(filter) {
+  const tbody = document.querySelector('#models-table tbody');
+  tbody.innerHTML = '';
+  let models = data.models.filter(m => jurisdictionMatch(m.jurisdiction));
+  if (filter === 'current') models = models.filter(m => m.tier === 'frontier' || m.tier === 'fast');
+  else if (filter === 'frontier') models = models.filter(m => m.tier === 'frontier');
+  else if (filter === 'fast') models = models.filter(m => m.tier === 'fast');
+  else if (filter === 'legacy') models = models.filter(m => m.tier === 'legacy' || m.tier === 'frontier' || m.tier === 'fast');
+  // 'all' = no filter
+
+  models.forEach(m => {
+    const tr = document.createElement('tr');
+    if (m.tier === 'legacy') tr.style.opacity = '0.55';
+    tr.innerHTML = `
+      <td class="model-name">${m.name}<span class="sublabel">${m.license} · ${m.jurisdiction}${m.tier === 'legacy' ? ' · legacy' : ''}</span></td>
+      <td>${pill(m.provider)}${provCite(m.provider)}</td>
+      <td>${qbar(qualityPct(m))}</td>
+      <td class="tnum mono">${dash(m.swe_pro)}</td>
+      <td class="tnum mono" style="color:var(--text-faint);">${dash(m.swe_verified)}</td>
+      <td class="tnum mono">${dash(m.livecodebench)}</td>
+      <td class="tnum mono">${dash(m.aime)}</td>
+      <td class="tnum mono">${fmtPrice(m.api_in)}</td>
+      <td class="tnum mono">${fmtPrice(m.api_out)}</td>
+      <td class="tnum mono" style="color:var(--text-dim);">${fmtPrice(m.api_cache_hit)}</td>
+      <td class="mono">${m.context_label}</td>
+      <td class="tnum mono">${m.tok_per_sec}</td>
+      <td class="mono" style="color:var(--text-dim); font-size:0.75rem;">${m.released}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function burnBarClass(v) {
+  if (v === null || v === undefined) return '';
+  if (v < 0.5) return 'bm-burn-low';
+  if (v < 1.5) return 'bm-burn-mid';
+  if (v < 3.0) return 'bm-burn-high';
+  return 'bm-burn-xhigh';
+}
+
+function qualBarClass(q) {
+  if (q === null || q === undefined) return '';
+  if (q < 70) return 'bm-qual-poor';
+  if (q < 85) return 'bm-qual-mid';
+  if (q < 95) return 'bm-qual-good';
+  return 'bm-qual-best';
+}
+
+function fmtBurn(v) {
+  if (v === null || v === undefined) return '<span class="nodata">—</span>';
+  if (v < 0.1) return v.toFixed(3) + '×';
+  if (v < 1) return v.toFixed(2) + '×';
+  if (v < 10) return v.toFixed(2) + '×';
+  return v.toFixed(1) + '×';
+}
+
+function modelById(id) { return data.models.find(m => m.id === id); }
+
+// Find a model's row in any of the three matrices and return it
+function findBurnRow(modelId) {
+  const matrix = data.quota_burn_matrix;
+  if (!matrix) return null;
+  for (const block of [matrix.openai_matrix, matrix.anthropic_matrix, matrix.google_matrix]) {
+    const row = block.find(r => r.model_id === modelId);
+    if (row) return row;
+  }
+  return null;
+}
+
+// The absolute burn value (in unit-anchor units) for the reference cell.
+// Used as the divisor for every displayed burn ratio in the matrix.
+// Reference effort defaults to 'medium'; for models without medium, we fall back
+// in this priority order: medium -> high -> low -> any defined value.
+// Reference unit is also discounted by the reference model's cache factor,
+// so ratios stay relative under the current workload preset.
+function referenceBurnUnit() {
+  const ref = getRefModel();
+  if (!ref) return 1.0;
+  const row = findBurnRow(ref.id);
+  if (!row) return 1.0;
+  const candidates = ['medium', 'high', 'low', 'xhigh', 'max', 'minimal', 'off', 'on-budget'];
+  for (const k of candidates) {
+    if (row[k] !== null && row[k] !== undefined && typeof row[k] === 'number') {
+      return row[k] * cacheBurnFactor(ref.id);
+    }
+  }
+  return 1.0;
+}
+
+// Compute the cell quality % for a given model + effort, against the current reference
+function cellQuality(modelId, effort) {
+  const model = modelById(modelId);
+  const ref = getRefModel();
+  if (!model || !ref || !model.swe_pro || !ref.swe_pro) return null;
+  const factors = data.quota_burn_matrix.effort_quality_factors || {};
+  const factor = factors[effort] !== undefined ? factors[effort] : 1.0;
+  return Math.round((model.swe_pro / ref.swe_pro) * factor * 100);
+}
+
+// Build the inner content of a single matrix cell using E2 encoding.
+// `absoluteBurn` is the stored value (in unit-anchor units, gpt-5.5 medium = 1.00).
+// We multiply by cacheBurnFactor (workload-dependent) then divide by referenceBurnUnit().
+function renderBmCell(absoluteBurn, modelId, effort, opts) {
+  opts = opts || {};
+  if (absoluteBurn === null || absoluteBurn === undefined) {
+    return `<td style="text-align:center; color:var(--text-faint);">—</td>`;
+  }
+  const refUnit = referenceBurnUnit();
+  const cacheFactor = cacheBurnFactor(modelId);
+  const burn = (absoluteBurn * cacheFactor) / refUnit;
+  const quality = cellQuality(modelId, effort);
+  // Burn bar: linear scale, clamped at 3.0× (anything above saturates)
+  const burnPct = Math.min(burn / 3.0, 1.0) * 100;
+  const qualPct = quality === null ? 0 : Math.min(quality, 100);
+  const baselineFlag = (modelId === getRefModel()?.id && (effort === 'medium' || (effort === 'high' && !findBurnRow(modelId)?.medium))) ? 'baseline-cell-flag' : '';
+  const noteAttr = opts.note ? ` title="${opts.note.replace(/"/g, '&quot;')}"` : '';
+  return `<td class="bm-cell ${baselineFlag}"${noteAttr}>
+    <div class="bm-cell-numbers">
+      <span class="burn-num">${fmtBurn(burn)}</span>
+      <span class="qual-num">${quality === null ? '—' : quality + '%'}</span>
+    </div>
+    <div class="bm-bar-track"><div class="bm-bar-fill ${burnBarClass(burn)}" style="width:${burnPct.toFixed(0)}%;"></div></div>
+    <div class="bm-bar-track"><div class="bm-bar-fill ${qualBarClass(quality)}" style="width:${qualPct.toFixed(0)}%;"></div></div>
+  </td>`;
+}
+
+function renderBurnMatrix() {
+  const matrix = data.quota_burn_matrix;
+  if (!matrix) return;
+  const c = document.getElementById('burn-matrix-container');
+  if (!c) return;
+  const ref = getRefModel();
+
+  const workload = data.quota_burn_matrix.workload_presets?.[currentWorkload];
+  const workloadLabel = workload ? workload.label : currentWorkload;
+  const workloadNote = workload ? workload.description : '';
+  const baselineLine = `<p style="margin-bottom:0.75rem; font-size:0.85rem; color:var(--text-dim);"><strong style="color:var(--accent);">Baseline:</strong> ${ref ? ref.name : 'reference'} at medium effort = 1.00× burn under <strong>${workloadLabel}</strong>. <span style="color:var(--text-faint);">Quality % computed against ${ref ? ref.name : 'reference'}. Switch reference or workload above to recompute.</span></p>
+  <p style="margin-bottom:0.75rem; font-size:0.78rem; color:var(--text-faint); font-style:italic; font-family:var(--serif);">${workloadNote}</p>`;
+
+  // Legend
+  const legendBlock = `
+    <div style="display:flex; gap:1.25rem; margin-bottom:1rem; padding:0.6rem 0.85rem; background:var(--bg-elev); border:1px dashed var(--border); font-size:0.7rem; color:var(--text-dim); flex-wrap:wrap;">
+      <span><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.62rem; margin-right:0.4rem;">Cell layout:</strong> top number = burn, right number = quality, top bar = burn (scale 0–3×), bottom bar = quality (0–100%)</span>
+    </div>
+    <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap; font-size:0.68rem; color:var(--text-dim);">
+      <span style="margin-right:0.5rem;"><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.6rem;">Burn:</strong></span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#4ade80; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&lt;0.5×</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#fbbf24; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>0.5–1.5×</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#ff5e3a; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>1.5–3×</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#ef4444; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&gt;3×</span>
+      <span style="margin-left:1rem;"><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.6rem;">Quality:</strong></span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#ef4444; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&lt;70%</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#fbbf24; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>70–85%</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#84cc16; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>85–95%</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#22c55e; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>≥95%</span>
+    </div>
+  `;
+
+  // OpenAI block
+  const oaiCols = ['minimal', 'low', 'medium', 'high', 'xhigh'];
+  let oaiRows = matrix.openai_matrix.map(row => {
+    const m = modelById(row.model_id);
+    const isLegacy = m?.tier === 'legacy';
+    const cells = oaiCols.map(eff => renderBmCell(row[eff], row.model_id, eff, { note: row.note })).join('');
+    const noteCell = row.note ? `<td class="burn-cell-note" style="text-align:left;">${row.note}</td>` : '<td></td>';
+    return `<tr class="${isLegacy ? 'legacy-row' : ''}"><td>${m?.name || row.model_id}</td>${cells}${noteCell}</tr>`;
+  }).join('');
+
+  const oaiBlock = `
+    <div class="burn-matrix-block">
+      <h4>OpenAI · effort levels (Codex /effort)</h4>
+      <div class="sub-note">Baseline cell outlined. Reasoning tokens count as output. Multipliers from community benchmarks (±20%).</div>
+      <table class="burn-matrix-table">
+        <thead><tr>
+          <th>Model</th>
+          <th>minimal</th><th>low</th><th>medium</th><th>high</th><th>xhigh</th>
+          <th style="text-align:left;">Note</th>
+        </tr></thead>
+        <tbody>${oaiRows}</tbody>
+      </table>
+    </div>
+  `;
+
+  // Anthropic block
+  const anthCols = ['low', 'medium', 'high', 'xhigh', 'max'];
+  let anthRows = matrix.anthropic_matrix.map(row => {
+    const m = modelById(row.model_id);
+    const cells = anthCols.map(eff => renderBmCell(row[eff], row.model_id, eff, { note: row.note })).join('');
+    const noteCell = row.note ? `<td class="burn-cell-note" style="text-align:left;">${row.note}</td>` : '<td></td>';
+    return `<tr><td>${m?.name || row.model_id}</td>${cells}${noteCell}</tr>`;
+  }).join('');
+
+  const anthBlock = `
+    <div class="burn-matrix-block">
+      <h4>Anthropic · effort levels (Claude Code /effort)</h4>
+      <div class="sub-note">Adaptive thinking via /effort. Same vocabulary as OpenAI plus a 'max' tier on top. Opus 4.7 default is xhigh; Sonnet 4.6 default is high. Haiku has no effort control (fixed-rate).</div>
+      <table class="burn-matrix-table">
+        <thead><tr>
+          <th>Model</th>
+          <th>low</th><th>medium</th><th>high</th><th>xhigh</th><th>max</th>
+          <th style="text-align:left;">Note</th>
+        </tr></thead>
+        <tbody>${anthRows}</tbody>
+      </table>
+    </div>
+  `;
+
+  // Google block
+  const gglCols = ['off', 'low', 'medium', 'high'];
+  let gglRows = matrix.google_matrix.map(row => {
+    const m = modelById(row.model_id);
+    const cells = gglCols.map(eff => renderBmCell(row[eff], row.model_id, eff)).join('');
+    return `<tr><td>${m?.name || row.model_id}</td>${cells}</tr>`;
+  }).join('');
+
+  const gglBlock = `
+    <div class="burn-matrix-block">
+      <h4>Google · thinking budget tiers</h4>
+      <div class="sub-note">Gemini uses a thinking budget set by the developer. Tiers are approximate mappings.</div>
+      <table class="burn-matrix-table">
+        <thead><tr>
+          <th>Model</th>
+          <th>off</th><th>low budget</th><th>medium budget</th><th>high budget</th>
+        </tr></thead>
+        <tbody>${gglRows}</tbody>
+      </table>
+    </div>
+  `;
+
+  // Stacking multipliers
+  const chips = matrix.stacking_multipliers.map(s =>
+    `<span class="chip">${s.name}: <strong style="color:var(--text); font-family:var(--mono); font-size:0.75rem; text-transform:none; letter-spacing:0; margin:0;">×${typeof s.multiplier === 'number' ? s.multiplier.toFixed(1) : s.multiplier}</strong></span>`
+  ).join('');
+  const stackBlock = `<div class="burn-stack-chips"><strong>Stacking:</strong>${chips}</div>`;
+
+  // Non-reasoning note
+  const flatBlock = `
+    <div class="burn-matrix-block" style="margin-top:1rem;">
+      <h4>No effort control · fixed burn per model</h4>
+      <div class="sub-note">${matrix.non_reasoning_note}</div>
+    </div>
+  `;
+
+  // Methodology note
+  const methodology = `<p style="margin-top:1rem; font-size:0.75rem; color:var(--text-faint); font-style:italic; font-family:var(--serif);">${matrix.methodology}</p>`;
+  const qualMethodology = matrix.quality_methodology ? `<p style="margin-top:0.4rem; font-size:0.75rem; color:var(--text-faint); font-style:italic; font-family:var(--serif);">${matrix.quality_methodology}</p>` : '';
+
+  // Efficiency leaders panel
+  const efficiencyBlock = `
+    <div class="eff-leaders" id="eff-leaders-panel">
+      <h4>Efficiency leaders · top 10 across all models × efforts</h4>
+      <div class="sub-note">Lowest burn-per-quality-point. Filter by minimum quality to surface combinations that meet your floor.</div>
+      <div class="eff-controls">
+        <span>Min quality:</span>
+        <select id="eff-min-quality">
+          <option value="0">No floor</option>
+          <option value="70">≥ 70%</option>
+          <option value="80" selected>≥ 80%</option>
+          <option value="90">≥ 90%</option>
+          <option value="95">≥ 95%</option>
+          <option value="100">≥ 100%</option>
+        </select>
+        <span style="margin-left:0.75rem;">Provider:</span>
+        <select id="eff-provider-filter">
+          <option value="all" selected>All</option>
+          <option value="OpenAI">OpenAI only</option>
+          <option value="Anthropic">Anthropic only</option>
+          <option value="Google">Google only</option>
+        </select>
+        <span style="margin-left:0.75rem;">Include legacy:</span>
+        <select id="eff-legacy">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+      <div id="eff-leaders-table"></div>
+    </div>
+  `;
+
+  c.innerHTML = baselineLine + legendBlock + oaiBlock + anthBlock + gglBlock + stackBlock + flatBlock + methodology + qualMethodology + efficiencyBlock;
+
+  // Wire up the efficiency leaders controls
+  document.getElementById('eff-min-quality').addEventListener('change', renderEfficiencyLeaders);
+  document.getElementById('eff-provider-filter').addEventListener('change', renderEfficiencyLeaders);
+  document.getElementById('eff-legacy').addEventListener('change', renderEfficiencyLeaders);
+  renderEfficiencyLeaders();
+}
+
+function renderEfficiencyLeaders() {
+  const matrix = data.quota_burn_matrix;
+  if (!matrix) return;
+  const tableEl = document.getElementById('eff-leaders-table');
+  if (!tableEl) return;
+
+  const minQuality = parseInt(document.getElementById('eff-min-quality').value, 10);
+  const providerFilter = document.getElementById('eff-provider-filter').value;
+  const includeLegacy = document.getElementById('eff-legacy').value === 'yes';
+
+  const refUnit = referenceBurnUnit();
+
+  // Build a flat list of {modelId, effort, displayedBurn, quality, efficiency, provider, tier}
+  const cells = [];
+  const sources = [
+    { matrix: matrix.openai_matrix, efforts: ['minimal', 'low', 'medium', 'high', 'xhigh'] },
+    { matrix: matrix.anthropic_matrix, efforts: ['low', 'medium', 'high', 'xhigh', 'max'] },
+    { matrix: matrix.google_matrix, efforts: ['off', 'low', 'medium', 'high'] }
+  ];
+  sources.forEach(src => {
+    src.matrix.forEach(row => {
+      const m = modelById(row.model_id);
+      if (!m) return;
+      src.efforts.forEach(eff => {
+        const absoluteBurn = row[eff];
+        if (absoluteBurn === null || absoluteBurn === undefined) return;
+        const quality = cellQuality(row.model_id, eff);
+        if (quality === null) return;
+        const cacheFactor = cacheBurnFactor(row.model_id);
+        const displayedBurn = (absoluteBurn * cacheFactor) / refUnit;
+        cells.push({
+          modelId: row.model_id,
+          modelName: m.name,
+          provider: m.provider,
+          tier: m.tier,
+          effort: eff,
+          burn: displayedBurn,
+          quality: quality,
+          efficiency: displayedBurn / (quality / 100)
+        });
+      });
+    });
+  });
+
+  // Apply filters
+  let filtered = cells.filter(c => c.quality >= minQuality);
+  if (providerFilter !== 'all') filtered = filtered.filter(c => c.provider === providerFilter);
+  if (!includeLegacy) filtered = filtered.filter(c => c.tier !== 'legacy');
+  if (currentJurisdiction !== 'all') {
+    filtered = filtered.filter(c => {
+      const m = modelById(c.modelId);
+      return jurisdictionMatch(m.jurisdiction);
+    });
+  }
+
+  // Sort by efficiency ascending (lower = better)
+  filtered.sort((a, b) => a.efficiency - b.efficiency);
+  const top = filtered.slice(0, 10);
+
+  if (top.length === 0) {
+    tableEl.innerHTML = '<p style="color:var(--text-faint); font-style:italic; padding:1rem 0;">No combinations match the current filters.</p>';
+    return;
+  }
+
+  const rows = top.map((c, i) => {
+    const rank = i + 1;
+    const rankClass = rank <= 3 ? 'eff-rank top3' : 'eff-rank';
+    const effClass = c.efficiency < 1.0 ? 'eff-score' : (c.efficiency < 2.0 ? 'eff-score mid' : 'eff-score poor');
+    return `<tr>
+      <td><span class="${rankClass}">${rank}</span></td>
+      <td class="eff-model">${c.modelName}</td>
+      <td><span class="pill pill-${c.provider.toLowerCase().replace(/[^a-z]/g,'')}">${c.provider}</span></td>
+      <td><span class="eff-effort">${c.effort}</span></td>
+      <td>${fmtBurn(c.burn)}</td>
+      <td>${c.quality}%</td>
+      <td><span class="${effClass}">${c.efficiency.toFixed(2)}</span></td>
+    </tr>`;
+  }).join('');
+
+  const ref = getRefModel();
+  const refNote = ref ? `<p style="font-size:0.7rem; color:var(--text-faint); margin-top:0.5rem; font-style:italic; font-family:var(--serif);">Burn shown as × of ${ref.name} medium · efficiency = burn ÷ (quality/100), lower is better</p>` : '';
+
+  tableEl.innerHTML = `
+    <table class="eff-table">
+      <thead><tr>
+        <th style="width:36px;">#</th>
+        <th>Model</th>
+        <th>Provider</th>
+        <th>Effort</th>
+        <th>Burn</th>
+        <th>Quality</th>
+        <th>Burn/Quality</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>${refNote}
+  `;
+}
+
+function renderSubs() {
+  const tbody = document.querySelector('#subs-table tbody');
+  tbody.innerHTML = '';
+  data.subscriptions.forEach(s => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${pill(s.provider)}${provCite(s.provider)}</td>
+        <td class="model-name">${s.tier}</td>
+        <td class="tnum mono">${s.price_usd === null ? '—' : '$' + s.price_usd}</td>
+        <td>${s.limits}</td>
+        <td>${s.models}</td>
+        <td style="color:var(--text-dim);">${s.features}</td>
+      </tr>
+    `;
+  });
+}
+
+function renderPolicy() {
+  const tbody = document.querySelector('#policy-table tbody');
+  tbody.innerHTML = '';
+  data.agent_policies.forEach(p => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${pill(p.provider)}${provCite(p.provider)}</td>
+        <td>${p.subscription_automated}</td>
+        <td>${p.enforcement}${p.cite ? cite(p.cite) : ''}</td>
+        <td>${p.first_party_exception}</td>
+        <td>${p.api_required_for_automation ? '<span style="color:var(--accent-hot);">Yes</span>' : '<span style="color:var(--green);">No</span>'}</td>
+      </tr>
+    `;
+  });
+}
+
+// ---------- HARNESSES ----------
+function fmtBool(v) {
+  if (v === true) return '<span class="feature-yes">●</span>';
+  if (v === false) return '<span class="feature-no">○</span>';
+  if (v === 'passthrough') return '<span class="feature-partial">↗</span>';
+  return '<span style="color:var(--text-faint);">—</span>';
+}
+
+function renderHarnesses() {
+  const tbody = document.querySelector('#harnesses-table tbody');
+  tbody.innerHTML = '';
+  data.harnesses.forEach(h => {
+    tbody.innerHTML += `
+      <tr>
+        <td class="model-name" style="text-align:left;">${h.name}${h.cite ? cite(h.cite) : ''}</td>
+        <td style="text-align:left;">${h.vendor}</td>
+        <td class="mono" style="font-size:0.72rem;">${h.category}</td>
+        <td>${fmtBool(h.mcp)}</td>
+        <td>${fmtBool(h.skills)}</td>
+        <td>${fmtBool(h.hooks)}</td>
+        <td>${fmtBool(h.subagents)}</td>
+        <td>${fmtBool(h.voice)}</td>
+        <td>${fmtBool(h.remote)}</td>
+        <td>${fmtBool(h.computer_use)}</td>
+        <td>${fmtBool(h.lsp)}</td>
+        <td class="mono" style="font-size:0.7rem;">${h.memory}</td>
+        <td class="tnum mono">${dash(h.swe_pro)}</td>
+        <td class="mono" style="font-size:0.72rem;">${h.pricing}</td>
+      </tr>
+    `;
+  });
+
+  const profilesDiv = document.getElementById('harness-profiles');
+  profilesDiv.innerHTML = data.harnesses.map(h => `
+    <details>
+      <summary><strong>${h.name}</strong> · ${h.vendor} · ${h.license}</summary>
+      <div class="detail-body">
+        <p><strong>Sweet spot:</strong> ${h.sweet_spot}</p>
+        <p style="margin-top:0.5rem;"><strong>Where it stumbles:</strong> ${h.stumbles}</p>
+        <p style="margin-top:0.5rem; color:var(--text-faint); font-size:0.78rem;">Providers: ${Array.isArray(h.providers) ? h.providers.join(', ') : h.providers}</p>
+      </div>
+    </details>
+  `).join('');
+}
+
+// ---------- SELF-HOSTING ----------
+function renderSelfHosting(hwFilter) {
+  const hardware = data.self_hosting.hardware_options.filter(hw => {
+    if (hwFilter === 'cloud') return hw.type === 'cloud';
+    if (hwFilter === 'local') return hw.type === 'local';
+    return true;
+  });
+
+  const thead = document.querySelector('#self-host-table thead');
+  thead.innerHTML = '<tr><th>Model</th><th>Quality vs ref</th>' +
+    hardware.map(hw => `<th style="text-align:center;">${hw.name}<br><span style="font-weight:400; color:var(--text-faint); font-size:0.65rem;">${hw.vram_gb}GB</span></th>`).join('') +
+    '</tr>';
+
+  const tbody = document.querySelector('#self-host-table tbody');
+  tbody.innerHTML = '';
+  data.self_hosting.models
+    .filter(m => jurisdictionMatch(m.jurisdiction))
+    .forEach(m => {
+      let row = `<td class="model-name">${m.name}<span class="sublabel">${m.license} · ${m.jurisdiction} · ${m.params_total}B (${m.params_active}B active)</span></td>`;
+      row += `<td>${qbar(localQualityPct(m))}</td>`;
+      hardware.forEach(hw => {
+        const fit = m.fits[hw.id];
+        if (!fit || !fit.quant) {
+          row += `<td style="text-align:center; color:var(--text-faint);">—</td>`;
+        } else {
+          row += `<td style="text-align:center;">
+            <div class="mono" style="font-size:0.78rem;"><strong>${fit.quant}</strong></div>
+            <div class="mono" style="font-size:0.7rem; color:var(--text-dim);">${fit.vram_used}GB · ${fit.tok_per_sec} t/s</div>
+          </td>`;
+        }
+      });
+      tbody.innerHTML += `<tr>${row}</tr>`;
+    });
+}
+
+function renderHardware() {
+  const tbody = document.querySelector('#hardware-table tbody');
+  tbody.innerHTML = '';
+  data.self_hosting.hardware_options.forEach(hw => {
+    tbody.innerHTML += `
+      <tr>
+        <td class="model-name">${hw.name}</td>
+        <td><span class="pill pill-${hw.type === 'cloud' ? 'opensource' : 'mistral'}">${hw.type}</span></td>
+        <td class="tnum mono">${hw.vram_gb} GB</td>
+        <td class="mono" style="font-size:0.78rem;">${hw.cost_label}</td>
+        <td style="color:var(--text-dim);">${hw.notes}</td>
+      </tr>
+    `;
+  });
+}
+
+function renderFrameworks() {
+  const tbody = document.querySelector('#frameworks-table tbody');
+  tbody.innerHTML = '';
+  data.self_hosting.frameworks.forEach(f => {
+    tbody.innerHTML += `
+      <tr>
+        <td class="model-name">${f.name}</td>
+        <td>${f.best_for}</td>
+        <td style="color:var(--text-dim);">${f.notes}</td>
+      </tr>
+    `;
+  });
+}
+
+// ---------- STRATEGY ----------
+function renderTaskFitTable(providerFilter) {
+  if (!data.strategy.task_fit) return '';
+  const tf = data.strategy.task_fit;
+  const refUnit = referenceBurnUnit();
+
+  // Map a model+effort to a display burn × ratio (derived from the matrix)
+  function burnFor(modelId, effort) {
+    if (!modelId) return null;
+    const row = findBurnRow(modelId);
+    if (!row) return null;
+    // For models without effort control, the only defined effort is what we use.
+    // For Anthropic Haiku (medium-only), effort='medium' uses row.medium.
+    let key = effort;
+    if (!key || row[key] === null || row[key] === undefined) {
+      // Fall back to any defined effort
+      for (const k of ['medium','high','low','xhigh','max','minimal','off','on-budget']) {
+        if (typeof row[k] === 'number') { key = k; break; }
+      }
+    }
+    if (typeof row[key] !== 'number') return null;
+    return (row[key] * cacheBurnFactor(modelId)) / refUnit;
+  }
+
+  const allProviders = [
+    { key: 'anthropic',   label: 'Anthropic',   pillProvider: 'Anthropic' },
+    { key: 'openai',      label: 'OpenAI',      pillProvider: 'OpenAI' },
+    { key: 'google',      label: 'Google',      pillProvider: 'Google' },
+    { key: 'self_hosted', label: 'Self-hosted', pillProvider: 'opensource' }
+  ];
+  const visibleProviders = providerFilter === 'all'
+    ? allProviders
+    : allProviders.filter(p => p.key === providerFilter);
+
+  const headerCells = visibleProviders.map(p =>
+    `<th><span class="col-provider">${p.label}</span></th>`
+  ).join('');
+
+  const bodyRows = tf.rows.map((row, rowIdx) => {
+    const taskCell = `<td>
+      <div class="taskfit-task">${row.task}</div>
+      <div class="taskfit-task-desc">${row.description}</div>
+    </td>`;
+
+    const providerCells = visibleProviders.map(p => {
+      const rec = row.recommendations[p.key];
+      const ru = row.runner_up_per_provider?.[p.key] || [];
+
+      if (!rec || !rec.model_id) {
+        const emptyRationale = rec?.rationale ? `<span class="taskfit-rationale">${rec.rationale}</span>` : '';
+        return `<td class="taskfit-cell-empty">— not recommended${emptyRationale}</td>`;
+      }
+
+      const model = modelById(rec.model_id);
+      const modelName = model ? model.name : rec.model_id;
+      const effortBadge = rec.effort ? `<span class="taskfit-effort">${rec.effort}</span>` : '';
+      const burn = burnFor(rec.model_id, rec.effort);
+      const burnDisplay = burn !== null ? `<span class="taskfit-burn">${fmtBurn(burn)}</span>` : '';
+      const runnerupBlock = ru.length > 0
+        ? `<div class="taskfit-runnerups">
+             <div class="ru-label">also considered</div>
+             <ul>${ru.map(r => `<li>${r}</li>`).join('')}</ul>
+           </div>`
+        : '';
+      const expandHint = ru.length > 0 ? `<div class="taskfit-expand-hint">${ru.length} runner-up${ru.length === 1 ? '' : 's'} · click</div>` : '';
+
+      return `<td class="taskfit-cell" data-row="${rowIdx}" data-provider="${p.key}">
+        <span class="taskfit-model">${modelName}</span>
+        <div>${effortBadge}${burnDisplay}</div>
+        <span class="taskfit-rationale">${rec.rationale}</span>
+        ${expandHint}
+        ${runnerupBlock}
+      </td>`;
+    }).join('');
+
+    return `<tr>${taskCell}${providerCells}</tr>`;
+  }).join('');
+
+  return `
+    <h2 class="sect-head" style="margin-top:2rem;">Task-fit recommendations</h2>
+    <p class="sect-sub">${tf.description}</p>
+    <div class="taskfit-controls">
+      <span>Provider:</span>
+      <button class="taskfit-filter active" data-tf-provider="all">All</button>
+      <button class="taskfit-filter" data-tf-provider="anthropic">Anthropic</button>
+      <button class="taskfit-filter" data-tf-provider="openai">OpenAI</button>
+      <button class="taskfit-filter" data-tf-provider="google">Google</button>
+      <button class="taskfit-filter" data-tf-provider="self_hosted">Self-hosted</button>
+    </div>
+    <div class="table-wrap">
+      <table class="taskfit-table">
+        <thead><tr><th class="task-col">Task</th>${headerCells}</tr></thead>
+        <tbody>${bodyRows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderStrategy() {
+  const s = data.strategy;
+  const div = document.getElementById('strategy-content');
+  const taskFitBlock = renderTaskFitTable('all');
+  div.innerHTML = `
+    <h2 class="sect-head">${s.current_recommendation.label}</h2>
+    <p class="sect-sub">Total: ~$${s.current_recommendation.monthly_usd}/mo</p>
+    <div class="strat-grid">
+      <div class="strat-card">
+        <h3>Recommended stack</h3>
+        <div class="price">~$${s.current_recommendation.monthly_usd}/mo total</div>
+        <ul>${s.current_recommendation.components.map(c => `<li>${c}</li>`).join('')}</ul>
+        <p style="margin-top:1rem;">${s.current_recommendation.rationale}</p>
+      </div>
+      <div class="strat-card alt">
+        <h3>Routing strategy</h3>
+        <div class="price">70 / 25 / 5 split</div>
+        <ul>${s.routing.map(r => `<li><strong>${r.tier}</strong>: ${r.use_for}<br><span style="color:var(--text-dim);">→ ${r.preferred} (${r.cost_label})</span></li>`).join('')}</ul>
+      </div>
+    </div>
+
+    ${taskFitBlock}
+
+    <h2 class="sect-head" style="margin-top:2rem;">Alternatives considered</h2>
+    <div class="strat-grid">
+      ${s.alternatives.map(alt => `
+        <div class="strat-card alt">
+          <h3>${alt.label}</h3>
+          <div class="price">~$${alt.monthly_usd}/mo</div>
+          <p>${alt.rationale}</p>
+          <p style="margin-top:0.6rem; color:var(--accent); font-style:italic; font-family:var(--serif);">Verdict: ${alt.verdict}</p>
+        </div>
+      `).join('')}
+    </div>
+
+    <h2 class="sect-head" style="margin-top:2rem;">Open questions</h2>
+    <div class="strat-card warn" style="grid-column:span 2;">
+      <ul>${s.open_questions.map(q => `<li>${q}</li>`).join('')}</ul>
+    </div>
+  `;
+
+  // Wire up click-to-expand on task-fit cells
+  div.addEventListener('click', e => {
+    const cell = e.target.closest('.taskfit-cell');
+    if (cell) {
+      cell.classList.toggle('expanded');
+    }
+    const filter = e.target.closest('[data-tf-provider]');
+    if (filter) {
+      div.querySelectorAll('[data-tf-provider]').forEach(b => b.classList.remove('active'));
+      filter.classList.add('active');
+      // Re-render the task-fit block with the new filter
+      const provider = filter.dataset.tfProvider;
+      const tableWrap = div.querySelector('.taskfit-table').closest('.table-wrap');
+      const newBlock = document.createElement('div');
+      newBlock.innerHTML = renderTaskFitTable(provider);
+      // Replace just the table-wrap
+      const newTableWrap = newBlock.querySelector('.table-wrap');
+      tableWrap.replaceWith(newTableWrap);
+    }
+  });
+}
+
+// ---------- SOURCES TAB ----------
+function renderSources() {
+  const div = document.getElementById('sources-content');
+  if (!div) return;
+  const sources = (data.sources || []).slice().sort((a, b) => a.n - b.n);
+  if (!sources.length) {
+    div.innerHTML = '<h2 class="sect-head">Sources</h2><p class="sect-sub">No sources recorded yet.</p>';
+    return;
+  }
+  // Group by category, preserving first-seen order.
+  const byCat = new Map();
+  sources.forEach(s => {
+    const cat = s.category || 'Other';
+    if (!byCat.has(cat)) byCat.set(cat, []);
+    byCat.get(cat).push(s);
+  });
+  const groups = Array.from(byCat.entries()).map(([cat, items]) => `
+    <div class="sources-cat">
+      <h3>${cat}</h3>
+      <ol class="sources-list">
+        ${items.map(s => `
+          <li id="src-${s.n}">
+            <span class="sn">${s.n}</span>
+            <span>
+              <a href="${s.url}" target="_blank" rel="noopener">${s.title || s.url}</a>
+              ${s.note ? `<span style="color:var(--text-dim); display:block; font-size:0.78rem; margin-top:0.15rem;">${s.note}</span>` : ''}
+              <span class="src-url">${s.url}</span>
+            </span>
+          </li>
+        `).join('')}
+      </ol>
+    </div>
+  `).join('');
+  div.innerHTML = `
+    <h2 class="sect-head">Sources</h2>
+    <p class="sect-sub">Every superscript number in this dashboard links to an entry below. Sources are grouped by category. Last verified: ${new Date(data.meta.generated_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}.</p>
+    <div class="sources-grid">${groups}</div>
+  `;
+}
+
+// ---------- BOOT ----------
+init();
+</script>
+
+</body>
+</html>
