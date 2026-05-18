@@ -2409,7 +2409,6 @@ function renderTaskFitTable(providerFilter) {
 function renderStrategy() {
   const s = data.strategy;
   const div = document.getElementById('strategy-content');
-  const taskFitBlock = renderTaskFitTable('all');
   div.innerHTML = `
     <h2 class="sect-head">${s.current_recommendation.label}</h2>
     <p class="sect-sub">Total: ~$${s.current_recommendation.monthly_usd}/mo</p>
@@ -2426,8 +2425,6 @@ function renderStrategy() {
         <ul>${s.routing.map(r => `<li><strong>${r.tier}</strong>: ${r.use_for}<br><span style="color:var(--text-dim);">→ ${r.preferred} (${r.cost_label})</span></li>`).join('')}</ul>
       </div>
     </div>
-
-    ${taskFitBlock}
 
     <h2 class="sect-head" style="margin-top:2rem;">Alternatives considered</h2>
     <div class="strat-grid">
@@ -2447,26 +2444,6 @@ function renderStrategy() {
     </div>
   `;
 
-  // Wire up click-to-expand on task-fit cells
-  div.addEventListener('click', e => {
-    const cell = e.target.closest('.taskfit-cell');
-    if (cell) {
-      cell.classList.toggle('expanded');
-    }
-    const filter = e.target.closest('[data-tf-provider]');
-    if (filter) {
-      div.querySelectorAll('[data-tf-provider]').forEach(b => b.classList.remove('active'));
-      filter.classList.add('active');
-      // Re-render the task-fit block with the new filter
-      const provider = filter.dataset.tfProvider;
-      const tableWrap = div.querySelector('.taskfit-table').closest('.table-wrap');
-      const newBlock = document.createElement('div');
-      newBlock.innerHTML = renderTaskFitTable(provider);
-      // Replace just the table-wrap
-      const newTableWrap = newBlock.querySelector('.table-wrap');
-      tableWrap.replaceWith(newTableWrap);
-    }
-  });
 }
 
 // ---------- CAPABILITY RADAR ----------
