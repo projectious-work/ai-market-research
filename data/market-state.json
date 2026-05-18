@@ -178,6 +178,11 @@
   },
   "changelog": [
     {
+      "date": "2026-05-18",
+      "tag": "feature",
+      "text": "Capability radar v0.3.0: new 6-axis radar chart on 04 Strategy (Coding · Reasoning & Architecture · Knowledge & Research · Communication & Docs · Multimodal · Agentic), with weighted composite scoring + 7 focus presets (Balanced + one per axis at weight 2.0). Each model rated 1-5 per axis against a frozen rubric (see src/dashboard-context.md); seeded all 19 frontier+fast models. Agentic axis is model-side only (harness scoring stays on 02 Harnesses). Pure-SVG render, no chart-library dep."
+    },
+    {
       "date": "2026-05-16",
       "tag": "model",
       "text": "Grounded GPT-5.3-Codex-Spark from OpenAI primary sources: 128K context, 1000+ tok/s, Codex app/CLI/VS Code research preview, separate preview quota; burn matrix now encodes zero standard-pool burn instead of blank cells pending final credit rates."
