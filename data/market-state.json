@@ -309,12 +309,12 @@
       ],
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 5,
-        "reasoning": 5,
-        "knowledge": 5,
-        "comms": 5,
-        "multimodal": 3,
-        "agentic": 5
+        "coding": 50,
+        "reasoning": 50,
+        "knowledge": 49,
+        "comms": 50,
+        "multimodal": 32,
+        "agentic": 50
       }
     },
     {
@@ -349,12 +349,12 @@
       ],
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 4,
-        "reasoning": 4,
-        "knowledge": 4,
-        "comms": 4,
-        "multimodal": 3,
-        "agentic": 4
+        "coding": 41,
+        "reasoning": 40,
+        "knowledge": 39,
+        "comms": 42,
+        "multimodal": 31,
+        "agentic": 41
       }
     },
     {
@@ -384,12 +384,12 @@
       "effort_levels": [],
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 3,
-        "reasoning": 2,
-        "knowledge": 3,
-        "comms": 3,
-        "multimodal": 2,
-        "agentic": 3
+        "coding": 28,
+        "reasoning": 18,
+        "knowledge": 29,
+        "comms": 30,
+        "multimodal": 18,
+        "agentic": 28
       }
     },
     {
@@ -425,12 +425,12 @@
       "notes": "Most capable Anthropic model. Currently limited release for cyber-security partners only via Project Glasswing. Best alignment metrics of any model trained.",
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 4,
-        "reasoning": 5,
-        "knowledge": 5,
-        "comms": 4,
-        "multimodal": 3,
-        "agentic": 4
+        "coding": 41,
+        "reasoning": 49,
+        "knowledge": 48,
+        "comms": 41,
+        "multimodal": 30,
+        "agentic": 41
       }
     },
     {
@@ -466,12 +466,12 @@
       "notes": "Current SWE-Pro leader (58.6%). 2× per-token cost vs GPT-5.4, but ~20% more efficient on token count per task. 1M context with 2× input/1.5× output surcharge above 272K. Reasoning tokens billed as output.",
       "cache_discount": 0.25,
       "capability_levels": {
-        "coding": 4,
-        "reasoning": 4,
-        "knowledge": 5,
-        "comms": 4,
-        "multimodal": 4,
-        "agentic": 4
+        "coding": 42,
+        "reasoning": 41,
+        "knowledge": 49,
+        "comms": 40,
+        "multimodal": 41,
+        "agentic": 38
       }
     },
     {
@@ -505,12 +505,12 @@
       "notes": "Highest-intelligence OpenAI API option. $30/$180. Available in ChatGPT Pro $200 and as API. 6× cost of base 5.5.",
       "cache_discount": 0.25,
       "capability_levels": {
-        "coding": 5,
-        "reasoning": 5,
-        "knowledge": 5,
-        "comms": 4,
-        "multimodal": 4,
-        "agentic": 4
+        "coding": 47,
+        "reasoning": 48,
+        "knowledge": 50,
+        "comms": 42,
+        "multimodal": 42,
+        "agentic": 42
       }
     },
     {
@@ -546,12 +546,12 @@
       "notes": "Best quality-per-credit. Held SWE-Pro lead Feb-April. Default for everyday coding.",
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 4,
-        "reasoning": 4,
-        "knowledge": 4,
-        "comms": 3,
-        "multimodal": 3,
-        "agentic": 3
+        "coding": 40,
+        "reasoning": 40,
+        "knowledge": 40,
+        "comms": 30,
+        "multimodal": 30,
+        "agentic": 30
       }
     },
     {
@@ -587,12 +587,12 @@
       "notes": "94% of GPT-5.4 coding at 6× less. Best subagent. ~1/20 burn vs GPT-5.5. Collapses at 64K+ context.",
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 3,
-        "reasoning": 3,
-        "knowledge": 3,
-        "comms": 3,
-        "multimodal": 3,
-        "agentic": 3
+        "coding": 30,
+        "reasoning": 30,
+        "knowledge": 30,
+        "comms": 30,
+        "multimodal": 30,
+        "agentic": 30
       }
     },
     {
@@ -626,12 +626,12 @@
       "notes": "Smallest reasoning model. API-only. For embeddable/edge inference at near-zero cost.",
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 2,
-        "reasoning": 2,
-        "knowledge": 2,
-        "comms": 2,
-        "multimodal": 2,
-        "agentic": 2
+        "coding": 20,
+        "reasoning": 20,
+        "knowledge": 20,
+        "comms": 20,
+        "multimodal": 20,
+        "agentic": 20
       }
     },
     {
@@ -667,12 +667,12 @@
       "notes": "Coding-specialised. ~⅓ burn vs GPT-5.5 for ~2pts less SWE-Pro. Often best $/quality for execution turns.",
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 5,
-        "reasoning": 3,
-        "knowledge": 3,
-        "comms": 3,
-        "multimodal": 1,
-        "agentic": 4
+        "coding": 49,
+        "reasoning": 28,
+        "knowledge": 28,
+        "comms": 27,
+        "multimodal": 8,
+        "agentic": 38
       }
     },
     {
@@ -707,12 +707,12 @@
       "notes": "Smaller GPT-5.3-Codex variant for real-time coding on Cerebras WSE-3. Text-only, 128K context, and optimized for near-instant interactive edits rather than long-horizon autonomous work.",
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 4,
-        "reasoning": 3,
-        "knowledge": 3,
-        "comms": 2,
-        "multimodal": 1,
-        "agentic": 4
+        "coding": 40,
+        "reasoning": 30,
+        "knowledge": 30,
+        "comms": 20,
+        "multimodal": 10,
+        "agentic": 40
       }
     },
     {
@@ -866,12 +866,12 @@
       "notes": "Non-reasoning daily driver. Replaced GPT-5.3 Instant as ChatGPT default May 5. Lower hallucination in law/medicine/finance. 81.2 AIME 2025.",
       "cache_discount": 0.1,
       "capability_levels": {
-        "coding": 2,
-        "reasoning": 2,
-        "knowledge": 4,
-        "comms": 3,
-        "multimodal": 3,
-        "agentic": 1
+        "coding": 20,
+        "reasoning": 20,
+        "knowledge": 40,
+        "comms": 30,
+        "multimodal": 30,
+        "agentic": 10
       }
     },
     {
@@ -906,12 +906,12 @@
       "notes": "GPT-5.5 variant trained to be more permissive on security tasks. OpenAI's answer to Mythos Preview.",
       "cache_discount": 0.25,
       "capability_levels": {
-        "coding": 4,
-        "reasoning": 4,
-        "knowledge": 4,
-        "comms": 3,
-        "multimodal": 3,
-        "agentic": 4
+        "coding": 40,
+        "reasoning": 40,
+        "knowledge": 40,
+        "comms": 30,
+        "multimodal": 30,
+        "agentic": 40
       }
     },
     {
@@ -946,12 +946,12 @@
       ],
       "cache_discount": 0.25,
       "capability_levels": {
-        "coding": 4,
-        "reasoning": 4,
-        "knowledge": 5,
-        "comms": 4,
-        "multimodal": 5,
-        "agentic": 3
+        "coding": 39,
+        "reasoning": 41,
+        "knowledge": 49,
+        "comms": 41,
+        "multimodal": 50,
+        "agentic": 29
       }
     },
     {
@@ -986,12 +986,12 @@
       ],
       "cache_discount": 0.25,
       "capability_levels": {
-        "coding": 3,
-        "reasoning": 3,
-        "knowledge": 4,
-        "comms": 3,
-        "multimodal": 4,
-        "agentic": 2
+        "coding": 30,
+        "reasoning": 30,
+        "knowledge": 40,
+        "comms": 30,
+        "multimodal": 40,
+        "agentic": 20
       }
     },
     {
@@ -1021,12 +1021,12 @@
       "effort_levels": [],
       "cache_discount": 0.0083,
       "capability_levels": {
-        "coding": 5,
-        "reasoning": 4,
-        "knowledge": 4,
-        "comms": 3,
-        "multimodal": 1,
-        "agentic": 3
+        "coding": 47,
+        "reasoning": 40,
+        "knowledge": 38,
+        "comms": 30,
+        "multimodal": 8,
+        "agentic": 28
       }
     },
     {
@@ -1056,12 +1056,12 @@
       "effort_levels": [],
       "cache_discount": 0.52,
       "capability_levels": {
-        "coding": 3,
-        "reasoning": 3,
-        "knowledge": 3,
-        "comms": 3,
-        "multimodal": 2,
-        "agentic": 2
+        "coding": 30,
+        "reasoning": 30,
+        "knowledge": 30,
+        "comms": 30,
+        "multimodal": 20,
+        "agentic": 20
       }
     },
     {
@@ -1094,12 +1094,12 @@
       ],
       "cache_discount": 1.0,
       "capability_levels": {
-        "coding": 4,
-        "reasoning": 4,
-        "knowledge": 4,
-        "comms": 3,
-        "multimodal": 3,
-        "agentic": 3
+        "coding": 40,
+        "reasoning": 40,
+        "knowledge": 40,
+        "comms": 30,
+        "multimodal": 30,
+        "agentic": 30
       }
     },
     {
@@ -1129,12 +1129,12 @@
       "effort_levels": [],
       "cache_discount": 1.0,
       "capability_levels": {
-        "coding": 4,
-        "reasoning": 3,
-        "knowledge": 4,
-        "comms": 3,
-        "multimodal": 1,
-        "agentic": 2
+        "coding": 40,
+        "reasoning": 30,
+        "knowledge": 40,
+        "comms": 30,
+        "multimodal": 10,
+        "agentic": 20
       }
     }
   ],
@@ -3272,32 +3272,38 @@
       {
         "key": "coding",
         "label": "Coding",
-        "short": "Code"
+        "short": "Code",
+        "effort_sensitivity": 0.5
       },
       {
         "key": "reasoning",
         "label": "Reasoning & Architecture",
-        "short": "R&A"
+        "short": "R&A",
+        "effort_sensitivity": 0.6
       },
       {
         "key": "knowledge",
         "label": "Knowledge & Research",
-        "short": "K&R"
+        "short": "K&R",
+        "effort_sensitivity": 0.05
       },
       {
         "key": "comms",
         "label": "Communication & Docs",
-        "short": "Comms"
+        "short": "Comms",
+        "effort_sensitivity": 0.2
       },
       {
         "key": "multimodal",
         "label": "Multimodal",
-        "short": "MM"
+        "short": "MM",
+        "effort_sensitivity": 0.05
       },
       {
         "key": "agentic",
         "label": "Agentic",
-        "short": "Agent"
+        "short": "Agent",
+        "effort_sensitivity": 0.4
       }
     ],
     "level_labels": {
@@ -3403,6 +3409,31 @@
       }
     },
     "default_focus": "balanced",
-    "methodology": "1-5 levels per axis; Coding rated against SWE-Pro / SWE-Verified evidence; Reasoning against AIME / LiveCodeBench / public hard-reasoning evals; Multimodal against published modality support (image/audio/video in/out); Agentic rated holding harness constant at Claude-Code-class baseline (plan coherence, tool-call quality, self-correction, calibrated stopping, refusal hygiene); Knowledge from model-card claims + community-validated state-of-art awareness; Comms from prose-evaluation rounds + structural quality. Ratings carry citation; see src/dashboard-context.md for the full rubric."
+    "methodology": "1-5 levels per axis; Coding rated against SWE-Pro / SWE-Verified evidence; Reasoning against AIME / LiveCodeBench / public hard-reasoning evals; Multimodal against published modality support (image/audio/video in/out); Agentic rated holding harness constant at Claude-Code-class baseline (plan coherence, tool-call quality, self-correction, calibrated stopping, refusal hygiene); Knowledge from model-card claims + community-validated state-of-art awareness; Comms from prose-evaluation rounds + structural quality. Ratings carry citation; see src/dashboard-context.md for the full rubric.",
+    "effort_formula": "effective(axis, effort) = max(0, ceiling[axis] × (1 − effort_sensitivity[axis] × (1 − radar_effort_factor[effort]))). radar_effort_factor[medium] = 1.00 → primary polygon equals reference polygon shape at medium effort for the same model. Lower efforts shrink the polygon by sensitivity-weighted amounts; higher efforts grow it and may push vertices OUTSIDE the outer level-50 ring — the ring is a rubric marker, not a hard cap. Vertices that exceed 50 are drawn in accent-hot to signal 'boosted above medium-effort baseline'.",
+    "radar_effort_factors": {
+      "minimal": 0.5,
+      "low": 0.75,
+      "medium": 1.0,
+      "high": 1.08,
+      "xhigh": 1.15,
+      "max": 1.22
+    },
+    "scale": {
+      "rubric_min": 1,
+      "rubric_max": 50,
+      "visual_max": 60,
+      "band_size": 10,
+      "boost_band": "51–60",
+      "interpretation": "capability_levels[axis] = the model's effective capability at MEDIUM effort. Briefings rate from 1 to 50. The radar's visual scale extends to 60 to accommodate the 'effort-boost band' (51–60) — values that fall there are formula-derived from extra reasoning effort, never directly rated. The outer rubric ring at 50 is visually emphasized as 'current frontier'.",
+      "bands": {
+        "1-10": "Snippet",
+        "11-20": "Standard",
+        "21-30": "Cross-file",
+        "31-40": "Hard",
+        "41-50": "Frontier",
+        "51-60": "Effort-boost band (derived, not rated)"
+      }
+    }
   }
 }

@@ -531,8 +531,16 @@ td.model-name .sublabel {
   font-size: 0.78rem;
 }
 .burn-matrix-table .baseline-cell-flag {
-  outline: 1.5px solid var(--accent);
+  outline: 1.5px dashed var(--accent-cool);
   outline-offset: -2px;
+}
+.burn-matrix-table tbody tr.ref-row td:first-child {
+  border-left: 3px solid var(--accent-cool);
+}
+.burn-matrix-table tbody tr.ref-row td:first-child::before {
+  content: '◇ ';
+  color: var(--accent-cool);
+  font-family: var(--mono);
 }
 .burn-matrix-table .legacy-row { opacity: 0.55; }
 .burn-matrix-table .nodata { color: var(--text-faint); }
@@ -909,6 +917,425 @@ td.model-name .sublabel {
 }
 .strat-card ul { padding-left: 1.25rem; font-size: 0.83rem; color: var(--text); }
 .strat-card ul li { margin: 0.3rem 0; }
+
+
+/* ── Burn-matrix capability legend ── */
+.bm-radar-legend {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+}
+@media (max-width: 760px) { .bm-radar-legend { grid-template-columns: 1fr; } }
+.bm-radar-legend-radar {
+  background: #0d1118;
+  border-radius: 4px;
+  padding: 0.4rem;
+}
+.bm-radar-legend-text { font-size: 0.82rem; line-height: 1.55; color: var(--text); }
+.bm-radar-legend-text .legend-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.bm-radar-legend-text p { margin: 0.4rem 0; }
+.bm-radar-legend-axes {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.2rem 0.8rem;
+  margin: 0.6rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+.bm-radar-legend-axes dt { color: var(--accent); font-weight: 600; }
+.bm-radar-legend-axes dd { margin: 0; color: var(--text); }
+.bm-radar-legend-axes dd .hint { color: var(--text-faint); font-style: italic; }
+.bm-radar-legend .legend-effort { font-size: 0.74rem; color: var(--text-dim); }
+.bm-radar-legend code {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent-cool);
+}
+
+/* Variant A: per-cell mini-radar */
+.bm-cell-radar {
+  margin-top: 4px;
+  display: flex;
+  justify-content: center;
+}
+.bm-cell-radar svg { max-width: 40px; max-height: 40px; }
+
+/* Variant C: tooltip extras */
+#bm-radar-tooltip .effort-tag {
+  color: var(--accent-cool);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  margin-left: 0.4rem;
+}
+#bm-radar-tooltip .composite .ceil {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-style: normal;
+  margin-left: 0.3rem;
+}
+#bm-radar-tooltip .axes-tbl {
+  margin-top: 0.5rem;
+  width: 100%;
+  font-size: 0.7rem;
+  border-collapse: collapse;
+}
+#bm-radar-tooltip .axes-tbl th, #bm-radar-tooltip .axes-tbl td {
+  padding: 2px 6px;
+  text-align: left;
+}
+#bm-radar-tooltip .axes-tbl th {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--border);
+}
+#bm-radar-tooltip .axes-tbl td.num { text-align: right; font-family: var(--mono); }
+#bm-radar-tooltip .axes-tbl tbody tr td:first-child { color: var(--accent); font-family: var(--mono); }
+
+/* ============ BURN MATRIX CAPABILITY VARIANTS (01 Models — prototype) ============ */
+.bm-variant-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  padding: 0.4rem 0.7rem;
+  background: var(--bg-card);
+  border: 1px dashed var(--accent);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+}
+.bm-variant-picker strong { color: var(--accent); }
+.bm-variant-picker button {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.55rem;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 100ms;
+}
+.bm-variant-picker button:hover { color: var(--text); border-color: var(--text-dim); }
+.bm-variant-picker button.active {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+/* mini-radar (used by variants A and C) */
+.mini-radar-svg { display: block; }
+.mini-radar-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.mini-radar-wrap .composite {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* ── Variant A: new "Capability" column ── */
+.bm-cap-col { width: 90px; text-align: center !important; font-size: 0.58rem !important; }
+.bm-cap-cell {
+  text-align: center !important;
+  padding: 0.3rem 0.4rem !important;
+  border-right: 1px solid var(--border-strong);
+}
+
+/* ── Variant B: per-cell efficiency badge + per-row capability sparkline ── */
+.bm-row-spark {
+  display: inline-grid;
+  grid-template-columns: repeat(6, 7px);
+  gap: 1px;
+  margin-top: 3px;
+  height: 14px;
+}
+.bm-row-spark span {
+  display: block;
+  background: var(--border);
+  border-radius: 1px;
+  align-self: end;
+}
+.bm-row-spark span[data-level="1"] { height: 20%; background: rgba(255,184,77,0.25); }
+.bm-row-spark span[data-level="2"] { height: 40%; background: rgba(255,184,77,0.45); }
+.bm-row-spark span[data-level="3"] { height: 60%; background: rgba(255,184,77,0.65); }
+.bm-row-spark span[data-level="4"] { height: 80%; background: rgba(255,184,77,0.85); }
+.bm-row-spark span[data-level="5"] { height: 100%; background: var(--accent); }
+.bm-row-spark span[data-level="null"] { height: 20%; background: var(--border); }
+
+.bm-eff-badge {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: var(--bg);
+  pointer-events: none;
+  letter-spacing: 0.04em;
+}
+.bm-eff-badge[data-eff="great"]  { color: #4ade80; background: rgba(74,222,128,0.12); border: 1px solid rgba(74,222,128,0.3); }
+.bm-eff-badge[data-eff="good"]   { color: #84cc16; background: rgba(132,204,22,0.12); border: 1px solid rgba(132,204,22,0.3); }
+.bm-eff-badge[data-eff="ok"]     { color: #fbbf24; background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3); }
+.bm-eff-badge[data-eff="poor"]   { color: #ef4444; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); }
+.bm-cell { position: relative; }
+
+/* ── Variant C: hover tooltip with full radar ── */
+.bm-cell.has-radar-hover { cursor: help; }
+.bm-cell.has-radar-hover:hover { outline: 1px solid var(--accent-cool); outline-offset: -1px; }
+#bm-radar-tooltip {
+  position: fixed;
+  display: none;
+  z-index: 9999;
+  background: var(--bg-elev);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 0.85rem 0.95rem;
+  width: 340px;
+  max-width: 95vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 24px rgba(255,184,77,0.15);
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  overflow: hidden;
+  text-align: left;
+}
+#bm-radar-tooltip svg { display: block; margin: 0.4rem auto; max-width: 100%; height: auto; }
+#bm-radar-tooltip .axes-clockwise {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  margin: 0.3rem 0;
+  letter-spacing: 0.04em;
+}
+#bm-radar-tooltip .axes-clockwise span {
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.58rem;
+  margin-right: 4px;
+}
+#bm-radar-tooltip .legend-swatch-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin: 0.3rem 0;
+  padding: 0.4rem 0.2rem;
+  border-top: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
+}
+#bm-radar-tooltip .legend-swatch-row .sw-primary,
+#bm-radar-tooltip .legend-swatch-row .sw-overlay {
+  display: inline-block;
+  width: 14px; height: 8px;
+  vertical-align: 1px;
+  margin-right: 5px;
+  border-radius: 2px;
+}
+#bm-radar-tooltip .legend-swatch-row .sw-primary { background: var(--accent); }
+#bm-radar-tooltip .legend-swatch-row .sw-overlay { background: transparent; border: 1.5px dashed var(--accent-cool); }
+#bm-radar-tooltip .axes-tbl td.refnum { color: var(--accent-cool); }
+#bm-radar-tooltip .axes-tbl td.pct { font-weight: 500; }
+#bm-radar-tooltip .axes-tbl td.pct-up { color: #4ade80; }
+#bm-radar-tooltip .axes-tbl td.pct-mid { color: var(--accent); }
+#bm-radar-tooltip .axes-tbl td.pct-down { color: var(--accent-hot); }
+#bm-radar-tooltip.visible { display: block; }
+#bm-radar-tooltip .name {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.2rem;
+}
+#bm-radar-tooltip .composite {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+#bm-radar-tooltip .axes {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.2rem 0.6rem;
+}
+#bm-radar-tooltip .axes span { color: var(--text); font-weight: 500; }
+
+
+/* ============ CAPABILITY LEGEND (04 Strategy) ============ */
+.cap-legend {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 1.3rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.cap-legend-title {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin: 0 0 1rem;
+  font-weight: 500;
+}
+.cap-legend-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.8rem;
+  align-items: start;
+}
+@media (max-width: 880px) { .cap-legend-grid { grid-template-columns: 1fr; } }
+.cap-legend-figure {
+  background: #0d1118;
+  border-radius: 4px;
+  padding: 0.6rem 0.4rem 0.4rem;
+  overflow: visible;
+}
+.cap-legend-figure svg { overflow: visible; }
+.cap-legend-figure-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  padding: 0.6rem 0.5rem 0.2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.4rem;
+}
+.cap-legend-figure-caption .swatch {
+  display: inline-block;
+  width: 14px; height: 8px;
+  vertical-align: 1px;
+  margin-right: 6px;
+  border-radius: 2px;
+}
+.cap-legend-figure-caption .swatch-primary { background: var(--accent); }
+.cap-legend-figure-caption .swatch-overlay {
+  background: transparent;
+  border: 1.5px dashed var(--accent-cool);
+}
+.cap-legend-figure-caption em { color: var(--text-faint); font-style: italic; font-size: 0.66rem; margin-left: 0.3rem; }
+.cap-legend-text { font-size: 0.83rem; line-height: 1.6; color: var(--text); }
+.cap-legend-text p { margin: 0 0 0.7rem; }
+.cap-legend-text code {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent-cool);
+  background: rgba(77,208,255,0.06);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+.cap-legend-rubric {
+  width: 100%;
+  margin-top: 1.2rem;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.cap-legend-rubric th {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-strong);
+  vertical-align: bottom;
+}
+.cap-legend-rubric th .sub {
+  display: block;
+  color: var(--text-dim);
+  font-size: 0.55rem;
+  font-weight: 400;
+  margin-top: 2px;
+  letter-spacing: 0.08em;
+}
+.cap-legend-rubric td {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text);
+}
+.cap-legend-rubric td.ax-name strong {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+.cap-legend-rubric td.ax-name span {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-top: 1px;
+}
+.cap-legend-rubric td span.rng {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text-faint);
+  letter-spacing: 0.08em;
+}
+.cap-legend-rubric td span.nm {
+  display: block;
+  font-weight: 500;
+  margin-top: 2px;
+  font-size: 0.78rem;
+}
+.cap-legend-rubric td.ax-sens {
+  text-align: right;
+  font-family: var(--mono);
+  color: var(--accent-cool);
+  font-weight: 500;
+}
+.cap-legend-rubric .boost-band-row {
+  background: rgba(255,94,58,0.05);
+  border-top: 1px solid var(--accent-hot);
+  font-size: 0.78rem;
+  color: var(--text);
+  padding: 0.7rem 0.6rem;
+}
+.cap-legend-rubric .boost-band-row strong { color: var(--accent-hot); font-family: var(--mono); letter-spacing: 0.1em; }
 
 /* ============ CAPABILITY RADAR (04 Strategy) ============ */
 .radar-controls {
@@ -1895,7 +2322,7 @@ function renderBmCell(absoluteBurn, modelId, effort, opts) {
   const qualPct = quality === null ? 0 : Math.min(quality, 100);
   const baselineFlag = (modelId === getRefModel()?.id && (effort === 'medium' || (effort === 'high' && !findBurnRow(modelId)?.medium))) ? 'baseline-cell-flag' : '';
   const noteAttr = opts.note ? ` title="${opts.note.replace(/"/g, '&quot;')}"` : '';
-  return `<td class="bm-cell ${baselineFlag}"${noteAttr}>
+  return `<td class="bm-cell ${baselineFlag}"${noteAttr} data-model-id="${modelId}" data-effort="${effort}">
     <div class="bm-cell-numbers">
       <span class="burn-num">${fmtBurn(burn)}</span>
       <span class="qual-num">${quality === null ? '—' : quality + '%'}</span>
@@ -1944,7 +2371,7 @@ function renderBurnMatrix() {
     const isLegacy = m?.tier === 'legacy';
     const cells = oaiCols.map(eff => renderBmCell(row[eff], row.model_id, eff, { note: row.note })).join('');
     const noteCell = row.note ? `<td class="burn-cell-note" style="text-align:left;">${row.note}</td>` : '<td></td>';
-    return `<tr class="${isLegacy ? 'legacy-row' : ''}"><td>${m?.name || row.model_id}</td>${cells}${noteCell}</tr>`;
+    return `<tr class="${isLegacy ? 'legacy-row' : ''} ${m?.id === getRefModel()?.id ? 'ref-row' : ''}" data-model-id="${row.model_id}"><td class="bm-model-cell">${m?.name || row.model_id}</td>${cells}${noteCell}</tr>`;
   }).join('');
 
   const oaiBlock = `
@@ -1968,7 +2395,7 @@ function renderBurnMatrix() {
     const m = modelById(row.model_id);
     const cells = anthCols.map(eff => renderBmCell(row[eff], row.model_id, eff, { note: row.note })).join('');
     const noteCell = row.note ? `<td class="burn-cell-note" style="text-align:left;">${row.note}</td>` : '<td></td>';
-    return `<tr><td>${m?.name || row.model_id}</td>${cells}${noteCell}</tr>`;
+    return `<tr class="${m?.id === getRefModel()?.id ? 'ref-row' : ''}" data-model-id="${row.model_id}"><td class="bm-model-cell">${m?.name || row.model_id}</td>${cells}${noteCell}</tr>`;
   }).join('');
 
   const anthBlock = `
@@ -1991,7 +2418,7 @@ function renderBurnMatrix() {
   let gglRows = matrix.google_matrix.map(row => {
     const m = modelById(row.model_id);
     const cells = gglCols.map(eff => renderBmCell(row[eff], row.model_id, eff)).join('');
-    return `<tr><td>${m?.name || row.model_id}</td>${cells}</tr>`;
+    return `<tr class="${m?.id === getRefModel()?.id ? 'ref-row' : ''}" data-model-id="${row.model_id}"><td class="bm-model-cell">${m?.name || row.model_id}</td>${cells}</tr>`;
   }).join('');
 
   const gglBlock = `
@@ -2058,14 +2485,481 @@ function renderBurnMatrix() {
     </div>
   `;
 
-  c.innerHTML = baselineLine + legendBlock + oaiBlock + anthBlock + gglBlock + stackBlock + flatBlock + methodology + qualMethodology + efficiencyBlock;
+  c.innerHTML = baselineLine + legendBlock + oaiBlock + anthBlock + gglBlock + stackBlock + flatBlock + methodology + qualMethodology + efficiencyBlock + bmTooltipEl();
 
   // Wire up the efficiency leaders controls
   document.getElementById('eff-min-quality').addEventListener('change', renderEfficiencyLeaders);
   document.getElementById('eff-provider-filter').addEventListener('change', renderEfficiencyLeaders);
   document.getElementById('eff-legacy').addEventListener('change', renderEfficiencyLeaders);
   renderEfficiencyLeaders();
+  wireBurnVariantPicker();
+  applyBurnVariant();
 }
+
+
+let currentBurnVariant = 'default'; // 'default' | 'A' | 'B' | 'C'
+
+function burnVariantPicker() {
+  return `<div class="bm-variant-picker">
+    <strong>PROTOTYPE</strong> · capability view (effort-adjusted):
+    <button data-bm-variant="default">Default</button>
+    <button data-bm-variant="A">A · Per-cell mini-radar</button>
+    <button data-bm-variant="B">B · Per-cell efficiency badge</button>
+    <button data-bm-variant="C">C · Hover radar tooltip</button>
+    <button data-bm-variant="D">D · Per-row effort envelope</button>
+  </div>`;
+}
+
+function renderCapabilityLegend() {
+  // Renders the "How to read the capability radar" panel for 04 Strategy.
+  // Demo radar uses GPT-5.5 Pro (or first non-reference frontier) as
+  // primary so the cyan reference overlay is visible.
+  const ref = getRefModel();
+  if (!ref || !data.capabilities) return '';
+  const axes = data.capabilities.axes;
+  // Pick a contrasting model as the example primary
+  const example = data.models.find(m => m.id !== ref.id && m.tier === 'frontier' && m.capability_levels)
+                || data.models.find(m => m.capability_levels && m.id !== ref.id)
+                || ref;
+
+  // Per-axis level rubric — all 5 bands for every axis
+  const rubricRows = axes.map(a => {
+    const labels = (data.capabilities.level_labels || {})[a.key] || {};
+    const sens = a.effort_sensitivity != null ? a.effort_sensitivity.toFixed(2) : '?';
+    return `<tr>
+      <td class="ax-name"><strong>${a.short}</strong><span>${a.label}</span></td>
+      ${[1,2,3,4,5].map(b => {
+        const range = `${(b-1)*10+1}–${b*10}`;
+        return `<td><span class="rng">${range}</span><span class="nm">${labels[String(b)] || '—'}</span></td>`;
+      }).join('')}
+      <td class="ax-sens" title="effort sensitivity: how much this axis improves with reasoning effort (0 = not at all, 1 = full linear)">${sens}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+    <div class="cap-legend">
+      <h3 class="cap-legend-title">How to read the capability radar</h3>
+      <div class="cap-legend-grid">
+        <div class="cap-legend-figure">
+          ${renderMiniRadar(example, 280, { ref, showLabels: true, showSpokes: true, allRings: true, r: 0.34, labelOffset: 22 })}
+          <div class="cap-legend-figure-caption">
+            <span><span class="swatch swatch-primary"></span>${example.name} <em>(example primary)</em></span>
+            <span><span class="swatch swatch-overlay"></span>${ref.name} <em>(reference — dashed cyan, set via top-right dropdown)</em></span>
+          </div>
+        </div>
+        <div class="cap-legend-text">
+          <p>Each radar shows 6 capability axes. The rubric runs <strong>1–50</strong> with the named bands below; the <strong style="color:var(--accent);">emphasized amber ring at 50</strong> marks the current rubric frontier. The radar's <strong>outer ring at 60</strong> is the visual cap, and the <strong>51–60 zone</strong> is the <em>effort-boost band</em> — values that fall there are not directly rated, they're derived: a model with a ceiling at 50 pushed above its medium-effort baseline by extra reasoning effort. The <strong style="color:var(--accent);">solid amber polygon</strong> is the primary model at the selected effort; the <strong style="color:var(--accent-cool);">dashed cyan polygon</strong> is the reference (set via the Reference dropdown top-right of the page).</p>
+          <p><strong>Effort calculus.</strong> Each axis's rating is the model's capability <em>at medium effort</em> (the natural baseline — matching the burn-matrix anchor where Opus 4.7 medium = 1.00×). The radar's <code>radar_effort_factor[medium] = 1.00</code> so primary equals reference at medium for the same model. Lower efforts shrink the polygon by each axis's <code>effort_sensitivity</code>; <strong>higher efforts grow it and may extend the polygon vertex past the outer level-50 ring</strong> — the ring is a rubric marker, not a hard cap, and a polygon outside it means the model is performing above its medium-effort baseline thanks to extra reasoning. Coding / Reasoning / Agentic respond strongly to effort; Knowledge / Multimodal barely.</p>
+        </div>
+      </div>
+      <table class="cap-legend-rubric">
+        <thead><tr>
+          <th>Axis</th>
+          <th>1–10 <span class="sub">level 1</span></th>
+          <th>11–20 <span class="sub">level 2</span></th>
+          <th>21–30 <span class="sub">level 3</span></th>
+          <th>31–40 <span class="sub">level 4</span></th>
+          <th>41–50 <span class="sub">level 5 · rubric ceiling</span></th>
+          <th title="effort sensitivity">sens.</th>
+        </tr></thead>
+        <tbody>${rubricRows}</tbody>
+        <tfoot><tr>
+          <td colspan="7" class="boost-band-row"><strong>51–60 ·</strong> effort-boost band — never rated directly; only reached when extra reasoning pushes a ceiling-rated model above its medium-effort baseline. Vertices in this band are drawn with a red blip (accent-hot) to signal "above-baseline boost".</td>
+        </tr></tfoot>
+      </table>
+    </div>
+  `;
+}
+
+
+function bmTooltipEl() {
+  return `<div id="bm-radar-tooltip"></div>`;
+}
+
+function wireBurnVariantPicker() {
+  const c = document.getElementById('burn-matrix-container');
+  if (!c) return;
+  // Variant C is the always-on default; A/B/D code retained but unwired.
+  currentBurnVariant = 'C';
+}
+
+function bandIndex(level) {
+  if (level == null) return null;
+  return Math.max(1, Math.min(5, Math.ceil(level / 10)));
+}
+function bandName(axisKey, level) {
+  const band = bandIndex(level);
+  if (band == null) return '';
+  return ((data.capabilities.level_labels || {})[axisKey] || {})[String(band)] || '';
+}
+
+function effortFactor(effort) {
+  const ref = (data.capabilities && data.capabilities.radar_effort_factors) || (data.quota_burn_matrix && data.quota_burn_matrix.effort_quality_factors) || {};
+  return ref[effort] != null ? ref[effort] : 1.0;
+}
+
+function effectiveLevel(model, axisKey, effort) {
+  const ceiling = ((model && model.capability_levels) || {})[axisKey];
+  if (ceiling == null) return null;
+  if (!effort || effort === 'max') return ceiling;
+  const axisDef = (data.capabilities && data.capabilities.axes || []).find(a => a.key === axisKey);
+  const sens = (axisDef && axisDef.effort_sensitivity != null) ? axisDef.effort_sensitivity : 0.3;
+  const f = effortFactor(effort);
+  const eff = ceiling * (1 - sens * (1 - f));
+  return Math.max(0, eff);
+}
+
+function effectiveLevels(model, effort) {
+  if (!model || !model.capability_levels || !data.capabilities) return null;
+  const out = {};
+  for (const a of data.capabilities.axes) {
+    out[a.key] = effectiveLevel(model, a.key, effort);
+  }
+  return out;
+}
+
+function compositeFromLevels(levels, weights) {
+  if (!levels || !data.capabilities) return null;
+  let num = 0, den = 0;
+  for (const a of data.capabilities.axes) {
+    const v = levels[a.key];
+    if (v == null) continue;
+    const w = (weights && weights[a.key] != null) ? weights[a.key] : 1;
+    num += w * v;
+    den += w * 5;
+  }
+  return den > 0 ? num / den : null;
+}
+
+function renderMiniRadar(model, size, opts) {
+  // opts: { effort?, ref?, levels?, refLevels?, showLabels?, showShortLabels?, r?, envelope?, ringColors? }
+  size = size || 60; opts = opts || {};
+  if (!model && !opts.levels) return '';
+  if (!data.capabilities) return '';
+  const axes = data.capabilities.axes;
+  const cx = size / 2, cy = size / 2;
+  const r = size * (opts.r || 0.42);
+  const max = 60;         // visual radius maximum
+  const RUBRIC_MAX = 50;  // emphasized "current frontier" ring; 51–60 is the effort-boost band
+  const startAngle = -Math.PI / 2;
+
+  // Resolve primary + reference level sets
+  const primaryLevels = opts.levels
+    || (opts.effort ? effectiveLevels(model, opts.effort) : (model && model.capability_levels));
+  // Reference is ALWAYS at ceiling (fixed visual anchor across all
+  // radars + all efforts + all pages). Effort only scales the primary.
+  const refLevels = opts.refLevels
+    || (opts.ref ? opts.ref.capability_levels : null);
+
+  function ptsFromLevels(lvls) {
+    if (!lvls) return null;
+    return axes.map((a, i) => {
+      const v = lvls[a.key];
+      if (v == null) return null;
+      const t = v / max;  // unclamped: allow polygon to extend past outer ring at high efforts
+      const ang = startAngle + (2 * Math.PI * i / axes.length);
+      return { x: cx + r * t * Math.cos(ang), y: cy + r * t * Math.sin(ang) };
+    });
+  }
+  const polyStr = (p) => (p || []).filter(q => q).map(q => `${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(' ');
+
+  // When labels are shown, widen the viewBox so perimeter text isn't clipped.
+  // Caller can override via opts.labelPad for tighter packing in small containers.
+  const labelPad = opts.labelPad != null ? opts.labelPad : ((opts.showLabels || opts.showShortLabels) ? Math.max(60, size * 0.30) : 0);
+  const vbX = -labelPad;
+  const vbW = size + labelPad * 2;
+  const w = opts.width || (size + labelPad * 2);
+  const h = opts.height || size;
+  let svg = `<svg viewBox="${vbX} 0 ${vbW} ${h}" xmlns="http://www.w3.org/2000/svg" class="mini-radar-svg" width="${w}" height="${h}" style="overflow:visible;">`;
+  // Outer ring (level 5)
+  const outerRing = axes.map((_, i) => {
+    const ang = startAngle + (2 * Math.PI * i / axes.length);
+    return `${(cx + r * Math.cos(ang)).toFixed(1)},${(cy + r * Math.sin(ang)).toFixed(1)}`;
+  }).join(' ');
+  // Outer ring at visual max (60) — drawn faintest
+  svg += `<polygon points="${outerRing}" fill="none" stroke="#2e3645" stroke-width="0.5" />`;
+  // Inner rings at rubric levels. For small radars draw 20 + 40 + 50; for large radars draw all 10/20/30/40/50.
+  const ringLevels = opts.allRings ? [10, 20, 30, 40] : [20, 40];
+  for (const lvl of ringLevels) {
+    const rr = r * lvl / max;
+    const ring = axes.map((_, i) => {
+      const ang = startAngle + (2 * Math.PI * i / axes.length);
+      return `${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`;
+    }).join(' ');
+    svg += `<polygon points="${ring}" fill="none" stroke="#232936" stroke-width="0.3" />`;
+  }
+  // The 50 ring — emphasized (current rubric frontier)
+  {
+    const rr = r * RUBRIC_MAX / max;
+    const ring = axes.map((_, i) => {
+      const ang = startAngle + (2 * Math.PI * i / axes.length);
+      return `${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`;
+    }).join(' ');
+    svg += `<polygon points="${ring}" fill="none" stroke="#ffb84d" stroke-width="${size > 100 ? 1.0 : 0.8}" stroke-opacity="0.55" />`;
+  }
+  // Spokes (for larger / legend radars)
+  if (opts.showSpokes) {
+    axes.forEach((_, i) => {
+      const ang = startAngle + (2 * Math.PI * i / axes.length);
+      svg += `<line x1="${cx}" y1="${cy}" x2="${(cx + r * Math.cos(ang)).toFixed(1)}" y2="${(cy + r * Math.sin(ang)).toFixed(1)}" stroke="#232936" stroke-width="0.3" />`;
+    });
+  }
+
+  // Envelope mode: multiple polygons from levelSets[]
+  if (opts.envelope && opts.levelSets) {
+    opts.levelSets.forEach((entry, idx) => {
+      const pts = ptsFromLevels(entry.levels);
+      if (!pts) return;
+      const fillOp = entry.fillOpacity != null ? entry.fillOpacity : (0.06 + idx * 0.04);
+      const strokeOp = entry.strokeOpacity != null ? entry.strokeOpacity : (0.4 + idx * 0.12);
+      svg += `<polygon points="${polyStr(pts)}" fill="${entry.color || '#ffb84d'}" fill-opacity="${fillOp.toFixed(2)}" stroke="${entry.color || '#ffb84d'}" stroke-width="${entry.strokeWidth || 1}" stroke-opacity="${strokeOp.toFixed(2)}" stroke-linejoin="round" />`;
+    });
+  } else {
+    // Reference overlay (drawn behind primary)
+    const refPts = ptsFromLevels(refLevels);
+    if (refPts) {
+      svg += `<polygon points="${polyStr(refPts)}" fill="#4dd0ff" fill-opacity="0.07" stroke="#4dd0ff" stroke-width="${size > 100 ? 1.2 : 0.9}" stroke-dasharray="${size > 100 ? '3 3' : '2 2'}" />`;
+    }
+    // Primary polygon
+    const pts = ptsFromLevels(primaryLevels);
+    if (pts && polyStr(pts)) {
+      svg += `<polygon points="${polyStr(pts)}" fill="#ffb84d" fill-opacity="${size > 100 ? 0.18 : 0.28}" stroke="#ffb84d" stroke-width="${size > 100 ? 1.6 : 1.2}" stroke-linejoin="round" />`;
+      if (size >= 50) {
+        pts.forEach((p, i) => {
+          if (!p) return;
+          const v = primaryLevels[axes[i].key];
+          const boosted = v != null && v > max;
+          const rDot = boosted ? (size > 100 ? 3.5 : 2.2) : (size > 100 ? 2.5 : 1.6);
+          const fill = boosted ? '#ff5e3a' : '#ffb84d';
+          const stroke = boosted ? '#ffb84d' : '#0a0c10';
+          const sw = boosted ? (size > 100 ? 1.3 : 0.9) : (size > 100 ? 1 : 0.6);
+          svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${rDot}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" />`;
+        });
+      }
+    }
+  }
+
+  // Labels at perimeter (for legend / large radars only)
+  if (opts.showLabels || opts.showShortLabels) {
+    axes.forEach((a, i) => {
+      const ang = startAngle + (2 * Math.PI * i / axes.length);
+      const lx = cx + (r + (opts.labelOffset || 16)) * Math.cos(ang);
+      const ly = cy + (r + (opts.labelOffset || 16)) * Math.sin(ang);
+      let anchor = 'middle';
+      if (lx < cx - 3) anchor = 'end';
+      else if (lx > cx + 3) anchor = 'start';
+      const txt = opts.showLabels ? a.label.toUpperCase() : a.short.toUpperCase();
+      const fs = opts.showLabels ? 9 : 8;
+      svg += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="#d8dde6" font-family="JetBrains Mono, monospace" font-size="${fs}" font-weight="500" letter-spacing="0.08em">${txt}</text>`;
+    });
+  }
+
+  svg += '</svg>';
+  return svg;
+}
+
+
+function applyBurnVariant() {
+  const c = document.getElementById('burn-matrix-container');
+  if (!c) return;
+  if (currentBurnVariant === 'A') applyBurnVariantA(c);
+  else if (currentBurnVariant === 'B') applyBurnVariantB(c);
+  else if (currentBurnVariant === 'C') applyBurnVariantC(c);
+  else if (currentBurnVariant === 'D') applyBurnVariantD(c);
+}
+
+function applyBurnVariantA(container) {
+  // Per-CELL mini-radar (effort-adjusted) with reference overlay.
+  const ref = getRefModel();
+  container.querySelectorAll('.bm-cell[data-model-id]').forEach(td => {
+    if (td.querySelector('.bm-cell-radar')) return;
+    const m = modelById(td.dataset.modelId);
+    if (!m || !m.capability_levels) return;
+    const effort = td.dataset.effort;
+    const wrap = document.createElement('div');
+    wrap.className = 'bm-cell-radar';
+    wrap.innerHTML = renderMiniRadar(m, 40, { effort, ref, r: 0.40 });
+    td.appendChild(wrap);
+  });
+}
+
+function applyBurnVariantB(container) {
+  // Per-row composite + per-cell efficiency badge (effort-adjusted).
+  const weights = focusWeights();
+  // Per-row label gets ceiling composite + ceiling sparkline (one-time)
+  container.querySelectorAll('tbody tr[data-model-id]').forEach(tr => {
+    const modelCell = tr.querySelector('.bm-model-cell');
+    const m = modelById(tr.dataset.modelId);
+    if (modelCell && m && m.capability_levels && !modelCell.querySelector('.bm-row-spark')) {
+      const ceilingComp = compositeFromLevels(m.capability_levels, weights);
+      const compSpan = document.createElement('span');
+      compSpan.style.cssText = 'display:block; font-family:var(--serif); font-style:italic; font-size:0.85rem; color:var(--accent); margin-top:2px;';
+      compSpan.title = 'ceiling composite (model peak)';
+      compSpan.textContent = fmtComposite(ceilingComp);
+      modelCell.appendChild(compSpan);
+      const spark = document.createElement('div');
+      spark.className = 'bm-row-spark';
+      spark.title = data.capabilities.axes.map(a => `${a.short}=${m.capability_levels[a.key] != null ? m.capability_levels[a.key] : '—'}`).join(' · ');
+      spark.innerHTML = data.capabilities.axes.map(a => {
+        const v = m.capability_levels[a.key];
+        return `<span data-level="${v == null ? 'null' : v}"></span>`;
+      }).join('');
+      modelCell.appendChild(spark);
+    }
+  });
+  // Per-cell efficiency badge: (quality% × effort-adjusted composite) / burn
+  container.querySelectorAll('.bm-cell[data-model-id]').forEach(td => {
+    if (td.querySelector('.bm-eff-badge')) return;
+    const m = modelById(td.dataset.modelId);
+    const effort = td.dataset.effort;
+    const burnText = (td.querySelector('.burn-num') || {}).textContent || '';
+    const qualText = (td.querySelector('.qual-num') || {}).textContent || '';
+    const burn = parseFloat(burnText.replace('×', ''));
+    const qual = parseFloat(qualText.replace('%', ''));
+    if (!isFinite(burn) || burn <= 0 || !isFinite(qual)) return;
+    const effLvls = effectiveLevels(m, effort);
+    const comp = compositeFromLevels(effLvls, weights);
+    if (comp == null) return;
+    const eff = ((qual / 100) * comp) / burn;
+    let band = 'poor';
+    if (eff >= 0.9) band = 'great';
+    else if (eff >= 0.6) band = 'good';
+    else if (eff >= 0.35) band = 'ok';
+    const badge = document.createElement('span');
+    badge.className = 'bm-eff-badge';
+    badge.dataset.eff = band;
+    badge.title = `efficiency = (quality% × effort-adjusted composite ${fmtComposite(comp)}) / burn ${burnText} = ${eff.toFixed(2)}`;
+    badge.textContent = `η ${eff.toFixed(2)}`;
+    td.appendChild(badge);
+  });
+}
+
+function applyBurnVariantC(container) {
+  // Hover tooltip — effort-adjusted radar with reference overlay.
+  const tip = document.getElementById('bm-radar-tooltip');
+  if (!tip) return;
+  const weights = focusWeights();
+  const ref = getRefModel();
+  container.querySelectorAll('.bm-cell[data-model-id]').forEach(td => {
+    td.classList.add('has-radar-hover');
+    td.addEventListener('mouseenter', () => {
+      const m = modelById(td.dataset.modelId);
+      const effort = td.dataset.effort;
+      if (!m || !m.capability_levels) { tip.classList.remove('visible'); return; }
+      const effLvls = effectiveLevels(m, effort);
+      const comp = compositeFromLevels(effLvls, weights);
+      const compCeil = compositeFromLevels(m.capability_levels, weights);
+      const axes = data.capabilities.axes;
+      const rows = axes.map(a => {
+        const ceil = m.capability_levels[a.key];
+        const adj = effLvls ? effLvls[a.key] : null;
+        const delta = (ceil != null && adj != null) ? (adj - ceil) : null;
+        return `<tr><td>${a.short}</td><td class="num">${ceil != null ? ceil : '—'}</td><td class="num">${adj != null ? adj.toFixed(2) : '—'}</td></tr>`;
+      }).join('');
+      // axes-clockwise labels mirror the rendering order so the user can
+      // map polygon vertices to axis names (the radar itself has no labels).
+      const axesClockwise = axes.map(a => a.short).join(' · ');
+      tip.innerHTML = `
+        <div class="name">${m.name} <span class="effort-tag">@ ${effort}</span></div>
+        <div class="composite">${fmtComposite(comp)} <span class="ceil">/ ceiling ${fmtComposite(compCeil)}</span></div>
+        <div class="axes-clockwise"><span>Axes (clockwise from top):</span> ${axesClockwise}</div>
+        ${renderMiniRadar(m, 200, { effort, ref, showShortLabels: true, allRings: true, r: 0.36, labelOffset: 12, labelPad: 38 })}
+        <div class="legend-swatch-row">
+          <span><span class="sw-primary"></span>this model @ ${effort}</span>
+          <span><span class="sw-overlay"></span>${ref ? ref.name : 'reference'} (ceiling — fixed)</span>
+        </div>
+        <table class="axes-tbl">
+          <thead><tr><th>axis</th><th>ceil</th><th>@${effort}</th><th>ref</th><th title="effort-adjusted value ÷ reference ceiling">% ref</th></tr></thead>
+          <tbody>${axes.map(a => {
+            const ceil = m.capability_levels[a.key];
+            const adj  = effLvls ? effLvls[a.key] : null;
+            const refV = ref && ref.capability_levels ? ref.capability_levels[a.key] : null;
+            return `<tr><td>${a.short}</td><td class="num">${ceil != null ? ceil : '—'}</td><td class="num">${adj != null ? adj.toFixed(1) : '—'}</td><td class="num refnum">${refV != null ? refV : '—'}</td></tr>`;
+          }).join('')}</tbody>
+        </table>
+      `;
+      tip.classList.add('visible');
+    });
+    td.addEventListener('mousemove', (e) => {
+      const pad = 14;
+      let x = e.clientX + pad;
+      let y = e.clientY + pad;
+      const rect = tip.getBoundingClientRect();
+      if (x + rect.width > window.innerWidth) x = e.clientX - rect.width - pad;
+      if (y + rect.height > window.innerHeight) y = e.clientY - rect.height - pad;
+      tip.style.left = x + 'px';
+      tip.style.top  = y + 'px';
+    });
+    td.addEventListener('mouseleave', () => tip.classList.remove('visible'));
+  });
+}
+
+function applyBurnVariantD(container) {
+  // Per-row effort envelope: one radar per row showing 4-5 polygons,
+  // one per effort level, with intensifying opacity (lighter = lower
+  // effort, brighter = max effort). Reference shape drawn as backdrop.
+  const ref = getRefModel();
+  const tables = container.querySelectorAll('.burn-matrix-table');
+  // Map each table to its effort columns (in render order)
+  const tableEffortCols = new Map();
+  tables.forEach(tbl => {
+    const ths = Array.from(tbl.querySelectorAll('thead th'))
+      .map(th => th.textContent.trim().toLowerCase())
+      .slice(1); // skip model col
+    // OpenAI: minimal/low/medium/high/xhigh, Anthropic: low/medium/high/xhigh/max, Google: off/low budget/medium budget/high budget
+    const effortMap = ths.map(h => {
+      if (h === 'off') return null;
+      if (h.includes('low')) return 'low';
+      if (h.includes('medium')) return 'medium';
+      if (h.includes('high')) return 'high';
+      if (h.includes('xhigh')) return 'xhigh';
+      if (h === 'minimal') return 'minimal';
+      if (h === 'max') return 'max';
+      return null;
+    }).filter(Boolean);
+    tableEffortCols.set(tbl, effortMap);
+  });
+
+  tables.forEach(tbl => {
+    const efforts = tableEffortCols.get(tbl) || [];
+    // Header
+    const headRow = tbl.querySelector('thead tr');
+    if (headRow && !headRow.querySelector('.bm-cap-col')) {
+      const th = document.createElement('th');
+      th.className = 'bm-cap-col';
+      th.textContent = 'ENVELOPE';
+      headRow.insertBefore(th, headRow.firstChild);
+    }
+    tbl.querySelectorAll('tbody tr').forEach(tr => {
+      if (tr.querySelector('.bm-cap-cell')) return;
+      const m = modelById(tr.dataset.modelId);
+      const td = document.createElement('td');
+      td.className = 'bm-cap-cell';
+      if (!m || !m.capability_levels) {
+        td.innerHTML = '<span style="color:var(--text-faint); font-size:0.65rem;">no rating</span>';
+      } else {
+        // Build levelSets: one per effort, palette from cool to warm
+        const palette = ['#4dd0ff', '#a3e3ff', '#ffd9a8', '#ffb84d', '#ff8a3a'];
+        const levelSets = efforts.map((eff, idx) => {
+          const color = palette[Math.min(idx, palette.length - 1)];
+          return {
+            levels: effectiveLevels(m, eff),
+            color,
+            fillOpacity: 0.04,
+            strokeOpacity: 0.45 + idx * 0.10,
+            strokeWidth: 1,
+          };
+        }).filter(ls => ls.levels);
+        // Reference baseline (medium effort) drawn first as faint backdrop via showLabels=false standard polygon
+        const refMediumLvls = ref ? effectiveLevels(ref, 'medium') : null;
+        td.innerHTML = `<div class="mini-radar-wrap">${renderMiniRadar(m, 64, { envelope: true, levelSets, refLevels: refMediumLvls, r: 0.40 })}</div>`;
+      }
+      tr.insertBefore(td, tr.firstChild);
+    });
+  });
+}
+
+
 
 function renderEfficiencyLeaders() {
   const matrix = data.quota_burn_matrix;
@@ -2483,7 +3377,7 @@ function renderRadarSVG(model, overlay, opts = {}) {
   const size = opts.size || 460;
   const cx = size / 2, cy = size / 2;
   const r  = size * 0.33;
-  const max = 5;
+  const max = 50;
   const startAngle = -Math.PI / 2;
   const weights = focusWeights();
 
@@ -2525,15 +3419,21 @@ function renderRadarSVG(model, overlay, opts = {}) {
   // Backdrop circle (subtle readout halo)
   svg += `<circle cx="${cx}" cy="${cy}" r="${(r * 1.04).toFixed(1)}" fill="#0d1118" stroke="none" />`;
 
-  // Concentric hex graticule rings (5 levels)
-  for (let lvl = 1; lvl <= max; lvl++) {
+  // Concentric hex graticule rings at rubric milestones 10/20/30/40/50/60.
+  // The 50 ring is emphasized (rubric frontier); 60 is the outer visual cap.
+  for (const lvl of [10, 20, 30, 40, 50, 60]) {
     const rr = r * lvl / max;
     const ring = axes.map((_, i) => {
       const ang = startAngle + (2 * Math.PI * i / axes.length);
       return `${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`;
     }).join(' ');
-    const isOuter = lvl === max;
-    svg += `<polygon points="${ring}" fill="none" stroke="${isOuter ? C.ringOuter : C.ring}" stroke-width="${isOuter ? 1 : 0.5}" />`;
+    if (lvl === 50) {
+      svg += `<polygon points="${ring}" fill="none" stroke="${C.primary}" stroke-width="1.2" stroke-opacity="0.55" />`;
+    } else if (lvl === 60) {
+      svg += `<polygon points="${ring}" fill="none" stroke="${C.ringOuter}" stroke-width="1" />`;
+    } else {
+      svg += `<polygon points="${ring}" fill="none" stroke="${C.ring}" stroke-width="0.5" />`;
+    }
   }
 
   // Spokes from center to each axis vertex
@@ -2579,7 +3479,7 @@ function renderRadarSVG(model, overlay, opts = {}) {
     else if (p.lx > cx + 5) anchor = 'start';
     svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${C.text}" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" letter-spacing="0.1em">${p.short.toUpperCase()}</text>`;
     const v = (model && model.capability_levels || {})[p.key];
-    const sub = (labels[p.key] || {})[String(v)] || '';
+    const sub = bandName(p.key, v);
     if (sub) {
       svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 16).toFixed(1)}" text-anchor="${anchor}" fill="${C.faint}" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.08em">${sub.toUpperCase()}</text>`;
     }
@@ -2595,9 +3495,10 @@ function renderAxisMini(model) {
   return '<span class="radar-axis-mini">' +
     axes.map(a => {
       const v = (model.capability_levels || {})[a.key];
-      const lvl = v == null ? 'null' : String(v);
-      const label = v == null ? '—' : v;
-      return `<span data-level="${lvl}" title="${a.label}: ${label}">${label}</span>`;
+      const band = bandIndex(v);
+      const lvl = band == null ? 'null' : String(band);
+      const display = v == null ? '—' : Math.round(v);
+      return `<span data-level="${lvl}" title="${a.label}: ${display} (${bandName(a.key, v)})">${display}</span>`;
     }).join('') + '</span>';
 }
 
@@ -2636,7 +3537,7 @@ function renderCapabilityRadar() {
   })).filter(x => x.comp != null)
      .sort((a, b) => b.comp - a.comp);
 
-  div.innerHTML = `
+  div.innerHTML = renderCapabilityLegend() + `
     <div class="radar-controls">
       <span class="radar-chip">Focus
         <select id="radar-focus">${focusOpts}</select>
