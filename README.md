@@ -41,14 +41,16 @@ hold, which agent harness to run, and what to self-host.
 
 - `data/market-state.json` — canonical JSON state (the truth).
 - `data/model-roster-v2.json` — sourced v2 roster, inclusion policy,
-  configuration controls, and speed methodology used by all prototypes.
+  configuration controls, and speed methodology used by all design
+  alternatives.
 - `src/dashboard.template.html` — single self-contained HTML scaffold
   with a `__MARKET_DATA__` placeholder.
-- `src/prototypes/v2.template.html` — shared brand-aligned prototype renderer.
+- `src/designs/report-designs.template.html` — shared renderer for the
+  complete brand-aligned design alternatives.
 - `src/scripts/build.py` — substitutes the JSON into the template,
   producing `dist/dashboard.html`.
-- `src/scripts/build-prototypes.py` — produces four design-review reports in
-  `dist/prototypes/` from the same v2 roster.
+- `src/scripts/build-designs.py` — produces four complete design-review
+  reports in `dist/designs/` from the canonical market state.
 
 The outputs are self-contained static HTML files. There is no JavaScript
 framework, package-manager build chain, or runtime CDN dependency.
@@ -67,8 +69,8 @@ bash src/scripts/release-check.sh
 # Open the current report
 xdg-open dist/dashboard.html
 
-# Review the four v2 design directions
-xdg-open dist/prototypes/index.html
+# Review the four complete design directions
+xdg-open dist/designs/index.html
 ```
 
 ## Deploy
@@ -105,7 +107,7 @@ Do not cut a version directly before the release gates have been evaluated.
 ├── data/              # market-state.json + daily archives
 ├── src/
 │   ├── dashboard.template.html
-│   ├── prototypes/v2.template.html
+│   ├── designs/report-designs.template.html
 │   ├── dashboard-context.md   # project profile + tracked dimensions
 │   ├── sources.md             # canonical URLs the briefing checks
 │   ├── briefing-prompt.md     # the agent prompt that refreshes data/
