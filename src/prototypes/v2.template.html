@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI market research · __PROTOTYPE_TITLE__</title>
+  <style>
+    :root {
+      --paper: #f5f4f2;
+      --sidebar: #ebe8e2;
+      --surface: #ffffff;
+      --ink: #18202a;
+      --midnight: #1d3352;
+      --slate: #546a82;
+      --muted: #6f7780;
+      --line: #e0ded9;
+      --line-strong: #c9c6bf;
+      --orange: #e05232;
+      --orange-soft: #faeee9;
+      --green: #28705a;
+      --amber: #946416;
+      --blue-soft: #edf2f7;
+      --sans: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+      --display: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); color: var(--ink); font-family: var(--sans); }
+    body { margin: 0; min-width: 320px; }
+    button, select { font: inherit; }
+    button, select, a { -webkit-tap-highlight-color: transparent; }
+    .shell { min-height: 100vh; display: grid; grid-template-columns: 232px minmax(0, 1fr); }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; padding: 20px 14px;
+      background: var(--sidebar); border-right: 1px solid var(--line-strong);
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .brand { padding: 0 10px; color: var(--midnight); font: 700 17px/1.2 var(--display); }
+    .brand small { display: block; margin-top: 5px; color: var(--slate); font: 12px/1.3 var(--sans); }
+    .nav-label { margin: 16px 10px 7px; color: var(--muted); font-size: 11px; font-weight: 700; }
+    .nav a { display: block; border-left: 2px solid transparent; padding: 8px 10px; color: var(--ink); font-size: 14px; text-decoration: none; }
+    .nav a.active { border-color: var(--orange); background: rgba(255,255,255,.55); color: var(--midnight); font-weight: 650; }
+    .sidebar-note { margin-top: auto; padding: 10px; border-top: 1px solid var(--line-strong); color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .main { min-width: 0; }
+    .topbar { position: sticky; top: 0; z-index: 5; min-height: 56px; padding: 8px 24px; background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; }
+    .topbar h1 { margin: 0 auto 0 0; color: var(--midnight); font: 700 16px/1.2 var(--display); letter-spacing: 0; }
+    .control { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; }
+    select { height: 32px; max-width: 210px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--ink); padding: 0 28px 0 9px; }
+    main { width: min(1440px, 100%); margin: 0 auto; padding: 28px 30px 56px; }
+    .eyebrow { margin-bottom: 5px; color: var(--orange); font-size: 12px; font-weight: 700; }
+    h2 { margin: 0; color: var(--midnight); font: 700 27px/1.2 var(--display); letter-spacing: 0; }
+    .lede { max-width: 780px; margin: 8px 0 22px; color: var(--slate); font-size: 16px; line-height: 1.5; }
+    .notice { margin: 0 0 18px; padding: 11px 13px; border-left: 3px solid var(--orange); background: var(--orange-soft); font-size: 13px; line-height: 1.45; }
+    .kpis { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); border: 1px solid var(--line); background: var(--surface); }
+    .kpi { min-height: 92px; padding: 15px 17px; border-right: 1px solid var(--line); }
+    .kpi:last-child { border: 0; }
+    .kpi span { color: var(--muted); font-size: 12px; }
+    .kpi strong { display: block; margin-top: 7px; color: var(--midnight); font: 700 22px/1 var(--display); }
+    .section-head { display: flex; align-items: end; gap: 12px; margin: 30px 0 10px; }
+    .section-head h3 { margin: 0; color: var(--midnight); font: 700 17px/1.2 var(--display); }
+    .section-head p { margin: 0; color: var(--muted); font-size: 12px; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { position: sticky; top: 0; background: #f8f7f5; color: var(--muted); font-size: 11px; font-weight: 700; text-align: left; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; white-space: nowrap; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #faf9f7; }
+    td.model { min-width: 190px; color: var(--midnight); font-weight: 650; }
+    td.model small { display: block; margin-top: 3px; color: var(--muted); font-weight: 400; }
+    .mono { font-family: var(--mono); font-size: 12px; }
+    .badge { display: inline-block; padding: 2px 6px; border: 1px solid var(--line-strong); border-radius: 3px; color: var(--slate); font-size: 11px; }
+    .badge.reference { border-color: var(--orange); background: var(--orange-soft); color: #8b321e; }
+    .badge.stable { color: var(--green); }
+    .badge.preview, .badge.specialist { color: var(--amber); }
+    .levels { max-width: 240px; white-space: normal; line-height: 1.5; }
+    .levels b { color: var(--midnight); }
+    .speed { display: inline-flex; align-items: center; gap: 6px; }
+    .speed:before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--slate); }
+    .speed.fast:before { background: var(--green); }
+    .speed.deliberate:before { background: var(--amber); }
+    .brief-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, .7fr); gap: 18px; }
+    .panel { border: 1px solid var(--line); background: var(--surface); padding: 18px; }
+    .panel h3 { margin: 0 0 12px; color: var(--midnight); font: 700 16px var(--display); }
+    .plain-list { margin: 0; padding-left: 18px; line-height: 1.55; }
+    .plain-list li + li { margin-top: 8px; }
+    .provider { margin: 22px 0; }
+    .provider-title { display: flex; justify-content: space-between; align-items: baseline; padding: 0 2px 7px; }
+    .provider-title h3 { margin: 0; color: var(--midnight); font: 700 17px var(--display); }
+    .provider-title span { color: var(--muted); font-size: 12px; }
+    .matrix-controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 14px; padding: 12px; border: 1px solid var(--line); background: var(--surface); }
+    .matrix-controls button { height: 32px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); padding: 0 12px; color: var(--ink); cursor: pointer; }
+    .matrix-controls button.active { border-color: var(--orange); color: #8b321e; background: var(--orange-soft); }
+    .rank { width: 36px; color: var(--muted); font-family: var(--mono); }
+    .notebook { max-width: 1000px; }
+    .notebook section { padding: 24px 0; border-top: 1px solid var(--line-strong); }
+    .notebook section:first-of-type { border-top: 0; }
+    .notebook h3 { margin: 0 0 10px; color: var(--midnight); font: 700 20px var(--display); }
+    .notebook p { max-width: 760px; line-height: 1.6; }
+    .source-list { columns: 2; column-gap: 28px; margin: 12px 0 0; padding-left: 18px; }
+    .source-list li { break-inside: avoid; margin: 0 0 7px; font-size: 12px; }
+    .source-list a { color: var(--midnight); text-decoration-color: var(--line-strong); }
+    .prototype-note { margin: 0 0 18px; color: var(--muted); font-size: 12px; }
+    @media (max-width: 900px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; width: 100%; height: auto; padding: 12px 16px; display: block; }
+      .brand small, .nav-label, .sidebar-note { display: none; }
+      .nav { display: flex; gap: 4px; margin-top: 10px; overflow-x: auto; }
+      .nav a { border-left: 0; border-bottom: 2px solid transparent; white-space: nowrap; }
+      .nav a.active { border-bottom-color: var(--orange); }
+      .topbar { position: static; padding: 10px 16px; flex-wrap: wrap; }
+      .topbar h1 { width: 100%; }
+      main { padding: 22px 16px 44px; }
+      .kpis { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .kpi:nth-child(2) { border-right: 0; }
+      .kpi:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .brief-grid { grid-template-columns: 1fr; }
+      .source-list { columns: 1; }
+    }
+    @media (max-width: 520px) {
+      .control { width: 100%; justify-content: space-between; }
+      .control select { flex: 1; }
+      h2 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body data-mode="__PROTOTYPE_MODE__">
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">projectious.work<small>AI market research</small></div>
+      <nav class="nav" aria-label="Report sections">
+        <div class="nav-label">Report</div>
+        <a class="active" href="#overview">Overview</a>
+        <a href="#models">Models</a>
+        <a href="#configurations">Configurations</a>
+        <a href="#speed">Speed and cost</a>
+        <div class="nav-label">Evidence</div>
+        <a href="#method">Method</a>
+        <a href="#sources">Sources</a>
+      </nav>
+      <div class="sidebar-note">Prototype __PROTOTYPE_NUMBER__ of 4<br>Data researched 17 July 2026</div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <h1>__PROTOTYPE_TITLE__</h1>
+        <label class="control">Reference <select id="reference"></select></label>
+        <label class="control">Scope
+          <select id="scope"><option value="core">Current roster</option><option value="all">Extended roster</option></select>
+        </label>
+      </header>
+      <main id="app"></main>
+    </div>
+  </div>
+  <script id="roster" type="application/json">__MODEL_ROSTER__</script>
+  <script>
+    const data = JSON.parse(document.getElementById('roster').textContent);
+    const mode = document.body.dataset.mode;
+    const $ = (s) => document.querySelector(s);
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const title = s => s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    const refSelect = $('#reference');
+    data.models.forEach(m => refSelect.add(new Option(m.name, m.id, false, m.id === data.default_reference)));
+    let reference = data.default_reference;
+    let scope = 'core';
+    refSelect.addEventListener('change', e => { reference = e.target.value; render(); });
+    $('#scope').addEventListener('change', e => { scope = e.target.value; render(); });
+    const visible = () => data.models.filter(m => scope === 'all' || m.scope === 'core');
+    const status = m => `<span class="badge ${esc(m.status)}">${esc(m.status)}</span>${m.id === reference ? ' <span class="badge reference">reference</span>' : ''}`;
+    const speed = m => `<span class="speed ${esc(m.speed_band)}">${esc(title(m.speed_band))}</span>`;
+    const levels = m => m.levels.length ? `${esc(m.control)}: ${m.levels.map(x => x === m.default_level ? `<b>${esc(x)}</b>` : esc(x)).join(' · ')}` : 'No user-selectable levels documented';
+    const baseHead = `<div id="overview" class="eyebrow">Design exploration · v2.0</div><h2>__PROTOTYPE_HEADING__</h2><p class="lede">__PROTOTYPE_LEDE__</p><p class="prototype-note">This is a review prototype. All four directions use the same market roster and evidence policy.</p>`;
+    const table = (models, ranked = false) => `<div class="table-wrap"><table><thead><tr>${ranked ? '<th>Rank</th>' : ''}<th>Model</th><th>Provider</th><th>Status</th><th>Configuration levels</th><th>Speed</th><th>Price / Mtok</th><th>Context</th><th>Region</th></tr></thead><tbody>${models.map((m,i) => `<tr>${ranked ? `<td class="rank">${String(i+1).padStart(2,'0')}</td>` : ''}<td class="model">${esc(m.name)}<small>${esc(m.channel.replace(/_/g,' '))}</small></td><td>${esc(m.provider)}</td><td>${status(m)}</td><td class="levels">${levels(m)}</td><td title="${esc(m.speed_note)}">${speed(m)}</td><td class="mono">${esc(m.price)}</td><td class="mono">${esc(m.context)}</td><td>${esc(m.region)}</td></tr>`).join('')}</tbody></table></div>`;
+    function kpis(models) {
+      const providers = new Set(models.map(m => m.provider)).size;
+      const open = models.filter(m => m.channel === 'open_weight').length;
+      const configurable = models.filter(m => m.levels.length > 1).length;
+      return `<div class="kpis"><div class="kpi"><span>Models in view</span><strong>${models.length}</strong></div><div class="kpi"><span>Providers represented</span><strong>${providers}</strong></div><div class="kpi"><span>Open-weight families</span><strong>${open}</strong></div><div class="kpi"><span>Configurable models</span><strong>${configurable}</strong></div></div>`;
+    }
+    function notice() {
+      const ref = data.models.find(m => m.id === reference);
+      return `<div class="notice"><strong>${esc(ref.name)}</strong> is the active reference at <strong>${esc(ref.default_level)}</strong>. ${esc(ref.caveat || ref.speed_note)}</div>`;
+    }
+    function method() {
+      return `<section id="method"><h3>Method</h3><p>${esc(data.inclusion_policy.summary)} ${esc(data.inclusion_policy.promotion_rule)}</p><p id="speed">${esc(data.speed_methodology.rule)}</p></section>`;
+    }
+    function sources(models) {
+      const unique = [...new Map(models.map(m => [m.source, m])).values()];
+      return `<section id="sources"><h3>Primary sources</h3><ul class="source-list">${unique.map(m => `<li><a href="${esc(m.source)}">${esc(m.provider)} · ${esc(m.name)}</a></li>`).join('')}</ul></section>`;
+    }
+    function consoleView(models) {
+      return baseHead + notice() + kpis(models) + `<div class="brief-grid"><section class="panel"><h3>Decision brief</h3><ul class="plain-list"><li>Fable 5 is the reference for maximum agentic capability, with a material retention caveat.</li><li>Provider-native levels stay visible; a “high” row is not silently mixed with “medium”.</li><li>Speed is split into interaction, generation, and task latency when comparable evidence exists.</li></ul></section><aside class="panel"><h3>Roster rule</h3><p>Up to three representative models per provider in the default view. Extended families remain one interaction away.</p></aside></div><div id="models" class="section-head"><h3>Model landscape</h3><p>Dense, expandable operational table</p></div>${table(models)}<div class="notebook">${method()}${sources(models)}</div>`;
+    }
+    function ledgerView(models) {
+      const groups = Object.groupBy ? Object.groupBy(models, m => m.provider) : models.reduce((a,m) => ((a[m.provider] ||= []).push(m),a),{});
+      return baseHead + notice() + Object.entries(groups).sort().map(([provider, rows]) => `<section class="provider" id="models"><div class="provider-title"><h3>${esc(provider)}</h3><span>${rows.length} current entr${rows.length === 1 ? 'y' : 'ies'}</span></div>${table(rows)}</section>`).join('') + `<div class="notebook">${method()}${sources(models)}</div>`;
+    }
+    function matrixView(models) {
+      const score = m => ({fast:0, balanced:1, unknown:2, deliberate:3}[m.speed_band] ?? 2) + (m.id === reference ? -1 : 0);
+      const ranked = [...models].sort((a,b) => score(a)-score(b));
+      return baseHead + notice() + `<div id="configurations" class="matrix-controls"><button class="active">Coding</button><button>Research</button><button>Automation</button><button>Local</button><label class="control">Latency <select><option>Balanced</option><option>Fast</option><option>Deliberate</option></select></label></div><div id="models" class="section-head"><h3>Ranked configurations</h3><p>Prototype ranking emphasizes the active reference and speed band; final scores require benchmark-level evidence.</p></div>${table(ranked, true)}<div class="notebook">${method()}${sources(models)}</div>`;
+    }
+    function notebookView(models) {
+      const core = models.filter(m => m.scope === 'core');
+      return `<div class="notebook">${baseHead}${notice()}${kpis(models)}<section><h3>Executive position</h3><p>The market now needs configuration-level comparison. Base-model names alone hide material changes in quality, cost, and latency caused by reasoning effort, thinking mode, multi-agent execution, or a fast service tier.</p></section><section id="models"><h3>Current landscape</h3><p>The concise roster prioritizes provider coverage without giving every sibling model equal visual weight.</p>${table(core)}</section><section id="configurations"><h3>How levels are represented</h3><p>Each provider keeps its native control vocabulary. GPT-5.6 uses reasoning effort; Gemini uses thinking levels; Qwen combines thinking modes with token budgets; Cursor Composer exposes standard and fast variants. Comparisons attach to the exact configuration tested.</p></section>${method()}${sources(models)}</div>`;
+    }
+    function render() {
+      const models = visible();
+      $('#app').innerHTML = ({console:consoleView, ledger:ledgerView, matrix:matrixView, notebook:notebookView}[mode] || consoleView)(models);
+    }
+    render();
+  </script>
+</body>
+</html>

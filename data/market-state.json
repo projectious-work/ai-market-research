@@ -1,21 +1,21 @@
 {
   "meta": {
-    "generated_at": "2026-06-06T18:00:00Z",
-    "reference_default": "opus-4.8"
+    "generated_at": "2026-07-17T12:00:00Z",
+    "reference_default": "fable-5"
   },
   "executive_summary": {
-    "models": "New flagship: Claude Opus 4.8 (May 28) takes the frontier crown with 88.6% SWE-Verified, 69.2% SWE-Pro and 61.4 on Artificial Analysis Intelligence Index. Headline pricing unchanged at $5/$25 per Mtok but Fast Mode falls 3× to $10/$50. GPT-5.5 still leads DeepSWE (70%) and remains competitive on general intelligence. Grok 4.3 (May 6) ships at an aggressive $1.25/$2.50 per Mtok with 1M context and hybrid reasoning. DeepSeek V4-Pro hit permanent pricing $0.435/$0.87 on May 22 — roughly Opus-class quality at ~1/10 the cost, the biggest price/performance reset of the quarter. SubQ 1M-Preview is the first commercial subquadratic LLM at 12M context.",
+    "models": "Claude Fable 5 is the new default reference: Anthropic's most capable widely released model, with 1M context, adaptive thinking, and a deliberate latency profile. OpenAI's GPT-5.6 family now separates Sol, Terra, and Luna, each with none through max effort levels; Google spans preview Gemini 3.1 Pro and stable Gemini 3.5 Flash / 3.1 Flash-Lite; xAI's current flagship is Grok 4.5. The v2 roster also covers Cursor Composer 2.5, Meta Llama 4, Mistral, and the major Chinese open-weight families without giving every sibling an equal top-level row.",
     "harnesses": "Anthropic OAuth third-party block has been enforced since April 4, 2026 — Pro/Max subscriptions no longer cover third-party harnesses. Claude Code was removed from the standard Pro tier in April. May 14 announcement: from June 15 Pro/Max splits into a Chat pool plus a separate Agent SDK credit pool ($20/$100/$200). Cursor 3.5 ships Cloud Agents in isolated VMs; Windsurf has been rebranded to Devin Desktop with the SWE-1.6 model. GitHub Copilot CLI hit GA on Feb 25; Gemini CLI's last major release (v0.44.0) lands on May 27 before the June 18 sunset to Antigravity CLI (free tier).",
     "self_hosting": "Nvidia is now a serious open-weights player: Nemotron 3 Ultra (550B / 55B active MoE, hybrid Mamba-Transformer, 1M context) launched at Computex June 4 under the NVIDIA Open Model License, alongside a Coalition with Mistral, Cursor, Black Forest Labs, Thinking Machines Lab and others. Kimi K2.6 (1T MoE, 80.2% SWE-Verified, AAII 54) is the current top open intelligence. DeepSeek V4-Pro and V4-Flash (both MIT) and Qwen 3.6-35B-A3B remain the price/performance leaders, with license drift continuing toward MIT/Apache. 1M context is now standard; Llama 4 Scout's 10M remains an outlier.",
-    "strategy": "With Opus 4.8 as flagship + Fast Mode 3× cheaper than 4.7 + the June 15 Anthropic billing restructure + DeepSeek V4-Pro permanent pricing, the Max 5× vs API math needs to be recomputed for your workload. Self-hosting on Vast.ai 2× A6000 now comfortably runs Kimi K2.6 Q4 and Qwen 3.6-35B-A3B — open-weight quality is genuinely close to frontier for everyday coding. Watch the Nvidia Nemotron Coalition: it's the first frontier-scale open consortium, and could reshape both API economics and the harness ecosystem within a quarter."
+    "strategy": "Compare exact model configurations, not family names alone. Use Fable 5 as the maximum-capability reference while accounting for its 30-day retention and lack of zero-data-retention. Keep one flagship, one balanced or fast option, and one specialist per provider in the default roster; expand siblings only when needed. Treat TTFT, output throughput, and end-to-end task time as separate speed evidence, with provider claims labelled and unknown values left unknown."
   },
   "headline_stats": [
     {
       "id": "frontier_count",
       "label": "Frontier models tracked",
-      "value": 19,
+      "value": 20,
       "unit": "",
-      "delta": "+2 since May (Opus 4.8, Gemini 3.5 Flash)",
+      "delta": "+Fable 5; v2 roster maintained separately",
       "delta_dir": "up"
     },
     {
@@ -351,13 +351,51 @@
     }
   ],
   "actions": [
-    "Re-evaluate Max 5× vs API: with Opus 4.8 Fast Mode at $10/$50 (3× cheaper than 4.7) + announced June 15 billing restructure, the API economics shift again.",
+    "Evaluate Fable 5 at high effort as the reference, including its 30-day retention and no-ZDR constraint.",
+    "Compare GPT-5.6 Sol at medium and high effort as separate configurations rather than averaging the family.",
+    "Capture TTFT, output throughput, and end-to-end task time under one reproducible harness before ranking speed.",
     "Try Kimi K2.6 on Vast.ai 2× A6000 Q4 — current top open intelligence (80.2% SWE-Verified, AAII 54) at zero per-token cost.",
     "Watch Nvidia Nemotron Coalition — first frontier-open consortium with Mistral, Cursor, Black Forest Labs, Thinking Machines.",
     "Decide on Antigravity CLI vs sticking with Gemini CLI before June 18, 2026 sunset.",
     "Re-baseline benchmarks: SWE-bench Verified is being deprecated by OpenAI in favor of SWE-Pro + DeepSWE + Terminal-Bench 2.0."
   ],
   "models": [
+    {
+      "id": "fable-5",
+      "name": "Claude Fable 5",
+      "provider": "Anthropic",
+      "tier": "frontier",
+      "released": "2026-06-09",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": 10.0,
+      "api_out": 50.0,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Claude API and supported cloud platforms",
+      "notes": "Default reference for v2. Anthropic describes Fable 5 as its most capable widely released model. Adaptive thinking is always on. Comparative latency is slower. Retention is 30 days and zero-data-retention is not available.",
+      "reasoning_capable": true,
+      "effort_default": "high",
+      "effort_levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "cache_discount": null,
+      "status": "stable",
+      "speed_class": "deliberate",
+      "speed_evidence": "vendor-qualitative"
+    },
     {
       "id": "opus-4.8",
       "name": "Claude Opus 4.8",
