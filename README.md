@@ -45,12 +45,12 @@ hold, which agent harness to run, and what to self-host.
   alternatives.
 - `src/dashboard.template.html` — single self-contained HTML scaffold
   with a `__MARKET_DATA__` placeholder.
-- `src/designs/report-designs.template.html` — shared renderer for the
-  complete brand-aligned design alternatives.
+- `src/concepts/` — independent from-scratch website concepts plus their
+  shared content adapter.
 - `src/scripts/build.py` — substitutes the JSON into the template,
   producing `dist/dashboard.html`.
-- `src/scripts/build-designs.py` — produces four complete design-review
-  reports in `dist/designs/` from the canonical market state.
+- `src/scripts/build-concepts.py` — embeds the canonical data into four
+  independent concepts under `dist/concepts/`.
 
 The outputs are self-contained static HTML files. There is no JavaScript
 framework, package-manager build chain, or runtime CDN dependency.
@@ -69,8 +69,8 @@ bash src/scripts/release-check.sh
 # Open the current report
 xdg-open dist/dashboard.html
 
-# Review the four complete design directions
-xdg-open dist/designs/index.html
+# Review the four from-scratch concepts
+xdg-open dist/concepts/index.html
 ```
 
 ## Deploy
@@ -107,7 +107,7 @@ Do not cut a version directly before the release gates have been evaluated.
 ├── data/              # market-state.json + daily archives
 ├── src/
 │   ├── dashboard.template.html
-│   ├── designs/report-designs.template.html
+│   ├── concepts/       # independent concept templates + content adapter
 │   ├── dashboard-context.md   # project profile + tracked dimensions
 │   ├── sources.md             # canonical URLs the briefing checks
 │   ├── briefing-prompt.md     # the agent prompt that refreshes data/
