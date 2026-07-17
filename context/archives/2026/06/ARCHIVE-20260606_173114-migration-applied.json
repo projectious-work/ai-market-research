@@ -1,0 +1,113 @@
+{
+  "archive_id": "ARCHIVE-20260606_173114-migration-applied",
+  "archive_path": "context/archives/2026/06/ARCHIVE-20260606_173114-migration-applied.tar.gz",
+  "created_at": "2026-06-06T17:31:14+00:00",
+  "entities": [
+    {
+      "apiVersion": "processkit.projectious.work/v1",
+      "body_index": "# Migration MIG-20260606T170816\n\nFrom `v0.26.14` to `v0.27.1` (source: `https://github.com/projectious-work/processkit.git`).\n\n0 changed upstream, 0 conflicts, 14 new, 0 removed, 0 stale-removed (3 groups affected)\n\n## Counts\n\n- unchanged: 692\n- changed-locally-only: 1\n- changed-upstream-only: 0\n- conflict: 0\n- new-upstream: 14\n- removed-upstream: 0\n- removed-upstream-stale: 0\n\n## Changes by group\n\n### AGENTS\n\n**changed-locally-only**\n\n- `AGENTS.md` \u2192 `AGENTS.md`\n\n### context\n\n**new-upstream**\n\n- `context/.processkit-mcp-manifest.json` \u2192 `context/.processkit-mcp-manifest.json`\n\n### skills/processkit\n\n**new-upstream**\n\n- `context/skills/processkit/eval-gate-authoring/scripts/test_eval_gate_authoring.py` \u2192 `context/skills/processkit/eval-gate-authoring/scripts/test_eval_gate_authoring.py`\n- `context/skills/processkit/binding-management/scripts/test_binding_management.py` \u2192 `context/skills/processkit/binding-management/scripts/test_binding_management.py`\n- `context/skills/processkit/workitem-management/scripts/test_workitem_management.py` \u2192 `context/skills/processkit/workitem-management/scripts/test_workitem_management.py`\n- `context/skills/processkit/pk-doctor/scripts/checks/sensitiv",
+      "id": "MIG-20260606T170816",
+      "kind": "Migration",
+      "labels": {},
+      "member_path": "context/migrations/applied/MIG-20260606T170816.md",
+      "metadata": {
+        "created": "2026-06-06T17:08:16+00:00",
+        "id": "MIG-20260606T170816",
+        "updated": "2026-06-06T17:12:59+00:00"
+      },
+      "original_path": "context/migrations/applied/MIG-20260606T170816.md",
+      "sha256": "9a54ed7b20bec8ecb8b1d76d36e3764af5110a9bad7dacd1d6e7eb3cbd3568ff",
+      "spec": {
+        "affected_files": [
+          {
+            "classification": "changed-locally-only",
+            "path": "AGENTS.md"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/.processkit-mcp-manifest.json"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/binding-management/scripts/test_binding_management.py"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/eval-gate-authoring/scripts/test_eval_gate_authoring.py"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/gate-management/scripts/test_gate_management.py"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/pk-doctor/scripts/checks/sensitive_data.py"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/pk-doctor/scripts/checks/supply_chain.py"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/supply-chain-audit/SKILL.md"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/supply-chain-audit/commands/pk-supply-chain.md"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/supply-chain-audit/mcp/SERVER.md"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/supply-chain-audit/mcp/mcp-config.json"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/supply-chain-audit/mcp/server.py"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/supply-chain-audit/scripts/supply_chain_audit.py"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/supply-chain-audit/scripts/test_supply_chain_audit.py"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/workitem-management/scripts/test_workitem_management.py"
+          }
+        ],
+        "affected_groups": [
+          "AGENTS",
+          "context",
+          "skills/processkit"
+        ],
+        "applied_at": "2026-06-06T17:12:59+00:00",
+        "from_version": "v0.26.14",
+        "generated_at": "2026-06-06T17:08:16+00:00",
+        "generated_by": "aibox apply",
+        "progress_notes": [
+          {
+            "actor": "mcp",
+            "note": "Applied during pk-resume: additive only (14 new-upstream files for supply-chain-audit skill + test scaffolding); zero conflicts.",
+            "timestamp": "2026-06-06T17:12:59+00:00"
+          }
+        ],
+        "source": "processkit",
+        "source_url": "https://github.com/projectious-work/processkit.git",
+        "started_at": "2026-06-06T17:12:59+00:00",
+        "state": "applied",
+        "summary": "0 changed upstream, 0 conflicts, 14 new, 0 removed, 0 stale-removed (3 groups affected)",
+        "to_version": "v0.27.1"
+      },
+      "storage_location": "context/archives/2026/06/ARCHIVE-20260606_173114-migration-applied.tar.gz::context/migrations/applied/MIG-20260606T170816.md"
+    }
+  ],
+  "kind": "Migration",
+  "older_than_days": 0,
+  "sha256": "424f3b0262fc0d054251d4ea56aaa4c621fbecd53e482ae3924f0eb6b09fc2fa",
+  "state": "applied"
+}

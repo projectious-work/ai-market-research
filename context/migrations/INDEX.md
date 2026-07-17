@@ -8,15 +8,14 @@ None.
 
 None.
 
-## Applied (4)
+## Applied (1)
 
 | Date       | Migration                                | Notes |
 |------------|------------------------------------------|-------|
-| 2026-05-16 | MIG-LOCK-20260515T190900 — aibox-lock  → | Backfilled previous_selection: 5 addon(s), 7 tool(s), 2 harness(es) |
-| 2026-05-17 | MIG-20260517_1336-DeepRabbit-add-role-slot-event-types — processkit  → | Extend LogEntry.known_event_types with 3 role_slot lifecycle events (role_slot.created, role_slot.filled, role_slot.closed) |
-| 2026-05-17 | MIG-RUNTIME-20260517T114447 — aibox-runtime-home 0.26.5 → 0.26.7 | 0 changed upstream, 0 conflicts, 0 new, 1 removed (1 groups affected) |
-| 2026-05-17 | MIG-RUNTIME-DRIFT-20260515T191051 — aibox-runtime-drift  → 0.26.5 | 1 drifted managed runtime file(s) found at 0.26.5 |
+| 2026-07-17 | MIG-20260717_1210-RuntimeSync-aibox-runtime — aibox-runtime-home 0.27.2 → 0.27.5 | 0 changed upstream, 0 conflicts, 1 new, 1 removed (2 groups affected) |
 
-## Rejected (0)
+## Rejected (1)
 
-None.
+| Date       | Migration                                | Reason |
+|------------|------------------------------------------|--------|
+| 2026-07-17 | MIG-DISABLED-HARNESS-STATE — aibox  → | Owner explicitly decided to preserve disabled Claude harness state; see DEC-20260717_1236-SunnyRiver-preserve-disabled-… |

@@ -94,7 +94,7 @@ trap 'rm -f "$TMP_PKG"' EXIT
   echo "is the probabilistic catch — find what regex wouldn't."
   echo ""
   echo "Apply the maintainer's intent for this project:"
-  echo "- 'projectious' (handle) and 'info@projectious.work' (email) are"
+  echo "- The public 'projectious' handle and official public contact address are"
   echo "  the **official public identity**; they are NOT leaks."
   echo "- The container user 'aibox' / paths like '/home/aibox/' are"
   echo "  generic runtime, not personal."

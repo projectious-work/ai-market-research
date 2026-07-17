@@ -120,8 +120,13 @@ fi
     echo "[3/5] no changes vs current gh-pages tip; skipping commit + push"
     NO_CHANGES=1
   else
+    DEPLOY_EMAIL="$(git config user.email 2>/dev/null || true)"
+    if [ -z "$DEPLOY_EMAIL" ]; then
+      echo "fatal: configure git user.email before deploying" >&2
+      exit 1
+    fi
     git -c user.name="ai-market-research deploy" \
-        -c user.email="deploy@ai-market-research.local" \
+        -c user.email="$DEPLOY_EMAIL" \
         commit --quiet -m "$COMMIT_MESSAGE"
     NO_CHANGES=0
   fi
@@ -134,21 +139,12 @@ rm -f "$REPO_ROOT/.git/.deploy-no-changes"
 # ─── 4. Push ────────────────────────────────────────────────────────────
 if [ "$NO_CHANGES" -eq 0 ]; then
   echo "[4/5] pushing $PAGES_BRANCH to $REMOTE"
-  # Use gh's auth token for HTTPS push so the script works in containers
-  # that don't have a configured git credential helper.
-  GH_TOKEN_VAL="$(gh auth token 2>/dev/null || true)"
-  if [ -z "$GH_TOKEN_VAL" ]; then
-    echo "fatal: gh auth token unavailable; run 'gh auth login' first" >&2
-    exit 1
-  fi
-  AUTH_URL="https://x-access-token:${GH_TOKEN_VAL}@github.com/${OWNER}/${REPO}.git"
   # gh-pages is a deploy artifact branch — each deploy rewrites the tip
-  # with a single commit. --force is the intended semantic; the
-  # --force-with-lease check fails here because pushing to an inline
-  # auth URL leaves git with no remote-tracking ref to lease against.
+  # with a single commit. --force is the intended semantic. The origin
+  # remote uses the configured Git credential helper for authentication.
   (
     cd "$WORKTREE_DIR"
-    git push --quiet --force "$AUTH_URL" "$PAGES_BRANCH"
+    git push --quiet --force origin "$PAGES_BRANCH"
   )
 else
   echo "[4/5] skipping push (no changes)"

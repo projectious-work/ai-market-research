@@ -43,18 +43,15 @@ bash "$REPO_ROOT/src/scripts/release-check.sh"
 # 2. tag
 TAG_MESSAGE="Release $TAG"
 [ -n "$NOTES" ] && TAG_MESSAGE="$TAG_MESSAGE"$'\n\n'"$NOTES"
-TAG_NAME="$(git config user.name 2>/dev/null || echo "projectious")"
-TAG_EMAIL="$(git config user.email 2>/dev/null || echo "projectious@users.noreply.github.com")"
+TAG_NAME="$(git config user.name 2>/dev/null || true)"
+TAG_EMAIL="$(git config user.email 2>/dev/null || true)"
+[ -n "$TAG_NAME" ] || { log_fail "configure git user.name before releasing"; exit 1; }
+[ -n "$TAG_EMAIL" ] || { log_fail "configure git user.email before releasing"; exit 1; }
 git -c "user.name=$TAG_NAME" -c "user.email=$TAG_EMAIL" tag -a "$TAG" -m "$TAG_MESSAGE"
 
 # 3. push main + tag
-GH_TOKEN_VAL="$(gh auth token 2>/dev/null || true)"
-[ -n "$GH_TOKEN_VAL" ] || { log_fail "gh auth token unavailable"; exit 1; }
-REMOTE_URL="$(git remote get-url origin)"
-REPO_SLUG="$(echo "$REMOTE_URL" | sed -E 's#(.*github\.com[:/])([^/]+/[^/.]+)(\.git)?$#\2#')"
-AUTH_URL="https://x-access-token:${GH_TOKEN_VAL}@github.com/${REPO_SLUG}.git"
-git push "$AUTH_URL" main
-git push "$AUTH_URL" "$TAG"
+git push origin main
+git push origin "$TAG"
 
 # 4. deploy
 DEPLOY_MSG="deploy: $TAG ($(git rev-parse --short HEAD))"

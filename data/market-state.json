@@ -1,37 +1,37 @@
 {
   "meta": {
-    "generated_at": "2026-05-16T10:32:05Z",
-    "reference_default": "opus-4.7"
+    "generated_at": "2026-06-06T18:00:00Z",
+    "reference_default": "opus-4.8"
   },
   "executive_summary": {
-    "models": "Major shift since last update: Anthropic released Mythos Preview (April 7, limited cyber-research access — most capable Claude model). OpenAI released GPT-5.5 Instant (May 5, non-reasoning ChatGPT default) and GPT-5.5-Cyber (May 7, vetted partners) parallel to Mythos. Critical Opus 4.7 pricing correction: actually $5/$25, not $15/$75 (the dashboard was wrong from day one). Opus 4.7 confirmed at 64.3% SWE-Pro and 87.6% SWE-Verified — closes the gap to GPT-5.5 (58.6 Pro, 88.7 Verified). GPT-5.3-Codex-Spark remains a ChatGPT Pro research preview: 128K context, text-only, 1000+ tok/s, separate preview rate limits, and no final published credit rates yet. Gemini 3.2 expected May 19-20 at Google I/O — Flash variant already leaked at $0.25/$2 per Mtok.",
-    "harnesses": "Claude Code added agent view (parallel session tracking) and /goal command (multi-turn completion) on May 11 — strong move toward autonomous workflows. Claude Platform on AWS launched (May 11) — Anthropic-managed infrastructure with AWS billing, full Claude features. Anthropic OAuth third-party block (April 4) remains. The supervised-vs-autonomous workflow split has deepened: Claude Code's /goal puts it firmly in autonomous territory alongside Codex CLI.",
-    "self_hosting": "Open-weight landscape transformed in late April. DeepSeek V4-Pro (April 24, MIT, 1.6T/49B MoE) hits 80.6% SWE-Verified and 55.4% SWE-Pro — strongest open coder. Qwen 3.6 family (April 11-21) ships three sizes; Plus is top open agentic coder with 1M context. Llama 4 (Scout 10M context, Maverick 400B MoE) released April 5. Mistral Medium 3.5 (April 29, Apache 2.0) is the best EU/non-Chinese open option at 77.6% SWE-Verified. Kimi K2.6 and GLM 5.1 expand the open frontier. A 2× A6000 (96 GB VRAM) setup can run DeepSeek V4-Flash, Qwen 3.6 Plus Q4, Llama 4 Scout BF16, or Kimi K2.6 Q4 — DeepSeek V4-Pro needs 4× A6000 even at Q2_K.",
-    "strategy": "Recommended stack unchanged: Claude Max 5× + Anthropic API ($30 cap) + Vast.ai self-hosted. But with Opus 4.7's correct pricing ($5/$25, not $15/$75), the API-only alternative is significantly more attractive than the dashboard previously implied — recheck whether Max 5× still wins for your specific usage volume. Self-hosted ladder upgraded: Gemma 4 26B MoE remains throughput champion; DeepSeek V4-Flash and Qwen 3.6 Plus now offer near-frontier quality on the same 2× A6000 setup."
+    "models": "New flagship: Claude Opus 4.8 (May 28) takes the frontier crown with 88.6% SWE-Verified, 69.2% SWE-Pro and 61.4 on Artificial Analysis Intelligence Index. Headline pricing unchanged at $5/$25 per Mtok but Fast Mode falls 3× to $10/$50. GPT-5.5 still leads DeepSWE (70%) and remains competitive on general intelligence. Grok 4.3 (May 6) ships at an aggressive $1.25/$2.50 per Mtok with 1M context and hybrid reasoning. DeepSeek V4-Pro hit permanent pricing $0.435/$0.87 on May 22 — roughly Opus-class quality at ~1/10 the cost, the biggest price/performance reset of the quarter. SubQ 1M-Preview is the first commercial subquadratic LLM at 12M context.",
+    "harnesses": "Anthropic OAuth third-party block has been enforced since April 4, 2026 — Pro/Max subscriptions no longer cover third-party harnesses. Claude Code was removed from the standard Pro tier in April. May 14 announcement: from June 15 Pro/Max splits into a Chat pool plus a separate Agent SDK credit pool ($20/$100/$200). Cursor 3.5 ships Cloud Agents in isolated VMs; Windsurf has been rebranded to Devin Desktop with the SWE-1.6 model. GitHub Copilot CLI hit GA on Feb 25; Gemini CLI's last major release (v0.44.0) lands on May 27 before the June 18 sunset to Antigravity CLI (free tier).",
+    "self_hosting": "Nvidia is now a serious open-weights player: Nemotron 3 Ultra (550B / 55B active MoE, hybrid Mamba-Transformer, 1M context) launched at Computex June 4 under the NVIDIA Open Model License, alongside a Coalition with Mistral, Cursor, Black Forest Labs, Thinking Machines Lab and others. Kimi K2.6 (1T MoE, 80.2% SWE-Verified, AAII 54) is the current top open intelligence. DeepSeek V4-Pro and V4-Flash (both MIT) and Qwen 3.6-35B-A3B remain the price/performance leaders, with license drift continuing toward MIT/Apache. 1M context is now standard; Llama 4 Scout's 10M remains an outlier.",
+    "strategy": "With Opus 4.8 as flagship + Fast Mode 3× cheaper than 4.7 + the June 15 Anthropic billing restructure + DeepSeek V4-Pro permanent pricing, the Max 5× vs API math needs to be recomputed for your workload. Self-hosting on Vast.ai 2× A6000 now comfortably runs Kimi K2.6 Q4 and Qwen 3.6-35B-A3B — open-weight quality is genuinely close to frontier for everyday coding. Watch the Nvidia Nemotron Coalition: it's the first frontier-scale open consortium, and could reshape both API economics and the harness ecosystem within a quarter."
   },
   "headline_stats": [
     {
       "id": "frontier_count",
       "label": "Frontier models tracked",
-      "value": 17,
+      "value": 19,
       "unit": "",
-      "delta": "+3 (Mythos, 5.5 Instant, 5.5-Cyber)",
+      "delta": "+2 since May (Opus 4.8, Gemini 3.5 Flash)",
       "delta_dir": "up"
     },
     {
       "id": "best_open_pct",
-      "label": "Best open-weight vs Opus 4.7",
-      "value": 86,
+      "label": "Best open-weight vs Opus 4.8",
+      "value": 90,
       "unit": "%",
-      "delta": "DeepSeek V4-Pro vs Opus 4.7",
+      "delta": "Kimi K2.6 vs Opus 4.8",
       "delta_dir": "up"
     },
     {
       "id": "cheapest_frontier_api",
       "label": "Cheapest frontier $/Mtok out",
-      "value": 0.42,
+      "value": 0.87,
       "unit": "USD",
-      "delta": "DeepSeek V4-Pro $0.28/$0.42",
+      "delta": "DeepSeek V4-Pro $0.435/$0.87",
       "delta_dir": "down"
     },
     {
@@ -53,17 +53,17 @@
     {
       "id": "harness_count",
       "label": "Harnesses tracked",
-      "value": 14,
+      "value": 17,
       "unit": "",
-      "delta": "+1 (Hermes)",
+      "delta": "+Copilot CLI, Amp, Zed, Continue, Hermes (restored)",
       "delta_dir": "up"
     },
     {
       "id": "policy_days",
       "label": "Days since policy shift",
-      "value": 38,
+      "value": 63,
       "unit": "d",
-      "delta": "Anthropic OAuth block",
+      "delta": "Anthropic OAuth block enforcement",
       "delta_dir": "neutral"
     },
     {
@@ -106,6 +106,10 @@
         {
           "date": "2026-05-01",
           "value": 88
+        },
+        {
+          "date": "2026-06-01",
+          "value": 90
         }
       ]
     },
@@ -139,6 +143,10 @@
         {
           "date": "2026-05-01",
           "value": 12.0
+        },
+        {
+          "date": "2026-06-01",
+          "value": 11.0
         }
       ]
     },
@@ -172,11 +180,85 @@
         {
           "date": "2026-05-01",
           "value": 5
+        },
+        {
+          "date": "2026-06-01",
+          "value": 8
         }
       ]
     }
   },
   "changelog": [
+    {
+      "date": "2026-06-06",
+      "tag": "fix",
+      "text": "Restored GPT-5.3-Codex-Spark (Feb 12, 2026 release; ChatGPT Pro research preview, 128K context, 1000+ tok/s on Cerebras) and Hermes Agent v0.16.0 (Nous Research, MIT, self-hosted multi-platform agent) — both were incorrectly removed in v1.5.0 sweep."
+    },
+    {
+      "date": "2026-06-06",
+      "tag": "policy",
+      "text": "Dashboard market sweep v1.5.0: real-world re-grounding. Replaced fictional Mythos/GPT-5.5-Cyber rows with verified models; added Nvidia Nemotron coalition, Kimi K2.6, GLM-5, Cohere Command A+, SubQ 1M-Preview."
+    },
+    {
+      "date": "2026-06-04",
+      "tag": "model",
+      "text": "Nvidia releases Nemotron 3 Ultra (550B/55B MoE, hybrid Mamba-Transformer, 1M context, NVIDIA Open Model License) at Computex — first frontier-scale open model from Nvidia."
+    },
+    {
+      "date": "2026-06-04",
+      "tag": "model",
+      "text": "Nvidia Nemotron Coalition formed: Black Forest Labs, Cursor, LangChain, Mistral, Perplexity, Reflection AI, Sarvam, Thinking Machines Lab as inaugural members."
+    },
+    {
+      "date": "2026-06-01",
+      "tag": "model",
+      "text": "Nvidia Cosmos 3 launched — open physical-AI / robotics foundation model."
+    },
+    {
+      "date": "2026-05-28",
+      "tag": "model",
+      "text": "Anthropic releases Claude Opus 4.8 — flagship. SWE-bench Verified 88.6%, SWE-Pro 69.2%, AAII 61.4. Same headline $5/$25 but Fast Mode drops 3× to $10/$50."
+    },
+    {
+      "date": "2026-05-27",
+      "tag": "harness",
+      "text": "Gemini CLI v0.44.0 — last major release before transition to Antigravity CLI on June 18 (free tier)."
+    },
+    {
+      "date": "2026-05-26",
+      "tag": "harness",
+      "text": "Codex CLI v0.134.0 — conversation-history search, iOS notification handoff, /archive, Windows elevated sandbox."
+    },
+    {
+      "date": "2026-05-22",
+      "tag": "model",
+      "text": "DeepSeek V4-Pro hits permanent pricing $0.435/$0.87 per MTok — roughly Opus-class quality at ~1/10 the cost."
+    },
+    {
+      "date": "2026-05-22",
+      "tag": "model",
+      "text": "Cohere ships Command A+ — first open-weights Cohere release in >1 year (218B Sparse-MoE multimodal)."
+    },
+    {
+      "date": "2026-05-20",
+      "tag": "harness",
+      "text": "Cursor 3.5 — Cloud Agents (isolated VMs, multi-repo), Composer 2.5, Agents Window."
+    },
+    {
+      "date": "2026-05-19",
+      "tag": "model",
+      "text": "Google I/O — Gemini 3.5 Flash ships GA at $1.50/$9 per MTok; claims frontier-grade quality + 4× faster than peers."
+    },
+    {
+      "date": "2026-05-14",
+      "tag": "policy",
+      "text": "Anthropic announces billing restructure (effective June 15, 2026): Pro/Max split into Chat pool + separate Agent SDK credit pool ($20/$100/$200)."
+    },
+    {
+      "date": "2026-05-06",
+      "tag": "model",
+      "text": "xAI releases Grok 4.3 at $1.25/$2.50 per MTok with 1M context, hybrid reasoning, multimodal — aggressive pricing for frontier tier."
+    },
     {
       "date": "2026-05-18",
       "tag": "fix",
@@ -269,13 +351,54 @@
     }
   ],
   "actions": [
-    "Verify Opus 4.7 effective cost on your workload — actual pricing $5/$25 (corrected); API alternative may be more attractive than dashboard previously implied",
-    "Test DeepSeek V4-Flash on Vast.ai 2× A6000 — near-frontier quality (55% SWE-Pro) at zero per-token cost",
-    "Validate GPT-5.3-Codex-Spark in Codex CLI or VS Code for live micro-edits — it uses a separate preview quota today, so treat it as latency-first rather than quota-comparable",
-    "Watch Google I/O May 19-20 for Gemini 3.2 official release — Flash leaked at $0.25/$2 per Mtok",
-    "Consider Claude Code's new /goal command for autonomous overnight runs — closes gap with Codex CLI on async workflows"
+    "Re-evaluate Max 5× vs API: with Opus 4.8 Fast Mode at $10/$50 (3× cheaper than 4.7) + announced June 15 billing restructure, the API economics shift again.",
+    "Try Kimi K2.6 on Vast.ai 2× A6000 Q4 — current top open intelligence (80.2% SWE-Verified, AAII 54) at zero per-token cost.",
+    "Watch Nvidia Nemotron Coalition — first frontier-open consortium with Mistral, Cursor, Black Forest Labs, Thinking Machines.",
+    "Decide on Antigravity CLI vs sticking with Gemini CLI before June 18, 2026 sunset.",
+    "Re-baseline benchmarks: SWE-bench Verified is being deprecated by OpenAI in favor of SWE-Pro + DeepSWE + Terminal-Bench 2.0."
   ],
   "models": [
+    {
+      "id": "opus-4.8",
+      "name": "Claude Opus 4.8",
+      "provider": "Anthropic",
+      "tier": "frontier",
+      "released": "2026-05-28",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": 69.2,
+      "swe_verified": 88.6,
+      "livecodebench": 82,
+      "aime": 90,
+      "tau2": 86,
+      "api_in": 5.0,
+      "api_out": 25.0,
+      "api_cache_hit": 0.5,
+      "batch_discount": 50,
+      "tok_per_sec": 55,
+      "subscription": "Max 20× $200/mo · Max 5× $100/mo",
+      "notes": "Current Anthropic flagship. SWE-V 88.6%, SWE-Pro 69.2%, AAII 61.4. Fast Mode reduced 3× to $10/$50 (was $30/$150 on 4.7). 1M context standard.",
+      "reasoning_capable": true,
+      "effort_default": "xhigh",
+      "effort_levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 50,
+        "reasoning": 50,
+        "knowledge": 50,
+        "comms": 50,
+        "multimodal": 34,
+        "agentic": 50
+      }
+    },
     {
       "id": "opus-4.7",
       "name": "Claude Opus 4.7",
@@ -297,7 +420,7 @@
       "batch_discount": 50,
       "tok_per_sec": 50,
       "subscription": "Max 5× $100/mo · Pro $20/mo",
-      "notes": "Reference model. $5/$25 per Mtok (CORRECTION: was incorrectly $15/$75 in earlier dashboard versions). New tokenizer adds ~1.35× tokens. 1M context standard. Cache reads $0.50/Mtok (90% off). Fast Mode $30/$150 (6×). Released April 16, 2026.",
+      "notes": "Now legacy as of Opus 4.8 release May 28. Pricing unchanged. SWE-Verified 87.6%, SWE-Pro 64.3%.",
       "reasoning_capable": true,
       "effort_default": "xhigh",
       "effort_levels": [
@@ -393,47 +516,6 @@
       }
     },
     {
-      "id": "mythos-preview",
-      "name": "Claude Mythos Preview",
-      "provider": "Anthropic",
-      "tier": "frontier",
-      "released": "2026-04-07",
-      "license": "proprietary",
-      "jurisdiction": "US",
-      "context": 1000000,
-      "context_label": "1M",
-      "swe_pro": 68,
-      "swe_verified": 90,
-      "livecodebench": 88,
-      "aime": 94,
-      "tau2": 88,
-      "api_in": null,
-      "api_out": null,
-      "api_cache_hit": null,
-      "batch_discount": 50,
-      "tok_per_sec": 40,
-      "subscription": "Limited release · Project Glasswing (vetted partners)",
-      "reasoning_capable": true,
-      "effort_default": "xhigh",
-      "effort_levels": [
-        "low",
-        "medium",
-        "high",
-        "xhigh",
-        "max"
-      ],
-      "notes": "Most capable Anthropic model. Currently limited release for cyber-security partners only via Project Glasswing. Best alignment metrics of any model trained.",
-      "cache_discount": 0.1,
-      "capability_levels": {
-        "coding": 41,
-        "reasoning": 49,
-        "knowledge": 48,
-        "comms": 41,
-        "multimodal": 30,
-        "agentic": 41
-      }
-    },
-    {
       "id": "gpt-5.5",
       "name": "GPT-5.5",
       "provider": "OpenAI",
@@ -463,7 +545,7 @@
         "high",
         "xhigh"
       ],
-      "notes": "Current SWE-Pro leader (58.6%). 2× per-token cost vs GPT-5.4, but ~20% more efficient on token count per task. 1M context with 2× input/1.5× output surcharge above 272K. Reasoning tokens billed as output.",
+      "notes": "OpenAI flagship; default in ChatGPT (Instant variant since May 5, 2026). 1M context with 2× input/1.5× output surcharge above 272K. Reasoning tokens billed as output.",
       "cache_discount": 0.25,
       "capability_levels": {
         "coding": 42,
@@ -479,7 +561,7 @@
       "name": "GPT-5.5 Pro",
       "provider": "OpenAI",
       "tier": "frontier",
-      "released": "2026-04-23",
+      "released": "2026-04-24",
       "license": "proprietary",
       "jurisdiction": "US",
       "context": 1000000,
@@ -502,7 +584,7 @@
         "high",
         "xhigh"
       ],
-      "notes": "Highest-intelligence OpenAI API option. $30/$180. Available in ChatGPT Pro $200 and as API. 6× cost of base 5.5.",
+      "notes": "Highest-stakes reasoning tier. $30/$180. Available in ChatGPT Pro $200 and as API. 6× cost of base 5.5.",
       "cache_discount": 0.25,
       "capability_levels": {
         "coding": 47,
@@ -695,24 +777,19 @@
       "api_cache_hit": null,
       "batch_discount": null,
       "tok_per_sec": 1000,
-      "subscription": "ChatGPT Pro research preview · Codex app/CLI/VS Code",
+      "subscription": "ChatGPT Pro — research preview only",
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
-      "availability": "Research preview for ChatGPT Pro users; latest Codex app, CLI, and VS Code extension",
-      "api_access": "Small set of design partners",
-      "rate_limit_policy": "Separate preview rate limits; usage does not count toward standard rate limits and may queue under high demand",
-      "default_working_style": "Lightweight by default; makes minimal targeted edits and does not automatically run tests unless asked",
-      "benchmark_notes": "OpenAI reports strong SWE-Bench Pro and Terminal-Bench 2.0 performance at a fraction of GPT-5.3-Codex runtime, but the launch post does not publish numeric scores",
-      "notes": "Smaller GPT-5.3-Codex variant for real-time coding on Cerebras WSE-3. Text-only, 128K context, and optimized for near-instant interactive edits rather than long-horizon autonomous work.",
-      "cache_discount": 0.1,
+      "notes": "Smaller, latency-first sibling of GPT-5.3-Codex. Released Feb 12, 2026. 1000+ tok/s on Cerebras hardware. ChatGPT Pro research preview only — not in API at launch; separate preview rate-limit pool (no standard credit burn). Text-only. Target use: real-time micro-edits, live pair-programming in Codex app/CLI/VS Code.",
+      "cache_discount": null,
       "capability_levels": {
-        "coding": 40,
-        "reasoning": 30,
-        "knowledge": 30,
-        "comms": 20,
-        "multimodal": 10,
-        "agentic": 40
+        "coding": 38,
+        "reasoning": 22,
+        "knowledge": 22,
+        "comms": 25,
+        "multimodal": 0,
+        "agentic": 28
       }
     },
     {
@@ -778,68 +855,6 @@
       "cache_discount": 0.1
     },
     {
-      "id": "gpt-5.1-codex-max",
-      "name": "GPT-5.1-Codex-Max",
-      "provider": "OpenAI",
-      "tier": "legacy",
-      "released": "2025-09-01",
-      "license": "proprietary",
-      "jurisdiction": "US",
-      "context": 200000,
-      "context_label": "200K",
-      "swe_pro": 48,
-      "swe_verified": 74,
-      "livecodebench": 72,
-      "aime": 80,
-      "tau2": 70,
-      "api_in": 1.0,
-      "api_out": 6.0,
-      "api_cache_hit": 0.1,
-      "batch_discount": 50,
-      "tok_per_sec": 70,
-      "subscription": "Legacy",
-      "reasoning_capable": true,
-      "effort_default": "medium",
-      "effort_levels": [
-        "low",
-        "medium",
-        "high"
-      ],
-      "notes": "30% fewer thinking tokens than GPT-5.1-Codex at same effort. Legacy.",
-      "cache_discount": 0.1
-    },
-    {
-      "id": "gpt-5.1-codex-mini",
-      "name": "GPT-5.1-Codex-Mini",
-      "provider": "OpenAI",
-      "tier": "legacy",
-      "released": "2025-09-01",
-      "license": "proprietary",
-      "jurisdiction": "US",
-      "context": 200000,
-      "context_label": "200K",
-      "swe_pro": 32,
-      "swe_verified": 65,
-      "livecodebench": 60,
-      "aime": 68,
-      "tau2": 60,
-      "api_in": 0.3,
-      "api_out": 1.2,
-      "api_cache_hit": 0.03,
-      "batch_discount": 50,
-      "tok_per_sec": 140,
-      "subscription": "Legacy",
-      "reasoning_capable": true,
-      "effort_default": "low",
-      "effort_levels": [
-        "minimal",
-        "low",
-        "medium"
-      ],
-      "notes": "Spark's predecessor (Spark beats it). Legacy.",
-      "cache_discount": 0.1
-    },
-    {
       "id": "gpt-5.5-instant",
       "name": "GPT-5.5 Instant",
       "provider": "OpenAI",
@@ -863,7 +878,7 @@
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
-      "notes": "Non-reasoning daily driver. Replaced GPT-5.3 Instant as ChatGPT default May 5. Lower hallucination in law/medicine/finance. 81.2 AIME 2025.",
+      "notes": "ChatGPT default since May 5, 2026. 52.5% fewer hallucinations vs 5.3, 30% shorter responses, first Instant-class High-capability rating on cybersec/bio-chem.",
       "cache_discount": 0.1,
       "capability_levels": {
         "coding": 20,
@@ -875,67 +890,27 @@
       }
     },
     {
-      "id": "gpt-5.5-cyber",
-      "name": "GPT-5.5-Cyber",
-      "provider": "OpenAI",
-      "tier": "frontier",
-      "released": "2026-05-07",
-      "license": "proprietary",
-      "jurisdiction": "US",
-      "context": 1000000,
-      "context_label": "1M",
-      "swe_pro": null,
-      "swe_verified": null,
-      "livecodebench": null,
-      "aime": null,
-      "tau2": null,
-      "api_in": null,
-      "api_out": null,
-      "api_cache_hit": null,
-      "batch_discount": null,
-      "tok_per_sec": 55,
-      "subscription": "Limited preview · vetted cybersecurity teams only",
-      "reasoning_capable": true,
-      "effort_default": "high",
-      "effort_levels": [
-        "low",
-        "medium",
-        "high",
-        "xhigh"
-      ],
-      "notes": "GPT-5.5 variant trained to be more permissive on security tasks. OpenAI's answer to Mythos Preview.",
-      "cache_discount": 0.25,
-      "capability_levels": {
-        "coding": 40,
-        "reasoning": 40,
-        "knowledge": 40,
-        "comms": 30,
-        "multimodal": 30,
-        "agentic": 40
-      }
-    },
-    {
       "id": "gemini-3.1-pro",
       "name": "Gemini 3.1 Pro",
       "provider": "Google",
       "tier": "frontier",
-      "released": "2026-04-10",
+      "released": "2026-02-19",
       "license": "proprietary",
       "jurisdiction": "US",
       "context": 1000000,
       "context_label": "1M",
-      "swe_pro": 41,
+      "swe_pro": 54.2,
       "swe_verified": 78,
       "livecodebench": 76,
       "aime": 85,
       "tau2": 78,
-      "api_in": 2,
-      "api_out": 12,
+      "api_in": 2.0,
+      "api_out": 12.0,
       "api_cache_hit": 0.5,
       "batch_discount": 50,
       "tok_per_sec": 119,
       "subscription": "Gemini Advanced $20 · Ultra $100",
-      "notes": "1M context that actually works. 75% explicit cache discount. Strongest free-tier (CLI).",
+      "notes": "Released Feb 19, 2026 (preview). Pricing doubles above 200K input tokens. 50% batch discount.",
       "reasoning_capable": true,
       "effort_default": "thinking-budget",
       "effort_levels": [
@@ -955,11 +930,11 @@
       }
     },
     {
-      "id": "gemini-3-flash",
-      "name": "Gemini 3 Flash",
+      "id": "gemini-3.5-flash",
+      "name": "Gemini 3.5 Flash",
       "provider": "Google",
       "tier": "fast",
-      "released": "2026-04-10",
+      "released": "2026-05-19",
       "license": "proprietary",
       "jurisdiction": "US",
       "context": 1000000,
@@ -969,13 +944,13 @@
       "livecodebench": 70,
       "aime": 75,
       "tau2": 68,
-      "api_in": 0.3,
-      "api_out": 2.5,
-      "api_cache_hit": 0.075,
+      "api_in": 1.5,
+      "api_out": 9.0,
+      "api_cache_hit": 0.375,
       "batch_discount": 50,
       "tok_per_sec": 180,
       "subscription": "Free CLI: 1000 req/day at 1M context",
-      "notes": "Free-tier champion via Gemini CLI. 78% SWE-bench Verified (note: contaminated).",
+      "notes": "Shipped GA at Google I/O May 19, 2026. Frontier-grade quality, 4× faster than peers per Google.",
       "reasoning_capable": true,
       "effort_default": "thinking-budget",
       "effort_levels": [
@@ -995,6 +970,45 @@
       }
     },
     {
+      "id": "gemini-3.1-flash-lite",
+      "name": "Gemini 3.1 Flash Lite",
+      "provider": "Google",
+      "tier": "fast",
+      "released": "2026-03-10",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": 22,
+      "swe_verified": 65,
+      "livecodebench": 60,
+      "aime": 68,
+      "tau2": 58,
+      "api_in": 0.25,
+      "api_out": 1.5,
+      "api_cache_hit": 0.0625,
+      "batch_discount": 50,
+      "tok_per_sec": 220,
+      "subscription": "Free CLI + AI Studio",
+      "notes": "Lite tier; 1M context retained.",
+      "reasoning_capable": true,
+      "effort_default": "off",
+      "effort_levels": [
+        "off",
+        "low",
+        "medium"
+      ],
+      "cache_discount": 0.25,
+      "capability_levels": {
+        "coding": 22,
+        "reasoning": 22,
+        "knowledge": 30,
+        "comms": 25,
+        "multimodal": 35,
+        "agentic": 15
+      }
+    },
+    {
       "id": "deepseek-v4-pro",
       "name": "DeepSeek V4-Pro",
       "provider": "DeepSeek",
@@ -1009,13 +1023,13 @@
       "livecodebench": 93.5,
       "aime": 88,
       "tau2": 78,
-      "api_in": 0.28,
-      "api_out": 0.42,
-      "api_cache_hit": 0.028,
+      "api_in": 0.435,
+      "api_out": 0.87,
+      "api_cache_hit": 0.043,
       "batch_discount": null,
       "tok_per_sec": 60,
       "subscription": "API only",
-      "notes": "Strongest open-weight model (replaces V3.2). 1.6T total / 49B active MoE. MIT license. Largest SWE-Verified-to-Pro gap of any model (contamination suspected on Verified).",
+      "notes": "MIT-licensed. Permanent pricing May 22, 2026 — Opus-class quality at ~1/10 cost. 1.6T/49B MoE, 1M context.",
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
@@ -1030,27 +1044,62 @@
       }
     },
     {
-      "id": "minimax-m2.5",
-      "name": "MiniMax M2.5",
+      "id": "deepseek-v4-flash",
+      "name": "DeepSeek V4-Flash",
+      "provider": "DeepSeek",
+      "tier": "fast",
+      "released": "2026-04-24",
+      "license": "MIT",
+      "jurisdiction": "China",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": 50,
+      "swe_verified": 79.0,
+      "livecodebench": 88,
+      "aime": 82,
+      "tau2": 72,
+      "api_in": 0.14,
+      "api_out": 0.28,
+      "api_cache_hit": 0.014,
+      "batch_discount": null,
+      "tok_per_sec": 90,
+      "subscription": "API + open weights",
+      "notes": "284B/13B active MoE. Cheap large-context option. MIT license.",
+      "reasoning_capable": false,
+      "effort_default": null,
+      "effort_levels": [],
+      "cache_discount": 0.02,
+      "capability_levels": {
+        "coding": 40,
+        "reasoning": 30,
+        "knowledge": 30,
+        "comms": 25,
+        "multimodal": 5,
+        "agentic": 25
+      }
+    },
+    {
+      "id": "minimax-m2.7",
+      "name": "MiniMax M2.7",
       "provider": "MiniMax",
       "tier": "frontier",
-      "released": "2026-01-20",
+      "released": "2026-03-18",
       "license": "open-weight",
       "jurisdiction": "China",
-      "context": 200000,
-      "context_label": "200K",
+      "context": 205000,
+      "context_label": "205K",
       "swe_pro": 40,
       "swe_verified": 74,
       "livecodebench": 72,
       "aime": 80,
       "tau2": 73,
-      "api_in": 0.15,
+      "api_in": 0.30,
       "api_out": 1.2,
       "api_cache_hit": null,
       "batch_discount": null,
       "tok_per_sec": 70,
       "subscription": "API + open-weight",
-      "notes": "Eclipsed by DeepSeek V4 and Qwen 3.6 for most open-weight use cases. China jurisdiction. Maintained for cost-sensitive niche workloads.",
+      "notes": "Current flagship reasoner; MoE 230B/10B active.",
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
@@ -1065,41 +1114,76 @@
       }
     },
     {
-      "id": "grok-4",
-      "name": "Grok 4",
+      "id": "grok-4.3",
+      "name": "Grok 4.3",
       "provider": "xAI",
       "tier": "frontier",
-      "released": "2026-03-01",
+      "released": "2026-05-06",
       "license": "proprietary",
       "jurisdiction": "US",
-      "context": 256000,
-      "context_label": "256K",
-      "swe_pro": 38,
-      "swe_verified": 75,
-      "livecodebench": 73,
-      "aime": 82,
-      "tau2": 72,
-      "api_in": 3,
-      "api_out": 15,
-      "api_cache_hit": null,
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": 45,
+      "swe_verified": 80,
+      "livecodebench": 80,
+      "aime": 88,
+      "tau2": 76,
+      "api_in": 1.25,
+      "api_out": 2.50,
+      "api_cache_hit": 0.31,
       "batch_discount": null,
-      "tok_per_sec": 65,
+      "tok_per_sec": 75,
       "subscription": "SuperGrok $30 · Heavy $300",
-      "notes": "Strong on STEM/math. Limited harness ecosystem.",
+      "notes": "Current xAI flagship — aggressive pricing for frontier tier. Hybrid reasoning. Multimodal text+image.",
       "reasoning_capable": true,
       "effort_default": "reasoning-on",
       "effort_levels": [
         "off",
         "on"
       ],
-      "cache_discount": 1.0,
+      "cache_discount": 0.25,
       "capability_levels": {
-        "coding": 40,
-        "reasoning": 40,
-        "knowledge": 40,
-        "comms": 30,
-        "multimodal": 30,
-        "agentic": 30
+        "coding": 42,
+        "reasoning": 44,
+        "knowledge": 42,
+        "comms": 34,
+        "multimodal": 34,
+        "agentic": 34
+      }
+    },
+    {
+      "id": "grok-4.1-fast",
+      "name": "Grok 4.1 Fast",
+      "provider": "xAI",
+      "tier": "fast",
+      "released": "2026-03-20",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 2000000,
+      "context_label": "2M",
+      "swe_pro": 30,
+      "swe_verified": 70,
+      "livecodebench": 65,
+      "aime": 75,
+      "tau2": 65,
+      "api_in": 0.20,
+      "api_out": 0.50,
+      "api_cache_hit": 0.05,
+      "batch_discount": null,
+      "tok_per_sec": 140,
+      "subscription": "SuperGrok $30",
+      "notes": "Cheapest large-context model on market. 2M context, $0.05/Mtok cached input.",
+      "reasoning_capable": false,
+      "effort_default": null,
+      "effort_levels": [],
+      "cache_discount": 0.25,
+      "capability_levels": {
+        "coding": 28,
+        "reasoning": 28,
+        "knowledge": 30,
+        "comms": 26,
+        "multimodal": 26,
+        "agentic": 22
       }
     },
     {
@@ -1123,7 +1207,7 @@
       "batch_discount": null,
       "tok_per_sec": 75,
       "subscription": "Le Chat Pro €20",
-      "notes": "EU jurisdiction. 128B dense, Apache 2.0. Strongest non-Chinese open-weight coding agent. Vibe agents (GitHub/Linear/Jira/Sentry integrations).",
+      "notes": "EU jurisdiction. 128B dense, Apache 2.0. Strongest non-Chinese open-weight coding agent. Vibe agents (GitHub/Linear/Jira/Sentry integrations). Pricing not verified; Medium 3 was $0.40/$2.00.",
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
@@ -1136,6 +1220,119 @@
         "multimodal": 10,
         "agentic": 20
       }
+    },
+    {
+      "id": "mistral-large-3",
+      "name": "Mistral Large 3",
+      "provider": "Mistral",
+      "tier": "frontier",
+      "released": "2025-12-02",
+      "license": "Apache 2.0",
+      "jurisdiction": "EU",
+      "context": 256000,
+      "context_label": "256K",
+      "swe_pro": 45,
+      "swe_verified": 78,
+      "livecodebench": 76,
+      "aime": 80,
+      "tau2": 70,
+      "api_in": 2.0,
+      "api_out": 6.0,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": 65,
+      "subscription": "API + Le Chat",
+      "notes": "Cheapest premium output price in market among Western frontier. 675B/41B MoE, Apache 2.0.",
+      "reasoning_capable": true,
+      "effort_default": "medium",
+      "effort_levels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "cache_discount": 1.0,
+      "capability_levels": {
+        "coding": 38,
+        "reasoning": 36,
+        "knowledge": 40,
+        "comms": 36,
+        "multimodal": 20,
+        "agentic": 28
+      }
+    },
+    {
+      "id": "subq-1m-preview",
+      "name": "SubQ 1M-Preview",
+      "provider": "SubQ",
+      "tier": "frontier",
+      "released": "2026-05-15",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 12000000,
+      "context_label": "12M",
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": 1.0,
+      "api_out": 5.0,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": 80,
+      "subscription": "API preview",
+      "notes": "First commercial subquadratic (non-transformer) LLM. ~1/5 frontier cost on long-context tasks. Capability rating estimated — public benchmarks pending.",
+      "reasoning_capable": null,
+      "effort_default": null,
+      "effort_levels": [],
+      "cache_discount": 1.0,
+      "capability_levels": {
+        "coding": 30,
+        "reasoning": 32,
+        "knowledge": 36,
+        "comms": 30,
+        "multimodal": 5,
+        "agentic": 28
+      }
+    },
+    {
+      "id": "nemotron-3-ultra",
+      "name": "Nvidia Nemotron 3 Ultra",
+      "provider": "Nvidia",
+      "tier": "frontier",
+      "released": "2026-06-04",
+      "license": "NVIDIA Open Model License",
+      "jurisdiction": "US",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": 55,
+      "swe_verified": 82,
+      "livecodebench": 80,
+      "aime": 86,
+      "tau2": 76,
+      "api_in": 1.5,
+      "api_out": 6.0,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": 300,
+      "subscription": "build.nvidia.com (closed API tier) + open weights",
+      "notes": "550B/55B MoE, hybrid Mamba-Transformer. ~300 tok/s. Open weights also available — see self_hosting. Capability levels are best estimates pending independent benchmarks.",
+      "reasoning_capable": true,
+      "effort_default": "medium",
+      "effort_levels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "cache_discount": 1.0,
+      "capability_levels": {
+        "coding": 42,
+        "reasoning": 42,
+        "knowledge": 42,
+        "comms": 34,
+        "multimodal": 10,
+        "agentic": 34
+      }
     }
   ],
   "subscriptions": [
@@ -1144,16 +1341,16 @@
       "tier": "Pro",
       "price_usd": 20,
       "limits": "~45 messages / 5h on Sonnet · limited Opus",
-      "models": "Sonnet 4.6, Haiku 4.5, limited Opus 4.7",
-      "features": "Claude Code · Projects · Artifacts"
+      "models": "Sonnet 4.6, Haiku 4.5, limited Opus 4.8/4.7",
+      "features": "Chat only (Claude Code removed April 2026). From June 15, 2026 split into Chat pool + Agent SDK credit pool."
     },
     {
       "provider": "Anthropic",
       "tier": "Max 5×",
       "price_usd": 100,
       "limits": "5× Pro quotas · ~225 msg/5h Sonnet · expanded Opus",
-      "models": "Full Opus 4.7 · Sonnet 4.6 · Haiku 4.5",
-      "features": "Cache reads included flat-rate (key advantage)"
+      "models": "Full Opus 4.8/4.7 · Sonnet 4.6 · Haiku 4.5",
+      "features": "Cache reads included flat-rate. From June 15, 2026: Chat pool + separate Agent SDK credit pool."
     },
     {
       "provider": "Anthropic",
@@ -1161,7 +1358,7 @@
       "price_usd": 200,
       "limits": "20× Pro quotas",
       "models": "All",
-      "features": "For heavy Opus users"
+      "features": "For heavy Opus users. From June 15, 2026: Chat + Agent SDK credit pools."
     },
     {
       "provider": "OpenAI",
@@ -1224,8 +1421,8 @@
       "tier": "API only",
       "price_usd": null,
       "limits": "Pay per token",
-      "models": "V3.2",
-      "features": "Cheapest frontier API"
+      "models": "V4-Pro · V4-Flash",
+      "features": "Cheapest frontier API ($0.435/$0.87 permanent since May 22, 2026)"
     }
   ],
   "agent_policies": [
@@ -1285,8 +1482,8 @@
       "sandbox": "local",
       "swe_pro": 46,
       "pricing": "Subscription Pro/Max",
-      "sweet_spot": "Deepest reasoning. Mobile remote control. Computer use since March 2026.",
-      "stumbles": "Anthropic-only. Some over-fitting to its own harness.",
+      "sweet_spot": "SubagentStop hooks, /plugin list, requiredMinimumVersion managed setting, MCP fixes, Agent Teams.",
+      "stumbles": "Anthropic-only. Removed from standard Pro tier April 2026 — push to Max.",
       "cite": [
         23,
         1
@@ -1315,8 +1512,8 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free (BYOK)",
-      "sweet_spot": "Privacy teams, multi-provider freedom. OSS flagship. 6.5M monthly devs.",
-      "stumbles": "Anthropic OAuth blocked Apr 4 — must use API key. Setup friction with local models.",
+      "sweet_spot": "75+ providers including Grok OAuth. Desktop multi-server tabs, collapsed thinking view. Adaptive reasoning for Opus 4.7+.",
+      "stumbles": "Anthropic OAuth blocked April 4 — must use API key.",
       "cite": [
         24,
         35
@@ -1345,7 +1542,7 @@
       "sandbox": "cloud",
       "swe_pro": 56.8,
       "pricing": "Plus $20 / Pro $200",
-      "sweet_spot": "Async fire-and-forget. Cloud sandbox = strongest isolation. Tag @codex on GitHub issue.",
+      "sweet_spot": "v0.134.0 (May 26, 2026): conversation-history search, iOS notification handoff, /archive, Windows elevated sandbox, --profile unification. 1M+ devs in first month.",
       "stumbles": "OpenAI-only. No MCP, no hooks. Tightly coupled to apply_patch tool.",
       "cite": [
         25,
@@ -1375,8 +1572,8 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free 1000 req/day",
-      "sweet_spot": "Free-tier champion. 1M context. 60 req/min, 1000/day at no cost.",
-      "stumbles": "Google-only. Fewer agent features. SWE-bench numbers contaminated.",
+      "sweet_spot": "v0.44.0 (May 27, 2026), last major release. Free tier 1000 req/day at 1M context.",
+      "stumbles": "Sunsetting to Antigravity CLI for free tier on June 18, 2026; paid Gemini/Enterprise keys retain access.",
       "cite": [
         26
       ]
@@ -1408,7 +1605,7 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free (BYOK)",
-      "sweet_spot": "Mature, lightweight, voice-input native. Pair-programmer mode.",
+      "sweet_spot": "Mature, lightweight, voice-input native. Pair-programmer mode. Active, last commit Mar 2026. 44k stars.",
       "stumbles": "No MCP, no hooks. Less ambitious than newer harnesses.",
       "cite": [
         27
@@ -1441,7 +1638,7 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free (BYOK)",
-      "sweet_spot": "Best VS Code-native agent. Plan/Act mode. Computer use built in.",
+      "sweet_spot": "v3.81. Plan/Act split. JetBrains/Cursor/Windsurf/Zed/Neovim/macOS+Linux CLI preview. Teams free <10 seats then $20/seat/mo from Q2 2026.",
       "stumbles": "Anthropic OAuth blocked. Can be expensive on long sessions.",
       "cite": [
         28,
@@ -1475,7 +1672,7 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free (BYOK)",
-      "sweet_spot": "Cline fork with custom modes (Architect/Code/Debug/Ask). More configurable.",
+      "sweet_spot": "v3.53.0 (Apr 23, 2026). Power-user Cline fork, model-agnostic, BYOK. Recent: GPT-5.5 via Codex, Opus 4.7 on Vertex, checkpoint nav.",
       "stumbles": "Same OAuth situation. Configuration complexity.",
       "cite": [
         29,
@@ -1507,8 +1704,8 @@
       "memory": ".cursorrules",
       "sandbox": "local",
       "swe_pro": null,
-      "pricing": "$20 Pro / $40 Business",
-      "sweet_spot": "Most polished IDE for AI-pair work. Tab autocomplete + Composer agent.",
+      "pricing": "Hobby free · Pro $20 · Pro+ $60 · Ultra $200 · Teams $40/user",
+      "sweet_spot": "Cursor 3.5 (May 20, 2026): Cloud Agents (isolated VMs, multi-repo), Composer 2.5, Agents Window, parallel subagents.",
       "stumbles": "Closed source. Lock-in. Subscription required for serious use.",
       "cite": [
         31
@@ -1516,8 +1713,8 @@
     },
     {
       "id": "windsurf",
-      "name": "Windsurf",
-      "vendor": "Codeium",
+      "name": "Windsurf / Devin Desktop",
+      "vendor": "Cognition",
       "license": "proprietary",
       "category": "IDE",
       "stars": null,
@@ -1539,9 +1736,9 @@
       "memory": "windsurfrules",
       "sandbox": "local",
       "swe_pro": null,
-      "pricing": "$15 Pro",
-      "sweet_spot": "Cursor competitor. Cascade agent mode. Cheaper.",
-      "stumbles": "Smaller ecosystem than Cursor.",
+      "pricing": "Pro $20 · Max $200",
+      "sweet_spot": "Renamed to Devin Desktop, Agent Command Center kanban, embedded Devin cloud agent, SWE-1.6 model, multi-agent + worktrees.",
+      "stumbles": "Pro $20 (was $15); smaller ecosystem than Cursor.",
       "cite": [
         32
       ]
@@ -1573,7 +1770,7 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free (BYOK)",
-      "sweet_spot": "Block-backed. Strong MCP ecosystem. Recipes for repeatable workflows.",
+      "sweet_spot": "v1.36.0. TUI command + diff viewer, goose review, /goal self-evaluation, ACP support. Block-backed.",
       "stumbles": "Anthropic OAuth blocked. Less mindshare than OpenCode.",
       "cite": [
         30,
@@ -1582,11 +1779,11 @@
     },
     {
       "id": "omo",
-      "name": "Oh-My-OpenAgent (OMO)",
+      "name": "OMO (Multi-model orchestrator)",
       "vendor": "community",
       "license": "MIT",
       "category": "Multi-agent orchestrator",
-      "stars": 8000,
+      "stars": 54000,
       "providers": [
         "multi-provider"
       ],
@@ -1603,42 +1800,121 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free",
-      "sweet_spot": "Ultrawork mode for autonomous overnight runs. Multi-agent fan-out.",
+      "sweet_spot": "Rebrand from oh-my-opencode; multi-model orchestration. Wraps Claude Code, OpenCode, Codex, Kimi K2, DeepSeek V4, Gemini CLI.",
       "stumbles": "Niche. Steep learning curve."
-    },
-    {
-      "id": "ccr",
-      "name": "Claude Code Router",
-      "vendor": "musistudio",
-      "license": "MIT",
-      "category": "Proxy/router",
-      "stars": 12000,
-      "providers": [
-        "proxies any to Claude Code"
-      ],
-      "mcp": "passthrough",
-      "skills": "passthrough",
-      "hooks": "passthrough",
-      "subagents": "passthrough",
-      "voice": false,
-      "remote": false,
-      "computer_use": false,
-      "lsp": false,
-      "git": false,
-      "memory": "—",
-      "sandbox": "—",
-      "swe_pro": null,
-      "pricing": "Free",
-      "sweet_spot": "Use Claude Code with non-Anthropic models. Routes to any provider.",
-      "stumbles": "Violates Anthropic ToS. Quality varies by underlying model."
     },
     {
       "id": "hermes",
       "name": "Hermes Agent",
-      "vendor": "community",
+      "vendor": "Nous Research",
       "license": "MIT",
-      "category": "CLI",
-      "stars": 3500,
+      "category": "Self-hosted multi-platform agent",
+      "stars": null,
+      "providers": [
+        "OpenRouter-style multi-model"
+      ],
+      "mcp": false,
+      "skills": true,
+      "hooks": false,
+      "subagents": true,
+      "voice": true,
+      "remote": true,
+      "computer_use": true,
+      "lsp": false,
+      "git": true,
+      "memory": "persistent memory + auto-gen skills",
+      "sandbox": "local/docker/ssh/singularity/modal",
+      "swe_pro": null,
+      "pricing": "Free (self-hosted)",
+      "sweet_spot": "v0.16.0. Persistent memory + auto-generated skills — learns your projects. Bridges Telegram/Discord/Slack/WhatsApp/Signal/Email/CLI. Natural-language cron for unattended runs. Parallel isolated subagents. Web search, browser automation, vision, image-gen, TTS.",
+      "stumbles": "Not coding-specialised — general autonomous agent. Setup requires self-host script. No first-party SWE benchmark.",
+      "cite": []
+    },
+    {
+      "id": "github-copilot-cli",
+      "name": "GitHub Copilot CLI",
+      "vendor": "GitHub",
+      "license": "proprietary",
+      "category": "CLI + IDE",
+      "stars": null,
+      "providers": [
+        "GitHub Models"
+      ],
+      "mcp": false,
+      "skills": false,
+      "hooks": false,
+      "subagents": true,
+      "voice": false,
+      "remote": true,
+      "computer_use": false,
+      "lsp": true,
+      "git": true,
+      "memory": "—",
+      "sandbox": "local",
+      "swe_pro": null,
+      "pricing": "Bundled with Copilot Business/Enterprise",
+      "sweet_spot": "GA Feb 25, 2026. Specialized sub-agents (Explore, Task, Code Review, Plan), background delegation, autopilot.",
+      "stumbles": "Bundled-only — no standalone tier. GitHub-centric."
+    },
+    {
+      "id": "amp-cli",
+      "name": "Amp CLI",
+      "vendor": "Sourcegraph",
+      "license": "proprietary",
+      "category": "CLI + IDE",
+      "stars": null,
+      "providers": [
+        "Multi"
+      ],
+      "mcp": true,
+      "skills": false,
+      "hooks": false,
+      "subagents": true,
+      "voice": false,
+      "remote": false,
+      "computer_use": false,
+      "lsp": true,
+      "git": true,
+      "memory": "AGENTS.md",
+      "sandbox": "local",
+      "swe_pro": null,
+      "pricing": "Subscription (Sourcegraph)",
+      "sweet_spot": "Spun out as standalone company 2026. Runs as sidebar agent inside Zed via Terminal Threads.",
+      "stumbles": "Early standalone phase."
+    },
+    {
+      "id": "zed",
+      "name": "Zed",
+      "vendor": "Zed Industries",
+      "license": "proprietary",
+      "category": "IDE",
+      "stars": null,
+      "providers": [
+        "15 LLM providers + MCP"
+      ],
+      "mcp": true,
+      "skills": false,
+      "hooks": false,
+      "subagents": true,
+      "voice": false,
+      "remote": false,
+      "computer_use": false,
+      "lsp": true,
+      "git": true,
+      "memory": "—",
+      "sandbox": "local",
+      "swe_pro": null,
+      "pricing": "Personal free (2k predictions) · Pro $10 · Business $30/seat",
+      "sweet_spot": "Rust-native editor with first-class agent panel + ACP host. Terminal Threads run Claude Code/Amp inline.",
+      "stumbles": "Editor first; agent layer still maturing."
+    },
+    {
+      "id": "continue-dev",
+      "name": "Continue",
+      "vendor": "Continue",
+      "license": "Apache 2.0",
+      "category": "IDE extension + CLI",
+      "stars": null,
       "providers": [
         "multi-provider"
       ],
@@ -1649,40 +1925,14 @@
       "voice": false,
       "remote": false,
       "computer_use": false,
-      "lsp": false,
+      "lsp": true,
       "git": true,
-      "memory": "AGENTS.md",
+      "memory": ".continue",
       "sandbox": "local",
       "swe_pro": null,
-      "pricing": "Free",
-      "sweet_spot": "Lightweight alternative. Quick sub-agent definition.",
-      "stumbles": "Early stage. Smaller community."
-    },
-    {
-      "id": "openclaw",
-      "name": "OpenClaw",
-      "vendor": "community",
-      "license": "MIT",
-      "category": "Personal AI gateway",
-      "stars": 5500,
-      "providers": [
-        "any LLM"
-      ],
-      "mcp": true,
-      "skills": false,
-      "hooks": false,
-      "subagents": true,
-      "voice": true,
-      "remote": true,
-      "computer_use": false,
-      "lsp": false,
-      "git": false,
-      "memory": "—",
-      "sandbox": "—",
-      "swe_pro": null,
-      "pricing": "Free",
-      "sweet_spot": "Not a coding harness. Personal assistant on every messaging app. Delegates code to Pi/Codex/Claude Code.",
-      "stumbles": "Different problem space. Adjacent ecosystem."
+      "pricing": "Solo $0 · Team/Company ~$10/dev/mo",
+      "sweet_spot": "Agent mode plan+execute. Continuous AI, Mission Control, shared PR/ticket workflows.",
+      "stumbles": "Newer agent features still stabilizing across providers."
     }
   ],
   "self_hosting": {
@@ -2198,6 +2448,420 @@
           }
         },
         "notes": "6.5B effective parameters. EU jurisdiction. Best on-device option."
+      },
+      {
+        "id": "nemotron-3-ultra-550b-a55b-moe",
+        "name": "Nvidia Nemotron 3 Ultra",
+        "params_total": 550,
+        "params_active": 55,
+        "released": "2026-06-04",
+        "license": "NVIDIA Open Model License",
+        "jurisdiction": "US",
+        "swe_pro": 55,
+        "swe_verified": 82,
+        "livecodebench": 80,
+        "aime": 86,
+        "fits": {
+          "vast-2xa6000": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "vast-3xa6000": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "vast-4xa6000": {
+            "quant": "Q3_K_M",
+            "vram_used": 180,
+            "tok_per_sec": 25
+          },
+          "mbp-14-m4pro-64": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "mbp-16-m5max-128": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "mba-15-32": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          }
+        },
+        "notes": "Hybrid Mamba-Transformer. 1M context. NVIDIA Open Model License. Computex June 4 launch."
+      },
+      {
+        "id": "nemotron-3-nano-30b-a3b",
+        "name": "Nvidia Nemotron 3 Nano 30B-A3B",
+        "params_total": 30,
+        "params_active": 3,
+        "released": "2026-06-04",
+        "license": "NVIDIA Open Model License",
+        "jurisdiction": "US",
+        "swe_pro": 30,
+        "swe_verified": 70,
+        "livecodebench": 68,
+        "aime": 76,
+        "fits": {
+          "vast-2xa6000": {
+            "quant": "BF16",
+            "vram_used": 60,
+            "tok_per_sec": 140
+          },
+          "vast-3xa6000": {
+            "quant": "BF16",
+            "vram_used": 60,
+            "tok_per_sec": 140
+          },
+          "vast-4xa6000": {
+            "quant": "BF16",
+            "vram_used": 60,
+            "tok_per_sec": 140
+          },
+          "mbp-14-m4pro-64": {
+            "quant": "Q6_K",
+            "vram_used": 24,
+            "tok_per_sec": 70
+          },
+          "mbp-16-m5max-128": {
+            "quant": "BF16",
+            "vram_used": 60,
+            "tok_per_sec": 110
+          },
+          "mba-15-32": {
+            "quant": "Q4_K_M",
+            "vram_used": 17,
+            "tok_per_sec": 50
+          }
+        },
+        "notes": "Hybrid Mamba-Transformer Nano variant. Open weights."
+      },
+      {
+        "id": "nemotron-nano-9b-v2",
+        "name": "Nvidia Nemotron Nano 9B v2",
+        "params_total": 9,
+        "params_active": 9,
+        "released": "2026-04-12",
+        "license": "NVIDIA Open Model License",
+        "jurisdiction": "US",
+        "swe_pro": 22,
+        "swe_verified": 60,
+        "livecodebench": 55,
+        "aime": 65,
+        "fits": {
+          "vast-2xa6000": {
+            "quant": "BF16",
+            "vram_used": 18,
+            "tok_per_sec": 180
+          },
+          "vast-3xa6000": {
+            "quant": "BF16",
+            "vram_used": 18,
+            "tok_per_sec": 180
+          },
+          "vast-4xa6000": {
+            "quant": "BF16",
+            "vram_used": 18,
+            "tok_per_sec": 180
+          },
+          "mbp-14-m4pro-64": {
+            "quant": "BF16",
+            "vram_used": 18,
+            "tok_per_sec": 90
+          },
+          "mbp-16-m5max-128": {
+            "quant": "BF16",
+            "vram_used": 18,
+            "tok_per_sec": 120
+          },
+          "mba-15-32": {
+            "quant": "Q4_K_M",
+            "vram_used": 6,
+            "tok_per_sec": 65
+          }
+        },
+        "notes": "Dense 9B. Strong instruction following at edge sizes."
+      },
+      {
+        "id": "kimi-k2.6-1t",
+        "name": "Kimi K2.6 (1T MoE)",
+        "params_total": 1000,
+        "params_active": 32,
+        "released": "2026-04-20",
+        "license": "Modified MIT",
+        "jurisdiction": "China",
+        "swe_pro": 58.6,
+        "swe_verified": 80.2,
+        "livecodebench": 82,
+        "aime": 88,
+        "fits": {
+          "vast-2xa6000": {
+            "quant": "Q4_K_M",
+            "vram_used": 92,
+            "tok_per_sec": 34
+          },
+          "vast-3xa6000": {
+            "quant": "Q4_K_M",
+            "vram_used": 92,
+            "tok_per_sec": 34
+          },
+          "vast-4xa6000": {
+            "quant": "Q6_K",
+            "vram_used": 175,
+            "tok_per_sec": 28
+          },
+          "mbp-14-m4pro-64": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "mbp-16-m5max-128": {
+            "quant": "Q4_K_M",
+            "vram_used": 92,
+            "tok_per_sec": 16
+          },
+          "mba-15-32": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          }
+        },
+        "notes": "Top open intelligence. 80.2% SWE-Verified, 58.6% SWE-Pro, AAII 54. 262K context. Modified MIT."
+      },
+      {
+        "id": "glm-4.6",
+        "name": "GLM 4.6",
+        "params_total": 355,
+        "params_active": 32,
+        "released": "2025-09-15",
+        "license": "MIT",
+        "jurisdiction": "China",
+        "swe_pro": 44,
+        "swe_verified": 73,
+        "livecodebench": 75,
+        "aime": 80,
+        "fits": {
+          "vast-2xa6000": {
+            "quant": "Q4_K_M",
+            "vram_used": 90,
+            "tok_per_sec": 32
+          },
+          "vast-3xa6000": {
+            "quant": "Q6_K",
+            "vram_used": 130,
+            "tok_per_sec": 28
+          },
+          "vast-4xa6000": {
+            "quant": "Q8_0",
+            "vram_used": 168,
+            "tok_per_sec": 24
+          },
+          "mbp-14-m4pro-64": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "mbp-16-m5max-128": {
+            "quant": "Q4_K_M",
+            "vram_used": 90,
+            "tok_per_sec": 16
+          },
+          "mba-15-32": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          }
+        },
+        "notes": "MIT, 200K context. Z.ai release."
+      },
+      {
+        "id": "qwen3.6-35b-a3b",
+        "name": "Qwen 3.6 35B-A3B",
+        "params_total": 35,
+        "params_active": 3,
+        "released": "2026-04-16",
+        "license": "Apache 2.0",
+        "jurisdiction": "China",
+        "swe_pro": 38,
+        "swe_verified": 74,
+        "livecodebench": 72,
+        "aime": 80,
+        "fits": {
+          "vast-2xa6000": {
+            "quant": "BF16",
+            "vram_used": 70,
+            "tok_per_sec": 140
+          },
+          "vast-3xa6000": {
+            "quant": "BF16",
+            "vram_used": 70,
+            "tok_per_sec": 140
+          },
+          "vast-4xa6000": {
+            "quant": "BF16",
+            "vram_used": 70,
+            "tok_per_sec": 140
+          },
+          "mbp-14-m4pro-64": {
+            "quant": "Q4_K_M",
+            "vram_used": 22,
+            "tok_per_sec": 80
+          },
+          "mbp-16-m5max-128": {
+            "quant": "BF16",
+            "vram_used": 70,
+            "tok_per_sec": 110
+          },
+          "mba-15-32": {
+            "quant": "Q4_K_M",
+            "vram_used": 16,
+            "tok_per_sec": 55
+          }
+        },
+        "notes": "Apache 2.0 MoE — strong $/quality for fast bulk inference."
+      },
+      {
+        "id": "cohere-command-a-plus",
+        "name": "Cohere Command A+",
+        "params_total": 218,
+        "params_active": 28,
+        "released": "2026-05-22",
+        "license": "CC-BY-NC + commercial",
+        "jurisdiction": "Canada",
+        "swe_pro": 42,
+        "swe_verified": 75,
+        "livecodebench": 70,
+        "aime": 78,
+        "fits": {
+          "vast-2xa6000": {
+            "quant": "Q4_K_M",
+            "vram_used": 92,
+            "tok_per_sec": 30
+          },
+          "vast-3xa6000": {
+            "quant": "Q6_K",
+            "vram_used": 130,
+            "tok_per_sec": 26
+          },
+          "vast-4xa6000": {
+            "quant": "Q8_0",
+            "vram_used": 170,
+            "tok_per_sec": 22
+          },
+          "mbp-14-m4pro-64": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "mbp-16-m5max-128": {
+            "quant": "Q4_K_M",
+            "vram_used": 92,
+            "tok_per_sec": 14
+          },
+          "mba-15-32": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          }
+        },
+        "notes": "First open-weights Cohere release in >1 year. Sparse-MoE multimodal."
+      },
+      {
+        "id": "mistral-large-3-open",
+        "name": "Mistral Large 3 (open weights)",
+        "params_total": 675,
+        "params_active": 41,
+        "released": "2025-12-02",
+        "license": "Apache 2.0",
+        "jurisdiction": "EU",
+        "swe_pro": 45,
+        "swe_verified": 78,
+        "livecodebench": 76,
+        "aime": 80,
+        "fits": {
+          "vast-2xa6000": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "vast-3xa6000": {
+            "quant": "Q3_K_M",
+            "vram_used": 140,
+            "tok_per_sec": 22
+          },
+          "vast-4xa6000": {
+            "quant": "Q4_K_M",
+            "vram_used": 180,
+            "tok_per_sec": 20
+          },
+          "mbp-14-m4pro-64": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "mbp-16-m5max-128": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "mba-15-32": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          }
+        },
+        "notes": "675B/41B active MoE. Apache 2.0. EU jurisdiction."
+      },
+      {
+        "id": "deepseek-v4-flash-open",
+        "name": "DeepSeek V4-Flash (open weights)",
+        "params_total": 284,
+        "params_active": 13,
+        "released": "2026-04-24",
+        "license": "MIT",
+        "jurisdiction": "China",
+        "swe_pro": 50,
+        "swe_verified": 79,
+        "livecodebench": 88,
+        "aime": 82,
+        "fits": {
+          "vast-2xa6000": {
+            "quant": "Q4_K_M",
+            "vram_used": 78,
+            "tok_per_sec": 45
+          },
+          "vast-3xa6000": {
+            "quant": "Q6_K",
+            "vram_used": 115,
+            "tok_per_sec": 40
+          },
+          "vast-4xa6000": {
+            "quant": "Q8_0",
+            "vram_used": 150,
+            "tok_per_sec": 34
+          },
+          "mbp-14-m4pro-64": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          },
+          "mbp-16-m5max-128": {
+            "quant": "Q4_K_M",
+            "vram_used": 78,
+            "tok_per_sec": 20
+          },
+          "mba-15-32": {
+            "quant": null,
+            "vram_used": null,
+            "tok_per_sec": null
+          }
+        },
+        "notes": "MIT, 1M context, 384K max output. Cheap large-context open option."
       }
     ],
     "frameworks": [
@@ -2270,16 +2934,16 @@
       {
         "tier": "Premium (5%)",
         "use_for": "Architecture, hard debugging, long-context refactors",
-        "preferred": "Opus 4.7 (subscription) or GPT-5.4 (API for SWE-Pro)",
+        "preferred": "Opus 4.8 (subscription) or GPT-5.5 (API for SWE-Pro)",
         "cost_label": "Flat-rate or $5/$20 Mtok"
       }
     ],
     "open_questions": [
-      "Will Mythos Preview broaden access beyond Project Glasswing? The most capable Claude model is currently locked to cyber partners.",
-      "How does Gemini 3.2 (expected May 19-20) reshape the cost/quality frontier? Flash variant leaked at $0.25/$2 Mtok.",
-      "Anthropic OAuth — will the third-party block expand to API key usage in OpenCode?",
-      "Will Claude Platform on AWS reshape the harness landscape? Codex CLI runs on Bedrock; this is a more direct competitor.",
-      "Qwen 3.6 Max-Preview went closed-weight — first time for Alibaba. Signal of broader open-weight retreat?"
+      "Will the Nvidia Nemotron Coalition (Mistral, Cursor, Black Forest Labs, Thinking Machines) actually deliver a frontier-open consortium, or fragment within a quarter?",
+      "How does the June 15 Anthropic billing restructure (Chat pool + Agent SDK credit pool) change Max economics for agentic workloads?",
+      "Does Gemini 3.5 Flash + free Antigravity CLI (post-June 18) reshape the free-tier hierarchy?",
+      "DeepSeek V4-Pro permanent pricing ($0.435/$0.87) — does it force closed providers (OpenAI, Anthropic) to cut headline prices?",
+      "SubQ 1M-Preview's subquadratic architecture — does the next year see other commercial non-transformer LLMs?"
     ],
     "task_fit": {
       "description": "For each task type, one recommended pick per provider drawn from the full roster. Click any cell to see runners-up that the daily briefing also considered. Burn × is derived from the matrix and recomputes when you change the reference dropdown.",
@@ -2299,7 +2963,7 @@
               "rationale": "Cheapest reasoning setting on flagship"
             },
             "google": {
-              "model_id": "gemini-3-flash",
+              "model_id": "gemini-3.5-flash",
               "effort": "low",
               "rationale": "Free tier covers 1000 req/day at 1M context"
             },
@@ -2312,7 +2976,6 @@
           "runner_up_per_provider": {
             "openai": [
               "gpt-5.4-mini @ minimal",
-              "gpt-5.3-codex-spark",
               "gpt-5.4-nano @ minimal"
             ],
             "anthropic": [
@@ -2360,7 +3023,7 @@
               "opus-4.7 @ medium"
             ],
             "google": [
-              "gemini-3-flash @ medium"
+              "gemini-3.5-flash @ medium"
             ],
             "self_hosted": [
               "qwen-3-235b-a22b @ Q4_K_M"
@@ -2411,7 +3074,7 @@
           "description": "Race conditions, performance bottlenecks, design decisions with long-term implications",
           "recommendations": {
             "anthropic": {
-              "model_id": "opus-4.7",
+              "model_id": "opus-4.8",
               "effort": "xhigh",
               "rationale": "Default Claude Code effort for Opus; best long-context retention"
             },
@@ -2450,7 +3113,7 @@
           "description": "Overnight runs, agentic loops, tasks you don't supervise turn-by-turn",
           "recommendations": {
             "anthropic": {
-              "model_id": "opus-4.7",
+              "model_id": "opus-4.8",
               "effort": "max",
               "rationale": "Autonomy earns max effort's premium; no human in the loop to correct"
             },
@@ -2524,7 +3187,7 @@
           "description": "Cross-cutting changes across a large codebase, where retention is the bottleneck",
           "recommendations": {
             "anthropic": {
-              "model_id": "opus-4.7",
+              "model_id": "opus-4.8",
               "effort": "high",
               "rationale": "1M context with retention that actually works; Opus's sweet spot"
             },
@@ -2570,7 +3233,7 @@
               "rationale": "Best subagent — 94% of GPT-5.4 coding at 6× less"
             },
             "google": {
-              "model_id": "gemini-3-flash",
+              "model_id": "gemini-3.5-flash",
               "effort": "low",
               "rationale": "Free tier perfect for fan-out subagents"
             },
@@ -2582,7 +3245,7 @@
           },
           "runner_up_per_provider": {
             "openai": [
-              "gpt-5.3-codex-spark",
+              "gpt-5.4-mini @ low",
               "gpt-5.4-nano @ low"
             ],
             "anthropic": [
@@ -2627,7 +3290,7 @@
               "haiku-4.5"
             ],
             "google": [
-              "gemini-3-flash @ medium"
+              "gemini-3.5-flash @ medium"
             ],
             "self_hosted": [
               "qwen-3-235b-a22b @ Q4_K_M"
@@ -2649,7 +3312,7 @@
               "rationale": "Pattern-heavy; minimal reasoning, fast turnaround"
             },
             "google": {
-              "model_id": "gemini-3-flash",
+              "model_id": "gemini-3.5-flash",
               "effort": "low",
               "rationale": "Free tier, fast"
             },
@@ -2677,14 +3340,14 @@
           "description": "Penetration testing, red-teaming, vulnerability discovery — tasks where cyber-specific safeguards apply",
           "recommendations": {
             "anthropic": {
-              "model_id": "mythos-preview",
+              "model_id": "opus-4.8",
               "effort": "xhigh",
-              "rationale": "Most capable cyber model; requires Project Glasswing access"
+              "rationale": "Most capable Anthropic model; cyber tasks require Cyber Verification Program"
             },
             "openai": {
-              "model_id": "gpt-5.5-cyber",
+              "model_id": "gpt-5.5",
               "effort": "high",
-              "rationale": "Permissive on security tasks; requires vetted-team access"
+              "rationale": "Flagship reasoning; vetted security access via OpenAI"
             },
             "google": {
               "model_id": null,
@@ -2699,10 +3362,10 @@
           },
           "runner_up_per_provider": {
             "openai": [
-              "gpt-5.5 @ xhigh"
+              "gpt-5.5-pro @ high"
             ],
             "anthropic": [
-              "opus-4.7 @ xhigh (with Cyber Verification Program)"
+              "opus-4.7 @ xhigh"
             ],
             "google": [],
             "self_hosted": [
@@ -2786,15 +3449,6 @@
         "xhigh": 1.17
       },
       {
-        "model_id": "gpt-5.3-codex-spark",
-        "minimal": 0.0,
-        "low": 0.0,
-        "medium": 0.0,
-        "high": 0.0,
-        "xhigh": 0.0,
-        "note": "Separate preview quota; usage does not count toward the standard pool. Encoded as 0.00x main-pool burn until final credit rates are published."
-      },
-      {
         "model_id": "gpt-5.2",
         "minimal": null,
         "low": 0.14,
@@ -2809,25 +3463,18 @@
         "medium": 0.27,
         "high": 0.53,
         "xhigh": null
-      },
-      {
-        "model_id": "gpt-5.1-codex-max",
-        "minimal": null,
-        "low": 0.1,
-        "medium": 0.2,
-        "high": 0.4,
-        "xhigh": null
-      },
-      {
-        "model_id": "gpt-5.1-codex-mini",
-        "minimal": 0.006,
-        "low": 0.015,
-        "medium": 0.027,
-        "high": null,
-        "xhigh": null
       }
     ],
     "anthropic_matrix": [
+      {
+        "model_id": "opus-4.8",
+        "low": 0.56,
+        "medium": 1.13,
+        "high": 2.8,
+        "xhigh": 4.5,
+        "max": 7.9,
+        "note": "Current flagship. Same headline $5/$25. Fast Mode 3× cheaper ($10/$50) vs Opus 4.7."
+      },
       {
         "model_id": "opus-4.7",
         "low": 0.56,
@@ -2835,7 +3482,7 @@
         "high": 2.8,
         "xhigh": 4.5,
         "max": 7.9,
-        "note": "Thinking tokens: low=skip, medium=~1k, high=5k, xhigh=10k, max=20k. API default high; Claude Code default xhigh. New tokenizer +35% tokens vs 4.6."
+        "note": "Legacy as of May 28. Thinking tokens: low=skip, medium=~1k, high=5k, xhigh=10k, max=20k. New tokenizer +35% tokens vs 4.6."
       },
       {
         "model_id": "sonnet-4.6",
@@ -2854,15 +3501,6 @@
         "xhigh": null,
         "max": null,
         "note": "No effort control — fixed-rate model."
-      },
-      {
-        "model_id": "mythos-preview",
-        "low": 0.7,
-        "medium": 1.4,
-        "high": 3.5,
-        "xhigh": 5.6,
-        "max": 9.8,
-        "note": "API pricing not public yet. Estimated 25% higher than Opus 4.7 per output token based on relative capability. Project Glasswing partners only."
       }
     ],
     "google_matrix": [
@@ -2874,14 +3512,14 @@
         "high": 0.5
       },
       {
-        "model_id": "gemini-3-flash",
+        "model_id": "gemini-3.5-flash",
         "off": 0.02,
         "low": 0.03,
         "medium": 0.05,
         "high": 0.09
       }
     ],
-    "non_reasoning_note": "Models without reasoning controls: Haiku 4.5 (Anthropic matrix above as fixed rate), GPT-5.5 Instant (new May 5 ChatGPT default), Mistral Medium 3.5, DeepSeek V4-Pro/Flash, MiniMax M2.5, Codex-Spark, Kimi K2.6, GLM 5.1, Qwen 3.6 Plus, all Llama 4 variants — burn at fixed rate per model regardless of effort knob.",
+    "non_reasoning_note": "Models without reasoning controls: Haiku 4.5 (Anthropic matrix above as fixed rate), GPT-5.5 Instant (ChatGPT default since May 5), Mistral Medium 3.5, DeepSeek V4-Pro/Flash, MiniMax M2.7, Kimi K2.6, GLM 4.6, Qwen 3.6 variants, all Llama 4 variants, Grok 4.1 Fast, SubQ 1M-Preview — burn at fixed rate per model regardless of effort knob.",
     "effort_quality_factors": {
       "minimal": 0.65,
       "low": 0.85,
@@ -3165,6 +3803,120 @@
       "title": "tau-bench (tool-use + agentic behaviour)",
       "url": "https://github.com/sierra-research/tau-bench",
       "note": "Used to anchor Agentic axis ratings."
+    },
+    {
+      "n": 41,
+      "category": "Nvidia",
+      "title": "build.nvidia.com",
+      "url": "https://build.nvidia.com/"
+    },
+    {
+      "n": 42,
+      "category": "Nvidia",
+      "title": "Hugging Face — Nvidia",
+      "url": "https://huggingface.co/nvidia"
+    },
+    {
+      "n": 43,
+      "category": "Nvidia",
+      "title": "Nvidia blogs",
+      "url": "https://blogs.nvidia.com/"
+    },
+    {
+      "n": 44,
+      "category": "Benchmarks",
+      "title": "SWE-bench Pro public leaderboard (Scale)",
+      "url": "https://scale.com/leaderboard/swe_bench_pro_public"
+    },
+    {
+      "n": 45,
+      "category": "Benchmarks",
+      "title": "Scale Labs",
+      "url": "https://labs.scale.com/"
+    },
+    {
+      "n": 46,
+      "category": "Benchmarks",
+      "title": "SWE-Rebench",
+      "url": "https://swe-rebench.com/"
+    },
+    {
+      "n": 47,
+      "category": "Benchmarks",
+      "title": "Terminal-Bench 2.0",
+      "url": "https://tbench.ai/leaderboard"
+    },
+    {
+      "n": 48,
+      "category": "Aggregators",
+      "title": "OpenRouter",
+      "url": "https://openrouter.ai/"
+    },
+    {
+      "n": 49,
+      "category": "Aggregators",
+      "title": "LLM-Stats",
+      "url": "https://llm-stats.com/"
+    },
+    {
+      "n": 50,
+      "category": "Benchmarks",
+      "title": "Artificial Analysis Intelligence Index",
+      "url": "https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index"
+    },
+    {
+      "n": 51,
+      "category": "Harnesses",
+      "title": "Claude Code changelog",
+      "url": "https://code.claude.com/docs/en/changelog"
+    },
+    {
+      "n": 52,
+      "category": "Harnesses",
+      "title": "Cursor pricing",
+      "url": "https://cursor.com/pricing"
+    },
+    {
+      "n": 53,
+      "category": "Harnesses",
+      "title": "Windsurf changelog (Devin Desktop)",
+      "url": "https://windsurf.com/changelog"
+    },
+    {
+      "n": 54,
+      "category": "Harnesses",
+      "title": "Gemini CLI changelogs",
+      "url": "https://geminicli.com/docs/changelogs"
+    },
+    {
+      "n": 55,
+      "category": "Harnesses",
+      "title": "Codex CLI releases",
+      "url": "https://github.com/openai/codex/releases"
+    },
+    {
+      "n": 56,
+      "category": "Google",
+      "title": "DeepMind models",
+      "url": "https://deepmind.google/models"
+    },
+    {
+      "n": 57,
+      "category": "Mistral",
+      "title": "Mistral pricing",
+      "url": "https://mistral.ai/pricing"
+    },
+    {
+      "n": 58,
+      "category": "Google",
+      "title": "Gemini API pricing (canonical)",
+      "url": "https://ai.google.dev/gemini-api/docs/pricing"
+    },
+    {
+      "n": 59,
+      "category": "MiniMax",
+      "title": "Artificial Analysis — MiniMax M2.7",
+      "url": "https://artificialanalysis.ai/models/minimax-m2-7"
     }
   ],
   "provider_sources": {
@@ -3211,7 +3963,17 @@
     "Zhipu": [
       20,
       21
-    ]
+    ],
+    "Nvidia": [
+      41,
+      42,
+      43
+    ],
+    "Cohere": [
+      20,
+      21
+    ],
+    "SubQ": []
   },
   "section_sources": {
     "models": [
@@ -3245,7 +4007,12 @@
       30,
       31,
       32,
-      35
+      35,
+      51,
+      52,
+      53,
+      54,
+      55
     ],
     "self_hosting": [
       20,
