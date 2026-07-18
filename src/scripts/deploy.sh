@@ -158,9 +158,8 @@ if git -C "$WORKTREE_DIR" diff --staged --quiet; then
 else
   DEPLOY_EMAIL="$(git config user.email 2>/dev/null || true)"
   if [ -z "$DEPLOY_EMAIL" ]; then
-    GH_LOGIN="$(gh api user --jq .login)"
-    DEPLOY_EMAIL="${GH_LOGIN}@users.noreply.github.com"
-    echo "      using GitHub noreply identity for $GH_LOGIN"
+    DEPLOY_EMAIL="info@projectious.work"
+    echo "      using project deploy identity $DEPLOY_EMAIL"
   fi
   git -C "$WORKTREE_DIR" \
     -c user.name="ai-market-research deploy" \
