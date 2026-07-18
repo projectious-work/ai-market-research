@@ -1,20 +1,13 @@
 #!/usr/bin/env bash
-# Deploy dist/dashboard.html to GitHub Pages from this container.
+# Build and publish the dashboard from a local checkout to GitHub Pages.
 #
-# Pipeline:
-#   1. Rebuild dist/dashboard.html (idempotent).
-#   2. Stage a Pages payload (index.html + dashboard.html + .nojekyll).
-#   3. Push the payload as a single commit on the `gh-pages` orphan branch.
-#   4. Ensure Pages is enabled (branch: gh-pages, path: /) — idempotent.
-#   5. Print the live URL.
-#
-# No GitHub Actions, no extra dependencies (git + gh + python3 + bash).
-# See DEC-20260517_1455-DeftLynx for the architecture choice.
+# This repository intentionally uses branch-based Pages. The script does not
+# create or invoke GitHub Actions; it publishes a static payload to gh-pages.
 #
 # Usage:
-#   src/scripts/deploy.sh                      # deploy current dist/
-#   src/scripts/deploy.sh --message "..."      # custom commit message
-#   src/scripts/deploy.sh --skip-build         # use existing dist/ as-is
+#   bash src/scripts/deploy.sh
+#   bash src/scripts/deploy.sh --message "deploy: refresh market report"
+#   bash src/scripts/deploy.sh --skip-build
 set -euo pipefail
 
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -22,174 +15,217 @@ cd "$REPO_ROOT"
 
 PAGES_BRANCH="gh-pages"
 REMOTE="origin"
-WORKTREE_DIR=".git/gh-pages-worktree"
+WORKTREE_DIR="$REPO_ROOT/.git/gh-pages-worktree"
+SCREENSHOT="$REPO_ROOT/docs/assets/signal-room-start.png"
 COMMIT_MESSAGE=""
 SKIP_BUILD=0
+WORKTREE_READY=0
+
+usage() {
+  sed -n '2,10p' "$0"
+}
+
+cleanup() {
+  if [ "$WORKTREE_READY" -eq 1 ]; then
+    git worktree remove --force "$WORKTREE_DIR" >/dev/null 2>&1 || true
+  fi
+  git worktree prune >/dev/null 2>&1 || true
+}
+trap cleanup EXIT INT TERM
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --message) COMMIT_MESSAGE="$2"; shift 2 ;;
-    --skip-build) SKIP_BUILD=1; shift ;;
+    --message)
+      if [ $# -lt 2 ] || [ -z "$2" ]; then
+        echo "fatal: --message requires a value" >&2
+        exit 2
+      fi
+      COMMIT_MESSAGE="$2"
+      shift 2
+      ;;
+    --skip-build)
+      SKIP_BUILD=1
+      shift
+      ;;
     -h|--help)
-      sed -n '2,18p' "$0"; exit 0 ;;
-    *) echo "unknown arg: $1" >&2; exit 2 ;;
+      usage
+      exit 0
+      ;;
+    *)
+      echo "fatal: unknown argument: $1" >&2
+      usage >&2
+      exit 2
+      ;;
   esac
 done
 
-# ─── Preflight ──────────────────────────────────────────────────────────
-command -v gh >/dev/null || { echo "fatal: gh CLI not installed" >&2; exit 1; }
-command -v git >/dev/null || { echo "fatal: git not installed" >&2; exit 1; }
+for command in gh git python3; do
+  command -v "$command" >/dev/null || {
+    echo "fatal: required command not found: $command" >&2
+    exit 1
+  }
+done
 
-REMOTE_URL="$(git remote get-url "$REMOTE" 2>/dev/null || true)"
-if [ -z "$REMOTE_URL" ]; then
-  echo "fatal: remote '$REMOTE' not configured" >&2
+# Actions workflows are intentionally unsupported for this project. Refuse to
+# deploy if one is introduced, since a push could otherwise trigger it.
+if [ -d .github/workflows ] &&
+   find .github/workflows -type f -print -quit | grep -q .; then
+  echo "fatal: .github/workflows contains a file; Pages must remain manual" >&2
   exit 1
 fi
 
-# Parse owner/repo from remote URL (https or ssh).
-REPO_SLUG="$(echo "$REMOTE_URL" | sed -E 's#(.*github\.com[:/])([^/]+/[^/.]+)(\.git)?$#\2#')"
-if [ -z "$REPO_SLUG" ] || ! echo "$REPO_SLUG" | grep -q "/"; then
-  echo "fatal: could not parse owner/repo from remote URL: $REMOTE_URL" >&2
+gh auth status --hostname github.com >/dev/null
+
+REMOTE_URL="$(git remote get-url "$REMOTE" 2>/dev/null || true)"
+if [ -z "$REMOTE_URL" ]; then
+  echo "fatal: remote '$REMOTE' is not configured" >&2
+  exit 1
+fi
+
+# Accept GitHub HTTPS and SSH remotes, with an optional .git suffix.
+REPO_SLUG="$(printf '%s\n' "$REMOTE_URL" | sed -nE \
+  's#^(https://github\.com/|git@github\.com:)([^/]+/[^/]+)$#\2#p')"
+REPO_SLUG="${REPO_SLUG%.git}"
+if [ -z "$REPO_SLUG" ]; then
+  echo "fatal: could not parse a GitHub owner/repository from $REMOTE_URL" >&2
   exit 1
 fi
 OWNER="${REPO_SLUG%%/*}"
 REPO="${REPO_SLUG##*/}"
 
-# ─── 1. Build ───────────────────────────────────────────────────────────
 if [ "$SKIP_BUILD" -eq 0 ]; then
-  echo "[1/5] building dist/dashboard.html"
+  echo "[1/6] building dashboard"
   bash "$REPO_ROOT/src/scripts/build.sh"
 else
-  echo "[1/5] skipping build (--skip-build)"
+  echo "[1/6] using existing build (--skip-build)"
 fi
 
 if [ ! -s "$REPO_ROOT/dist/dashboard.html" ]; then
-  echo "fatal: dist/dashboard.html missing or empty" >&2
+  echo "fatal: dist/dashboard.html is missing or empty" >&2
   exit 1
 fi
-if grep -q "__MARKET_DATA__" "$REPO_ROOT/dist/dashboard.html"; then
-  echo "fatal: build output still contains __MARKET_DATA__ placeholder" >&2
+if grep -q '__MARKET_DATA__' "$REPO_ROOT/dist/dashboard.html"; then
+  echo "fatal: dashboard still contains the data placeholder" >&2
   exit 1
 fi
 
-# ─── 2. Worktree on gh-pages ───────────────────────────────────────────
-echo "[2/5] preparing worktree at $WORKTREE_DIR for branch $PAGES_BRANCH"
-
-# Fetch remote branch state if it exists.
+echo "[2/6] preparing $PAGES_BRANCH worktree"
 git fetch --quiet "$REMOTE" "$PAGES_BRANCH" 2>/dev/null || true
 
-# Clean any stale worktree.
 if [ -d "$WORKTREE_DIR" ]; then
-  git worktree remove --force "$WORKTREE_DIR" 2>/dev/null || rm -rf "$WORKTREE_DIR"
+  git worktree remove --force "$WORKTREE_DIR" >/dev/null 2>&1 ||
+    rm -rf "$WORKTREE_DIR"
 fi
-# Clean any stale prunable worktree entries.
 git worktree prune
 
 if git show-ref --verify --quiet "refs/remotes/$REMOTE/$PAGES_BRANCH"; then
-  # Branch exists upstream — check it out into the worktree.
-  git worktree add "$WORKTREE_DIR" "$REMOTE/$PAGES_BRANCH"
-  ( cd "$WORKTREE_DIR" && git checkout -B "$PAGES_BRANCH" "$REMOTE/$PAGES_BRANCH" )
+  git worktree add --quiet --detach "$WORKTREE_DIR" \
+    "$REMOTE/$PAGES_BRANCH"
+  WORKTREE_READY=1
+  git -C "$WORKTREE_DIR" checkout --quiet -B "$PAGES_BRANCH" \
+    "$REMOTE/$PAGES_BRANCH"
 else
-  # First-time deploy — create an orphan branch in the worktree.
-  git worktree add --no-checkout "$WORKTREE_DIR" HEAD
-  (
-    cd "$WORKTREE_DIR"
-    git checkout --orphan "$PAGES_BRANCH"
-    git rm -rf --quiet . 2>/dev/null || true
-  )
+  git worktree add --quiet --no-checkout "$WORKTREE_DIR" HEAD
+  WORKTREE_READY=1
+  git -C "$WORKTREE_DIR" checkout --quiet --orphan "$PAGES_BRANCH"
+  git -C "$WORKTREE_DIR" rm -rf --quiet . 2>/dev/null || true
 fi
 
-# ─── 3. Stage payload ───────────────────────────────────────────────────
-echo "[3/5] staging Pages payload"
-# Wipe everything but .git in the worktree, then copy fresh artifacts.
-find "$WORKTREE_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+echo "[3/6] staging static Pages payload"
+find "$WORKTREE_DIR" -mindepth 1 -maxdepth 1 ! -name .git \
+  -exec rm -rf {} +
 cp "$REPO_ROOT/dist/dashboard.html" "$WORKTREE_DIR/index.html"
 cp "$REPO_ROOT/dist/dashboard.html" "$WORKTREE_DIR/dashboard.html"
 touch "$WORKTREE_DIR/.nojekyll"
 
-# Default commit message embeds the source main-branch commit SHA.
+if [ -s "$SCREENSHOT" ]; then
+  mkdir -p "$WORKTREE_DIR/assets"
+  cp "$SCREENSHOT" "$WORKTREE_DIR/assets/signal-room-start.png"
+  echo "      included assets/signal-room-start.png"
+else
+  echo "      note: tracked screenshot not present; publishing dashboard only"
+fi
+
 if [ -z "$COMMIT_MESSAGE" ]; then
-  MAIN_SHA="$(git rev-parse --short HEAD)"
-  COMMIT_MESSAGE="deploy: dashboard from $MAIN_SHA"
+  SOURCE_SHA="$(git rev-parse --short HEAD)"
+  COMMIT_MESSAGE="deploy: dashboard from $SOURCE_SHA"
 fi
 
-(
-  cd "$WORKTREE_DIR"
-  git add -A
-  if git diff --staged --quiet; then
-    echo "[3/5] no changes vs current gh-pages tip; skipping commit + push"
-    NO_CHANGES=1
-  else
-    DEPLOY_EMAIL="$(git config user.email 2>/dev/null || true)"
-    if [ -z "$DEPLOY_EMAIL" ]; then
-      echo "fatal: configure git user.email before deploying" >&2
-      exit 1
-    fi
-    git -c user.name="ai-market-research deploy" \
-        -c user.email="$DEPLOY_EMAIL" \
-        commit --quiet -m "$COMMIT_MESSAGE"
-    NO_CHANGES=0
-  fi
-  echo "${NO_CHANGES:-0}" > "$REPO_ROOT/.git/.deploy-no-changes"
-)
-
-NO_CHANGES="$(cat "$REPO_ROOT/.git/.deploy-no-changes")"
-rm -f "$REPO_ROOT/.git/.deploy-no-changes"
-
-# ─── 4. Push ────────────────────────────────────────────────────────────
-if [ "$NO_CHANGES" -eq 0 ]; then
-  echo "[4/5] pushing $PAGES_BRANCH to $REMOTE"
-  # gh-pages is a deploy artifact branch — each deploy rewrites the tip
-  # with a single commit. --force is the intended semantic. The origin
-  # remote uses the configured Git credential helper for authentication.
-  (
-    cd "$WORKTREE_DIR"
-    git push --quiet --force origin "$PAGES_BRANCH"
-  )
+git -C "$WORKTREE_DIR" add -A
+if git -C "$WORKTREE_DIR" diff --staged --quiet; then
+  NEEDS_PUSH=0
+  echo "[4/6] payload is unchanged"
 else
-  echo "[4/5] skipping push (no changes)"
-fi
-
-# Tidy up — don't leave a worktree dangling between deploys.
-git worktree remove --force "$WORKTREE_DIR" 2>/dev/null || rm -rf "$WORKTREE_DIR"
-
-# ─── 5. Ensure Pages is enabled ─────────────────────────────────────────
-echo "[5/5] ensuring GitHub Pages is enabled (branch=$PAGES_BRANCH, path=/)"
-PAGES_JSON="$(gh api -H "Accept: application/vnd.github+json" \
-  "repos/$OWNER/$REPO/pages" 2>/dev/null || true)"
-
-needs_enable=0
-needs_update=0
-if [ -z "$PAGES_JSON" ]; then
-  needs_enable=1
-else
-  CURRENT_BRANCH="$(printf '%s' "$PAGES_JSON" | python3 -c \
-    "import json,sys; d=json.load(sys.stdin); print(d.get('source',{}).get('branch',''))" 2>/dev/null || echo "")"
-  if [ -z "$CURRENT_BRANCH" ]; then
-    needs_enable=1
-  elif [ "$CURRENT_BRANCH" != "$PAGES_BRANCH" ]; then
-    needs_update=1
+  DEPLOY_EMAIL="$(git config user.email 2>/dev/null || true)"
+  if [ -z "$DEPLOY_EMAIL" ]; then
+    echo "fatal: configure git user.email before deploying" >&2
+    exit 1
   fi
+  git -C "$WORKTREE_DIR" \
+    -c user.name="ai-market-research deploy" \
+    -c user.email="$DEPLOY_EMAIL" \
+    commit --quiet -m "$COMMIT_MESSAGE"
+  NEEDS_PUSH=1
 fi
 
-# gh's -f flag flattens "source[branch]" wrong; use JSON input instead.
-PAGES_BODY='{"source":{"branch":"'"$PAGES_BRANCH"'","path":"/"}}'
-
-if [ "$needs_enable" -eq 1 ]; then
-  echo "      Pages not enabled — enabling now"
-  printf '%s' "$PAGES_BODY" | gh api --method POST \
-    -H "Accept: application/vnd.github+json" \
-    "repos/$OWNER/$REPO/pages" --input - >/dev/null 2>&1 || true
-elif [ "$needs_update" -eq 1 ]; then
-  echo "      Pages source mismatch (got '$CURRENT_BRANCH', want '$PAGES_BRANCH') — updating"
-  printf '%s' "$PAGES_BODY" | gh api --method PUT \
-    -H "Accept: application/vnd.github+json" \
-    "repos/$OWNER/$REPO/pages" --input - >/dev/null 2>&1 || true
+if [ "$NEEDS_PUSH" -eq 1 ]; then
+  echo "[4/6] pushing $PAGES_BRANCH to $REMOTE"
+  git -C "$WORKTREE_DIR" push --quiet "$REMOTE" "$PAGES_BRANCH"
+else
+  echo "[4/6] push skipped"
 fi
 
-SITE_URL="$(gh api "repos/$OWNER/$REPO/pages" --jq '.html_url' 2>/dev/null \
-  || echo "https://$OWNER.github.io/$REPO/")"
-echo ""
+echo "[5/6] enforcing branch-based Pages configuration"
+PAGES_ENDPOINT="repos/$OWNER/$REPO/pages"
+if ! PAGES_JSON="$(gh api "$PAGES_ENDPOINT" 2>/dev/null)"; then
+  echo "      enabling Pages from $PAGES_BRANCH:/"
+  printf '%s' \
+    '{"build_type":"legacy","source":{"branch":"gh-pages","path":"/"}}' |
+    gh api --method POST "$PAGES_ENDPOINT" --input - >/dev/null
+  PAGES_JSON="$(gh api "$PAGES_ENDPOINT")"
+fi
+
+read -r CURRENT_BRANCH CURRENT_PATH BUILD_TYPE HTTPS_ENFORCED SITE_URL <<EOF
+$(printf '%s' "$PAGES_JSON" | python3 -c '
+import json, sys
+d = json.load(sys.stdin)
+s = d.get("source") or {}
+print(s.get("branch", ""), s.get("path", ""), d.get("build_type", ""),
+      str(d.get("https_enforced", False)).lower(), d.get("html_url", ""))
+')
+EOF
+
+if [ "$CURRENT_BRANCH" != "$PAGES_BRANCH" ] || [ "$CURRENT_PATH" != "/" ] ||
+   [ "$BUILD_TYPE" != "legacy" ] || [ "$HTTPS_ENFORCED" != "true" ]; then
+  echo "      updating Pages to manual $PAGES_BRANCH:/ deployment with HTTPS"
+  printf '%s' \
+    '{"build_type":"legacy","source":{"branch":"gh-pages","path":"/"},"https_enforced":true}' |
+    gh api --method PUT "$PAGES_ENDPOINT" --input - >/dev/null
+  PAGES_JSON="$(gh api "$PAGES_ENDPOINT")"
+fi
+
+echo "[6/6] verifying Pages configuration"
+printf '%s' "$PAGES_JSON" | python3 -c '
+import json, sys
+d = json.load(sys.stdin)
+s = d.get("source") or {}
+errors = []
+if s.get("branch") != "gh-pages" or s.get("path") != "/":
+    errors.append("source must be gh-pages:/")
+if d.get("build_type") != "legacy":
+    errors.append("build_type must be legacy (branch deploy), not workflow")
+if not d.get("https_enforced"):
+    errors.append("HTTPS must be enforced")
+if not str(d.get("html_url", "")).startswith("https://"):
+    errors.append("Pages URL must use HTTPS")
+if errors:
+    raise SystemExit("fatal: " + "; ".join(errors))
+'
+
+SITE_URL="$(printf '%s' "$PAGES_JSON" | python3 -c \
+  'import json,sys; print(json.load(sys.stdin)["html_url"])')"
+echo
 echo "deploy ok"
-echo "site:   $SITE_URL"
-echo "branch: $PAGES_BRANCH"
+echo "site:       $SITE_URL"
+echo "source:     $PAGES_BRANCH:/"
+echo "screenshot: ${SITE_URL%/}/assets/signal-room-start.png"

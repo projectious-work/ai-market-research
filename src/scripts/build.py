@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compose dist/dashboard.html = src/dashboard.template.html + data/market-state.json.
+"""Compose the self-contained dashboard from template and canonical JSON.
 
 Reads the template, validates the JSON, substitutes two placeholders, and
 writes the artifact. Fails loudly on:
@@ -25,6 +25,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 TEMPLATE = ROOT / "src" / "dashboard.template.html"
 DATA = ROOT / "data" / "market-state.json"
+REPORT_METRICS = ROOT / "data" / "report-metrics.json"
+MODEL_ROSTER = ROOT / "data" / "model-roster-v2.json"
 OUTPUT = ROOT / "dist" / "dashboard.html"
 DATA_PLACEHOLDER = "__MARKET_DATA__"
 VERSION_PLACEHOLDER = "__APP_VERSION__"
@@ -47,12 +49,28 @@ def main() -> int:
         sys.exit(f"missing template: {TEMPLATE}")
     if not DATA.exists():
         sys.exit(f"missing data: {DATA}")
+    if not REPORT_METRICS.exists():
+        sys.exit(f"missing data: {REPORT_METRICS}")
+    if not MODEL_ROSTER.exists():
+        sys.exit(f"missing data: {MODEL_ROSTER}")
 
     raw = DATA.read_text(encoding="utf-8")
     try:
         parsed = json.loads(raw)
     except json.JSONDecodeError as exc:
         sys.exit(f"market-state.json invalid: {exc}")
+
+    try:
+        report_metrics = json.loads(REPORT_METRICS.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        sys.exit(f"report-metrics.json invalid: {exc}")
+    parsed["report_metrics"] = report_metrics
+
+    try:
+        model_roster = json.loads(MODEL_ROSTER.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        sys.exit(f"model-roster-v2.json invalid: {exc}")
+    parsed["model_roster"] = model_roster
 
     template = TEMPLATE.read_text(encoding="utf-8")
     if template.count(DATA_PLACEHOLDER) != 1:

@@ -9,9 +9,11 @@ focused on the decisions an AI infrastructure-oriented developer actually
 has to make: which models and configurations to use, which subscriptions to
 hold, which agent harness to run, and what to self-host.
 
-**Live dashboard:** <https://projectious-work.github.io/ai-market-research/>
+**Live Signal Room:** <https://projectious-work.github.io/ai-market-research/>
 **Latest release:** <https://github.com/projectious-work/ai-market-research/releases/latest>
 ([v0.3.1](https://github.com/projectious-work/ai-market-research/releases/tag/v0.3.1))
+
+[![Signal Room starting page](docs/assets/signal-room-start.png)](https://projectious-work.github.io/ai-market-research/)
 
 ---
 
@@ -39,18 +41,17 @@ hold, which agent harness to run, and what to self-host.
 
 ## How it's built
 
-- `data/market-state.json` — canonical JSON state (the truth).
-- `data/model-roster-v2.json` — sourced v2 roster, inclusion policy,
-  configuration controls, and speed methodology used by all design
-  alternatives.
+- `data/market-state.json` — original report data and compatibility schema.
+- `data/model-roster-v2.json` — sourced current roster, inclusion policy,
+  configuration controls, and speed methodology.
+- `data/report-metrics.json` — normalized benchmarks, compound scores, trend
+  series, current economics, hardware fit, and decision-support data.
 - `src/dashboard.template.html` — single self-contained HTML scaffold
   with a `__MARKET_DATA__` placeholder.
-- `src/concepts/` — independent from-scratch website concepts plus their
-  shared content adapter.
-- `src/scripts/build.py` — substitutes the JSON into the template,
+- `src/scripts/build.py` — validates and embeds all three JSON inputs,
   producing `dist/dashboard.html`.
-- `src/scripts/build-concepts.py` — embeds the canonical data into four
-  independent concepts under `dist/concepts/`.
+- [`docs/data-methodology.md`](docs/data-methodology.md) — formulas, evidence
+  classes, chart encodings, and the repeatable update procedure.
 
 The outputs are self-contained static HTML files. There is no JavaScript
 framework, package-manager build chain, or runtime CDN dependency.
@@ -69,23 +70,24 @@ bash src/scripts/release-check.sh
 # Open the current report
 xdg-open dist/dashboard.html
 
-# Review the four from-scratch concepts
-xdg-open dist/concepts/index.html
 ```
 
 ## Deploy
 
-GitHub Pages, fed from the `gh-pages` branch via a local script (no GitHub
-Actions). Architecture: [DEC-20260517_1455-DeftLynx](context/decisions/DEC-20260517_1455-DeftLynx-v0-2-0-deployment-local-deploy.md).
+GitHub Pages is fed from the root of the `gh-pages` branch by a local script.
+No GitHub Actions workflow is used or permitted. Architecture:
+[DEC-20260517_1455-DeftLynx](context/decisions/DEC-20260517_1455-DeftLynx-v0-2-0-deployment-local-deploy.md).
 
 ```sh
-bash src/scripts/deploy.sh
+bash src/scripts/release-check.sh
+bash src/scripts/deploy.sh --message "deploy: refresh signal room"
 ```
 
-The script builds, stages `dist/` as the Pages payload, pushes via
-`git worktree` to `gh-pages`, and idempotently enables Pages on first run.
-Authentication uses `gh auth token`, so no global git credential helper
-is required.
+The deploy script rebuilds by default, stages the report and screenshot in a
+temporary Git worktree, pushes `gh-pages` without force, and verifies that
+Pages uses the legacy branch source with HTTPS. It stops if any file exists
+under `.github/workflows/`. Use `--skip-build` only after reviewing the exact
+local artifact that will be published.
 
 ## Release
 
@@ -104,10 +106,9 @@ Do not cut a version directly before the release gates have been evaluated.
 
 ```
 .
-├── data/              # market-state.json + daily archives
+├── data/              # source JSON, normalized metrics, and archives
 ├── src/
 │   ├── dashboard.template.html
-│   ├── concepts/       # independent concept templates + content adapter
 │   ├── dashboard-context.md   # project profile + tracked dimensions
 │   ├── sources.md             # canonical URLs the briefing checks
 │   ├── briefing-prompt.md     # the agent prompt that refreshes data/

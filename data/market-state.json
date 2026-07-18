@@ -1,7 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-07-17T12:00:00Z",
-    "reference_default": "fable-5"
+    "generated_at": "2026-07-18T12:00:00Z",
+    "reference_default": "fable-5",
+    "report_metrics_file": "data/report-metrics.json"
   },
   "executive_summary": {
     "models": "Claude Fable 5 is the new default reference: Anthropic's most capable widely released model, with 1M context, adaptive thinking, and a deliberate latency profile. OpenAI's GPT-5.6 family now separates Sol, Terra, and Luna, each with none through max effort levels; Google spans preview Gemini 3.1 Pro and stable Gemini 3.5 Flash / 3.1 Flash-Lite; xAI's current flagship is Grok 4.5. The v2 roster also covers Cursor Composer 2.5, Meta Llama 4, Mistral, and the major Chinese open-weight families without giving every sibling an equal top-level row.",
@@ -13,25 +14,25 @@
     {
       "id": "frontier_count",
       "label": "Frontier models tracked",
-      "value": 20,
+      "value": 28,
       "unit": "",
-      "delta": "+Fable 5; v2 roster maintained separately",
+      "delta": "Fable 5 and GPT-5.6 Sol, Terra, Luna added",
       "delta_dir": "up"
     },
     {
       "id": "best_open_pct",
-      "label": "Best open-weight vs Opus 4.8",
+      "label": "Best open-weight vs Fable 5",
       "value": 90,
       "unit": "%",
-      "delta": "Kimi K2.6 vs Opus 4.8",
+      "delta": "Planning estimate; remeasure in the pinned harness",
       "delta_dir": "up"
     },
     {
       "id": "cheapest_frontier_api",
       "label": "Cheapest frontier $/Mtok out",
-      "value": 0.87,
+      "value": 6,
       "unit": "USD",
-      "delta": "DeepSeek V4-Pro $0.435/$0.87",
+      "delta": "GPT-5.6 Luna $1/$6",
       "delta_dir": "down"
     },
     {
@@ -39,7 +40,7 @@
       "label": "Self-hosted $/Mtok (effective)",
       "value": 0,
       "unit": "USD",
-      "delta": "GPU rental only",
+      "delta": "Excludes hardware rental and power",
       "delta_dir": "neutral"
     },
     {
@@ -53,25 +54,25 @@
     {
       "id": "harness_count",
       "label": "Harnesses tracked",
-      "value": 17,
+      "value": 16,
       "unit": "",
-      "delta": "+Copilot CLI, Amp, Zed, Continue, Hermes (restored)",
+      "delta": "Current comparison register",
       "delta_dir": "up"
     },
     {
       "id": "policy_days",
       "label": "Days since policy shift",
-      "value": 63,
+      "value": 105,
       "unit": "d",
       "delta": "Anthropic OAuth block enforcement",
       "delta_dir": "neutral"
     },
     {
       "id": "blended_cost",
-      "label": "Recommended monthly stack",
-      "value": 130,
-      "unit": "USD",
-      "delta": "Max 5× + API + GPU",
+      "label": "Recommended stack cost",
+      "value": "Variable",
+      "unit": "",
+      "delta": "Compute from measured tokens and local runtime",
       "delta_dir": "neutral"
     }
   ],
@@ -189,6 +190,16 @@
     }
   },
   "changelog": [
+    {
+      "date": "2026-07-18",
+      "tag": "data",
+      "text": "Added source-grounded GPT-5.6 Sol, Terra and Luna pricing, 1.05M context, benchmark registers and selectable reference configurations. Added documented quality, speed, cost and capability composites in data/report-metrics.json."
+    },
+    {
+      "date": "2026-07-18",
+      "tag": "routing",
+      "text": "Updated the action queue and recommended routing: Fable for hardest retained-data workloads, Terra for default engineering, Luna for high-volume subagents, with explicit escalation rules."
+    },
     {
       "date": "2026-06-06",
       "tag": "fix",
@@ -351,13 +362,12 @@
     }
   ],
   "actions": [
-    "Evaluate Fable 5 at high effort as the reference, including its 30-day retention and no-ZDR constraint.",
-    "Compare GPT-5.6 Sol at medium and high effort as separate configurations rather than averaging the family.",
-    "Capture TTFT, output throughput, and end-to-end task time under one reproducible harness before ranking speed.",
-    "Try Kimi K2.6 on Vast.ai 2× A6000 Q4 — current top open intelligence (80.2% SWE-Verified, AAII 54) at zero per-token cost.",
-    "Watch Nvidia Nemotron Coalition — first frontier-open consortium with Mistral, Cursor, Black Forest Labs, Thinking Machines.",
-    "Decide on Antigravity CLI vs sticking with Gemini CLI before June 18, 2026 sunset.",
-    "Re-baseline benchmarks: SWE-bench Verified is being deprecated by OpenAI in favor of SWE-Pro + DeepSWE + Terminal-Bench 2.0."
+    "P0 · Engineering — benchmark Sol, Terra, Luna and Fable 5 in one pinned harness; capture TTFT, output tok/s, wall time, tokens and cost for 30 representative tasks.",
+    "P0 · Security — block Fable 5 for workloads requiring zero data retention; it requires 30-day retention.",
+    "P1 · Platform — shadow-test Terra medium as the default engineering route and Luna low as the bulk-subagent route for two weeks.",
+    "P1 · Research — replace planning speed indices with reproducible measurements carrying workload, provider, region and date.",
+    "P2 · Infrastructure — re-test open-weight hardware fit on H200 and B200; unsupported combinations must include a reason instead of an empty speed cell.",
+    "P2 · Research — keep SWE-bench Pro, DeepSWE and Terminal-Bench versioned; do not blend scores across benchmark versions."
   ],
   "models": [
     {
@@ -370,11 +380,16 @@
       "jurisdiction": "US",
       "context": 1000000,
       "context_label": "1M",
-      "swe_pro": null,
+      "swe_pro": 80.0,
       "swe_verified": null,
       "livecodebench": null,
       "aime": null,
       "tau2": null,
+      "aaii": 59.9,
+      "coding_agent_index": 77.2,
+      "deep_swe": 69.7,
+      "terminal_bench": 83.1,
+      "agents_last_exam": 40.5,
       "api_in": 10.0,
       "api_out": 50.0,
       "api_cache_hit": null,
@@ -391,10 +406,108 @@
         "xhigh",
         "max"
       ],
-      "cache_discount": null,
+      "cache_discount": 0.1,
       "status": "stable",
       "speed_class": "deliberate",
-      "speed_evidence": "vendor-qualitative"
+      "speed_evidence": "vendor-qualitative",
+      "capability_levels": {
+        "coding": 49,
+        "reasoning": 50,
+        "knowledge": 48,
+        "comms": 48,
+        "multimodal": 45,
+        "agentic": 50
+      }
+    },
+    {
+      "id": "gpt-5.6-sol",
+      "name": "GPT-5.6 Sol",
+      "provider": "OpenAI",
+      "tier": "frontier",
+      "released": "2026-07-09",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1050000,
+      "context_label": "1.05M (272K pricing threshold)",
+      "swe_pro": 64.6,
+      "swe_verified": null,
+      "aaii": 58.9,
+      "coding_agent_index": 80.0,
+      "deep_swe": 72.7,
+      "terminal_bench": 88.8,
+      "agents_last_exam": 52.7,
+      "api_in": 5.0,
+      "api_out": 30.0,
+      "api_cache_hit": 0.5,
+      "batch_discount": 50,
+      "tok_per_sec": null,
+      "subscription": "ChatGPT, Codex and API",
+      "notes": "Flagship GPT-5.6 tier. Official benchmark table and pricing; speed is stored as an end-to-end task index in report-metrics.json, not tok/s.",
+      "reasoning_capable": true,
+      "effort_default": "medium",
+      "effort_levels": ["none", "low", "medium", "high", "xhigh", "max"],
+      "cache_discount": 0.1,
+      "capability_levels": {"coding": 49, "reasoning": 49, "knowledge": 48, "comms": 48, "multimodal": 48, "agentic": 49}
+    },
+    {
+      "id": "gpt-5.6-terra",
+      "name": "GPT-5.6 Terra",
+      "provider": "OpenAI",
+      "tier": "frontier",
+      "released": "2026-07-09",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1050000,
+      "context_label": "1.05M (272K pricing threshold)",
+      "swe_pro": 63.4,
+      "swe_verified": null,
+      "aaii": 55.0,
+      "coding_agent_index": 77.4,
+      "deep_swe": 69.6,
+      "terminal_bench": 87.4,
+      "agents_last_exam": 50.4,
+      "api_in": 2.5,
+      "api_out": 15.0,
+      "api_cache_hit": 0.25,
+      "batch_discount": 50,
+      "tok_per_sec": null,
+      "subscription": "ChatGPT, Codex and API",
+      "notes": "Balanced GPT-5.6 tier and recommended default engineering route. Comparable task-speed evidence is indexed in report-metrics.json.",
+      "reasoning_capable": true,
+      "effort_default": "medium",
+      "effort_levels": ["none", "low", "medium", "high", "xhigh", "max"],
+      "cache_discount": 0.1,
+      "capability_levels": {"coding": 48, "reasoning": 46, "knowledge": 46, "comms": 46, "multimodal": 45, "agentic": 48}
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "name": "GPT-5.6 Luna",
+      "provider": "OpenAI",
+      "tier": "fast",
+      "released": "2026-07-09",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1050000,
+      "context_label": "1.05M (272K pricing threshold)",
+      "swe_pro": 62.7,
+      "swe_verified": null,
+      "aaii": 51.2,
+      "coding_agent_index": 74.6,
+      "deep_swe": 67.2,
+      "terminal_bench": 84.7,
+      "agents_last_exam": 50.3,
+      "api_in": 1.0,
+      "api_out": 6.0,
+      "api_cache_hit": 0.1,
+      "batch_discount": 50,
+      "tok_per_sec": null,
+      "subscription": "ChatGPT, Codex and API",
+      "notes": "Fastest, most affordable GPT-5.6 tier; recommended for high-volume subagents with verification and escalation.",
+      "reasoning_capable": true,
+      "effort_default": "medium",
+      "effort_levels": ["none", "low", "medium", "high", "xhigh", "max"],
+      "cache_discount": 0.1,
+      "capability_levels": {"coding": 46, "reasoning": 44, "knowledge": 43, "comms": 45, "multimodal": 43, "agentic": 46}
     },
     {
       "id": "opus-4.8",
@@ -2927,14 +3040,15 @@
   },
   "strategy": {
     "current_recommendation": {
-      "label": "Recommended stack for your profile",
-      "monthly_usd": 130,
+      "label": "Risk-tiered GPT-5.6 + Fable stack",
+      "monthly_usd": null,
       "components": [
-        "Claude Max 5× — $100/mo — interactive coding, cache reads included",
-        "Anthropic API key — ~$30/mo (capped) — automated agentic fan-out",
-        "Vast.ai 2× A6000 — variable, ~$30–60/mo on-demand — Gemma 4 26B MoE for bulk tasks"
+        "GPT-5.6 Luna low — high-volume subagents and routine transformations",
+        "GPT-5.6 Terra medium — default engineering, review and documentation",
+        "GPT-5.6 Sol high or Claude Fable 5 high — escalation for hard, long-horizon tasks",
+        "Qwen 3.6 35B-A3B or DeepSeek V4-Flash — local route for privacy-sensitive bulk work"
       ],
-      "rationale": "Subscription wins for human-driven work because cache reads are flat-rate. API isolates automation billing. Self-hosted Gemma 4 captures privacy + zero token cost for high-volume bulk loops."
+      "rationale": "Route by task risk instead of one subscription. Terra and Luna now retain strong coding-agent quality at substantially lower list price; Fable remains the long-horizon option only where its 30-day retention requirement is acceptable. Monthly cost is workload-dependent and must be computed from measured token volume."
     },
     "alternatives": [
       {
@@ -2960,20 +3074,20 @@
       {
         "tier": "Bulk (70%)",
         "use_for": "Classification, simple edits, triage, log parsing",
-        "preferred": "Gemma 4 26B MoE self-hosted · Haiku 4.5 if cloud",
-        "cost_label": "$0/tok or $1/$5 Mtok"
+        "preferred": "GPT-5.6 Luna low · Qwen 3.6 35B-A3B when local",
+        "cost_label": "$1/$6 Mtok before cache, batch and reasoning tokens"
       },
       {
         "tier": "Mid (25%)",
         "use_for": "Multi-file edits, code review, refactors, docs",
-        "preferred": "Sonnet 4.6 (subscription) or Sonnet API w/ cache+batch",
-        "cost_label": "Flat-rate or $0.30/$7.50 Mtok effective"
+        "preferred": "GPT-5.6 Terra medium",
+        "cost_label": "$2.50/$15 Mtok before cache, batch and reasoning tokens"
       },
       {
         "tier": "Premium (5%)",
         "use_for": "Architecture, hard debugging, long-context refactors",
-        "preferred": "Opus 4.8 (subscription) or GPT-5.5 (API for SWE-Pro)",
-        "cost_label": "Flat-rate or $5/$20 Mtok"
+        "preferred": "GPT-5.6 Sol high · Claude Fable 5 high for long-horizon autonomy",
+        "cost_label": "Sol $5/$30; Fable $10/$50 Mtok before reasoning tokens"
       }
     ],
     "open_questions": [
@@ -3417,7 +3531,7 @@
   },
   "quota_burn_matrix": {
     "baseline_label": "selected reference model at medium effort = 1.00×",
-    "baseline_model_id": "gpt-5.5",
+    "baseline_model_id": "fable-5",
     "baseline_effort": "medium",
     "methodology": "Burn ratios are displayed as multiples of the selected reference model at medium effort. Underlying values stored as absolute units anchored to gpt-5.5 medium = 1.00. Per-model ratios from API list pricing (firm, ±5%). Per-effort multipliers grounded in: Anthropic's published thinking-token budgets (low=skip, medium=~1k, high=5k, xhigh=10k, max=20k tokens); ArtificialAnalysis's measurement of Sonnet 4.6 max ≈ 3× Sonnet 4.5 on the Intelligence Index; nxcode.io / OpenAI guidance that xhigh ≈ 3-5× medium; ampcode's GPT-5.5 cost analysis. Per-effort multipliers are ±20%. NOTE: quality vs effort is not strictly monotonic per task — aggregate quality trends upward, but individual tasks can see high beat xhigh or medium beat high. OpenAI explicitly warns that 'high is not automatically better than medium'. Models that run in a separate preview quota bucket with no standard-pool burn are encoded as 0.00x and annotated until final token or credit rates are published.",
     "stacking_multipliers": [
@@ -3438,6 +3552,36 @@
       }
     ],
     "openai_matrix": [
+      {
+        "model_id": "gpt-5.6-sol",
+        "minimal": 0.45,
+        "low": 0.65,
+        "medium": 1.0,
+        "high": 1.7,
+        "xhigh": 2.7,
+        "max": 4.0,
+        "note": "List-price blend equals the historical GPT-5.5 medium unit. Effort factors are planning estimates until measured token use is available."
+      },
+      {
+        "model_id": "gpt-5.6-terra",
+        "minimal": 0.225,
+        "low": 0.325,
+        "medium": 0.5,
+        "high": 0.85,
+        "xhigh": 1.35,
+        "max": 2.0,
+        "note": "Half Sol list price at every base token; effort factors remain estimates."
+      },
+      {
+        "model_id": "gpt-5.6-luna",
+        "minimal": 0.09,
+        "low": 0.13,
+        "medium": 0.2,
+        "high": 0.34,
+        "xhigh": 0.54,
+        "max": 0.8,
+        "note": "One-fifth Sol list price at every base token; effort factors remain estimates."
+      },
       {
         "model_id": "gpt-5.5",
         "minimal": 0.2,
@@ -3504,6 +3648,15 @@
       }
     ],
     "anthropic_matrix": [
+      {
+        "model_id": "fable-5",
+        "low": 1.1,
+        "medium": 1.69,
+        "high": 2.87,
+        "xhigh": 4.56,
+        "max": 6.76,
+        "note": "Always-on adaptive thinking. Values start from the $10/$50 list-price blend; effort multipliers are planning estimates rather than published token budgets."
+      },
       {
         "model_id": "opus-4.8",
         "low": 0.56,
