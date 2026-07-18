@@ -158,8 +158,9 @@ if git -C "$WORKTREE_DIR" diff --staged --quiet; then
 else
   DEPLOY_EMAIL="$(git config user.email 2>/dev/null || true)"
   if [ -z "$DEPLOY_EMAIL" ]; then
-    echo "fatal: configure git user.email before deploying" >&2
-    exit 1
+    GH_LOGIN="$(gh api user --jq .login)"
+    DEPLOY_EMAIL="${GH_LOGIN}@users.noreply.github.com"
+    echo "      using GitHub noreply identity for $GH_LOGIN"
   fi
   git -C "$WORKTREE_DIR" \
     -c user.name="ai-market-research deploy" \
