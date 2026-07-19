@@ -9,8 +9,8 @@ writes the artifact. Fails loudly on:
 
 Placeholders:
   __MARKET_DATA__   — the minified market-state.json blob
-  __APP_VERSION__   — `git describe --tags --abbrev=0` (latest tag), or
-                      "dev" when no tag exists. Read once at build time.
+  __APP_VERSION__   — latest release tag, or "dev" when no tag exists.
+  __BUILD_ID__      — short commit SHA for the exact deployed source.
 
 Idempotent. Re-running produces the same bytes when inputs and the git tag
 are unchanged.
@@ -30,6 +30,7 @@ MODEL_ROSTER = ROOT / "data" / "model-roster-v2.json"
 OUTPUT = ROOT / "dist" / "dashboard.html"
 DATA_PLACEHOLDER = "__MARKET_DATA__"
 VERSION_PLACEHOLDER = "__APP_VERSION__"
+BUILD_PLACEHOLDER = "__BUILD_ID__"
 
 
 def latest_tag() -> str:
@@ -42,6 +43,18 @@ def latest_tag() -> str:
         return out or "dev"
     except (subprocess.CalledProcessError, FileNotFoundError):
         return "dev"
+
+
+def build_id() -> str:
+    try:
+        out = subprocess.check_output(
+            ["git", "rev-parse", "--short=8", "HEAD"],
+            cwd=ROOT,
+            stderr=subprocess.DEVNULL,
+        ).decode().strip()
+        return out or "unknown"
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return "unknown"
 
 
 def main() -> int:
@@ -78,18 +91,23 @@ def main() -> int:
                  f"found {template.count(DATA_PLACEHOLDER)}")
     if template.count(VERSION_PLACEHOLDER) < 1:
         sys.exit(f"template must contain at least 1 {VERSION_PLACEHOLDER}")
+    if template.count(BUILD_PLACEHOLDER) < 1:
+        sys.exit(f"template must contain at least 1 {BUILD_PLACEHOLDER}")
 
     minified = json.dumps(parsed, ensure_ascii=False, separators=(",", ":"))
     version = latest_tag()
+    commit = build_id()
 
     output = template.replace(DATA_PLACEHOLDER, minified) \
-                     .replace(VERSION_PLACEHOLDER, version)
+                     .replace(VERSION_PLACEHOLDER, version) \
+                     .replace(BUILD_PLACEHOLDER, commit)
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(output, encoding="utf-8")
 
     print(f"built {OUTPUT.relative_to(ROOT)} "
-          f"({OUTPUT.stat().st_size:,} bytes, version={version})")
+          f"({OUTPUT.stat().st_size:,} bytes, "
+          f"release={version}, build={commit})")
     return 0
 
 
