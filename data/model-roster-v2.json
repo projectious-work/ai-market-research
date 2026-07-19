@@ -37,7 +37,13 @@
       "price": "$10 / $50",
       "license": "Proprietary",
       "control": "effort",
-      "levels": ["low", "medium", "high", "xhigh", "max"],
+      "levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "default_level": "high",
       "speed_band": "deliberate",
       "speed_note": "Anthropic comparative latency: slower. No Fable fast mode.",
@@ -58,7 +64,13 @@
       "price": "$5 / $25",
       "license": "Proprietary",
       "control": "effort",
-      "levels": ["low", "medium", "high", "xhigh", "max"],
+      "levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "default_level": "high",
       "speed_band": "balanced",
       "speed_note": "Optional API fast mode claims up to 2.5x output throughput at premium pricing.",
@@ -78,10 +90,36 @@
       "price": "$3 / $15",
       "license": "Proprietary",
       "control": "effort",
-      "levels": ["low", "medium", "high", "xhigh", "max"],
+      "levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "default_level": "high",
       "speed_band": "fast",
       "speed_note": "Anthropic comparative latency: fast.",
+      "availability": "GA",
+      "source": "https://platform.claude.com/docs/en/about-claude/models/overview"
+    },
+    {
+      "id": "haiku-4.5",
+      "name": "Claude Haiku 4.5",
+      "family": "Claude 4",
+      "provider": "Anthropic",
+      "region": "US",
+      "channel": "commercial_api",
+      "scope": "core",
+      "status": "stable",
+      "context": "200K",
+      "price": "$1 / $5",
+      "license": "Proprietary",
+      "control": "fixed",
+      "levels": [],
+      "default_level": "n/a",
+      "speed_band": "fast",
+      "speed_note": "Anthropic’s latest verified Haiku and fastest listed Claude; no Haiku 5 is in the current official catalog.",
       "availability": "GA",
       "source": "https://platform.claude.com/docs/en/about-claude/models/overview"
     },
@@ -98,7 +136,14 @@
       "price": "$5 / $30",
       "license": "Proprietary",
       "control": "reasoning effort",
-      "levels": ["none", "low", "medium", "high", "xhigh", "max"],
+      "levels": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "default_level": "medium",
       "speed_band": "balanced",
       "speed_note": "OpenAI reports max reasoning completes comparable AAII work in 61% less time than Fable 5; no comparable output-tokens/s figure is published.",
@@ -118,7 +163,14 @@
       "price": "$2.50 / $15",
       "license": "Proprietary",
       "control": "reasoning effort",
-      "levels": ["none", "low", "medium", "high", "xhigh", "max"],
+      "levels": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "default_level": "medium",
       "speed_band": "balanced",
       "speed_note": "OpenAI reports coding-agent work in roughly one-third of Fable 5's time; no comparable output-tokens/s figure is published.",
@@ -138,12 +190,89 @@
       "price": "$1 / $6",
       "license": "Proprietary",
       "control": "reasoning effort",
-      "levels": ["none", "low", "medium", "high", "xhigh", "max"],
+      "levels": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "default_level": "medium",
       "speed_band": "fast",
       "speed_note": "OpenAI positions Luna as the fastest tier and reports coding-agent work in roughly one-third of Fable 5's time; no comparable output-tokens/s figure is published.",
       "availability": "GA; ChatGPT, Codex, API",
       "source": "https://openai.com/index/gpt-5-6/"
+    },
+    {
+      "id": "gpt-5.5",
+      "name": "GPT-5.5",
+      "family": "GPT-5.5",
+      "provider": "OpenAI",
+      "region": "US",
+      "channel": "commercial_api",
+      "scope": "core",
+      "status": "stable",
+      "context": "1M API / 400K Codex",
+      "price": "$5 / $30",
+      "license": "Proprietary",
+      "control": "reasoning effort",
+      "levels": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_level": "medium",
+      "speed_band": "balanced",
+      "speed_note": "OpenAI reports GPT-5.4-class per-token latency; Codex fast mode is 1.5x throughput at 2.5x cost.",
+      "availability": "API, ChatGPT and Codex",
+      "source": "https://openai.com/index/introducing-gpt-5-5/"
+    },
+    {
+      "id": "gpt-5.5-pro",
+      "name": "GPT-5.5 Pro",
+      "family": "GPT-5.5",
+      "provider": "OpenAI",
+      "region": "US",
+      "channel": "commercial_api",
+      "scope": "extended",
+      "status": "stable",
+      "context": "1M",
+      "price": "$30 / $180",
+      "license": "Proprietary",
+      "control": "reasoning effort",
+      "levels": [
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_level": "high",
+      "speed_band": "deliberate",
+      "speed_note": "Higher-accuracy tier for difficult work; no comparable public output-throughput figure.",
+      "availability": "API and eligible ChatGPT plans",
+      "source": "https://openai.com/index/introducing-gpt-5-5/"
+    },
+    {
+      "id": "gpt-5.5-instant",
+      "name": "GPT-5.5 Instant",
+      "family": "GPT-5.5",
+      "provider": "OpenAI",
+      "region": "US",
+      "channel": "harness_bundled",
+      "scope": "extended",
+      "status": "stable",
+      "context": "400K",
+      "price": "Included by plan / routed service",
+      "license": "Proprietary",
+      "control": "fixed",
+      "levels": [],
+      "default_level": "provider default",
+      "speed_band": "fast",
+      "speed_note": "Low-latency ChatGPT route; do not equate service behavior with the reasoning model API.",
+      "availability": "ChatGPT",
+      "source": "https://openai.com/index/introducing-gpt-5-5/"
     },
     {
       "id": "gemini-3.1-pro",
@@ -158,7 +287,11 @@
       "price": "$2 / $12",
       "license": "Proprietary",
       "control": "thinking level",
-      "levels": ["low", "medium", "high"],
+      "levels": [
+        "low",
+        "medium",
+        "high"
+      ],
       "default_level": "high",
       "speed_band": "deliberate",
       "speed_note": "Google warns high thinking may significantly delay the first answer token.",
@@ -178,7 +311,12 @@
       "price": "$1.50 / $9",
       "license": "Proprietary",
       "control": "thinking level",
-      "levels": ["minimal", "low", "medium", "high"],
+      "levels": [
+        "minimal",
+        "low",
+        "medium",
+        "high"
+      ],
       "default_level": "medium",
       "speed_band": "fast",
       "speed_note": "Flash family; low thinking minimizes latency and cost.",
@@ -198,7 +336,12 @@
       "price": "$0.25 / $1.50",
       "license": "Proprietary",
       "control": "thinking level",
-      "levels": ["minimal", "low", "medium", "high"],
+      "levels": [
+        "minimal",
+        "low",
+        "medium",
+        "high"
+      ],
       "default_level": "minimal",
       "speed_band": "fast",
       "speed_note": "Google positions Flash-Lite for lower cost and latency.",
@@ -218,7 +361,11 @@
       "price": "$2 / $6",
       "license": "Proprietary",
       "control": "reasoning effort",
-      "levels": ["low", "medium", "high"],
+      "levels": [
+        "low",
+        "medium",
+        "high"
+      ],
       "default_level": "high",
       "speed_band": "fast",
       "speed_note": "xAI reports 80 output tokens/s; vendor measurement conditions are not fully comparable here.",
@@ -238,7 +385,12 @@
       "price": "$1.25 / $2.50",
       "license": "Proprietary",
       "control": "agent count",
-      "levels": ["low", "medium", "high", "xhigh"],
+      "levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
       "default_level": "high",
       "speed_band": "deliberate",
       "speed_note": "Levels control a 4- or 16-agent process, not ordinary reasoning depth.",
@@ -258,12 +410,60 @@
       "price": "$0.50 / $2.50 standard",
       "license": "Proprietary",
       "control": "speed variant",
-      "levels": ["standard", "fast"],
+      "levels": [
+        "standard",
+        "fast"
+      ],
       "default_level": "fast",
       "speed_band": "fast",
       "speed_note": "Fast is the default; Cursor documents no public low/medium/high effort selector.",
       "availability": "Cursor only",
       "source": "https://cursor.com/blog/composer-2-5"
+    },
+    {
+      "id": "kimi-k3",
+      "name": "Kimi K3",
+      "family": "Kimi K3",
+      "provider": "Moonshot AI",
+      "region": "China",
+      "channel": "commercial_api_open_weights_announced",
+      "scope": "core",
+      "status": "stable",
+      "context": "1M",
+      "price": "Not published in the cited launch materials",
+      "license": "Terms pending weight release",
+      "control": "reasoning effort",
+      "levels": [
+        "max"
+      ],
+      "default_level": "max",
+      "speed_band": "deliberate",
+      "speed_note": "No comparable K3 output-rate figure at launch; max thinking is always enabled.",
+      "availability": "API, Kimi, Kimi Work and Kimi Code; weights promised by July 27",
+      "source": "https://www.kimi.com/blog/kimi-k3"
+    },
+    {
+      "id": "kimi-k2.7-code",
+      "name": "Kimi K2.7 Code",
+      "family": "Kimi K2.7",
+      "provider": "Moonshot AI",
+      "region": "China",
+      "channel": "commercial_api",
+      "scope": "core",
+      "status": "specialist",
+      "context": "256K",
+      "price": "Current API pricing",
+      "license": "Proprietary API",
+      "control": "service variant",
+      "levels": [
+        "standard",
+        "high-speed"
+      ],
+      "default_level": "standard",
+      "speed_band": "fast",
+      "speed_note": "High-speed service is documented at about 180 tok/s and up to 260 tok/s for short contexts.",
+      "availability": "Kimi API and Kimi Code",
+      "source": "https://platform.kimi.ai/docs/models"
     },
     {
       "id": "deepseek-v4",
@@ -278,12 +478,19 @@
       "price": "API and self-hosted",
       "license": "MIT",
       "control": "mode",
-      "levels": ["non-think", "think", "max"],
+      "levels": [
+        "non-think",
+        "think",
+        "max"
+      ],
       "default_level": "think",
       "speed_band": "balanced",
       "speed_note": "Flash is the speed/economy variant; exact comparable latency is unknown.",
       "availability": "API and weights",
-      "variants": ["Pro", "Flash"],
+      "variants": [
+        "Pro",
+        "Flash"
+      ],
       "source": "https://api-docs.deepseek.com/news/news260424/"
     },
     {
@@ -299,12 +506,19 @@
       "price": "API and self-hosted",
       "license": "Apache-2.0",
       "control": "mode and token budget",
-      "levels": ["non-thinking", "thinking", "budget"],
+      "levels": [
+        "non-thinking",
+        "thinking",
+        "budget"
+      ],
       "default_level": "thinking",
       "speed_band": "balanced",
       "speed_note": "Budget is provider-native; do not translate it into invented effort labels.",
       "availability": "API and weights",
-      "variants": ["27B", "35B-A3B"],
+      "variants": [
+        "27B",
+        "35B-A3B"
+      ],
       "source": "https://github.com/QwenLM/Qwen3.6"
     },
     {
@@ -320,7 +534,9 @@
       "price": "API and self-hosted",
       "license": "MIT",
       "control": "effort",
-      "levels": ["adaptive"],
+      "levels": [
+        "adaptive"
+      ],
       "default_level": "adaptive",
       "speed_band": "unknown",
       "speed_note": "Architecture efficiency claims are not a comparable API latency measurement.",
@@ -334,18 +550,21 @@
       "provider": "Moonshot AI",
       "region": "China",
       "channel": "open_weight",
-      "scope": "core",
-      "status": "stable",
+      "scope": "extended",
+      "status": "deprecated",
       "context": "256K",
       "price": "API and self-hosted",
       "license": "Modified MIT",
       "control": "mode",
-      "levels": ["instant", "thinking"],
+      "levels": [
+        "instant",
+        "thinking"
+      ],
       "default_level": "thinking",
       "speed_band": "balanced",
       "speed_note": "No comparable official throughput measurement; Instant is the lower-latency mode.",
-      "availability": "API and weights",
-      "source": "https://github.com/MoonshotAI/Kimi-K2.5"
+      "availability": "Existing users only; platform sunset August 31, 2026",
+      "source": "https://platform.kimi.ai/docs/models"
     },
     {
       "id": "minimax-m3",
@@ -360,7 +579,11 @@
       "price": "API and self-hosted",
       "license": "Community; non-commercial by default",
       "control": "thinking mode",
-      "levels": ["disabled", "adaptive", "enabled"],
+      "levels": [
+        "disabled",
+        "adaptive",
+        "enabled"
+      ],
       "default_level": "adaptive",
       "speed_band": "balanced",
       "speed_note": "Vendor claims decode improvements versus M2, not cross-provider latency.",
@@ -381,7 +604,10 @@
       "price": "API and self-hosted",
       "license": "Apache-2.0",
       "control": "reasoning effort",
-      "levels": ["none", "high"],
+      "levels": [
+        "none",
+        "high"
+      ],
       "default_level": "none",
       "speed_band": "fast",
       "speed_note": "Vendor claims 40% lower completion time and 3x requests/s versus Small 3.",
@@ -406,7 +632,10 @@
       "speed_band": "unknown",
       "speed_note": "Performance depends on deployment; no comparable official API latency.",
       "availability": "Weights",
-      "variants": ["Scout", "Maverick"],
+      "variants": [
+        "Scout",
+        "Maverick"
+      ],
       "caveat": "Not OSI-open; EU multimodal and large-platform restrictions apply",
       "source": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
     },
@@ -428,7 +657,12 @@
       "speed_band": "unknown",
       "speed_note": "Deployment dependent; optimized for edge and local use.",
       "availability": "Weights",
-      "variants": ["1B", "4B", "12B", "27B"],
+      "variants": [
+        "1B",
+        "4B",
+        "12B",
+        "27B"
+      ],
       "source": "https://ai.google.dev/gemma/docs/core/model_card_3"
     },
     {
@@ -444,12 +678,19 @@
       "price": "Self-hosted",
       "license": "Apache-2.0 plus usage policy",
       "control": "reasoning effort",
-      "levels": ["low", "medium", "high"],
+      "levels": [
+        "low",
+        "medium",
+        "high"
+      ],
       "default_level": "medium",
       "speed_band": "unknown",
       "speed_note": "Depends on hardware and serving stack.",
       "availability": "Weights",
-      "variants": ["120b", "20b"],
+      "variants": [
+        "120b",
+        "20b"
+      ],
       "source": "https://openai.com/index/introducing-gpt-oss/"
     }
   ],

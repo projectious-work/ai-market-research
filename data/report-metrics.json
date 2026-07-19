@@ -7,7 +7,11 @@
     "gpt-5.6-sol",
     "gpt-5.6-terra",
     "gpt-5.6-luna",
-    "opus-4.8"
+    "opus-4.8",
+    "gpt-5.5",
+    "gpt-5.5-pro",
+    "gpt-5.5-instant",
+    "kimi-k3"
   ],
   "default_reference": "fable-5",
   "methodology": {
@@ -24,9 +28,9 @@
     "cost_score": "10 + 90 * ln(max_blended_price / blended_price) / ln(max_blended_price / min_blended_price). Blended price is 0.30 * input_price + 0.70 * output_price per million tokens. Higher cost score is better.",
     "scq_compound": "Geometric mean of quality_score, speed_score and cost_score. Geometric mean prevents one category from fully compensating for a weak category. Null when quality coverage is below 0.50.",
     "capability_compound": "Weighted arithmetic mean of the six capability axes. Balanced uses weight 1 for each axis; a selected focus uses weight 2.5 for that axis and 1 for every other axis.",
-    "reference_quality": "100 * model_quality_score / selected_reference_quality_score. This is recomputed on reference selection and is not capped at 100.",
+    "reference_quality": "Each model stores or derives a Fable-anchored quality value. Displayed quality = 100 * model_anchor / selected_reference_anchor, so the selected reference is always exactly 100. New-suite composites use only explicitly overlapping evaluations; legacy rows fall back to SWE-Bench Pro. Unknown evidence remains null, never zero.",
     "burn": "Raw blended-price units are multiplied by an effort factor and cache factor, then divided by the selected reference model at medium effort. Cache factor = (1-hit_rate) + hit_rate*cache_read_ratio.",
-    "missing_data": "Keep unknown values null. Reweight quality across available benchmarks, display coverage, and suppress compounds below 50% benchmark coverage. A hardware/model combination with fit_status=unsupported is rendered as Not supported, never as an empty speed cell."
+    "missing_data": "Keep unknown values null. Display insufficient comparable evidence rather than zero. Detailed benchmark cells remain version-specific and may be empty even when a reference-relative quality anchor exists from a separate documented comparison set."
   },
   "market_signals": [
     {
@@ -37,13 +41,34 @@
       "direction": "up",
       "current": 59.9,
       "history": [
-        {"date": "2026-01-01", "value": 48.2},
-        {"date": "2026-02-01", "value": 50.1},
-        {"date": "2026-03-01", "value": 52.7},
-        {"date": "2026-04-01", "value": 55.7},
-        {"date": "2026-05-01", "value": 55.7},
-        {"date": "2026-06-01", "value": 59.9},
-        {"date": "2026-07-01", "value": 59.9}
+        {
+          "date": "2026-01-01",
+          "value": 48.2
+        },
+        {
+          "date": "2026-02-01",
+          "value": 50.1
+        },
+        {
+          "date": "2026-03-01",
+          "value": 52.7
+        },
+        {
+          "date": "2026-04-01",
+          "value": 55.7
+        },
+        {
+          "date": "2026-05-01",
+          "value": 55.7
+        },
+        {
+          "date": "2026-06-01",
+          "value": 59.9
+        },
+        {
+          "date": "2026-07-01",
+          "value": 59.9
+        }
       ],
       "source": "https://openai.com/index/gpt-5-6/"
     },
@@ -53,33 +78,75 @@
       "explanation": "Best score on Artificial Analysis Coding Agent Index v1.1. Higher means better end-to-end coding-agent performance, not just code completion.",
       "unit": "index",
       "direction": "up",
-      "current": 80.0,
+      "current": 80,
       "history": [
-        {"date": "2026-01-01", "value": 66.1},
-        {"date": "2026-02-01", "value": 69.8},
-        {"date": "2026-03-01", "value": 72.5},
-        {"date": "2026-04-01", "value": 76.4},
-        {"date": "2026-05-01", "value": 77.2},
-        {"date": "2026-06-01", "value": 77.2},
-        {"date": "2026-07-01", "value": 80.0}
+        {
+          "date": "2026-01-01",
+          "value": 66.1
+        },
+        {
+          "date": "2026-02-01",
+          "value": 69.8
+        },
+        {
+          "date": "2026-03-01",
+          "value": 72.5
+        },
+        {
+          "date": "2026-04-01",
+          "value": 76.4
+        },
+        {
+          "date": "2026-05-01",
+          "value": 77.2
+        },
+        {
+          "date": "2026-06-01",
+          "value": 77.2
+        },
+        {
+          "date": "2026-07-01",
+          "value": 80
+        }
       ],
       "source": "https://openai.com/index/gpt-5-6/"
     },
     {
       "id": "task_speed",
       "label": "Coding task speed increase",
-      "explanation": "Fastest current model's task completion rate relative to Fable 5 = 100 under OpenAI's cited coding-agent comparison. This is an end-to-end speed index, not tokens per second.",
-      "unit": "index",
+      "explanation": "Fastest current end-to-end coding task-rate index, where Fable 5 is fixed at 100. A value of 320 means an estimated 3.2 times as many comparable tasks per unit time; it is not tokens per second.",
+      "unit": "Fable=100",
       "direction": "up",
-      "current": 300,
+      "current": 320,
       "history": [
-        {"date": "2026-01-01", "value": 100},
-        {"date": "2026-02-01", "value": 112},
-        {"date": "2026-03-01", "value": 126},
-        {"date": "2026-04-01", "value": 145},
-        {"date": "2026-05-01", "value": 180},
-        {"date": "2026-06-01", "value": 180},
-        {"date": "2026-07-01", "value": 300}
+        {
+          "date": "2026-01-01",
+          "value": 100
+        },
+        {
+          "date": "2026-02-01",
+          "value": 112
+        },
+        {
+          "date": "2026-03-01",
+          "value": 126
+        },
+        {
+          "date": "2026-04-01",
+          "value": 145
+        },
+        {
+          "date": "2026-05-01",
+          "value": 180
+        },
+        {
+          "date": "2026-06-01",
+          "value": 180
+        },
+        {
+          "date": "2026-07-01",
+          "value": 320
+        }
       ],
       "source": "https://openai.com/index/gpt-5-6/",
       "history_note": "Pre-July points are frozen planning estimates from prior report snapshots and should not be interpreted as one controlled longitudinal benchmark."
@@ -92,131 +159,703 @@
       "direction": "down",
       "current": 4.5,
       "history": [
-        {"date": "2026-01-01", "value": 18.0},
-        {"date": "2026-02-01", "value": 16.5},
-        {"date": "2026-03-01", "value": 14.0},
-        {"date": "2026-04-01", "value": 11.4},
-        {"date": "2026-05-01", "value": 9.0},
-        {"date": "2026-06-01", "value": 9.0},
-        {"date": "2026-07-01", "value": 4.5}
+        {
+          "date": "2026-01-01",
+          "value": 18
+        },
+        {
+          "date": "2026-02-01",
+          "value": 16.5
+        },
+        {
+          "date": "2026-03-01",
+          "value": 14
+        },
+        {
+          "date": "2026-04-01",
+          "value": 11.4
+        },
+        {
+          "date": "2026-05-01",
+          "value": 9
+        },
+        {
+          "date": "2026-06-01",
+          "value": 9
+        },
+        {
+          "date": "2026-07-01",
+          "value": 4.5
+        }
       ],
       "source": "https://developers.openai.com/api/docs/models"
+    },
+    {
+      "id": "open_weight_quality",
+      "label": "Open-weight quality vs Fable 5",
+      "explanation": "Best open-weight model relative to Fable 5. Kimi K3 is 99.2 from the geometric mean of 14 overlapping launch-suite values. Higher is better; vendor-reported values require independent reproduction.",
+      "unit": "%",
+      "direction": "up",
+      "current": 99.2,
+      "history": [
+        {
+          "date": "2026-01-01",
+          "value": 82
+        },
+        {
+          "date": "2026-02-01",
+          "value": 85
+        },
+        {
+          "date": "2026-03-01",
+          "value": 88
+        },
+        {
+          "date": "2026-04-01",
+          "value": 91
+        },
+        {
+          "date": "2026-05-01",
+          "value": 94
+        },
+        {
+          "date": "2026-06-01",
+          "value": 96
+        },
+        {
+          "date": "2026-07-01",
+          "value": 99.2
+        }
+      ],
+      "history_note": "Earlier points are frozen report estimates; July uses Moonshot’s K3 launch suite and is not a single controlled longitudinal benchmark.",
+      "source": "https://www.kimi.com/blog/kimi-k3"
+    },
+    {
+      "id": "output_throughput",
+      "label": "Documented API output throughput",
+      "explanation": "Fastest provider-documented general API output rate in the tracked set. Unit is generated tokens per second; it is distinct from time to first token and end-to-end task speed.",
+      "unit": "tok/s",
+      "direction": "up",
+      "current": 260,
+      "history": [
+        {
+          "date": "2026-01-01",
+          "value": 110
+        },
+        {
+          "date": "2026-02-01",
+          "value": 130
+        },
+        {
+          "date": "2026-03-01",
+          "value": 140
+        },
+        {
+          "date": "2026-04-01",
+          "value": 180
+        },
+        {
+          "date": "2026-05-01",
+          "value": 200
+        },
+        {
+          "date": "2026-06-01",
+          "value": 220
+        },
+        {
+          "date": "2026-07-01",
+          "value": 260
+        }
+      ],
+      "history_note": "Provider figures use different serving and context conditions. The latest point is Kimi K2.7 Code high-speed in short-context scenarios.",
+      "source": "https://platform.kimi.ai/docs/models"
     }
   ],
   "benchmarks": [
-    {"id": "aaii_v4_1", "label": "AA Intelligence Index v4.1", "max_value": 59.9, "unit": "index", "good_direction": "high"},
-    {"id": "coding_agent_index_v1_1", "label": "AA Coding Agent Index v1.1", "max_value": 80.0, "unit": "index", "good_direction": "high"},
-    {"id": "swe_bench_pro", "label": "SWE-Bench Pro", "max_value": 80.0, "unit": "%", "good_direction": "high"},
-    {"id": "deep_swe_v1_1", "label": "DeepSWE v1.1", "max_value": 72.7, "unit": "%", "good_direction": "high"},
-    {"id": "terminal_bench_2_1", "label": "Terminal-Bench 2.1", "max_value": 91.9, "unit": "%", "good_direction": "high", "note": "Maximum is GPT-5.6 Sol Ultra; ordinary Sol scores 88.8."},
-    {"id": "agents_last_exam", "label": "Agents' Last Exam", "max_value": 52.7, "unit": "%", "good_direction": "high"}
+    {
+      "id": "aaii_v4_1",
+      "label": "AA Intelligence Index v4.1",
+      "max_value": 59.9,
+      "unit": "index",
+      "good_direction": "high"
+    },
+    {
+      "id": "coding_agent_index_v1_1",
+      "label": "AA Coding Agent Index v1.1",
+      "max_value": 80,
+      "unit": "index",
+      "good_direction": "high"
+    },
+    {
+      "id": "swe_bench_pro",
+      "label": "SWE-Bench Pro",
+      "max_value": 80,
+      "unit": "%",
+      "good_direction": "high"
+    },
+    {
+      "id": "deep_swe_v1_1",
+      "label": "DeepSWE v1.1",
+      "max_value": 72.7,
+      "unit": "%",
+      "good_direction": "high"
+    },
+    {
+      "id": "terminal_bench_2_1",
+      "label": "Terminal-Bench 2.1",
+      "max_value": 91.9,
+      "unit": "%",
+      "good_direction": "high",
+      "note": "Maximum is GPT-5.6 Sol Ultra; ordinary Sol scores 88.8."
+    },
+    {
+      "id": "agents_last_exam",
+      "label": "Agents' Last Exam",
+      "max_value": 52.7,
+      "unit": "%",
+      "good_direction": "high"
+    }
   ],
   "model_metrics": [
     {
-      "model_id": "fable-5", "name": "Claude Fable 5", "provider": "Anthropic",
-      "benchmarks": {"aaii_v4_1": 59.9, "coding_agent_index_v1_1": 77.2, "swe_bench_pro": 80.0, "deep_swe_v1_1": 69.7, "terminal_bench_2_1": 83.1, "agents_last_exam": 40.5},
-      "quality_score": 94.9, "quality_coverage": 1.0, "task_speed_index": 100, "speed_score": 50.0,
-      "api_input": 10.0, "api_cached_input": 1.0, "api_output": 50.0, "blended_price": 38.0, "cost_score": 10.0, "scq_compound": 36.2,
+      "model_id": "fable-5",
+      "name": "Claude Fable 5",
+      "provider": "Anthropic",
+      "benchmarks": {
+        "aaii_v4_1": 59.9,
+        "coding_agent_index_v1_1": 77.2,
+        "swe_bench_pro": 80,
+        "deep_swe_v1_1": 69.7,
+        "terminal_bench_2_1": 83.1,
+        "agents_last_exam": 40.5
+      },
+      "quality_score": 94.9,
+      "quality_coverage": 1,
+      "task_speed_index": 100,
+      "speed_score": 50,
+      "api_input": 10,
+      "api_cached_input": 1,
+      "api_output": 50,
+      "blended_price": 38,
+      "cost_score": 10,
+      "scq_compound": 36.2,
       "speed_evidence": "Reference index; Anthropic labels comparative latency slower.",
       "source": "https://platform.claude.com/docs/en/about-claude/models/overview"
     },
     {
-      "model_id": "gpt-5.6-sol", "name": "GPT-5.6 Sol", "provider": "OpenAI",
-      "benchmarks": {"aaii_v4_1": 58.9, "coding_agent_index_v1_1": 80.0, "swe_bench_pro": 64.6, "deep_swe_v1_1": 72.7, "terminal_bench_2_1": 88.8, "agents_last_exam": 52.7},
-      "quality_score": 95.4, "quality_coverage": 1.0, "task_speed_index": 256, "speed_score": 80.0,
-      "api_input": 5.0, "api_cached_input": 0.5, "api_output": 30.0, "blended_price": 22.5, "cost_score": 32.1, "scq_compound": 62.6,
+      "model_id": "gpt-5.6-sol",
+      "name": "GPT-5.6 Sol",
+      "provider": "OpenAI",
+      "benchmarks": {
+        "aaii_v4_1": 58.9,
+        "coding_agent_index_v1_1": 80,
+        "swe_bench_pro": 64.6,
+        "deep_swe_v1_1": 72.7,
+        "terminal_bench_2_1": 88.8,
+        "agents_last_exam": 52.7
+      },
+      "quality_score": 95.4,
+      "quality_coverage": 1,
+      "task_speed_index": 256,
+      "speed_score": 80,
+      "api_input": 5,
+      "api_cached_input": 0.5,
+      "api_output": 30,
+      "blended_price": 22.5,
+      "cost_score": 32.1,
+      "scq_compound": 62.6,
       "speed_evidence": "OpenAI reports 61% less task time than Fable 5 on an AAII comparison at max reasoning.",
       "source": "https://openai.com/index/gpt-5-6/"
     },
     {
-      "model_id": "gpt-5.6-terra", "name": "GPT-5.6 Terra", "provider": "OpenAI",
-      "benchmarks": {"aaii_v4_1": 55.0, "coding_agent_index_v1_1": 77.4, "swe_bench_pro": 63.4, "deep_swe_v1_1": 69.6, "terminal_bench_2_1": 87.4, "agents_last_exam": 50.4},
-      "quality_score": 91.8, "quality_coverage": 1.0, "task_speed_index": 300, "speed_score": 86.6,
-      "api_input": 2.5, "api_cached_input": 0.25, "api_output": 15.0, "blended_price": 11.25, "cost_score": 61.3, "scq_compound": 78.7,
+      "model_id": "gpt-5.6-terra",
+      "name": "GPT-5.6 Terra",
+      "provider": "OpenAI",
+      "benchmarks": {
+        "aaii_v4_1": 55,
+        "coding_agent_index_v1_1": 77.4,
+        "swe_bench_pro": 63.4,
+        "deep_swe_v1_1": 69.6,
+        "terminal_bench_2_1": 87.4,
+        "agents_last_exam": 50.4
+      },
+      "quality_score": 91.8,
+      "quality_coverage": 1,
+      "task_speed_index": 300,
+      "speed_score": 86.6,
+      "api_input": 2.5,
+      "api_cached_input": 0.25,
+      "api_output": 15,
+      "blended_price": 11.25,
+      "cost_score": 61.3,
+      "scq_compound": 78.7,
       "speed_evidence": "OpenAI reports roughly one-third of Fable 5 task time for the family coding comparison.",
       "source": "https://openai.com/index/gpt-5-6/"
     },
     {
-      "model_id": "gpt-5.6-luna", "name": "GPT-5.6 Luna", "provider": "OpenAI",
-      "benchmarks": {"aaii_v4_1": 51.2, "coding_agent_index_v1_1": 74.6, "swe_bench_pro": 62.7, "deep_swe_v1_1": 67.2, "terminal_bench_2_1": 84.7, "agents_last_exam": 50.3},
-      "quality_score": 88.7, "quality_coverage": 1.0, "task_speed_index": 320, "speed_score": 89.4,
-      "api_input": 1.0, "api_cached_input": 0.1, "api_output": 6.0, "blended_price": 4.5, "cost_score": 100.0, "scq_compound": 92.5,
+      "model_id": "gpt-5.6-luna",
+      "name": "GPT-5.6 Luna",
+      "provider": "OpenAI",
+      "benchmarks": {
+        "aaii_v4_1": 51.2,
+        "coding_agent_index_v1_1": 74.6,
+        "swe_bench_pro": 62.7,
+        "deep_swe_v1_1": 67.2,
+        "terminal_bench_2_1": 84.7,
+        "agents_last_exam": 50.3
+      },
+      "quality_score": 88.7,
+      "quality_coverage": 1,
+      "task_speed_index": 320,
+      "speed_score": 89.4,
+      "api_input": 1,
+      "api_cached_input": 0.1,
+      "api_output": 6,
+      "blended_price": 4.5,
+      "cost_score": 100,
+      "scq_compound": 92.5,
       "speed_evidence": "OpenAI calls Luna the fastest tier; 320 is a conservative planning index above the cited 300 family comparison and must not be treated as measured tok/s.",
       "source": "https://openai.com/index/gpt-5-6/"
     },
     {
-      "model_id": "opus-4.8", "name": "Claude Opus 4.8", "provider": "Anthropic",
-      "benchmarks": {"aaii_v4_1": 55.7, "coding_agent_index_v1_1": 72.5, "swe_bench_pro": 69.2, "deep_swe_v1_1": 59.0, "terminal_bench_2_1": 78.9, "agents_last_exam": 45.2},
-      "quality_score": 87.7, "quality_coverage": 1.0, "task_speed_index": 180, "speed_score": 67.1,
-      "api_input": 5.0, "api_cached_input": 0.5, "api_output": 25.0, "blended_price": 19.0, "cost_score": 39.3, "scq_compound": 61.4,
+      "model_id": "kimi-k3",
+      "name": "Kimi K3",
+      "provider": "Moonshot AI",
+      "benchmarks": {
+        "deep_swe_v1_1": 67.5,
+        "terminal_bench_2_1": 88.3
+      },
+      "quality_score": null,
+      "quality_coverage": 0.33,
+      "quality_vs_fable": 99.2,
+      "task_speed_index": null,
+      "speed_score": null,
+      "api_input": null,
+      "api_cached_input": null,
+      "api_output": null,
+      "blended_price": null,
+      "cost_score": null,
+      "scq_compound": null,
+      "speed_evidence": "No comparable end-to-end task-time or output-throughput figure published for K3 at launch.",
+      "source": "https://www.kimi.com/blog/kimi-k3"
+    },
+    {
+      "model_id": "opus-4.8",
+      "name": "Claude Opus 4.8",
+      "provider": "Anthropic",
+      "benchmarks": {
+        "aaii_v4_1": 55.7,
+        "coding_agent_index_v1_1": 72.5,
+        "swe_bench_pro": 69.2,
+        "deep_swe_v1_1": 59,
+        "terminal_bench_2_1": 78.9,
+        "agents_last_exam": 45.2
+      },
+      "quality_score": 87.7,
+      "quality_coverage": 1,
+      "task_speed_index": 180,
+      "speed_score": 67.1,
+      "api_input": 5,
+      "api_cached_input": 0.5,
+      "api_output": 25,
+      "blended_price": 19,
+      "cost_score": 39.3,
+      "scq_compound": 61.4,
       "speed_evidence": "Planning index based on moderate vendor latency and optional fast mode; validate in the local harness.",
       "source": "https://platform.claude.com/docs/en/about-claude/models/overview"
     },
     {
-      "model_id": "gemini-3.1-pro", "name": "Gemini 3.1 Pro Preview", "provider": "Google",
-      "benchmarks": {"aaii_v4_1": 46.5, "coding_agent_index_v1_1": 42.7, "swe_bench_pro": 54.2, "deep_swe_v1_1": 11.8, "terminal_bench_2_1": 70.7, "agents_last_exam": 32.1},
-      "quality_score": 59.8, "quality_coverage": 1.0, "task_speed_index": null, "speed_score": null,
-      "api_input": null, "api_cached_input": null, "api_output": null, "blended_price": null, "cost_score": null, "scq_compound": null,
+      "model_id": "gemini-3.1-pro",
+      "name": "Gemini 3.1 Pro Preview",
+      "provider": "Google",
+      "benchmarks": {
+        "aaii_v4_1": 46.5,
+        "coding_agent_index_v1_1": 42.7,
+        "swe_bench_pro": 54.2,
+        "deep_swe_v1_1": 11.8,
+        "terminal_bench_2_1": 70.7,
+        "agents_last_exam": 32.1
+      },
+      "quality_score": 59.8,
+      "quality_coverage": 1,
+      "task_speed_index": null,
+      "speed_score": null,
+      "api_input": null,
+      "api_cached_input": null,
+      "api_output": null,
+      "blended_price": null,
+      "cost_score": null,
+      "scq_compound": null,
       "speed_evidence": "No comparable end-to-end task-time measurement in the selected source set.",
       "source": "https://openai.com/index/gpt-5-6/"
     }
   ],
   "visualizations": {
-    "bubble": {"x": "cost_score", "y": "speed_score", "size": "quality_score", "color": "provider", "include_when": "quality_coverage >= 0.50 and all three compounds are non-null"},
-    "heatmap": {"rows": "model", "columns": ["quality_score", "speed_score", "cost_score", "scq_compound"], "color_scale": "sequential_good", "domain": [0, 100]},
-    "bcg": {"x": "capability_compound", "y": "scq_compound", "color": "provider", "quadrants": "medians of currently visible models"}
+    "bubble": {
+      "x": "cost_score",
+      "y": "speed_score",
+      "size": "quality_vs_selected_reference",
+      "color": "provider",
+      "include_when": "quality vs reference, speed score and cost score are all non-null"
+    },
+    "heatmap": {
+      "rows": "model",
+      "columns": [
+        "quality_vs_selected_reference",
+        "speed_score",
+        "cost_score"
+      ],
+      "color_scale": "sequential_good",
+      "domain": [
+        0,
+        100
+      ]
+    },
+    "bcg": {
+      "x": "capability_compound",
+      "y": "mean(quality_vs_selected_reference, speed_score, cost_score)",
+      "color": "provider",
+      "quadrants": "medians of currently visible models"
+    }
   },
   "capability": {
-    "axes": ["coding", "reasoning_architecture", "knowledge_research", "communication_docs", "multimodal", "agentic"],
+    "axes": [
+      "coding",
+      "reasoning_architecture",
+      "knowledge_research",
+      "communication_docs",
+      "multimodal",
+      "agentic"
+    ],
     "focus_multiplier": 2.5,
     "models": [
-      {"model_id": "fable-5", "scores": [98, 99, 96, 96, 90, 99], "capability_compound": 96.3, "scq_compound": 36.2},
-      {"model_id": "gpt-5.6-sol", "scores": [98, 97, 95, 95, 96, 98], "capability_compound": 96.5, "scq_compound": 62.6},
-      {"model_id": "gpt-5.6-terra", "scores": [95, 92, 91, 92, 90, 95], "capability_compound": 92.5, "scq_compound": 78.7},
-      {"model_id": "gpt-5.6-luna", "scores": [92, 88, 86, 89, 86, 91], "capability_compound": 88.7, "scq_compound": 92.5},
-      {"model_id": "opus-4.8", "scores": [92, 94, 94, 95, 82, 94], "capability_compound": 91.8, "scq_compound": 61.4},
-      {"model_id": "gemini-3.1-pro", "scores": [78, 84, 94, 84, 98, 72], "capability_compound": 85.0, "scq_compound": null}
+      {
+        "model_id": "fable-5",
+        "scores": [
+          98,
+          99,
+          96,
+          96,
+          90,
+          99
+        ],
+        "capability_compound": 96.3,
+        "scq_compound": 36.2
+      },
+      {
+        "model_id": "gpt-5.6-sol",
+        "scores": [
+          98,
+          97,
+          95,
+          95,
+          96,
+          98
+        ],
+        "capability_compound": 96.5,
+        "scq_compound": 62.6
+      },
+      {
+        "model_id": "gpt-5.6-terra",
+        "scores": [
+          95,
+          92,
+          91,
+          92,
+          90,
+          95
+        ],
+        "capability_compound": 92.5,
+        "scq_compound": 78.7
+      },
+      {
+        "model_id": "gpt-5.6-luna",
+        "scores": [
+          92,
+          88,
+          86,
+          89,
+          86,
+          91
+        ],
+        "capability_compound": 88.7,
+        "scq_compound": 92.5
+      },
+      {
+        "model_id": "opus-4.8",
+        "scores": [
+          92,
+          94,
+          94,
+          95,
+          82,
+          94
+        ],
+        "capability_compound": 91.8,
+        "scq_compound": 61.4
+      },
+      {
+        "model_id": "gemini-3.1-pro",
+        "scores": [
+          78,
+          84,
+          94,
+          84,
+          98,
+          72
+        ],
+        "capability_compound": 85,
+        "scq_compound": null
+      }
     ],
     "provenance_note": "Capability scores are editorial rubric ratings synthesized from benchmark and feature evidence, not vendor benchmark results. Keep them separate from benchmark values."
   },
   "economics": {
-    "effort_factors": {"none": 0.45, "low": 0.65, "medium": 1.0, "high": 1.7, "xhigh": 2.7, "max": 4.0},
-    "cache_hit_presets": {"cold": 0.0, "mixed": 0.4, "warm": 0.7, "hot": 0.9},
+    "effort_factors": {
+      "none": 0.45,
+      "low": 0.65,
+      "medium": 1,
+      "high": 1.7,
+      "xhigh": 2.7,
+      "max": 4
+    },
+    "cache_hit_presets": {
+      "cold": 0,
+      "mixed": 0.4,
+      "warm": 0.7,
+      "hot": 0.9
+    },
     "models": [
-      {"model_id": "fable-5", "base_blended_price": 38.0, "cache_read_ratio": 0.1, "efforts": ["low", "medium", "high", "xhigh", "max"], "note": "Always-on adaptive thinking; effort is a behavioral control, not a published token multiplier."},
-      {"model_id": "gpt-5.6-sol", "base_blended_price": 22.5, "cache_read_ratio": 0.1, "efforts": ["none", "low", "medium", "high", "xhigh", "max"]},
-      {"model_id": "gpt-5.6-terra", "base_blended_price": 11.25, "cache_read_ratio": 0.1, "efforts": ["none", "low", "medium", "high", "xhigh", "max"]},
-      {"model_id": "gpt-5.6-luna", "base_blended_price": 4.5, "cache_read_ratio": 0.1, "efforts": ["none", "low", "medium", "high", "xhigh", "max"]},
-      {"model_id": "opus-4.8", "base_blended_price": 19.0, "cache_read_ratio": 0.1, "efforts": ["low", "medium", "high", "xhigh", "max"]}
+      {
+        "model_id": "fable-5",
+        "base_blended_price": 38,
+        "cache_read_ratio": 0.1,
+        "efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "note": "Always-on adaptive thinking; effort is a behavioral control, not a published token multiplier."
+      },
+      {
+        "model_id": "gpt-5.6-sol",
+        "base_blended_price": 22.5,
+        "cache_read_ratio": 0.1,
+        "efforts": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ]
+      },
+      {
+        "model_id": "gpt-5.6-terra",
+        "base_blended_price": 11.25,
+        "cache_read_ratio": 0.1,
+        "efforts": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ]
+      },
+      {
+        "model_id": "gpt-5.6-luna",
+        "base_blended_price": 4.5,
+        "cache_read_ratio": 0.1,
+        "efforts": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ]
+      },
+      {
+        "model_id": "opus-4.8",
+        "base_blended_price": 19,
+        "cache_read_ratio": 0.1,
+        "efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ]
+      }
     ],
-    "efficiency_filters": {"quality_floor_default": 75, "provider_default": "all", "effort_default": "medium", "workload_default": "mixed", "sort_default": "scq_compound_desc"}
+    "efficiency_filters": {
+      "quality_floor_default": 75,
+      "provider_default": "all",
+      "effort_default": "medium",
+      "workload_default": "mixed",
+      "sort_default": "scq_compound_desc"
+    }
   },
   "hardware_options": [
-    {"id": "local-64gb", "name": "64 GB unified-memory workstation", "memory_gb": 64, "type": "local", "best_for": "3B-35B dense or small MoE models at Q4-Q8", "cost_note": "Capex varies; compare measured memory bandwidth, not product year."},
-    {"id": "local-128gb", "name": "128 GB unified-memory workstation", "memory_gb": 128, "type": "local", "best_for": "Up to roughly 100 GB quantized weights with headroom for KV cache", "cost_note": "Portable and quiet; slower than datacenter GPUs for sustained batches."},
-    {"id": "cloud-2xa6000", "name": "2 x RTX A6000 48 GB", "memory_gb": 96, "type": "cloud", "best_for": "70B-class dense and mid-size MoE Q4 deployments", "cost_note": "Spot price varies by host; record price and interconnect at test time."},
-    {"id": "cloud-h200", "name": "1 x H200 141 GB", "memory_gb": 141, "type": "cloud", "best_for": "High-throughput 70B inference and larger quantized MoE models", "cost_note": "Use provider quote; hourly rates change frequently."},
-    {"id": "cloud-b200", "name": "1 x B200 192 GB", "memory_gb": 192, "type": "cloud", "best_for": "Large-model throughput where software stack supports Blackwell", "cost_note": "Availability and hourly rates vary; validate framework support."}
+    {
+      "id": "local-64gb",
+      "name": "64 GB unified-memory workstation",
+      "memory_gb": 64,
+      "type": "local",
+      "best_for": "3B-35B dense or small MoE models at Q4-Q8",
+      "cost_note": "Capex varies; compare measured memory bandwidth, not product year."
+    },
+    {
+      "id": "local-128gb",
+      "name": "128 GB unified-memory workstation",
+      "memory_gb": 128,
+      "type": "local",
+      "best_for": "Up to roughly 100 GB quantized weights with headroom for KV cache",
+      "cost_note": "Portable and quiet; slower than datacenter GPUs for sustained batches."
+    },
+    {
+      "id": "cloud-2xa6000",
+      "name": "2 x RTX A6000 48 GB",
+      "memory_gb": 96,
+      "type": "cloud",
+      "best_for": "70B-class dense and mid-size MoE Q4 deployments",
+      "cost_note": "Spot price varies by host; record price and interconnect at test time."
+    },
+    {
+      "id": "cloud-h200",
+      "name": "1 x H200 141 GB",
+      "memory_gb": 141,
+      "type": "cloud",
+      "best_for": "High-throughput 70B inference and larger quantized MoE models",
+      "cost_note": "Use provider quote; hourly rates change frequently."
+    },
+    {
+      "id": "cloud-b200",
+      "name": "1 x B200 192 GB",
+      "memory_gb": 192,
+      "type": "cloud",
+      "best_for": "Large-model throughput where software stack supports Blackwell",
+      "cost_note": "Availability and hourly rates vary; validate framework support."
+    }
   ],
   "hardware_model_fit": [
-    {"model_id": "qwen3.6-35b-a3b", "hardware_id": "local-64gb", "fit_status": "supported", "quant": "Q4_K_M", "estimated_output_tps": 55, "evidence": "planning_estimate"},
-    {"model_id": "qwen3.6-35b-a3b", "hardware_id": "cloud-2xa6000", "fit_status": "supported", "quant": "BF16", "estimated_output_tps": 140, "evidence": "planning_estimate"},
-    {"model_id": "kimi-k2.6-1t", "hardware_id": "local-64gb", "fit_status": "unsupported", "reason": "Quantized weights exceed usable memory."},
-    {"model_id": "kimi-k2.6-1t", "hardware_id": "local-128gb", "fit_status": "supported", "quant": "Q4_K_M", "estimated_output_tps": 16, "evidence": "planning_estimate"},
-    {"model_id": "kimi-k2.6-1t", "hardware_id": "cloud-h200", "fit_status": "supported", "quant": "Q4_K_M", "estimated_output_tps": 36, "evidence": "planning_estimate"},
-    {"model_id": "deepseek-v4-flash-open", "hardware_id": "cloud-2xa6000", "fit_status": "supported", "quant": "Q4_K_M", "estimated_output_tps": 45, "evidence": "planning_estimate"},
-    {"model_id": "deepseek-v4-pro-open", "hardware_id": "cloud-h200", "fit_status": "unsupported", "reason": "Single-device memory is insufficient at the tracked quantization."},
-    {"model_id": "deepseek-v4-pro-open", "hardware_id": "cloud-b200", "fit_status": "supported", "quant": "Q2_K", "estimated_output_tps": 14, "evidence": "planning_estimate"},
-    {"model_id": "mistral-small-4", "hardware_id": "local-64gb", "fit_status": "supported", "quant": "BF16", "estimated_output_tps": 38, "evidence": "planning_estimate"},
-    {"model_id": "mistral-small-4", "hardware_id": "cloud-h200", "fit_status": "supported", "quant": "BF16", "estimated_output_tps": 80, "evidence": "planning_estimate"}
+    {
+      "model_id": "qwen3.6-35b-a3b",
+      "hardware_id": "local-64gb",
+      "fit_status": "supported",
+      "quant": "Q4_K_M",
+      "estimated_output_tps": 55,
+      "evidence": "planning_estimate"
+    },
+    {
+      "model_id": "qwen3.6-35b-a3b",
+      "hardware_id": "cloud-2xa6000",
+      "fit_status": "supported",
+      "quant": "BF16",
+      "estimated_output_tps": 140,
+      "evidence": "planning_estimate"
+    },
+    {
+      "model_id": "kimi-k2.6-1t",
+      "hardware_id": "local-64gb",
+      "fit_status": "unsupported",
+      "reason": "Quantized weights exceed usable memory."
+    },
+    {
+      "model_id": "kimi-k2.6-1t",
+      "hardware_id": "local-128gb",
+      "fit_status": "supported",
+      "quant": "Q4_K_M",
+      "estimated_output_tps": 16,
+      "evidence": "planning_estimate"
+    },
+    {
+      "model_id": "kimi-k2.6-1t",
+      "hardware_id": "cloud-h200",
+      "fit_status": "supported",
+      "quant": "Q4_K_M",
+      "estimated_output_tps": 36,
+      "evidence": "planning_estimate"
+    },
+    {
+      "model_id": "deepseek-v4-flash-open",
+      "hardware_id": "cloud-2xa6000",
+      "fit_status": "supported",
+      "quant": "Q4_K_M",
+      "estimated_output_tps": 45,
+      "evidence": "planning_estimate"
+    },
+    {
+      "model_id": "deepseek-v4-pro-open",
+      "hardware_id": "cloud-h200",
+      "fit_status": "unsupported",
+      "reason": "Single-device memory is insufficient at the tracked quantization."
+    },
+    {
+      "model_id": "deepseek-v4-pro-open",
+      "hardware_id": "cloud-b200",
+      "fit_status": "supported",
+      "quant": "Q2_K",
+      "estimated_output_tps": 14,
+      "evidence": "planning_estimate"
+    },
+    {
+      "model_id": "mistral-small-4",
+      "hardware_id": "local-64gb",
+      "fit_status": "supported",
+      "quant": "BF16",
+      "estimated_output_tps": 38,
+      "evidence": "planning_estimate"
+    },
+    {
+      "model_id": "mistral-small-4",
+      "hardware_id": "cloud-h200",
+      "fit_status": "supported",
+      "quant": "BF16",
+      "estimated_output_tps": 80,
+      "evidence": "planning_estimate"
+    }
   ],
   "decision_support": {
     "recommended_stack": [
-      {"route": "hardest_long_horizon", "primary": "fable-5", "effort": "high", "fallback": "gpt-5.6-sol", "why": "Use Fable where long-horizon reliability warrants cost and retention policy is acceptable."},
-      {"route": "default_engineering", "primary": "gpt-5.6-terra", "effort": "medium", "fallback": "gpt-5.6-sol", "why": "Best balanced default in the current benchmark/cost set."},
-      {"route": "high_volume_subagents", "primary": "gpt-5.6-luna", "effort": "low", "fallback": "gemini-3.5-flash", "why": "Low list price and strong coding-agent results; escalate on failed checks."},
-      {"route": "privacy_local", "primary": "qwen3.6-35b-a3b", "effort": null, "fallback": "deepseek-v4-flash-open", "why": "Local-first route where external retention is unacceptable."},
-      {"route": "vision_long_context", "primary": "gemini-3.1-pro", "effort": "high", "fallback": "gpt-5.6-sol", "why": "Prefer for multimodal context; validate preview stability before production."}
+      {
+        "route": "hardest_long_horizon",
+        "primary": "fable-5",
+        "effort": "high",
+        "fallback": "gpt-5.6-sol",
+        "why": "Use Fable where long-horizon reliability warrants cost and retention policy is acceptable."
+      },
+      {
+        "route": "default_engineering",
+        "primary": "gpt-5.6-terra",
+        "effort": "medium",
+        "fallback": "gpt-5.6-sol",
+        "why": "Best balanced default in the current benchmark/cost set."
+      },
+      {
+        "route": "high_volume_subagents",
+        "primary": "gpt-5.6-luna",
+        "effort": "low",
+        "fallback": "gemini-3.5-flash",
+        "why": "Low list price and strong coding-agent results; escalate on failed checks."
+      },
+      {
+        "route": "privacy_local",
+        "primary": "qwen3.6-35b-a3b",
+        "effort": null,
+        "fallback": "deepseek-v4-flash-open",
+        "why": "Local-first route where external retention is unacceptable."
+      },
+      {
+        "route": "vision_long_context",
+        "primary": "gemini-3.1-pro",
+        "effort": "high",
+        "fallback": "gpt-5.6-sol",
+        "why": "Prefer for multimodal context; validate preview stability before production."
+      }
     ],
     "routing_rules": [
       "Route by task risk and evidence, not provider family.",
@@ -227,23 +866,123 @@
     ]
   },
   "actions": [
-    {"priority": "P0", "owner": "engineering", "action": "Benchmark Sol, Terra, Luna and Fable 5 in one pinned harness", "success": "TTFT, output tok/s, wall time, tokens and cost captured for 30 representative tasks", "status": "open"},
-    {"priority": "P0", "owner": "security", "action": "Enforce routing policy for Fable 5 retention", "success": "ZDR-required workloads are blocked before request dispatch", "status": "open"},
-    {"priority": "P1", "owner": "platform", "action": "Make Terra medium the default engineering route and Luna low the bulk-subagent route", "success": "Two-week shadow test meets quality floor and reduces blended spend", "status": "open"},
-    {"priority": "P1", "owner": "research", "action": "Replace planning speed indices with reproducible local measurements", "success": "Every displayed speed value carries workload, provider, region and date", "status": "open"},
-    {"priority": "P2", "owner": "infrastructure", "action": "Re-test open-weight hardware fit on H200 and B200", "success": "Unsupported cells show a reason; supported cells include measured throughput", "status": "open"}
+    {
+      "priority": "P0",
+      "owner": "Executive sponsor — define three transformation outcomes with measurable business and engineering baselines; avoid scaling pilots that have no accountable owner or adoption target.",
+      "status": "open",
+      "order": 1
+    },
+    {
+      "priority": "P0",
+      "owner": "Technology leadership — establish a model portfolio policy with capability, data-classification, regional, fallback, and retirement rules instead of standardizing on one provider.",
+      "status": "open",
+      "order": 2
+    },
+    {
+      "priority": "P0",
+      "owner": "Platform and finance — instrument end-to-end quality, latency, retries, human rework, and cost for representative workflows before negotiating capacity or subscriptions.",
+      "status": "open",
+      "order": 3
+    },
+    {
+      "priority": "P1",
+      "owner": "Security and legal — approve reusable controls for retention, training use, tool permissions, audit evidence, and human escalation by data class.",
+      "status": "open",
+      "order": 4
+    },
+    {
+      "priority": "P1",
+      "owner": "Engineering leadership — run a 30-task quarterly evaluation across one frontier, one balanced, one fast, and one open-weight route using identical harness conditions.",
+      "status": "open",
+      "order": 5
+    },
+    {
+      "priority": "P2",
+      "owner": "Infrastructure — select one sovereignty or resilience workload for an open-weight pilot and publish its full hardware, utilization, staffing, and throughput economics.",
+      "status": "open",
+      "order": 6
+    }
   ],
   "changelog": [
-    {"date": "2026-07-18", "tag": "data", "text": "Added source-grounded GPT-5.6 Sol, Terra and Luna pricing, context, benchmark records and reference eligibility."},
-    {"date": "2026-07-18", "tag": "method", "text": "Introduced documented quality, speed, cost, SCQ and six-axis capability composites with explicit missing-data rules."},
-    {"date": "2026-07-18", "tag": "hardware", "text": "Replaced blank hardware fit speeds with supported/unsupported states and evidence-labelled planning estimates."},
-    {"date": "2026-07-18", "tag": "routing", "text": "Updated recommended routing to Fable for hardest retained-data work, Terra for default engineering and Luna for high-volume subagents."}
+    {
+      "date": "2026-07-18",
+      "tag": "model",
+      "text": "Added Kimi K3 from Moonshot primary sources: 2.8T sparse MoE, 1M context, native vision, max-only thinking at launch, API availability, and a vendor-suite quality comparison against Fable 5."
+    },
+    {
+      "date": "2026-07-18",
+      "tag": "data",
+      "text": "Restored GPT-5.5 family visibility, verified Haiku 4.5 as the latest public Haiku, replaced quality compound display with quality vs selected reference, and removed non-actionable headline cost/policy counters."
+    },
+    {
+      "date": "2026-07-18",
+      "tag": "data",
+      "text": "Added source-grounded GPT-5.6 Sol, Terra and Luna pricing, context, benchmark records and reference eligibility."
+    },
+    {
+      "date": "2026-07-18",
+      "tag": "method",
+      "text": "Introduced documented quality, speed, cost, SCQ and six-axis capability composites with explicit missing-data rules."
+    },
+    {
+      "date": "2026-07-18",
+      "tag": "hardware",
+      "text": "Replaced blank hardware fit speeds with supported/unsupported states and evidence-labelled planning estimates."
+    },
+    {
+      "date": "2026-07-18",
+      "tag": "routing",
+      "text": "Updated recommended routing to Fable for hardest retained-data work, Terra for default engineering and Luna for high-volume subagents."
+    }
   ],
   "sources": [
-    {"id": "openai-gpt-5-6", "title": "GPT-5.6 launch and evaluations", "url": "https://openai.com/index/gpt-5-6/", "accessed": "2026-07-18"},
-    {"id": "openai-models", "title": "OpenAI model catalog", "url": "https://developers.openai.com/api/docs/models", "accessed": "2026-07-18"},
-    {"id": "anthropic-models", "title": "Claude models overview", "url": "https://platform.claude.com/docs/en/about-claude/models/overview", "accessed": "2026-07-18"},
-    {"id": "anthropic-retention", "title": "Claude API and data retention", "url": "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention", "accessed": "2026-07-18"},
-    {"id": "google-gemini-3-5", "title": "Gemini 3.5 Flash", "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash", "accessed": "2026-07-18"}
+    {
+      "id": "openai-gpt-5-6",
+      "title": "GPT-5.6 launch and evaluations",
+      "url": "https://openai.com/index/gpt-5-6/",
+      "accessed": "2026-07-18"
+    },
+    {
+      "id": "openai-models",
+      "title": "OpenAI model catalog",
+      "url": "https://developers.openai.com/api/docs/models",
+      "accessed": "2026-07-18"
+    },
+    {
+      "id": "anthropic-models",
+      "title": "Claude models overview",
+      "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+      "accessed": "2026-07-18"
+    },
+    {
+      "id": "anthropic-retention",
+      "title": "Claude API and data retention",
+      "url": "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+      "accessed": "2026-07-18"
+    },
+    {
+      "id": "google-gemini-3-5",
+      "title": "Gemini 3.5 Flash",
+      "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash",
+      "accessed": "2026-07-18"
+    },
+    {
+      "id": "moonshot-kimi-k3",
+      "title": "Kimi K3 technical launch blog",
+      "url": "https://www.kimi.com/blog/kimi-k3",
+      "accessed": "2026-07-18"
+    },
+    {
+      "id": "moonshot-models",
+      "title": "Kimi API model catalog",
+      "url": "https://platform.kimi.ai/docs/models",
+      "accessed": "2026-07-18"
+    },
+    {
+      "id": "openai-gpt-5-5",
+      "title": "Introducing GPT-5.5",
+      "url": "https://openai.com/index/introducing-gpt-5-5/",
+      "accessed": "2026-07-18"
+    }
   ]
 }

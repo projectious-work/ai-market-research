@@ -20,8 +20,9 @@ hold, which agent harness to run, and what to self-host.
 ## What it tracks
 
 1. **Current model roster** — a concise view of Anthropic, OpenAI, Google,
-   xAI, Meta, Mistral, Cursor, and major Chinese labs. The default view shows
-   representative models rather than every sibling release.
+   xAI, Meta, Mistral, Cursor, and major Chinese labs. The roster includes Kimi
+   K3 and the still-available GPT-5.5 family while keeping sibling variants
+   curated rather than exhaustive.
 2. **Model configurations** — provider-native reasoning controls such as
    effort, thinking levels, token budgets, modes, and speed variants. Claude
    Fable 5 is the default reference for the v2 report.
@@ -44,8 +45,8 @@ hold, which agent harness to run, and what to self-host.
 - `data/market-state.json` — original report data and compatibility schema.
 - `data/model-roster-v2.json` — sourced current roster, inclusion policy,
   configuration controls, and speed methodology.
-- `data/report-metrics.json` — normalized benchmarks, compound scores, trend
-  series, current economics, hardware fit, and decision-support data.
+- `data/report-metrics.json` — benchmark evidence, reference-relative quality,
+  trend series, current economics, hardware fit, and decision-support data.
 - `src/dashboard.template.html` — single self-contained HTML scaffold
   with a `__MARKET_DATA__` placeholder.
 - `src/scripts/build.py` — validates and embeds all three JSON inputs,
@@ -121,9 +122,9 @@ Do not cut a version directly before the release gates have been evaluated.
 
 ## Contributing
 
-This is a personal-research tool maintained for one user's decision-making
-context, but the code is MIT-licensed — fork it freely if the structure is
-useful as a template for your own market-watching dashboards.
+This is a public, executive-oriented market report and a reusable static
+dashboard implementation. The code is MIT-licensed; fork it freely if the
+structure is useful for your own market-watching workflow.
 
 ## License
 

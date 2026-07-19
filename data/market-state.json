@@ -1,79 +1,156 @@
 {
   "meta": {
-    "generated_at": "2026-07-18T12:00:00Z",
+    "generated_at": "2026-07-18T18:00:00Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
   "executive_summary": {
-    "models": "Claude Fable 5 is the new default reference: Anthropic's most capable widely released model, with 1M context, adaptive thinking, and a deliberate latency profile. OpenAI's GPT-5.6 family now separates Sol, Terra, and Luna, each with none through max effort levels; Google spans preview Gemini 3.1 Pro and stable Gemini 3.5 Flash / 3.1 Flash-Lite; xAI's current flagship is Grok 4.5. The v2 roster also covers Cursor Composer 2.5, Meta Llama 4, Mistral, and the major Chinese open-weight families without giving every sibling an equal top-level row.",
-    "harnesses": "Anthropic OAuth third-party block has been enforced since April 4, 2026 — Pro/Max subscriptions no longer cover third-party harnesses. Claude Code was removed from the standard Pro tier in April. May 14 announcement: from June 15 Pro/Max splits into a Chat pool plus a separate Agent SDK credit pool ($20/$100/$200). Cursor 3.5 ships Cloud Agents in isolated VMs; Windsurf has been rebranded to Devin Desktop with the SWE-1.6 model. GitHub Copilot CLI hit GA on Feb 25; Gemini CLI's last major release (v0.44.0) lands on May 27 before the June 18 sunset to Antigravity CLI (free tier).",
-    "self_hosting": "Nvidia is now a serious open-weights player: Nemotron 3 Ultra (550B / 55B active MoE, hybrid Mamba-Transformer, 1M context) launched at Computex June 4 under the NVIDIA Open Model License, alongside a Coalition with Mistral, Cursor, Black Forest Labs, Thinking Machines Lab and others. Kimi K2.6 (1T MoE, 80.2% SWE-Verified, AAII 54) is the current top open intelligence. DeepSeek V4-Pro and V4-Flash (both MIT) and Qwen 3.6-35B-A3B remain the price/performance leaders, with license drift continuing toward MIT/Apache. 1M context is now standard; Llama 4 Scout's 10M remains an outlier.",
-    "strategy": "Compare exact model configurations, not family names alone. Use Fable 5 as the maximum-capability reference while accounting for its 30-day retention and lack of zero-data-retention. Keep one flagship, one balanced or fast option, and one specialist per provider in the default roster; expand siblings only when needed. Treat TTFT, output throughput, and end-to-end task time as separate speed evidence, with provider claims labelled and unknown values left unknown."
+    "models": [
+      "**Kimi K3 resets the open-weight frontier.** Moonshot reports a 2.8T sparse MoE, native vision, 1M context, and 99% of Fable 5 across 14 overlapping launch-suite evaluations; weights are promised by July 27.",
+      "**GPT-5.6 now spans Sol, Terra and Luna**, giving leaders a deliberate capability, balanced, and high-throughput ladder under one family.",
+      "**GPT-5.5 remains active in Codex and the API.** It is retained as a compatibility and portfolio option rather than being hidden by the newer 5.6 family.",
+      "**Claude Haiku 4.5 remains Anthropic’s latest verified Haiku.** No official Haiku 5 listing was found in Anthropic’s current model catalog."
+    ],
+    "harnesses": [
+      "**Separate model capability from harness capability.** Tool execution, context management, isolation, and observability can dominate real workflow outcomes.",
+      "**Subscription access is not a production routing contract.** Validate API, credit-pool, and third-party harness policies before standardizing an operating model.",
+      "**Maintain at least one portable fallback path** across providers for high-value workflows and operational incidents."
+    ],
+    "self_hosting": [
+      "**Open weights are now a strategic option, not only a cost play.** Kimi K3, DeepSeek, Qwen, Nemotron, Mistral, and Llama cover different sovereignty and specialization needs.",
+      "**Do not compare self-hosting at zero token cost.** Include accelerator rental or depreciation, power, utilization, serving staff, and measured throughput.",
+      "**Pilot against a defined workload and hardware envelope** before treating advertised context or parameter scale as deployable capacity."
+    ],
+    "strategy": [
+      "**Run a portfolio, not a winner-takes-all model standard.** Reserve frontier reasoning for high-value decisions and route routine work to measured fast or efficient tiers.",
+      "**Instrument quality, latency, retries, and total workflow cost together.** Token price alone is not an operating metric.",
+      "**Review the portfolio quarterly and after major releases**, with explicit retirement, security, and fallback criteria."
+    ]
   },
   "headline_stats": [
     {
       "id": "frontier_count",
-      "label": "Frontier models tracked",
-      "value": 28,
+      "label": "Models tracked",
+      "value": 31,
       "unit": "",
-      "delta": "Fable 5 and GPT-5.6 Sol, Terra, Luna added",
-      "delta_dir": "up"
+      "delta": "Current, fast and retained compatibility models",
+      "delta_dir": "up",
+      "trend": [
+        {
+          "date": "2026-01-01",
+          "value": 20
+        },
+        {
+          "date": "2026-04-01",
+          "value": 25
+        },
+        {
+          "date": "2026-07-01",
+          "value": 31
+        }
+      ]
     },
     {
       "id": "best_open_pct",
       "label": "Best open-weight vs Fable 5",
-      "value": 90,
+      "value": 99,
       "unit": "%",
-      "delta": "Planning estimate; remeasure in the pinned harness",
-      "delta_dir": "up"
+      "delta": "Kimi K3; geometric mean across 14 overlapping vendor evals",
+      "delta_dir": "up",
+      "signal_id": "open_weight_quality"
     },
     {
       "id": "cheapest_frontier_api",
-      "label": "Cheapest frontier $/Mtok out",
-      "value": 6,
-      "unit": "USD",
-      "delta": "GPT-5.6 Luna $1/$6",
-      "delta_dir": "down"
+      "label": "Lowest frontier blended API price",
+      "value": 4.5,
+      "unit": "$/Mtok",
+      "delta": "GPT-5.6 Luna; 30% input / 70% output blend",
+      "delta_dir": "down",
+      "signal_id": "blended_frontier_price"
     },
     {
-      "id": "cheapest_local",
-      "label": "Self-hosted $/Mtok (effective)",
-      "value": 0,
-      "unit": "USD",
-      "delta": "Excludes hardware rental and power",
-      "delta_dir": "neutral"
+      "id": "fastest_task_rate",
+      "label": "Fastest task-rate index",
+      "value": "3.2×",
+      "unit": "",
+      "delta": "Fable 5 = 1.0×; planning index, not tokens/second",
+      "delta_dir": "up",
+      "signal_id": "task_speed"
     },
     {
       "id": "max_context",
       "label": "Largest usable context",
       "value": "10M",
       "unit": "tok",
-      "delta": "Llama 4 Scout (open-weight)",
-      "delta_dir": "up"
+      "delta": "Llama 4 Scout; deployment constraints still apply",
+      "delta_dir": "up",
+      "trend": [
+        {
+          "date": "2026-01-01",
+          "value": 1
+        },
+        {
+          "date": "2026-04-01",
+          "value": 1
+        },
+        {
+          "date": "2026-07-01",
+          "value": 10
+        }
+      ]
     },
     {
       "id": "harness_count",
       "label": "Harnesses tracked",
       "value": 16,
       "unit": "",
-      "delta": "Current comparison register",
-      "delta_dir": "up"
+      "delta": "Commercial and open agent environments",
+      "delta_dir": "up",
+      "trend": [
+        {
+          "date": "2026-01-01",
+          "value": 12
+        },
+        {
+          "date": "2026-04-01",
+          "value": 14
+        },
+        {
+          "date": "2026-07-01",
+          "value": 16
+        }
+      ]
     },
     {
-      "id": "policy_days",
-      "label": "Days since policy shift",
-      "value": 105,
-      "unit": "d",
-      "delta": "Anthropic OAuth block enforcement",
-      "delta_dir": "neutral"
+      "id": "documented_output_speed",
+      "label": "Fastest documented API output",
+      "value": 260,
+      "unit": "tok/s",
+      "delta": "Kimi K2.7 Code high-speed; short-context vendor figure",
+      "delta_dir": "up",
+      "signal_id": "output_throughput"
     },
     {
-      "id": "blended_cost",
-      "label": "Recommended stack cost",
-      "value": "Variable",
+      "id": "quality_coverage",
+      "label": "Models with quality evidence",
+      "value": "29/31",
       "unit": "",
-      "delta": "Compute from measured tokens and local runtime",
-      "delta_dir": "neutral"
+      "delta": "Unknown remains unknown; no zero-value substitution",
+      "delta_dir": "neutral",
+      "trend": [
+        {
+          "date": "2026-01-01",
+          "value": 18
+        },
+        {
+          "date": "2026-04-01",
+          "value": 24
+        },
+        {
+          "date": "2026-07-01",
+          "value": 29
+        }
+      ]
     }
   ],
   "trends": {
@@ -119,11 +196,11 @@
       "history": [
         {
           "date": "2025-11-01",
-          "value": 18.0
+          "value": 18
         },
         {
           "date": "2025-12-01",
-          "value": 17.0
+          "value": 17
         },
         {
           "date": "2026-01-01",
@@ -135,7 +212,7 @@
         },
         {
           "date": "2026-03-01",
-          "value": 13.0
+          "value": 13
         },
         {
           "date": "2026-04-01",
@@ -143,11 +220,11 @@
         },
         {
           "date": "2026-05-01",
-          "value": 12.0
+          "value": 12
         },
         {
           "date": "2026-06-01",
-          "value": 11.0
+          "value": 11
         }
       ]
     },
@@ -190,6 +267,16 @@
     }
   },
   "changelog": [
+    {
+      "date": "2026-07-18",
+      "tag": "model",
+      "text": "Added Kimi K3 from Moonshot primary sources: 2.8T sparse MoE, 1M context, native vision, max-only thinking at launch, API availability, and a vendor-suite quality comparison against Fable 5."
+    },
+    {
+      "date": "2026-07-18",
+      "tag": "data",
+      "text": "Restored GPT-5.5 family visibility, verified Haiku 4.5 as the latest public Haiku, replaced quality compound display with quality vs selected reference, and removed non-actionable headline cost/policy counters."
+    },
     {
       "date": "2026-07-18",
       "tag": "data",
@@ -362,12 +449,12 @@
     }
   ],
   "actions": [
-    "P0 · Engineering — benchmark Sol, Terra, Luna and Fable 5 in one pinned harness; capture TTFT, output tok/s, wall time, tokens and cost for 30 representative tasks.",
-    "P0 · Security — block Fable 5 for workloads requiring zero data retention; it requires 30-day retention.",
-    "P1 · Platform — shadow-test Terra medium as the default engineering route and Luna low as the bulk-subagent route for two weeks.",
-    "P1 · Research — replace planning speed indices with reproducible measurements carrying workload, provider, region and date.",
-    "P2 · Infrastructure — re-test open-weight hardware fit on H200 and B200; unsupported combinations must include a reason instead of an empty speed cell.",
-    "P2 · Research — keep SWE-bench Pro, DeepSWE and Terminal-Bench versioned; do not blend scores across benchmark versions."
+    "P0 · Executive sponsor — define three transformation outcomes with measurable business and engineering baselines; avoid scaling pilots that have no accountable owner or adoption target.",
+    "P0 · Technology leadership — establish a model portfolio policy with capability, data-classification, regional, fallback, and retirement rules instead of standardizing on one provider.",
+    "P0 · Platform and finance — instrument end-to-end quality, latency, retries, human rework, and cost for representative workflows before negotiating capacity or subscriptions.",
+    "P1 · Security and legal — approve reusable controls for retention, training use, tool permissions, audit evidence, and human escalation by data class.",
+    "P1 · Engineering leadership — run a 30-task quarterly evaluation across one frontier, one balanced, one fast, and one open-weight route using identical harness conditions.",
+    "P2 · Infrastructure — select one sovereignty or resilience workload for an open-weight pilot and publish its full hardware, utilization, staffing, and throughput economics."
   ],
   "models": [
     {
@@ -380,7 +467,7 @@
       "jurisdiction": "US",
       "context": 1000000,
       "context_label": "1M",
-      "swe_pro": 80.0,
+      "swe_pro": 80,
       "swe_verified": null,
       "livecodebench": null,
       "aime": null,
@@ -390,8 +477,8 @@
       "deep_swe": 69.7,
       "terminal_bench": 83.1,
       "agents_last_exam": 40.5,
-      "api_in": 10.0,
-      "api_out": 50.0,
+      "api_in": 10,
+      "api_out": 50,
       "api_cache_hit": null,
       "batch_discount": null,
       "tok_per_sec": null,
@@ -432,12 +519,12 @@
       "swe_pro": 64.6,
       "swe_verified": null,
       "aaii": 58.9,
-      "coding_agent_index": 80.0,
+      "coding_agent_index": 80,
       "deep_swe": 72.7,
       "terminal_bench": 88.8,
       "agents_last_exam": 52.7,
-      "api_in": 5.0,
-      "api_out": 30.0,
+      "api_in": 5,
+      "api_out": 30,
       "api_cache_hit": 0.5,
       "batch_discount": 50,
       "tok_per_sec": null,
@@ -445,9 +532,23 @@
       "notes": "Flagship GPT-5.6 tier. Official benchmark table and pricing; speed is stored as an end-to-end task index in report-metrics.json, not tok/s.",
       "reasoning_capable": true,
       "effort_default": "medium",
-      "effort_levels": ["none", "low", "medium", "high", "xhigh", "max"],
+      "effort_levels": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "cache_discount": 0.1,
-      "capability_levels": {"coding": 49, "reasoning": 49, "knowledge": 48, "comms": 48, "multimodal": 48, "agentic": 49}
+      "capability_levels": {
+        "coding": 49,
+        "reasoning": 49,
+        "knowledge": 48,
+        "comms": 48,
+        "multimodal": 48,
+        "agentic": 49
+      }
     },
     {
       "id": "gpt-5.6-terra",
@@ -461,13 +562,13 @@
       "context_label": "1.05M (272K pricing threshold)",
       "swe_pro": 63.4,
       "swe_verified": null,
-      "aaii": 55.0,
+      "aaii": 55,
       "coding_agent_index": 77.4,
       "deep_swe": 69.6,
       "terminal_bench": 87.4,
       "agents_last_exam": 50.4,
       "api_in": 2.5,
-      "api_out": 15.0,
+      "api_out": 15,
       "api_cache_hit": 0.25,
       "batch_discount": 50,
       "tok_per_sec": null,
@@ -475,9 +576,23 @@
       "notes": "Balanced GPT-5.6 tier and recommended default engineering route. Comparable task-speed evidence is indexed in report-metrics.json.",
       "reasoning_capable": true,
       "effort_default": "medium",
-      "effort_levels": ["none", "low", "medium", "high", "xhigh", "max"],
+      "effort_levels": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "cache_discount": 0.1,
-      "capability_levels": {"coding": 48, "reasoning": 46, "knowledge": 46, "comms": 46, "multimodal": 45, "agentic": 48}
+      "capability_levels": {
+        "coding": 48,
+        "reasoning": 46,
+        "knowledge": 46,
+        "comms": 46,
+        "multimodal": 45,
+        "agentic": 48
+      }
     },
     {
       "id": "gpt-5.6-luna",
@@ -496,8 +611,8 @@
       "deep_swe": 67.2,
       "terminal_bench": 84.7,
       "agents_last_exam": 50.3,
-      "api_in": 1.0,
-      "api_out": 6.0,
+      "api_in": 1,
+      "api_out": 6,
       "api_cache_hit": 0.1,
       "batch_discount": 50,
       "tok_per_sec": null,
@@ -505,9 +620,61 @@
       "notes": "Fastest, most affordable GPT-5.6 tier; recommended for high-volume subagents with verification and escalation.",
       "reasoning_capable": true,
       "effort_default": "medium",
-      "effort_levels": ["none", "low", "medium", "high", "xhigh", "max"],
+      "effort_levels": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "cache_discount": 0.1,
-      "capability_levels": {"coding": 46, "reasoning": 44, "knowledge": 43, "comms": 45, "multimodal": 43, "agentic": 46}
+      "capability_levels": {
+        "coding": 46,
+        "reasoning": 44,
+        "knowledge": 43,
+        "comms": 45,
+        "multimodal": 43,
+        "agentic": 46
+      }
+    },
+    {
+      "id": "kimi-k3",
+      "name": "Kimi K3",
+      "provider": "Moonshot AI",
+      "tier": "frontier",
+      "released": "2026-07-16",
+      "license": "open weights announced; terms pending weight release",
+      "jurisdiction": "China",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Kimi API, Kimi Code, Kimi Work",
+      "reasoning_capable": true,
+      "effort_default": "max",
+      "effort_levels": [
+        "max"
+      ],
+      "notes": "2.8T sparse MoE with 16/896 experts active, native vision and always-on thinking. Full weights promised by July 27, 2026.",
+      "quality_vs_fable": 99.2,
+      "quality_evidence": "Geometric mean across 14 overlapping values in Moonshot’s launch comparison; vendor-reported, max/xhigh settings.",
+      "capability_levels": {
+        "coding": 47,
+        "reasoning": 46,
+        "knowledge": 47,
+        "comms": 46,
+        "multimodal": 47,
+        "agentic": 48
+      }
     },
     {
       "id": "opus-4.8",
@@ -524,8 +691,8 @@
       "livecodebench": 82,
       "aime": 90,
       "tau2": 86,
-      "api_in": 5.0,
-      "api_out": 25.0,
+      "api_in": 5,
+      "api_out": 25,
       "api_cache_hit": 0.5,
       "batch_discount": 50,
       "tok_per_sec": 55,
@@ -565,8 +732,8 @@
       "livecodebench": 79,
       "aime": 88,
       "tau2": 84,
-      "api_in": 5.0,
-      "api_out": 25.0,
+      "api_in": 5,
+      "api_out": 25,
       "api_cache_hit": 0.5,
       "batch_discount": 50,
       "tok_per_sec": 50,
@@ -681,8 +848,8 @@
       "livecodebench": 84,
       "aime": 92,
       "tau2": 82,
-      "api_in": 5.0,
-      "api_out": 30.0,
+      "api_in": 5,
+      "api_out": 30,
       "api_cache_hit": 0.5,
       "batch_discount": 50,
       "tok_per_sec": 55,
@@ -722,9 +889,9 @@
       "livecodebench": 86,
       "aime": 94,
       "tau2": 84,
-      "api_in": 30.0,
-      "api_out": 180.0,
-      "api_cache_hit": 3.0,
+      "api_in": 30,
+      "api_out": 180,
+      "api_cache_hit": 3,
       "batch_discount": 50,
       "tok_per_sec": 35,
       "subscription": "Pro $200 only",
@@ -762,7 +929,7 @@
       "aime": 90,
       "tau2": 80,
       "api_in": 2.5,
-      "api_out": 15.0,
+      "api_out": 15,
       "api_cache_hit": 0.25,
       "batch_discount": 50,
       "tok_per_sec": 60,
@@ -878,12 +1045,12 @@
       "context": 200000,
       "context_label": "200K",
       "swe_pro": 56.8,
-      "swe_verified": 85.0,
+      "swe_verified": 85,
       "livecodebench": 82,
       "aime": 87,
       "tau2": 78,
       "api_in": 1.5,
-      "api_out": 10.0,
+      "api_out": 10,
       "api_cache_hit": 0.15,
       "batch_discount": 50,
       "tok_per_sec": 70,
@@ -959,7 +1126,7 @@
       "aime": 84,
       "tau2": 75,
       "api_in": 1.25,
-      "api_out": 8.0,
+      "api_out": 8,
       "api_cache_hit": 0.125,
       "batch_discount": 50,
       "tok_per_sec": 65,
@@ -990,7 +1157,7 @@
       "aime": 82,
       "tau2": 73,
       "api_in": 1.25,
-      "api_out": 8.0,
+      "api_out": 8,
       "api_cache_hit": 0.125,
       "batch_discount": 50,
       "tok_per_sec": 65,
@@ -1021,7 +1188,7 @@
       "aime": 81,
       "tau2": 70,
       "api_in": 1.5,
-      "api_out": 6.0,
+      "api_out": 6,
       "api_cache_hit": 0.15,
       "batch_discount": 50,
       "tok_per_sec": 200,
@@ -1055,8 +1222,8 @@
       "livecodebench": 76,
       "aime": 85,
       "tau2": 78,
-      "api_in": 2.0,
-      "api_out": 12.0,
+      "api_in": 2,
+      "api_out": 12,
       "api_cache_hit": 0.5,
       "batch_discount": 50,
       "tok_per_sec": 119,
@@ -1096,7 +1263,7 @@
       "aime": 75,
       "tau2": 68,
       "api_in": 1.5,
-      "api_out": 9.0,
+      "api_out": 9,
       "api_cache_hit": 0.375,
       "batch_discount": 50,
       "tok_per_sec": 180,
@@ -1205,7 +1372,7 @@
       "context": 1000000,
       "context_label": "1M",
       "swe_pro": 50,
-      "swe_verified": 79.0,
+      "swe_verified": 79,
       "livecodebench": 88,
       "aime": 82,
       "tau2": 72,
@@ -1244,7 +1411,7 @@
       "livecodebench": 72,
       "aime": 80,
       "tau2": 73,
-      "api_in": 0.30,
+      "api_in": 0.3,
       "api_out": 1.2,
       "api_cache_hit": null,
       "batch_discount": null,
@@ -1280,7 +1447,7 @@
       "aime": 88,
       "tau2": 76,
       "api_in": 1.25,
-      "api_out": 2.50,
+      "api_out": 2.5,
       "api_cache_hit": 0.31,
       "batch_discount": null,
       "tok_per_sec": 75,
@@ -1317,8 +1484,8 @@
       "livecodebench": 65,
       "aime": 75,
       "tau2": 65,
-      "api_in": 0.20,
-      "api_out": 0.50,
+      "api_in": 0.2,
+      "api_out": 0.5,
       "api_cache_hit": 0.05,
       "batch_discount": null,
       "tok_per_sec": 140,
@@ -1362,7 +1529,7 @@
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
-      "cache_discount": 1.0,
+      "cache_discount": 1,
       "capability_levels": {
         "coding": 40,
         "reasoning": 30,
@@ -1387,8 +1554,8 @@
       "livecodebench": 76,
       "aime": 80,
       "tau2": 70,
-      "api_in": 2.0,
-      "api_out": 6.0,
+      "api_in": 2,
+      "api_out": 6,
       "api_cache_hit": null,
       "batch_discount": null,
       "tok_per_sec": 65,
@@ -1401,7 +1568,7 @@
         "medium",
         "high"
       ],
-      "cache_discount": 1.0,
+      "cache_discount": 1,
       "capability_levels": {
         "coding": 38,
         "reasoning": 36,
@@ -1426,8 +1593,8 @@
       "livecodebench": null,
       "aime": null,
       "tau2": null,
-      "api_in": 1.0,
-      "api_out": 5.0,
+      "api_in": 1,
+      "api_out": 5,
       "api_cache_hit": null,
       "batch_discount": null,
       "tok_per_sec": 80,
@@ -1436,7 +1603,7 @@
       "reasoning_capable": null,
       "effort_default": null,
       "effort_levels": [],
-      "cache_discount": 1.0,
+      "cache_discount": 1,
       "capability_levels": {
         "coding": 30,
         "reasoning": 32,
@@ -1462,7 +1629,7 @@
       "aime": 86,
       "tau2": 76,
       "api_in": 1.5,
-      "api_out": 6.0,
+      "api_out": 6,
       "api_cache_hit": null,
       "batch_discount": null,
       "tok_per_sec": 300,
@@ -1475,7 +1642,7 @@
         "medium",
         "high"
       ],
-      "cache_discount": 1.0,
+      "cache_discount": 1,
       "capability_levels": {
         "coding": 42,
         "reasoning": 42,
@@ -3537,7 +3704,7 @@
     "stacking_multipliers": [
       {
         "name": "Fast mode (/fast on)",
-        "multiplier": 2.0,
+        "multiplier": 2,
         "scope": "any cell"
       },
       {
@@ -3556,10 +3723,10 @@
         "model_id": "gpt-5.6-sol",
         "minimal": 0.45,
         "low": 0.65,
-        "medium": 1.0,
+        "medium": 1,
         "high": 1.7,
         "xhigh": 2.7,
-        "max": 4.0,
+        "max": 4,
         "note": "List-price blend equals the historical GPT-5.5 medium unit. Effort factors are planning estimates until measured token use is available."
       },
       {
@@ -3569,7 +3736,7 @@
         "medium": 0.5,
         "high": 0.85,
         "xhigh": 1.35,
-        "max": 2.0,
+        "max": 2,
         "note": "Half Sol list price at every base token; effort factors remain estimates."
       },
       {
@@ -3586,24 +3753,24 @@
         "model_id": "gpt-5.5",
         "minimal": 0.2,
         "low": 0.5,
-        "medium": 1.0,
-        "high": 2.0,
+        "medium": 1,
+        "high": 2,
         "xhigh": 3.5
       },
       {
         "model_id": "gpt-5.5-pro",
         "minimal": null,
         "low": null,
-        "medium": 6.0,
-        "high": 12.0,
-        "xhigh": 21.0
+        "medium": 6,
+        "high": 12,
+        "xhigh": 21
       },
       {
         "model_id": "gpt-5.4",
         "minimal": 0.1,
         "low": 0.25,
         "medium": 0.5,
-        "high": 1.0,
+        "high": 1,
         "xhigh": 1.75
       },
       {
@@ -3716,7 +3883,7 @@
       "low": 0.85,
       "medium": 0.94,
       "high": 0.98,
-      "xhigh": 1.0,
+      "xhigh": 1,
       "max": 1.02,
       "off": 0.85,
       "on": 0.95
@@ -3728,7 +3895,7 @@
       "cold": {
         "label": "Cold (0% cache)",
         "description": "One-off prompts, no context reuse. Worst-case burn.",
-        "cache_hit_rate": 0.0
+        "cache_hit_rate": 0
       },
       "mixed": {
         "label": "Mixed (40% cache)",
@@ -4108,6 +4275,24 @@
       "category": "MiniMax",
       "title": "Artificial Analysis — MiniMax M2.7",
       "url": "https://artificialanalysis.ai/models/minimax-m2-7"
+    },
+    {
+      "n": 60,
+      "category": "Moonshot",
+      "title": "Kimi K3 technical launch blog",
+      "url": "https://www.kimi.com/blog/kimi-k3"
+    },
+    {
+      "n": 61,
+      "category": "Moonshot",
+      "title": "Kimi API model catalog",
+      "url": "https://platform.kimi.ai/docs/models"
+    },
+    {
+      "n": 62,
+      "category": "OpenAI",
+      "title": "Introducing GPT-5.5",
+      "url": "https://openai.com/index/introducing-gpt-5-5/"
     }
   ],
   "provider_sources": {
@@ -4119,7 +4304,8 @@
     "OpenAI": [
       4,
       5,
-      6
+      6,
+      62
     ],
     "Google": [
       7,
@@ -4149,7 +4335,9 @@
     ],
     "Moonshot": [
       20,
-      21
+      21,
+      60,
+      61
     ],
     "Zhipu": [
       20,
@@ -4185,7 +4373,10 @@
       15,
       16,
       17,
-      18
+      18,
+      60,
+      61,
+      62
     ],
     "harnesses": [
       23,
@@ -4372,7 +4563,7 @@
     "radar_effort_factors": {
       "minimal": 0.5,
       "low": 0.75,
-      "medium": 1.0,
+      "medium": 1,
       "high": 1.08,
       "xhigh": 1.15,
       "max": 1.22
