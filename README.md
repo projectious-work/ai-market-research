@@ -34,10 +34,9 @@ hold, which agent harness to run, and what to self-host.
 5. **Agent harnesses** — Claude Code, OpenCode, Codex CLI, Gemini CLI,
    Aider, Cline, Roo Code, Cursor, Windsurf, Goose, OMO, OpenClaw, CCR,
    Hermes.
-6. **Self-hosting** — Vast.ai cloud-GPU configs, MacBook configs (M4 Pro
-   64 GB, M5 Max 128 GB, Air 32 GB), open-weight models (Gemma 4, Qwen 3,
-   Llama 3.1, MiniMax M2.5, DeepSeek V3.2), quantization formats,
-   frameworks (llama.cpp, vLLM, Ollama, MLX).
+6. **Self-hosting** — dated GPU-hosting prices and configurations from Runpod,
+   Hyperstack, Contabo, Infomaniak, and Vast.ai; local Mac configurations;
+   open-weight model fit; quantization formats; and inference frameworks.
 7. **Strategy** — derived recommendations spanning the above.
 
 ## How it's built

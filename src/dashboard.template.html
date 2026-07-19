@@ -1788,6 +1788,13 @@ th[data-sort-dir='desc']::after { content:'  ↓'; color:#e05232; }
 .benchmark-head .sublabel { margin-top:.25rem; }
 #models-table th { vertical-align:bottom; }
 #models-table td:nth-child(n+4):nth-child(-n+9) { min-width:58px; }
+.hosting-trend { min-width:150px; color:var(--text-dim); font:10px var(--mono); }
+.hosting-trend svg { display:block; width:150px; height:26px; margin-bottom:.2rem; }
+.hosting-trend strong { color:#28705a; }
+.hosting-baseline { color:var(--text-faint); font:10px var(--mono); white-space:nowrap; }
+#hosting-price-table td:nth-child(3) { min-width:220px; }
+#hosting-price-table td:nth-child(7) { min-width:170px; }
+#hosting-price-table .sublabel { display:block; margin-top:.2rem; }
 #decision-matrix { margin-top:1.5rem; padding:1.25rem; }
 #decision-matrix .analytics-svg { min-height:520px; }
 @media(max-width:900px){.signal-grid,.analytics-grid{grid-template-columns:1fr}.heatmap-grid{grid-template-columns:110px repeat(3,minmax(64px,1fr))}}
@@ -1999,6 +2006,19 @@ __MARKET_DATA__
       </table>
     </div>
 
+    <h2 class="sect-head">Hosting price tracker</h2>
+    <p class="sect-sub">Published prices by provider-native billing basis. The 730-hour normalization is a comparison aid, not an effective token cost or a quoted monthly bill.</p>
+    <div class="table-wrap">
+      <table id="hosting-price-table">
+        <thead><tr>
+          <th>Provider / configuration</th><th class="tnum">VRAM</th><th>Billing basis</th>
+          <th>Published price</th><th class="tnum">Normalized hourly</th>
+          <th class="tnum">730h equivalent</th><th>Price history</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
     <h2 class="sect-head">Inference frameworks</h2>
     <div class="table-wrap">
       <table id="frameworks-table">
@@ -2139,6 +2159,7 @@ function renderAll() {
   renderHarnesses();
   renderSelfHosting(document.querySelector('[data-hw-filter].active')?.dataset.hwFilter || 'all');
   renderHardware();
+  renderHostingPrices();
   renderFrameworks();
   renderStrategy();
   renderCapabilityRadar();
@@ -3518,7 +3539,7 @@ function renderHarnesses() {
 
 // ---------- SELF-HOSTING ----------
 function renderSelfHosting(hwFilter) {
-  const hardware = data.self_hosting.hardware_options.filter(hw => {
+  const hardware = data.self_hosting.hardware_options.filter(hw => hw.show_in_fit !== false).filter(hw => {
     if (hwFilter === 'cloud') return hw.type === 'cloud';
     if (hwFilter === 'local') return hw.type === 'local';
     return true;
@@ -3571,6 +3592,46 @@ function renderHardware() {
       </tr>
     `;
   });
+}
+
+function hostingCurrency(currency) {
+  return {USD:'$',EUR:'€',CHF:'CHF '}[currency] || `${currency} `;
+}
+
+function hostingTrend(offer) {
+  const history = offer.history || [];
+  if (history.length < 2) {
+    const label = history.length ? `Baseline ${history[0].date}` : 'Dynamic price · query provider';
+    return `<span class="hosting-baseline">${escapeHtml(label)}</span>`;
+  }
+  const first = history[0], last = history[history.length - 1];
+  const delta = (last.value / first.value - 1) * 100;
+  const sign = delta > 0 ? '+' : '';
+  return `<div class="hosting-trend">${sparkline(history)}<span>${escapeHtml(first.date)} → ${escapeHtml(last.date)} · <strong>${sign}${delta.toFixed(0)}%</strong></span></div>`;
+}
+
+function renderHostingPrices() {
+  const tbody = document.querySelector('#hosting-price-table tbody');
+  if (!tbody) return;
+  const tracker = data.report_metrics?.hosting_prices;
+  if (!tracker?.offers?.length) {
+    tbody.innerHTML = '<tr><td colspan="7">No dated hosting prices recorded.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = tracker.offers.map(offer => {
+    const prefix = hostingCurrency(offer.currency);
+    const hourly = finiteNumber(offer.normalized_hourly);
+    const monthly = finiteNumber(offer.monthly_equivalent);
+    return `<tr>
+      <td class="model-name">${escapeHtml(offer.provider)}${cite(offer.source_n)}<span class="sublabel">${escapeHtml(offer.configuration)} · checked ${escapeHtml(offer.checked)}</span></td>
+      <td class="tnum mono">${offer.vram_gb} GB</td>
+      <td>${escapeHtml(offer.billing)}<span class="sublabel">${escapeHtml(offer.region)} · ${escapeHtml(offer.price_basis)}</span></td>
+      <td class="mono">${escapeHtml(offer.current_price_label)}</td>
+      <td class="tnum mono">${hourly === null ? '—' : `${prefix}${hourly.toFixed(2)}/hr`}</td>
+      <td class="tnum mono">${monthly === null ? '—' : `${prefix}${monthly.toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:0})}`}</td>
+      <td>${hostingTrend(offer)}</td>
+    </tr>`;
+  }).join('');
 }
 
 function renderFrameworks() {

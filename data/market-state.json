@@ -2259,28 +2259,37 @@
         "id": "vast-2xa6000",
         "name": "Vast.ai 2× A6000",
         "vram_gb": 96,
-        "cost_label": "~$0.60/hr ≈ $430/mo (24/7)",
-        "cost_per_hour": 0.6,
+        "cost_label": "Live marketplace price at provisioning",
+        "cost_per_hour": null,
         "type": "cloud",
-        "notes": "Reference cloud-GPU setup for this dashboard. No upfront capex. Docker templates, SSH/Cloudflare Zero Trust."
+        "notes": "Reference cloud-GPU setup for this dashboard. No upfront capex. Docker templates, SSH/Cloudflare Zero Trust. Marketplace rates vary by host, region, reliability, storage, and rental type.",
+        "price_status": "dynamic_marketplace",
+        "price_checked": "2026-07-19",
+        "source": "https://docs.vast.ai/guides/instances/pricing"
       },
       {
         "id": "vast-3xa6000",
         "name": "Vast.ai 3× A6000",
         "vram_gb": 144,
-        "cost_label": "~$0.90/hr",
-        "cost_per_hour": 0.9,
+        "cost_label": "Live marketplace price at provisioning",
+        "cost_per_hour": null,
         "type": "cloud",
-        "notes": "Headroom for Qwen 3 235B-A22B Q6_K."
+        "notes": "Headroom for Qwen 3 235B-A22B Q6_K. Marketplace rates vary by host, region, reliability, storage, and rental type.",
+        "price_status": "dynamic_marketplace",
+        "price_checked": "2026-07-19",
+        "source": "https://docs.vast.ai/guides/instances/pricing"
       },
       {
         "id": "vast-4xa6000",
         "name": "Vast.ai 4× A6000",
         "vram_gb": 192,
-        "cost_label": "~$1.20/hr",
-        "cost_per_hour": 1.2,
+        "cost_label": "Live marketplace price at provisioning",
+        "cost_per_hour": null,
         "type": "cloud",
-        "notes": "Llama 3.1 405B Q4 territory."
+        "notes": "Llama 3.1 405B Q4 territory. Marketplace rates vary by host, region, reliability, storage, and rental type.",
+        "price_status": "dynamic_marketplace",
+        "price_checked": "2026-07-19",
+        "source": "https://docs.vast.ai/guides/instances/pricing"
       },
       {
         "id": "mbp-14-m4pro-64",
@@ -2308,6 +2317,62 @@
         "cost_per_hour": null,
         "type": "local",
         "notes": "Hard 32GB ceiling. Limited to ~14B dense or 26B MoE Q4."
+      },
+      {
+        "id": "contabo-2xl40s",
+        "name": "Contabo 2 x L40S",
+        "provider": "Contabo",
+        "vram_gb": 96,
+        "cost_label": "€1,502/mo fixed plan (excl. VAT)",
+        "cost_per_hour": null,
+        "type": "cloud",
+        "show_in_fit": false,
+        "price_status": "published_monthly",
+        "price_checked": "2026-07-19",
+        "source": "https://contabo.com/en/gpu-cloud/",
+        "notes": "EU-oriented fixed monthly configuration; 64 vCPU, 213 GB RAM, 3.5 TB storage, and 15 TB bandwidth are listed for the 2-GPU tier."
+      },
+      {
+        "id": "contabo-1xh200",
+        "name": "Contabo 1 x H200 NVL",
+        "provider": "Contabo",
+        "vram_gb": 141,
+        "cost_label": "€2,149/mo fixed plan (excl. VAT)",
+        "cost_per_hour": null,
+        "type": "cloud",
+        "show_in_fit": false,
+        "price_status": "published_monthly",
+        "price_checked": "2026-07-19",
+        "source": "https://contabo.com/en/gpu-cloud/",
+        "notes": "Fixed monthly large-memory option. Confirm location and availability before treating it as a sovereignty or latency fit."
+      },
+      {
+        "id": "infomaniak-1xl40s",
+        "name": "Infomaniak 1 x L40S",
+        "provider": "Infomaniak",
+        "vram_gb": 48,
+        "cost_label": "Live calculator / availability validation",
+        "cost_per_hour": null,
+        "type": "cloud",
+        "show_in_fit": false,
+        "price_status": "calculator_or_request",
+        "price_checked": "2026-07-19",
+        "source": "https://www.infomaniak.com/en/hosting/public-cloud/prices",
+        "notes": "Swiss OpenStack option with dedicated GPU access and usage billing. Public pages list L40S availability but do not expose a stable crawlable SKU price; validate availability for the selected region."
+      },
+      {
+        "id": "hyperstack-1xh200",
+        "name": "Hyperstack 1 x H200 SXM",
+        "provider": "Hyperstack",
+        "vram_gb": 141,
+        "cost_label": "$3.50/hr on demand",
+        "cost_per_hour": 3.5,
+        "type": "cloud",
+        "show_in_fit": false,
+        "price_status": "published_on_demand",
+        "price_checked": "2026-07-19",
+        "source": "https://www.hyperstack.cloud/",
+        "notes": "Minute-accurate on-demand billing; reservation pricing starts at $2.45/hr. Validate region, storage, and availability."
       }
     ],
     "models": [
@@ -4293,6 +4358,48 @@
       "category": "OpenAI",
       "title": "Introducing GPT-5.5",
       "url": "https://openai.com/index/introducing-gpt-5-5/"
+    },
+    {
+      "n": 63,
+      "category": "Hosting",
+      "title": "Runpod GPU cloud pricing",
+      "url": "https://www.runpod.io/pricing"
+    },
+    {
+      "n": 64,
+      "category": "Hosting",
+      "title": "Runpod July 2024 GPU price changes",
+      "url": "https://www.runpod.io/blog/runpod-slashes-gpu-prices-more-power-less-cost-for-ai-builders"
+    },
+    {
+      "n": 65,
+      "category": "Hosting",
+      "title": "Contabo GPU Cloud configurations and pricing",
+      "url": "https://contabo.com/en/gpu-cloud/"
+    },
+    {
+      "n": 66,
+      "category": "Hosting",
+      "title": "Infomaniak Public Cloud pricing",
+      "url": "https://www.infomaniak.com/en/hosting/public-cloud/prices"
+    },
+    {
+      "n": 67,
+      "category": "Hosting",
+      "title": "Infomaniak GPU flavor documentation",
+      "url": "https://docs.infomaniak.cloud/compute/instances/flavors/"
+    },
+    {
+      "n": 68,
+      "category": "Hosting",
+      "title": "Hyperstack GPU cloud pricing",
+      "url": "https://www.hyperstack.cloud/"
+    },
+    {
+      "n": 69,
+      "category": "Hosting",
+      "title": "Vast.ai marketplace pricing methodology",
+      "url": "https://docs.vast.ai/guides/instances/pricing"
     }
   ],
   "provider_sources": {
@@ -4401,7 +4508,14 @@
       21,
       22,
       33,
-      34
+      34,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69
     ],
     "strategy": [
       1,

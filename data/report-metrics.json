@@ -905,6 +905,10 @@
   ],
   "changelog": [
     {
+      "date": "2026-07-19",
+      "text": "Added a dated GPU-hosting price tracker with billing-basis normalization, historical Runpod price changes, current Contabo configurations, and quote-aware Infomaniak options. Replaced stale Vast.ai constants with live-marketplace status."
+    },
+    {
       "date": "2026-07-18",
       "tag": "model",
       "text": "Added Kimi K3 from Moonshot primary sources: 2.8T sparse MoE, 1M context, native vision, max-only thinking at launch, API availability, and a vendor-suite quality comparison against Fable 5."
@@ -984,5 +988,266 @@
       "url": "https://openai.com/index/introducing-gpt-5-5/",
       "accessed": "2026-07-18"
     }
-  ]
+  ],
+  "hosting_prices": {
+    "as_of": "2026-07-19",
+    "hours_per_month": 730,
+    "methodology": "Preserve provider currency and billing basis. normalized_hourly is a comparison-only derivation for fixed monthly plans; monthly_equivalent multiplies hourly rates by 730. It excludes tax, storage, egress, public IPs, support, discounts, utilization, and model throughput. Append observations instead of replacing them.",
+    "trend_policy": "Track the same provider, GPU, service tier, region basis, and currency. A changed SKU starts a new series. Two or more observations produce a trend; one observation is a dated baseline.",
+    "offers": [
+      {
+        "id": "runpod-h100-sxm-secure",
+        "provider": "Runpod",
+        "configuration": "1 x H100 SXM",
+        "gpu": "H100 SXM",
+        "gpu_count": 1,
+        "vram_gb": 80,
+        "region": "Multi-region",
+        "billing": "Pod, per-second usage",
+        "price_basis": "Secure Cloud published rate",
+        "currency": "USD",
+        "current_price_label": "$2.99/hr",
+        "normalized_hourly": 2.99,
+        "monthly_equivalent": 2182.7,
+        "price_status": "published",
+        "checked": "2026-07-19",
+        "source_n": 63,
+        "history": [
+          {
+            "date": "2024-07-12",
+            "value": 3.99,
+            "source_n": 64
+          },
+          {
+            "date": "2026-07-19",
+            "value": 2.99,
+            "source_n": 63
+          }
+        ]
+      },
+      {
+        "id": "runpod-a100-sxm-secure",
+        "provider": "Runpod",
+        "configuration": "1 x A100 SXM",
+        "gpu": "A100 SXM",
+        "gpu_count": 1,
+        "vram_gb": 80,
+        "region": "Multi-region",
+        "billing": "Pod, per-second usage",
+        "price_basis": "Secure Cloud published rate",
+        "currency": "USD",
+        "current_price_label": "$1.49/hr",
+        "normalized_hourly": 1.49,
+        "monthly_equivalent": 1087.7,
+        "price_status": "published",
+        "checked": "2026-07-19",
+        "source_n": 63,
+        "history": [
+          {
+            "date": "2024-07-12",
+            "value": 1.94,
+            "source_n": 64
+          },
+          {
+            "date": "2026-07-19",
+            "value": 1.49,
+            "source_n": 63
+          }
+        ]
+      },
+      {
+        "id": "runpod-l40s-secure",
+        "provider": "Runpod",
+        "configuration": "1 x L40S",
+        "gpu": "L40S",
+        "gpu_count": 1,
+        "vram_gb": 48,
+        "region": "Multi-region",
+        "billing": "Pod, per-second usage",
+        "price_basis": "Secure Cloud published rate",
+        "currency": "USD",
+        "current_price_label": "$0.99/hr",
+        "normalized_hourly": 0.99,
+        "monthly_equivalent": 722.7,
+        "price_status": "published",
+        "checked": "2026-07-19",
+        "source_n": 63,
+        "history": [
+          {
+            "date": "2024-07-12",
+            "value": 1.19,
+            "source_n": 64
+          },
+          {
+            "date": "2026-07-19",
+            "value": 0.99,
+            "source_n": 63
+          }
+        ]
+      },
+      {
+        "id": "hyperstack-h100-sxm",
+        "provider": "Hyperstack",
+        "configuration": "1 x H100 SXM",
+        "gpu": "H100 SXM",
+        "gpu_count": 1,
+        "vram_gb": 80,
+        "region": "Europe / North America",
+        "billing": "On demand, per minute",
+        "price_basis": "Published on-demand rate",
+        "currency": "USD",
+        "current_price_label": "$2.40/hr",
+        "normalized_hourly": 2.4,
+        "monthly_equivalent": 1752,
+        "price_status": "published",
+        "checked": "2026-07-19",
+        "source_n": 68,
+        "history": [
+          {
+            "date": "2026-07-19",
+            "value": 2.4,
+            "source_n": 68
+          }
+        ]
+      },
+      {
+        "id": "hyperstack-h200-sxm",
+        "provider": "Hyperstack",
+        "configuration": "1 x H200 SXM",
+        "gpu": "H200 SXM",
+        "gpu_count": 1,
+        "vram_gb": 141,
+        "region": "Europe / North America",
+        "billing": "On demand, per minute",
+        "price_basis": "Published on-demand rate",
+        "currency": "USD",
+        "current_price_label": "$3.50/hr",
+        "normalized_hourly": 3.5,
+        "monthly_equivalent": 2555,
+        "price_status": "published",
+        "checked": "2026-07-19",
+        "source_n": 68,
+        "history": [
+          {
+            "date": "2026-07-19",
+            "value": 3.5,
+            "source_n": 68
+          }
+        ]
+      },
+      {
+        "id": "contabo-l40s-monthly",
+        "provider": "Contabo",
+        "configuration": "1 x L40S",
+        "gpu": "L40S",
+        "gpu_count": 1,
+        "vram_gb": 48,
+        "region": "Provider location selection",
+        "billing": "Fixed monthly plan",
+        "price_basis": "Published monthly price, excl. VAT",
+        "currency": "EUR",
+        "current_price_label": "€751/mo",
+        "normalized_hourly": 1.0288,
+        "monthly_equivalent": 751,
+        "price_status": "published",
+        "checked": "2026-07-19",
+        "source_n": 65,
+        "history": [
+          {
+            "date": "2026-07-19",
+            "value": 1.0288,
+            "source_n": 65
+          }
+        ]
+      },
+      {
+        "id": "contabo-h100-monthly",
+        "provider": "Contabo",
+        "configuration": "1 x H100",
+        "gpu": "H100",
+        "gpu_count": 1,
+        "vram_gb": 80,
+        "region": "Provider location selection",
+        "billing": "Fixed monthly plan",
+        "price_basis": "Published monthly price, excl. VAT",
+        "currency": "EUR",
+        "current_price_label": "€1,838/mo",
+        "normalized_hourly": 2.5178,
+        "monthly_equivalent": 1838,
+        "price_status": "published",
+        "checked": "2026-07-19",
+        "source_n": 65,
+        "history": [
+          {
+            "date": "2026-07-19",
+            "value": 2.5178,
+            "source_n": 65
+          }
+        ]
+      },
+      {
+        "id": "contabo-h200-nvl-monthly",
+        "provider": "Contabo",
+        "configuration": "1 x H200 NVL",
+        "gpu": "H200 NVL",
+        "gpu_count": 1,
+        "vram_gb": 141,
+        "region": "Provider location selection",
+        "billing": "Fixed monthly plan",
+        "price_basis": "Published monthly price, excl. VAT",
+        "currency": "EUR",
+        "current_price_label": "€2,149/mo",
+        "normalized_hourly": 2.9438,
+        "monthly_equivalent": 2149,
+        "price_status": "published",
+        "checked": "2026-07-19",
+        "source_n": 65,
+        "history": [
+          {
+            "date": "2026-07-19",
+            "value": 2.9438,
+            "source_n": 65
+          }
+        ]
+      },
+      {
+        "id": "infomaniak-l40s",
+        "provider": "Infomaniak",
+        "configuration": "1 x L40S",
+        "gpu": "L40S",
+        "gpu_count": 1,
+        "vram_gb": 48,
+        "region": "Switzerland",
+        "billing": "Usage-based Public Cloud",
+        "price_basis": "Live calculator / availability validation",
+        "currency": "CHF",
+        "current_price_label": "Calculator / validate",
+        "normalized_hourly": null,
+        "monthly_equivalent": null,
+        "price_status": "not_publicly_exposed",
+        "checked": "2026-07-19",
+        "source_n": 66,
+        "history": []
+      },
+      {
+        "id": "vast-a6000-market",
+        "provider": "Vast.ai",
+        "configuration": "1 x RTX A6000",
+        "gpu": "RTX A6000",
+        "gpu_count": 1,
+        "vram_gb": 48,
+        "region": "Marketplace",
+        "billing": "Per second; on-demand, reserved, or interruptible",
+        "price_basis": "Live host marketplace",
+        "currency": "USD",
+        "current_price_label": "Live marketplace",
+        "normalized_hourly": null,
+        "monthly_equivalent": null,
+        "price_status": "dynamic_marketplace",
+        "checked": "2026-07-19",
+        "source_n": 69,
+        "history": []
+      }
+    ]
+  }
 }

@@ -151,6 +151,43 @@ Recommended display bands are computed per visible table, using the 25th,
 50th, and 75th percentiles of non-null throughput. Do not give unsupported or
 unknown cells a color implying performance.
 
+## Hosting price history
+
+Hosting prices live under `report_metrics.hosting_prices`. Each offer identifies
+the provider, GPU SKU, GPU count, service tier, region basis, currency, billing
+unit, evidence date, and source. Observations are append-only:
+
+```text
+offers[].history += {date, value, source_n}
+```
+
+Never replace an old observation when a price changes. If the GPU, service
+tier, region basis, or currency changes, start a new series instead of joining
+incompatible prices. Two observations produce a mini trendline; one observation
+is shown as a dated baseline. Marketplace and calculator-only offers remain
+null until a reproducible snapshot is available.
+
+For fixed monthly plans, the report derives a comparison-only hourly value:
+
+```text
+normalized_hourly = published_monthly_price / 730
+monthly_equivalent = published_hourly_price * 730
+```
+
+The dashboard preserves provider-native currencies and does not compare EUR,
+CHF, and USD as if they were equal. The normalization excludes tax, discounts,
+storage, egress, public IPs, support, utilization, and serving operations. It is
+not a quote and not an effective token price. A defensible cost per million
+tokens requires a measured workload:
+
+```text
+effective_cost_per_million_tokens = total_observed_cost
+                                    / observed_output_tokens * 1,000,000
+```
+
+Record model, quantization, framework, concurrency, prompt/output mix, uptime,
+and all infrastructure charges with that measurement.
+
 ## Update procedure
 
 1. Research official provider pages and versioned benchmark publications.
@@ -173,3 +210,9 @@ Primary sources for this refresh:
 - <https://www.kimi.com/blog/kimi-k3>
 - <https://platform.kimi.ai/docs/models>
 - <https://openai.com/index/introducing-gpt-5-5/>
+- <https://www.runpod.io/pricing>
+- <https://contabo.com/en/gpu-cloud/>
+- <https://www.infomaniak.com/en/hosting/public-cloud/prices>
+- <https://docs.infomaniak.cloud/compute/instances/flavors/>
+- <https://www.hyperstack.cloud/>
+- <https://docs.vast.ai/guides/instances/pricing>
