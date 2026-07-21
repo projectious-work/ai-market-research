@@ -1777,17 +1777,83 @@ th[data-sort-dir='desc']::after { content:'  ↓'; color:#e05232; }
 .analytics-svg .model-label { font-size:8px; font-weight:600; }
 .analytics-svg .axis { stroke:#aeb5bc; }
 .analytics-svg .grid { stroke:#ebe8e2; }
+.bubble-mark { outline:none; transition:opacity .14s ease; }
+.bubble-mark .bubble-index {
+  fill:#1d3352;
+  font:700 9px var(--mono);
+  paint-order:stroke;
+  stroke:#fff;
+  stroke-width:3px;
+  stroke-linejoin:round;
+  pointer-events:none;
+}
+.bubble-mark:focus .bubble-circle,
+.bubble-mark.active .bubble-circle { stroke:#1d3352; stroke-width:3; fill-opacity:.8; }
+.analytics-panel.bubble-active .bubble-mark:not(.active) { opacity:.22; }
+.bubble-readout {
+  min-height:1.35rem;
+  margin:.15rem 0 .35rem;
+  color:#26364b;
+  font:650 .7rem var(--mono);
+}
+.bubble-key {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.45rem .75rem;
+  margin-top:.75rem;
+  padding-top:.75rem;
+  border-top:1px solid var(--border);
+}
+.bubble-key-item {
+  display:grid;
+  grid-template-columns:24px minmax(0,1fr);
+  gap:.4rem;
+  align-items:start;
+  min-width:0;
+  color:var(--text-dim);
+  font-size:.68rem;
+  line-height:1.3;
+  padding:.2rem;
+  border-radius:3px;
+  outline:none;
+  transition:background .14s ease;
+}
+.bubble-key-item:hover,
+.bubble-key-item:focus-visible,
+.bubble-key-item.active { background:#eef3f5; }
+.bubble-key-index {
+  display:inline-grid;
+  place-items:center;
+  width:22px;
+  height:22px;
+  box-sizing:border-box;
+  border:2px solid var(--bubble-color);
+  border-radius:50%;
+  background:#fff;
+  color:#1d3352;
+  font:700 9px var(--mono);
+}
+.bubble-key-item strong { display:block; color:#1d3352; font-weight:700; }
+.bubble-key-item small { display:block; color:var(--text-dim); font-size:.62rem; }
 .heatmap-grid { display:grid; grid-template-columns:140px repeat(3,minmax(70px,1fr)); font-size:11px; }
 .heatmap-grid > div { padding:.55rem; border-right:1px solid #fff; border-bottom:1px solid #fff; }
 .heatmap-grid .head { background:#1d3352; color:#fff; font-weight:700; }
 .heatmap-grid .model { background:#f3f1ed; color:#1d3352; font-weight:650; }
 .feature-yes { color:#28705a; } .feature-no { color:#aeb2b6; } .feature-partial { color:#946416; }
 .speed-cell { background:rgba(76,150,122,var(--heat,.05)); }
-.benchmark-head { display:inline-flex; flex-direction:column; align-items:flex-start; line-height:1.05; white-space:normal; max-width:78px; }
+.benchmark-head { display:flex; width:100%; flex-direction:column; align-items:flex-end; line-height:1.05; white-space:normal; }
 .benchmark-head span { display:block; }
 .benchmark-head .sublabel { margin-top:.25rem; }
 #models-table th { vertical-align:bottom; }
-#models-table td:nth-child(n+4):nth-child(-n+9) { min-width:58px; }
+#models-table th.benchmark-col,
+#models-table td.benchmark-col {
+  box-sizing:border-box;
+  width:82px;
+  min-width:82px;
+  max-width:82px;
+  padding-left:.5rem;
+  padding-right:.5rem;
+}
 .hosting-trend { min-width:150px; color:var(--text-dim); font:10px var(--mono); }
 .hosting-trend svg { display:block; width:150px; height:26px; margin-bottom:.2rem; }
 .hosting-trend strong { color:#28705a; }
@@ -1797,8 +1863,8 @@ th[data-sort-dir='desc']::after { content:'  ↓'; color:#e05232; }
 #hosting-price-table .sublabel { display:block; margin-top:.2rem; }
 #decision-matrix { margin-top:1.5rem; padding:1.25rem; }
 #decision-matrix .analytics-svg { min-height:520px; }
-@media(max-width:900px){.signal-grid,.analytics-grid{grid-template-columns:1fr}.heatmap-grid{grid-template-columns:110px repeat(3,minmax(64px,1fr))}}
-@media(max-width:560px){.masthead{padding:1rem}.signal-card header{display:block}.heatmap-grid{font-size:9px;grid-template-columns:90px repeat(3,minmax(54px,1fr))}}
+@media(max-width:900px){.signal-grid,.analytics-grid{grid-template-columns:1fr}.heatmap-grid{grid-template-columns:110px repeat(3,minmax(64px,1fr))}.bubble-key{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.masthead{padding:1rem}.signal-card header{display:block}.heatmap-grid{font-size:9px;grid-template-columns:90px repeat(3,minmax(54px,1fr))}.bubble-key{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1821,8 +1887,8 @@ th[data-sort-dir='desc']::after { content:'  ↓'; color:#e05232; }
         <a href="https://github.com/projectious-work/ai-market-research/releases/tag/v0.3.1"
            target="_blank" rel="noopener" style="color:inherit;">release v0.3.1</a>
         <span aria-hidden="true"> · </span>
-        <a href="https://github.com/projectious-work/ai-market-research/commit/245e7714"
-           target="_blank" rel="noopener" style="color:inherit;">build 245e7714</a>
+        <a href="https://github.com/projectious-work/ai-market-research/commit/89eebe42"
+           target="_blank" rel="noopener" style="color:inherit;">build 89eebe42</a>
       </div>
     </div>
   </div>
@@ -2427,7 +2493,7 @@ function renderModels(filter) {
   const schema = benchmarkSchema();
   document.querySelector('#models-table thead').innerHTML = `<tr>
     <th>Model</th><th>Provider</th><th>Quality vs ref</th>
-    ${schema.map(b=>`<th class="tnum" title="${escapeHtml(b.description||'')}">${benchmarkHeader(b.label,b.max)}</th>`).join('')}
+    ${schema.map(b=>`<th class="tnum benchmark-col" title="${escapeHtml(b.description||'')}">${benchmarkHeader(b.label,b.max)}</th>`).join('')}
     <th class="tnum">Input<span class="sublabel">$/Mtok</span></th><th class="tnum">Output<span class="sublabel">$/Mtok</span></th><th class="tnum">Cache<span class="sublabel">$/Mtok</span></th><th>Context</th><th class="tnum" title="End-to-end task-rate ratio. Fable 5 is fixed at 100; 300 means three times as many comparable tasks per unit time. Not tokens per second.">Task-speed index<span class="sublabel">Fable 5 = 100</span></th><th>Released</th>
     <th class="tnum">Speed score<span class="sublabel">0–100</span></th><th class="tnum">Cost efficiency<span class="sublabel">0–100</span></th></tr>`;
   const tbody = document.querySelector('#models-table tbody');
@@ -2449,7 +2515,7 @@ function renderModels(filter) {
       <td class="model-name">${m.name}<span class="sublabel">${m.license} · ${m.jurisdiction}${m.tier === 'legacy' ? ' · legacy' : ''}</span></td>
       <td>${pill(m.provider)}${provCite(m.provider)}</td>
       <td>${qbar(referenceQualityPct(m))}</td>
-      ${schema.map(b=>heatMetricCell(benchmarkValue(m,b.key),b.max,'quality')).join('')}
+      ${schema.map(b=>heatMetricCell(benchmarkValue(m,b.key),b.max,'quality','benchmark-col')).join('')}
       <td class="tnum mono">${fmtPrice(metrics?.api_input ?? m.api_in)}</td>
       <td class="tnum mono">${fmtPrice(metrics?.api_output ?? m.api_out)}</td>
       <td class="tnum mono" style="color:var(--text-dim);">${fmtPrice(metrics?.api_cached_input ?? m.api_cache_hit)}</td>
@@ -2537,9 +2603,9 @@ function referenceQualityPct(m) {
   const q=fableQualityAnchor(m),rq=fableQualityAnchor(getRefModel());
   return Number.isFinite(q)&&Number.isFinite(rq)&&rq>0?Math.round(q/rq*100):null;
 }
-function heatMetricCell(value,max,kind) {
+function heatMetricCell(value,max,kind,extraClass='') {
   const n=finiteNumber(value),ratio=n!==null&&max?Math.max(0,Math.min(1,n/max)):0;
-  return `<td class="tnum mono metric-cell ${kind==='cost'?'cost':''} ${kind==='speed'?'speed-cell':''}" style="--heat:${(n===null?0:.06+ratio*.25).toFixed(2)}">${n!==null?(kind==='quality'||kind==='speed'||kind==='cost'?n.toFixed(1):n):'—'}</td>`;
+  return `<td class="tnum mono metric-cell ${kind==='cost'?'cost':''} ${kind==='speed'?'speed-cell':''} ${extraClass}" style="--heat:${(n===null?0:.06+ratio*.25).toFixed(2)}">${n!==null?(kind==='quality'||kind==='speed'||kind==='cost'?n.toFixed(1):n):'—'}</td>`;
 }
 
 function providerColor(provider) {
@@ -2549,89 +2615,51 @@ function providerColor(provider) {
   };
   return colors[provider]||'#8a8f96';
 }
-function modelNameLines(name,maxLength=15,maxLines=3) {
-  const words=String(name).replace(/-/g,'- ').split(/\s+/).filter(Boolean),lines=[];
-  words.forEach(word=>{
-    const clean=word.replace(/- $/,'-');
-    const last=lines[lines.length-1]||'';
-    if(last&&(last+' '+clean).length<=maxLength)lines[lines.length-1]=last+' '+clean;
-    else if(lines.length<maxLines)lines.push(clean);
-    else lines[maxLines-1]+=' '+clean;
-  });
-  return lines;
+function bubbleLabelKey(rows,summary) {
+  return `<div class="bubble-key" aria-label="Numbered model key">${rows.map((d,index)=>{
+    const color=providerColor(d.m.provider),details=summary(d);
+    return `<div class="bubble-key-item" data-bubble-index="${index}" tabindex="0" aria-label="Highlight ${escapeHtml(d.m.name)}: ${escapeHtml(details)}"><span class="bubble-key-index" style="--bubble-color:${color}">${index+1}</span><span><strong>${escapeHtml(d.m.name)}</strong><small>${escapeHtml(details)}</small></span></div>`;
+  }).join('')}</div>`;
 }
-function svgModelLabel(name,x,y,anchor='start',className='model-label') {
-  return `<text class="${className}" x="${x}" y="${y}" text-anchor="${anchor}">${modelNameLines(name).map((line,index)=>`<tspan x="${x}" dy="${index?'10':'0'}">${escapeHtml(line)}</tspan>`).join('')}</text>`;
-}
-function layoutModelLabels(points,bounds) {
-  const placed=[];
-  const result=new Map();
-  const ordered=[...points].sort((a,b)=>a.cy-b.cy||a.cx-b.cx);
-  ordered.forEach(point=>{
-    const lines=modelNameLines(point.name);
-    const width=Math.max(...lines.map(line=>line.length))*5.4;
-    const height=Math.max(1,lines.length)*10;
-    const preferred=point.cx<(bounds.left+bounds.right)/2?1:-1;
-    const candidates=[];
-    [preferred,-preferred].forEach(side=>{
-      [0,-14,14,-28,28,-42,42,-56,56,-70,70,-84,84].forEach(dy=>candidates.push({side,dy}));
-    });
-    let chosen=null;
-    for(const candidate of candidates){
-      const lx=point.cx+candidate.side*((point.radius||6)+8);
-      const ly=point.cy+candidate.dy-(lines.length-1)*5;
-      const left=candidate.side>0?lx:lx-width;
-      const rect={left,right:left+width,top:ly-8,bottom:ly-8+height};
-      const inside=rect.left>=bounds.left&&rect.right<=bounds.right&&rect.top>=bounds.top&&rect.bottom<=bounds.bottom;
-      const clear=placed.every(other=>rect.right+4<other.left||rect.left-4>other.right||rect.bottom+3<other.top||rect.top-3>other.bottom);
-      if(inside&&clear){chosen={lx,ly,anchor:candidate.side>0?'start':'end',rect};break;}
-    }
-    if(!chosen){
-      const side=preferred,lx=side>0?bounds.right-width-2:bounds.left+width+2;
-      let ly=Math.max(bounds.top+8,Math.min(bounds.bottom-height,point.cy));
-      while(placed.some(other=>Math.abs(other.top-(ly-8))<height+3)&&ly<bounds.bottom-height)ly+=height+4;
-      const left=side>0?lx:lx-width;
-      chosen={lx,ly,anchor:side>0?'start':'end',rect:{left,right:left+width,top:ly-8,bottom:ly-8+height}};
-    }
-    placed.push(chosen.rect);
-    result.set(point.id,chosen);
+function bindBubbleInteractions(panel) {
+  const marks=Array.from(panel.querySelectorAll('.bubble-mark'));
+  const items=Array.from(panel.querySelectorAll('.bubble-key-item'));
+  const readout=panel.querySelector('.bubble-readout');
+  const setActive=index=>{
+    panel.classList.add('bubble-active');
+    marks.forEach((mark,i)=>mark.classList.toggle('active',i===index));
+    items.forEach((item,i)=>item.classList.toggle('active',i===index));
+    if(readout)readout.textContent=marks[index]?.dataset.label||'';
+  };
+  const clear=()=>{
+    panel.classList.remove('bubble-active');
+    marks.forEach(mark=>mark.classList.remove('active'));
+    items.forEach(item=>item.classList.remove('active'));
+    if(readout)readout.textContent='Hover or focus a bubble or key entry to isolate it.';
+  };
+  [...marks,...items].forEach(element=>{
+    const index=Number(element.dataset.bubbleIndex);
+    element.addEventListener('mouseenter',()=>setActive(index));
+    element.addEventListener('focus',()=>setActive(index));
+    element.addEventListener('mouseleave',clear);
+    element.addEventListener('blur',clear);
   });
-  return result;
-}
-function layoutEdgeLabels(points,bounds) {
-  const result=new Map(),center=(bounds.left+bounds.right)/2;
-  const left=[],right=[];
-  [...points].sort((a,b)=>a.cx-b.cx).forEach((point,index)=>{
-    const target=point.cx<center?left:right;
-    target.push(point);
-    if(Math.abs(left.length-right.length)>2){
-      const source=left.length>right.length?left:right;
-      const destination=source===left?right:left;
-      destination.push(source.pop());
-    }
-  });
-  [left,right].forEach((group,sideIndex)=>{
-    group.sort((a,b)=>a.cy-b.cy).forEach((point,index)=>{
-      const y=bounds.top+(index+.5)*(bounds.bottom-bounds.top)/group.length;
-      result.set(point.id,{lx:sideIndex===0?bounds.left:bounds.right,ly:y,anchor:sideIndex===0?'end':'start'});
-    });
-  });
-  return result;
 }
 
 function renderModelAnalytics() {
   const host=document.getElementById('model-analytics'); if(!host)return;
   const rows=data.models.filter(m=>m.tier!=='legacy'&&jurisdictionMatch(m.jurisdiction)).map(m=>({m,...modelScores(m)})).filter(r=>[r.quality,r.speed,r.cost].every(Number.isFinite));
   if(!rows.length){host.innerHTML='';return;}
-  const w=1050,h=620,l=160,r=190,t=55,b=82;
+  const w=1050,h=570,l=95,r=35,t=35,b=78;
   const x=v=>l+v*(w-l-r)/100, y=v=>h-b-v*(h-t-b)/100;
   const points=rows.map((d,index)=>({id:index,name:d.m.name,cx:x(d.speed),cy:y(d.cost),radius:5+Math.sqrt(Math.max(10,Math.min(125,d.quality))/125)*15}));
-  const labelLayout=layoutEdgeLabels(points,{left:l-12,right:w-r+12,top:t+4,bottom:h-b-4});
-  const bubbles=rows.map((d,index)=>{const point=points[index],label=labelLayout.get(index),color=providerColor(d.m.provider);const edgeX=label.anchor==='end'?label.lx+4:label.lx-4;return `<g><polyline points="${point.cx},${point.cy} ${edgeX},${point.cy} ${edgeX},${label.ly-3}" fill="none" stroke="${color}" stroke-opacity=".34"/><circle cx="${point.cx}" cy="${point.cy}" r="${point.radius}" fill="${color}" fill-opacity=".22" stroke="${color}" stroke-width="1.2"><title>${escapeHtml(d.m.name)} · speed score ${d.speed.toFixed(1)}, cost efficiency ${d.cost.toFixed(1)}, quality vs reference ${d.quality.toFixed(0)}%</title></circle>${svgModelLabel(d.m.name,label.lx,label.ly,label.anchor)}</g>`}).join('');
+  const bubbles=rows.map((d,index)=>{const point=points[index],color=providerColor(d.m.provider),description=`${d.m.name}: speed score ${d.speed.toFixed(1)}, cost efficiency ${d.cost.toFixed(1)}, quality versus reference ${d.quality.toFixed(0)}%`;return `<g class="bubble-mark" data-bubble-index="${index}" data-label="${escapeHtml(description)}" tabindex="0" role="img" aria-label="${escapeHtml(description)}"><circle class="bubble-circle" cx="${point.cx}" cy="${point.cy}" r="${point.radius}" fill="${color}" fill-opacity=".28" stroke="${color}" stroke-width="1.5"><title>${escapeHtml(description)}</title></circle><text class="bubble-index" x="${point.cx}" y="${point.cy+3}" text-anchor="middle">${index+1}</text></g>`}).join('');
   const grid=[0,25,50,75,100].map(v=>`<line class="grid" x1="${x(v)}" y1="${t}" x2="${x(v)}" y2="${h-b}"/><line class="grid" x1="${l}" y1="${y(v)}" x2="${w-r}" y2="${y(v)}"/><text x="${x(v)}" y="${h-b+18}" text-anchor="middle">${v}</text><text x="${l-8}" y="${y(v)+3}" text-anchor="end">${v}</text>`).join('');
-  const bubble=`<div class="analytics-panel"><h3>Speed × cost efficiency</h3><p>Right and up is better. Bubble area encodes quality vs the selected reference; provider color distinguishes the major labs.</p><svg class="analytics-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Bubble chart comparing speed, cost efficiency and quality versus reference">${grid}<line class="axis" x1="${l}" y1="${h-b}" x2="${w-r}" y2="${h-b}"/><line class="axis" x1="${l}" y1="${t}" x2="${l}" y2="${h-b}"/>${bubbles}<text x="${(l+w-r)/2}" y="${h-18}" text-anchor="middle">SPEED SCORE →</text><text transform="translate(20 ${(t+h-b)/2}) rotate(-90)" text-anchor="middle">COST EFFICIENCY →</text></svg></div>`;
+  const key=bubbleLabelKey(rows,d=>`Speed ${d.speed.toFixed(1)} · cost ${d.cost.toFixed(1)} · quality ${d.quality.toFixed(0)}%`);
+  const bubble=`<div class="analytics-panel"><h3>Speed × cost efficiency</h3><p>Right and up is better. Bubble area encodes quality vs the selected reference; provider color distinguishes the major labs. Numbers map directly to the key below.</p><div class="bubble-readout" aria-live="polite">Hover or focus a bubble or key entry to isolate it.</div><svg class="analytics-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Bubble chart comparing speed, cost efficiency and quality versus reference">${grid}<line class="axis" x1="${l}" y1="${h-b}" x2="${w-r}" y2="${h-b}"/><line class="axis" x1="${l}" y1="${t}" x2="${l}" y2="${h-b}"/>${bubbles}<text x="${(l+w-r)/2}" y="${h-18}" text-anchor="middle">SPEED SCORE →</text><text transform="translate(22 ${(t+h-b)/2}) rotate(-90)" text-anchor="middle">COST EFFICIENCY →</text></svg>${key}</div>`;
   const cells=rows.sort((a,b)=>b.quality-a.quality).map(d=>`<div class="model">${escapeHtml(d.m.name)}</div>${['quality','speed','cost'].map(k=>`<div style="background:rgba(${k==='cost'?'224,82,50':'76,150,122'},${.08+d[k]/100*.32})">${d[k].toFixed(1)}</div>`).join('')}`).join('');
   host.innerHTML=bubble+`<div class="analytics-panel"><h3>Quality, speed and cost heat map</h3><p>Rows are ordered by quality vs the selected reference. No synthetic overall compound is applied.</p><div class="heatmap-grid"><div class="head">Model</div><div class="head">Quality vs ref</div><div class="head">Speed</div><div class="head">Cost</div>${cells}</div></div>`;
+  bindBubbleInteractions(host.querySelector('.analytics-panel'));
 }
 
 function burnBarClass(v) {
@@ -3069,6 +3097,8 @@ function renderMiniRadar(model, size, opts) {
   // When labels are shown, widen the viewBox so perimeter text isn't clipped.
   // Caller can override via opts.labelPad for tighter packing in small containers.
   const labelPad = opts.labelPad != null ? opts.labelPad : ((opts.showLabels || opts.showShortLabels) ? Math.max(60, size * 0.30) : 0);
+  const labelColor = opts.labelColor || '#d8dde6';
+  const captionColor = opts.captionColor || '#8892a6';
   const vbX = -labelPad;
   const vbW = size + labelPad * 2;
   const w = opts.width || (size + labelPad * 2);
@@ -3155,12 +3185,12 @@ function renderMiniRadar(model, size, opts) {
       else if (lx > cx + 3) anchor = 'start';
       const txt = opts.showLabels ? a.label.toUpperCase() : a.short.toUpperCase();
       const fs = opts.showLabels ? 9 : 8;
-      svg += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="#d8dde6" font-family="JetBrains Mono, monospace" font-size="${fs}" font-weight="500" letter-spacing="0.08em">${txt}</text>`;
+      svg += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${labelColor}" font-family="JetBrains Mono, monospace" font-size="${fs}" font-weight="650" letter-spacing="0.08em">${txt}</text>`;
     });
   }
 
   if(opts.zoomComparison){
-    svg += `<text x="${cx}" y="${size-3}" text-anchor="middle" fill="#8892a6" font-family="JetBrains Mono, monospace" font-size="8">ZOOMED AXIS ${domainMin}–${max}</text>`;
+    svg += `<text x="${cx}" y="${size-3}" text-anchor="middle" fill="${captionColor}" font-family="JetBrains Mono, monospace" font-size="8">ZOOMED AXIS ${domainMin}–${max}</text>`;
   }
 
   svg += '</svg>';
@@ -3265,7 +3295,7 @@ function applyBurnVariantC(container) {
         <div class="name">${m.name} <span class="effort-tag">@ ${effort}</span></div>
         <div class="composite">${fmtComposite(comp)} <span class="ceil">/ ceiling ${fmtComposite(compCeil)}</span></div>
         <div class="axes-clockwise"><span>Axes (clockwise from top):</span> ${axesClockwise}</div>
-        ${renderMiniRadar(m, 230, { effort, ref, refLevels:comparisonRefLevels, showLabels: true, allRings: true, zoomComparison: true, r: 0.31, labelOffset: 14, labelPad: 88 })}
+        ${renderMiniRadar(m, 230, { effort, ref, refLevels:comparisonRefLevels, showLabels: true, allRings: true, zoomComparison: true, r: 0.31, labelOffset: 14, labelPad: 88, labelColor: '#26364b', captionColor: '#546a82' })}
         <div class="legend-swatch-row">
           <span><span class="sw-primary"></span>this model @ ${effort}</span>
           <span><span class="sw-overlay"></span>${ref ? ref.name : 'reference'} (${m.id===ref?.id?'same-effort baseline':'capability ceiling'})</span>
@@ -4112,13 +4142,14 @@ function renderDecisionMatrix() {
     const sc=modelScores(m),cap=composite(m,weights); const market=[sc.quality,sc.speed,sc.cost].filter(Number.isFinite);
     return {m,cap:cap==null?null:cap*100,market:market.length===3?market.reduce((a,b)=>a+b,0)/market.length:null};
   }).filter(d=>Number.isFinite(d.cap)&&Number.isFinite(d.market));
-  const w=1200,h=650,l=180,r=220,t=65,b=95,maxMarket=110,x=v=>l+Math.max(0,Math.min(maxMarket,v))*(w-l-r)/maxMarket,y=v=>h-b-v*(h-t-b)/100;
+  const w=1200,h=600,l=115,r=40,t=40,b=85,maxMarket=110,x=v=>l+Math.max(0,Math.min(maxMarket,v))*(w-l-r)/maxMarket,y=v=>h-b-v*(h-t-b)/100;
   const xTicks=[0,25,50,75,100],yTicks=[0,25,50,75,100];
   const grid=xTicks.map(v=>`<line class="grid" x1="${x(v)}" y1="${t}" x2="${x(v)}" y2="${h-b}"/><text x="${x(v)}" y="${h-b+20}" text-anchor="middle">${v}</text>`).join('')+yTicks.map(v=>`<line class="grid" x1="${l}" y1="${y(v)}" x2="${w-r}" y2="${y(v)}"/><text x="${l-10}" y="${y(v)+3}" text-anchor="end">${v}</text>`).join('');
   const points=rows.map((d,index)=>({id:index,name:d.m.name,cx:x(d.market),cy:y(d.cap),radius:6}));
-  const labelLayout=layoutEdgeLabels(points,{left:l-12,right:w-r+12,top:t+4,bottom:h-b-4});
-  const marks=rows.map((d,index)=>{const point=points[index],label=labelLayout.get(index),color=providerColor(d.m.provider),edgeX=label.anchor==='end'?label.lx+4:label.lx-4;return `<g><polyline points="${point.cx},${point.cy} ${edgeX},${point.cy} ${edgeX},${label.ly-3}" fill="none" stroke="${color}" stroke-opacity=".34"/><circle cx="${point.cx}" cy="${point.cy}" r="6" fill="${color}" stroke="#fff" stroke-width="1"><title>${escapeHtml(d.m.name)} · capability ${d.cap.toFixed(1)}, quality/speed/cost mean ${d.market.toFixed(1)}</title></circle>${svgModelLabel(d.m.name,label.lx,label.ly,label.anchor)}</g>`}).join('');
-  panel.innerHTML=`<h3>Capability × market position</h3><p>The vertical axis is the focus-weighted six-category capability score. The horizontal axis averages quality vs reference, speed, and cost efficiency. Major US and Chinese labs have dedicated colors; all other providers use grey.</p><svg class="analytics-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Matrix comparing capability and market scores">${grid}<line x1="${x(50)}" y1="${t}" x2="${x(50)}" y2="${h-b}" stroke="#c9c6bf" stroke-dasharray="4 4"/><line x1="${l}" y1="${y(50)}" x2="${w-r}" y2="${y(50)}" stroke="#c9c6bf" stroke-dasharray="4 4"/>${marks}<text x="${(l+w-r)/2}" y="${h-22}" text-anchor="middle">MEAN OF QUALITY VS REF + SPEED + COST →</text><text transform="translate(25 ${(t+h-b)/2}) rotate(-90)" text-anchor="middle">6-CATEGORY CAPABILITY SCORE →</text></svg>`;
+  const marks=rows.map((d,index)=>{const point=points[index],color=providerColor(d.m.provider),description=`${d.m.name}: capability ${d.cap.toFixed(1)}, quality speed and cost mean ${d.market.toFixed(1)}`;return `<g class="bubble-mark" data-bubble-index="${index}" data-label="${escapeHtml(description)}" tabindex="0" role="img" aria-label="${escapeHtml(description)}"><circle class="bubble-circle" cx="${point.cx}" cy="${point.cy}" r="9" fill="${color}" fill-opacity=".82" stroke="#fff" stroke-width="1.5"><title>${escapeHtml(description)}</title></circle><text class="bubble-index" x="${point.cx}" y="${point.cy+3}" text-anchor="middle">${index+1}</text></g>`}).join('');
+  const key=bubbleLabelKey(rows,d=>`Capability ${d.cap.toFixed(1)} · market ${d.market.toFixed(1)}`);
+  panel.innerHTML=`<h3>Capability × market position</h3><p>The vertical axis is the focus-weighted six-category capability score. The horizontal axis averages quality vs reference, speed, and cost efficiency. Numbers map directly to the provider-colored key below.</p><div class="bubble-readout" aria-live="polite">Hover or focus a bubble or key entry to isolate it.</div><svg class="analytics-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Matrix comparing capability and market scores">${grid}<line x1="${x(50)}" y1="${t}" x2="${x(50)}" y2="${h-b}" stroke="#c9c6bf" stroke-dasharray="4 4"/><line x1="${l}" y1="${y(50)}" x2="${w-r}" y2="${y(50)}" stroke="#c9c6bf" stroke-dasharray="4 4"/>${marks}<text x="${(l+w-r)/2}" y="${h-22}" text-anchor="middle">MEAN OF QUALITY VS REF + SPEED + COST →</text><text transform="translate(22 ${(t+h-b)/2}) rotate(-90)" text-anchor="middle">6-CATEGORY CAPABILITY SCORE →</text></svg>${key}`;
+  bindBubbleInteractions(panel);
 }
 
 function enhanceLargeTables() {
