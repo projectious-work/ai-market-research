@@ -2,7 +2,7 @@
 apiVersion: processkit.projectious.work/v2
 kind: Binding
 metadata:
-  id: BIND-20260516_0934-AlertAnchor-role-slot-fill
+  id: BIND-sage-role-slot-fill-h8b04fa
   created: '2026-05-16T09:34:05+00:00'
 spec:
   type: role-slot-fill

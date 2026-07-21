@@ -1,0 +1,5 @@
+[sensitive_data.email_allowlist]
+addresses = [
+  "info@projectious.work",
+  "deploy@example.local",
+]

@@ -26,6 +26,9 @@ _CLI_MIGRATION_RE = re.compile(
 _LEGACY_RUNTIME_MIGRATION_RE = re.compile(
     r"^MIG-RUNTIME(?:-DRIFT)?-\d{8}T\d{6}$"
 )
+_HISTORICAL_RUNTIME_MIGRATION_IDS = {
+    "MIG-DISABLED-HARNESS-STATE",
+}
 _CLI_MIGRATION_COMPLETED_RE = re.compile(
     r"^\*\*Status:\*\*\s*completed\b",
     re.IGNORECASE | re.MULTILINE,
@@ -211,7 +214,10 @@ def _sample(paths: list[Path], repo_root: Path, limit: int = 5) -> list[str]:
 
 
 def _filename_style(stem: str, prefix: str) -> str:
-    if prefix == "MIG" and _LEGACY_RUNTIME_MIGRATION_RE.match(stem):
+    if prefix == "MIG" and (
+        _LEGACY_RUNTIME_MIGRATION_RE.match(stem)
+        or stem in _HISTORICAL_RUNTIME_MIGRATION_IDS
+    ):
         return "legacy_runtime_migration"
     if not stem.startswith(prefix + "-"):
         return "other"

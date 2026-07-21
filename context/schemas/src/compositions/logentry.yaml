@@ -74,6 +74,9 @@ spec:
     - retro.completed
     - role.created
     - role.updated
+    - role_slot.created
+    - role_slot.filled
+    - role_slot.closed
     - scope.created
     - scope.transitioned
     - session.ended
