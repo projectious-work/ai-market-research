@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "researched_at": "2026-07-18",
+  "researched_at": "2026-07-21",
   "currency": "USD",
   "reference_options": [
     "fable-5",
@@ -430,14 +430,14 @@
       "quality_vs_fable": 99.2,
       "task_speed_index": null,
       "speed_score": null,
-      "api_input": null,
-      "api_cached_input": null,
-      "api_output": null,
-      "blended_price": null,
-      "cost_score": null,
+      "api_input": 3,
+      "api_cached_input": 0.3,
+      "api_output": 15,
+      "blended_price": 11.4,
+      "cost_score": 60.8,
       "scq_compound": null,
       "speed_evidence": "No comparable end-to-end task-time or output-throughput figure published for K3 at launch.",
-      "source": "https://www.kimi.com/blog/kimi-k3"
+      "source": "https://www.kimi.com/resources/kimi-k3-pricing"
     },
     {
       "model_id": "opus-4.8",
@@ -689,6 +689,15 @@
           "xhigh",
           "max"
         ]
+      },
+      {
+        "model_id": "kimi-k3",
+        "base_blended_price": 11.4,
+        "cache_read_ratio": 0.1,
+        "efforts": [
+          "max"
+        ],
+        "note": "Always-on reasoning at launch; the max-only effort control is behavioral and not a published token multiplier."
       }
     ],
     "efficiency_filters": {
@@ -905,6 +914,11 @@
   ],
   "changelog": [
     {
+      "date": "2026-07-21",
+      "tag": "model",
+      "text": "Added official Kimi K3 API pricing and derived the documented 30/70 workload blend and cost-efficiency score; no task-speed compound is shown because comparable speed evidence remains unavailable."
+    },
+    {
       "date": "2026-07-19",
       "text": "Added a dated GPU-hosting price tracker with billing-basis normalization, historical Runpod price changes, current Contabo configurations, and quote-aware Infomaniak options. Replaced stale Vast.ai constants with live-marketplace status."
     },
@@ -945,6 +959,12 @@
       "title": "GPT-5.6 launch and evaluations",
       "url": "https://openai.com/index/gpt-5-6/",
       "accessed": "2026-07-18"
+    },
+    {
+      "id": "moonshot-kimi-k3-pricing",
+      "title": "Kimi K3 API pricing",
+      "url": "https://www.kimi.com/resources/kimi-k3-pricing",
+      "accessed": "2026-07-21"
     },
     {
       "id": "openai-models",

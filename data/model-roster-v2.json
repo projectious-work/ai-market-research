@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0-preview",
-  "researched_at": "2026-07-18",
+  "researched_at": "2026-07-21",
   "default_reference": "fable-5",
   "inclusion_policy": {
     "default_limit_per_provider": 3,
@@ -430,7 +430,7 @@
       "scope": "core",
       "status": "stable",
       "context": "1M",
-      "price": "Not published in the cited launch materials",
+      "price": "$3 / $15; cached input $0.30",
       "license": "Terms pending weight release",
       "control": "reasoning effort",
       "levels": [
@@ -440,7 +440,7 @@
       "speed_band": "deliberate",
       "speed_note": "No comparable K3 output-rate figure at launch; max thinking is always enabled.",
       "availability": "API, Kimi, Kimi Work and Kimi Code; weights promised by July 27",
-      "source": "https://www.kimi.com/blog/kimi-k3"
+      "source": "https://www.kimi.com/resources/kimi-k3-pricing"
     },
     {
       "id": "kimi-k2.7-code",

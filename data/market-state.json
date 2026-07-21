@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-07-19T18:57:52Z",
+    "generated_at": "2026-07-21T10:07:32Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
@@ -267,6 +267,16 @@
     }
   },
   "changelog": [
+    {
+      "date": "2026-07-21",
+      "tag": "harness",
+      "text": "Refreshed five open agent harnesses from their canonical GitHub releases: Codex CLI 0.144.6, Gemini CLI 0.51.0, OpenCode 1.18.4, Cline 4.0.10, and Goose 1.43.0; updated repository star snapshots and notable release capabilities."
+    },
+    {
+      "date": "2026-07-21",
+      "tag": "model",
+      "text": "Added Moonshot's official Kimi K3 API pricing: $3/M uncached input, $0.30/M cached input, and $15/M output; the 30/70 workload blend is $11.40/M before reasoning-effort effects."
+    },
     {
       "date": "2026-07-18",
       "tag": "model",
@@ -653,9 +663,9 @@
       "livecodebench": null,
       "aime": null,
       "tau2": null,
-      "api_in": null,
-      "api_out": null,
-      "api_cache_hit": null,
+      "api_in": 3,
+      "api_out": 15,
+      "api_cache_hit": 0.3,
       "batch_discount": null,
       "tok_per_sec": null,
       "subscription": "Kimi API, Kimi Code, Kimi Work",
@@ -664,7 +674,7 @@
       "effort_levels": [
         "max"
       ],
-      "notes": "2.8T sparse MoE with 16/896 experts active, native vision and always-on thinking. Full weights promised by July 27, 2026.",
+      "notes": "2.8T sparse MoE with 16/896 experts active, native vision and always-on thinking. API pricing is $3/M uncached input, $0.30/M cached input and $15/M output. Full weights promised by July 27, 2026.",
       "quality_vs_fable": 99.2,
       "quality_evidence": "Geometric mean across 14 overlapping values in Moonshot’s launch comparison; vendor-reported, max/xhigh settings.",
       "capability_levels": {
@@ -1810,10 +1820,10 @@
     {
       "id": "opencode",
       "name": "OpenCode",
-      "vendor": "sst",
+      "vendor": "Anomaly",
       "license": "MIT",
       "category": "CLI + ACP",
-      "stars": 147000,
+      "stars": 188119,
       "providers": [
         "75+: Anthropic*, OpenAI, Google, Mistral, Kimi, GLM, Ollama, LM Studio"
       ],
@@ -1830,11 +1840,12 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free (BYOK)",
-      "sweet_spot": "75+ providers including Grok OAuth. Desktop multi-server tabs, collapsed thinking view. Adaptive reasoning for Opus 4.7+.",
+      "sweet_spot": "v1.18.4 (Jul 20, 2026): adaptive Kimi thinking controls, provider-defined reasoning options, restored Azure endpoints, and a rewritten desktop prompt input.",
       "stumbles": "Anthropic OAuth blocked April 4 — must use API key.",
       "cite": [
         24,
-        35
+        35,
+        72
       ]
     },
     {
@@ -1843,7 +1854,7 @@
       "vendor": "OpenAI",
       "license": "Apache 2.0",
       "category": "CLI + macOS app",
-      "stars": 76800,
+      "stars": 100232,
       "providers": [
         "OpenAI"
       ],
@@ -1860,11 +1871,12 @@
       "sandbox": "cloud",
       "swe_pro": 56.8,
       "pricing": "Plus $20 / Pro $200",
-      "sweet_spot": "v0.134.0 (May 26, 2026): conversation-history search, iOS notification handoff, /archive, Windows elevated sandbox, --profile unification. 1M+ devs in first month.",
+      "sweet_spot": "v0.144.6 (Jul 18, 2026): refreshed GPT-5.6 Sol/Terra/Luna bundled instructions and corrected Codex context-window metadata to 272K.",
       "stumbles": "OpenAI-only. No MCP, no hooks. Tightly coupled to apply_patch tool.",
       "cite": [
         25,
-        36
+        36,
+        70
       ]
     },
     {
@@ -1873,7 +1885,7 @@
       "vendor": "Google",
       "license": "Apache 2.0",
       "category": "CLI",
-      "stars": 96000,
+      "stars": 106096,
       "providers": [
         "Google"
       ],
@@ -1890,10 +1902,11 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free 1000 req/day",
-      "sweet_spot": "v0.44.0 (May 27, 2026), last major release. Free tier 1000 req/day at 1M context.",
+      "sweet_spot": "v0.51.0 (Jul 16, 2026): hardened sensitive-path and symlink handling, read-only macOS sandbox git config, and modern-model escape-sequence fixes.",
       "stumbles": "Sunsetting to Antigravity CLI for free tier on June 18, 2026; paid Gemini/Enterprise keys retain access.",
       "cite": [
-        26
+        26,
+        71
       ]
     },
     {
@@ -1935,7 +1948,7 @@
       "vendor": "cline-bot",
       "license": "Apache 2.0",
       "category": "VS Code extension",
-      "stars": 35000,
+      "stars": 64886,
       "providers": [
         "Anthropic*",
         "OpenAI",
@@ -1956,11 +1969,12 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free (BYOK)",
-      "sweet_spot": "v3.81. Plan/Act split. JetBrains/Cursor/Windsurf/Zed/Neovim/macOS+Linux CLI preview. Teams free <10 seats then $20/seat/mo from Q2 2026.",
+      "sweet_spot": "v4.0.10 (Jul 20, 2026): current release adds telemetry for consecutive-mistake-limit events; multi-editor and CLI surfaces remain available.",
       "stumbles": "Anthropic OAuth blocked. Can be expensive on long sessions.",
       "cite": [
         28,
-        35
+        35,
+        73
       ]
     },
     {
@@ -2067,7 +2081,7 @@
       "vendor": "Block",
       "license": "Apache 2.0",
       "category": "Desktop + CLI",
-      "stars": 15000,
+      "stars": 51387,
       "providers": [
         "Anthropic*",
         "OpenAI",
@@ -2088,11 +2102,12 @@
       "sandbox": "local",
       "swe_pro": null,
       "pricing": "Free (BYOK)",
-      "sweet_spot": "v1.36.0. TUI command + diff viewer, goose review, /goal self-evaluation, ACP support. Block-backed.",
+      "sweet_spot": "v1.43.0 (Jul 14, 2026): per-message token/cost/TTFT/tok-s metrics, ACP reconnection, GPT-5.6 support, dynamic Ollama Cloud discovery, and expanded providers.",
       "stumbles": "Anthropic OAuth blocked. Less mindshare than OpenCode.",
       "cite": [
         30,
-        35
+        35,
+        74
       ]
     },
     {
@@ -4400,6 +4415,42 @@
       "category": "Hosting",
       "title": "Vast.ai marketplace pricing methodology",
       "url": "https://docs.vast.ai/guides/instances/pricing"
+    },
+    {
+      "n": 70,
+      "category": "Harnesses",
+      "title": "Codex CLI 0.144.6 release",
+      "url": "https://github.com/openai/codex/releases/tag/rust-v0.144.6"
+    },
+    {
+      "n": 71,
+      "category": "Harnesses",
+      "title": "Gemini CLI 0.51.0 release",
+      "url": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.51.0"
+    },
+    {
+      "n": 72,
+      "category": "Harnesses",
+      "title": "OpenCode 1.18.4 release",
+      "url": "https://github.com/anomalyco/opencode/releases/tag/v1.18.4"
+    },
+    {
+      "n": 73,
+      "category": "Harnesses",
+      "title": "Cline 4.0.10 release",
+      "url": "https://github.com/cline/cline/releases/tag/v4.0.10"
+    },
+    {
+      "n": 74,
+      "category": "Harnesses",
+      "title": "Goose 1.43.0 release",
+      "url": "https://github.com/aaif-goose/goose/releases/tag/v1.43.0"
+    },
+    {
+      "n": 75,
+      "category": "Moonshot",
+      "title": "Kimi K3 API pricing",
+      "url": "https://www.kimi.com/resources/kimi-k3-pricing"
     }
   ],
   "provider_sources": {
@@ -4444,7 +4495,8 @@
       20,
       21,
       60,
-      61
+      61,
+      75
     ],
     "Zhipu": [
       20,
@@ -4501,7 +4553,12 @@
       52,
       53,
       54,
-      55
+      55,
+      70,
+      71,
+      72,
+      73,
+      74
     ],
     "self_hosting": [
       20,
