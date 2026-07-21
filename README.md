@@ -3,6 +3,7 @@
 [![Latest release](https://img.shields.io/github/v/release/projectious-work/ai-market-research?label=release&color=blue)](https://github.com/projectious-work/ai-market-research/releases/latest)
 [![Live site](https://img.shields.io/badge/live-projectious--work.github.io-success)](https://projectious-work.github.io/ai-market-research/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Lifecycle: active](https://img.shields.io/badge/lifecycle-active-success.svg)](#project-status)
 
 A static intelligence report tracking the AI model and tooling landscape,
 focused on the decisions an AI infrastructure-oriented developer actually
@@ -55,6 +56,10 @@ hold, which agent harness to run, and what to self-host.
 
 The outputs are self-contained static HTML files. There is no JavaScript
 framework, package-manager build chain, or runtime CDN dependency.
+
+The research-data rules covering source rights, attribution, permitted use,
+retention, update verification, and privacy review are documented in
+[`docs/research-data-policy.md`](docs/research-data-policy.md).
 
 ## Quickstart
 
@@ -124,6 +129,16 @@ Do not cut a version directly before the release gates have been evaluated.
 This is a public, executive-oriented market report and a reusable static
 dashboard implementation. The code is MIT-licensed; fork it freely if the
 structure is useful for your own market-watching workflow.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the source, validation, canonical
+Git identity, and local deployment requirements. Security reports follow the
+private-first process in [SECURITY.md](SECURITY.md).
+
+## Project status
+
+**Lifecycle: active.** The market roster and published dashboard are actively
+maintained. Historical snapshots remain available for provenance, but only the
+current dashboard and latest tagged release are supported.
 
 ## License
 

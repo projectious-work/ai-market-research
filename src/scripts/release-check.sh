@@ -13,6 +13,9 @@ set -euo pipefail
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$REPO_ROOT"
 
+echo "validating canonical Git email"
+bash src/scripts/check-git-email.sh
+
 echo "validating data/market-state.json"
 python3 -m json.tool data/market-state.json > /dev/null
 
