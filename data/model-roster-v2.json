@@ -692,6 +692,31 @@
         "20b"
       ],
       "source": "https://openai.com/index/introducing-gpt-oss/"
+    },
+    {
+      "id": "apertus-v1.1-4b-instruct",
+      "name": "Apertus v1.1 4B Instruct",
+      "family": "Apertus v1.1",
+      "provider": "Swiss AI Initiative",
+      "region": "Switzerland",
+      "channel": "open_weight",
+      "scope": "core",
+      "status": "stable",
+      "context": "4K",
+      "price": "Self-hosted",
+      "license": "Apache-2.0",
+      "control": "sampling parameters",
+      "levels": [],
+      "default_level": "n/a",
+      "speed_band": "unknown",
+      "speed_note": "No comparable throughput measurement is published; performance depends on hardware, runtime and quantization.",
+      "availability": "Weights; Transformers, vLLM, SGLang and quantized checkpoints",
+      "variants": [
+        "0.5B",
+        "1.5B",
+        "4B"
+      ],
+      "source": "https://huggingface.co/swiss-ai/Apertus-v1.1-4B-Instruct"
     }
   ],
   "watchlist": [

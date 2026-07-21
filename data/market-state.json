@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-07-21T10:07:32Z",
+    "generated_at": "2026-07-21T12:12:55Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
@@ -31,7 +31,7 @@
     {
       "id": "frontier_count",
       "label": "Models tracked",
-      "value": 31,
+      "value": 32,
       "unit": "",
       "delta": "Current, fast and retained compatibility models",
       "delta_dir": "up",
@@ -133,7 +133,7 @@
     {
       "id": "quality_coverage",
       "label": "Models with quality evidence",
-      "value": "29/31",
+      "value": "29/32",
       "unit": "",
       "delta": "Unknown remains unknown; no zero-value substitution",
       "delta_dir": "neutral",
@@ -269,6 +269,11 @@
   "changelog": [
     {
       "date": "2026-07-21",
+      "tag": "model",
+      "text": "Added Apertus-v1.1-4B-Instruct, the largest newly released Apertus Mini checkpoint: fully open Apache 2.0 weights and data, 4K context, 1.7T-token distillation, 1,811 languages, and official BF16, FP8, NVFP4A16, INT3, INT4 and INT6 variants."
+    },
+    {
+      "date": "2026-07-21",
       "tag": "harness",
       "text": "Refreshed five open agent harnesses from their canonical GitHub releases: Codex CLI 0.144.6, Gemini CLI 0.51.0, OpenCode 1.18.4, Cline 4.0.10, and Goose 1.43.0; updated repository star snapshots and notable release capabilities."
     },
@@ -336,11 +341,6 @@
       "date": "2026-05-26",
       "tag": "harness",
       "text": "Codex CLI v0.134.0 — conversation-history search, iOS notification handoff, /archive, Windows elevated sandbox."
-    },
-    {
-      "date": "2026-05-22",
-      "tag": "model",
-      "text": "DeepSeek V4-Pro hits permanent pricing $0.435/$0.87 per MTok — roughly Opus-class quality at ~1/10 the cost."
     }
   ],
   "actions": [
@@ -1546,6 +1546,33 @@
         "multimodal": 10,
         "agentic": 34
       }
+    },
+    {
+      "id": "apertus-v1.1-4b-instruct",
+      "name": "Apertus v1.1 4B Instruct",
+      "provider": "Swiss AI Initiative",
+      "tier": "fast",
+      "released": "2026-06-15",
+      "license": "Apache 2.0",
+      "jurisdiction": "Switzerland",
+      "context": 4096,
+      "context_label": "4K",
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Self-hosted weights",
+      "notes": "Largest newly released Apertus v1.1 distilled checkpoint. Dense 4.6B storage / 3.8B compute parameters, trained on 1.7T tokens, supports 1,811 languages, and ships in BF16 plus server and Apple-oriented quantizations. No comparable coding-agent, throughput, or API-price evidence is published.",
+      "reasoning_capable": false,
+      "effort_default": null,
+      "effort_levels": [],
+      "cache_discount": null
     }
   ],
   "subscriptions": [
@@ -4336,6 +4363,12 @@
       "category": "Moonshot",
       "title": "Kimi K3 API pricing",
       "url": "https://www.kimi.com/resources/kimi-k3-pricing"
+    },
+    {
+      "n": 76,
+      "category": "Swiss AI Initiative",
+      "title": "Apertus v1.1 4B Instruct model card",
+      "url": "https://huggingface.co/swiss-ai/Apertus-v1.1-4B-Instruct"
     }
   ],
   "provider_sources": {
@@ -4396,6 +4429,9 @@
       20,
       21
     ],
+    "Swiss AI Initiative": [
+      76
+    ],
     "SubQ": []
   },
   "section_sources": {
@@ -4420,7 +4456,8 @@
       18,
       60,
       61,
-      62
+      62,
+      76
     ],
     "harnesses": [
       23,
@@ -4457,7 +4494,8 @@
       66,
       67,
       68,
-      69
+      69,
+      76
     ],
     "strategy": [
       1,
