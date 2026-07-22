@@ -194,8 +194,8 @@
     },
     {
       "id": "open_weight_quality",
-      "label": "Open-weight quality vs Fable 5",
-      "explanation": "Best open-weight model relative to Fable 5. Kimi K3 is 99.2 from the geometric mean of 14 overlapping launch-suite values. Higher is better; vendor-reported values require independent reproduction.",
+      "label": "Open-weight quality vs selected reference",
+      "explanation": "Best open-weight model relative to the selected reference. Stored history is Fable-anchored and rebased in the browser whenever the reference changes. July uses Kimi K3's geometric mean across 14 overlapping launch-suite values; vendor-reported values require independent reproduction.",
       "unit": "%",
       "direction": "up",
       "current": 99.2,
@@ -962,6 +962,11 @@
     }
   ],
   "changelog": [
+    {
+      "date": "2026-07-22",
+      "tag": "method",
+      "text": "Marked the open-weight quality history as a Fable-anchored source series that is rebased in the browser against the selected reference; fixed task-speed remains explicitly Fable-indexed."
+    },
     {
       "date": "2026-07-22",
       "tag": "model",

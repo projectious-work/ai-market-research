@@ -12,7 +12,7 @@ hold, which agent harness to run, and what to self-host.
 
 **Live Signal Room:** <https://projectious-work.github.io/ai-market-research/>
 **Latest release:** <https://github.com/projectious-work/ai-market-research/releases/latest>
-([v0.3.2](https://github.com/projectious-work/ai-market-research/releases/tag/v0.3.2))
+([v0.3.3](https://github.com/projectious-work/ai-market-research/releases/tag/v0.3.3))
 
 [![Signal Room starting page](docs/assets/signal-room-start.png)](https://projectious-work.github.io/ai-market-research/)
 

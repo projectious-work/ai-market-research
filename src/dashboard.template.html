@@ -231,6 +231,9 @@ main {
 .stat-mini-trend .line { fill:none; stroke:var(--accent); stroke-width:1.5; vector-effect:non-scaling-stroke; }
 .stat-mini-trend .area { fill:rgba(224,82,50,.08); }
 .stat-mini-timeline { display:flex; justify-content:space-between; margin-top:0.15rem; color:var(--text-faint); font:0.58rem var(--mono); }
+.stat-stack-legend { display:flex; flex-wrap:wrap; gap:0.2rem 0.65rem; margin-top:0.3rem; color:var(--text-dim); font:0.58rem var(--mono); }
+.stat-stack-legend span { display:inline-flex; align-items:center; gap:0.28rem; }
+.stat-stack-legend i { width:0.55rem; height:0.55rem; border-radius:1px; display:inline-block; }
 
 .dash-section {
   grid-column: span 6;
@@ -2272,9 +2275,7 @@ function qualityPct(model) {
   return referenceQualityPct(model);
 }
 function localQualityPct(localModel) {
-  const ref = getRefModel();
-  if (!ref || !ref.swe_pro || !localModel.swe_pro) return null;
-  return Math.round(localModel.swe_pro / ref.swe_pro * 100);
+  return referenceQualityPct(localModel);
 }
 function jurisdictionMatch(j) {
   if (currentJurisdiction === 'all') return true;
@@ -2317,6 +2318,69 @@ function statMiniTrend(history) {
   return `<div class="stat-mini-trend"><svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><polygon class="area" points="${p},${h-p} ${points} ${w-p},${h-p}"/><polyline class="line" points="${points}"/></svg><div class="stat-mini-timeline"><span>${label(first)}</span><span>${label(last)}</span></div></div>`;
 }
 
+function statStackedTrend(config) {
+  const history=config?.history||[],series=config?.series||[];
+  if(history.length<2||series.length<2)return '';
+  const totals=history.map(point=>series.reduce((sum,item)=>sum+(Number(point[item.key])||0),0));
+  const w=220,h=44,p=2,max=Math.max(1,...totals);
+  const x=index=>p+index*(w-p*2)/Math.max(1,history.length-1);
+  const y=value=>h-p-value*(h-p*2)/max;
+  let cumulative=history.map(()=>0);
+  const layers=series.map(item=>{
+    const lower=cumulative.slice();
+    const upper=history.map((point,index)=>lower[index]+(Number(point[item.key])||0));
+    cumulative=upper;
+    const polygon=upper.map((value,index)=>`${x(index).toFixed(1)},${y(value).toFixed(1)}`)
+      .concat(lower.map((value,index)=>`${x(index).toFixed(1)},${y(value).toFixed(1)}`).reverse()).join(' ');
+    return `<polygon points="${polygon}" fill="${escapeHtml(item.color)}" fill-opacity=".72" stroke="${escapeHtml(item.color)}" stroke-width="1"><title>${escapeHtml(item.label)}</title></polygon>`;
+  }).join('');
+  const first=new Date(history[0].date),last=new Date(history[history.length-1].date);
+  const label=date=>date.toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+  const latest=history[history.length-1];
+  const legend=series.map(item=>`<span><i style="background:${escapeHtml(item.color)}"></i>${escapeHtml(item.label)} ${Number(latest[item.key])||0}</span>`).join('');
+  const aria=series.map(item=>`${item.label} ${Number(latest[item.key])||0}`).join(', ');
+  return `<div class="stat-mini-trend" title="${escapeHtml(config.note||'')}"><svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" role="img" aria-label="Stacked roster history; latest total ${totals[totals.length-1]}: ${escapeHtml(aria)}">${layers}</svg><div class="stat-mini-timeline"><span>${label(first)}</span><span>${label(last)}</span></div><div class="stat-stack-legend">${legend}</div></div>`;
+}
+
+function isOpenWeightModel(model) {
+  return /mit|apache|open[- ]weight|open model/i.test(model?.license||'');
+}
+function bestOpenWeightModel() {
+  return data.models.filter(isOpenWeightModel)
+    .map(model=>({model,anchor:fableQualityAnchor(model)}))
+    .filter(item=>Number.isFinite(item.anchor))
+    .sort((a,b)=>b.anchor-a.anchor)[0]?.model||null;
+}
+function dynamicHeadlineStat(stat) {
+  if(stat.id!=='best_open_pct')return stat;
+  const ref=getRefModel(),best=bestOpenWeightModel();
+  const bestAnchor=fableQualityAnchor(best),refAnchor=fableQualityAnchor(ref);
+  const value=Number.isFinite(bestAnchor)&&Number.isFinite(refAnchor)&&refAnchor>0
+    ? Math.round(bestAnchor/refAnchor*1000)/10 : null;
+  return {...stat,
+    label:`Best open-weight vs ${ref?.name||'selected reference'}`,
+    value:value===null?'—':value,
+    delta:value===null?'Insufficient comparable evidence for the selected reference':`${best.name}; rebased from the documented Fable-anchored comparison`,
+    delta_dir:value===null?'neutral':stat.delta_dir,
+  };
+}
+function referenceRelativeSignal(signal) {
+  if(signal.id!=='open_weight_quality')return signal;
+  const ref=getRefModel(),refAnchor=fableQualityAnchor(ref),best=bestOpenWeightModel();
+  if(!Number.isFinite(refAnchor)||refAnchor<=0)return {...signal,
+    label:`Open-weight quality vs ${ref?.name||'selected reference'}`,
+    explanation:'No comparable quality anchor is available for the selected reference.',
+    history:[],current:null,
+  };
+  const rebase=value=>Math.round(Number(value)*1000/refAnchor)/10;
+  return {...signal,
+    label:`Open-weight quality vs ${ref.name}`,
+    explanation:`Best open-weight model relative to ${ref.name}. The stored Fable-anchored series is rebased when the reference changes; ${best?.name||'the current leader'} supplies the latest point.`,
+    current:rebase(signal.current),
+    history:(signal.history||[]).map(point=>({...point,value:rebase(point.value)})),
+  };
+}
+
 // ---------- DASHBOARD ----------
 function renderDashboard() {
   const grid = document.getElementById('dash-grid');
@@ -2333,8 +2397,9 @@ function renderDashboard() {
   grid.appendChild(headline);
 
   // Stat tiles
-  const signals=Object.fromEntries((data.report_metrics?.market_signals||[]).map(signal=>[signal.id,signal]));
-  data.headline_stats.forEach(s => {
+  const signals=Object.fromEntries((data.report_metrics?.market_signals||[]).map(referenceRelativeSignal).map(signal=>[signal.id,signal]));
+  data.headline_stats.forEach(rawStat => {
+    const s=dynamicHeadlineStat(rawStat);
     const tile = document.createElement('div');
     tile.className = 'stat-tile';
     const trend=s.trend||(s.signal_id&&signals[s.signal_id]?.history)||null;
@@ -2342,7 +2407,7 @@ function renderDashboard() {
       <div class="label">${s.label}</div>
       <div class="value">${s.value}<span class="unit">${s.unit || ''}</span></div>
       <div class="delta ${s.delta_dir}">${s.delta || ''}</div>
-      ${statMiniTrend(trend)}
+      ${s.stacked_trend?statStackedTrend(s.stacked_trend):statMiniTrend(trend)}
     `;
     grid.appendChild(tile);
   });
@@ -2367,7 +2432,7 @@ function renderDashboard() {
   trendSect.innerHTML = `<h3>Market signals</h3><p>Each panel shows the full recorded history. The latest value is shown at right; change is measured from the first observation, so direction and time window are explicit.</p><div class="signal-grid" id="spark-row"></div>`;
   grid.appendChild(trendSect);
 
-  const metricSignals = data.report_metrics?.market_signals || [];
+  const metricSignals = (data.report_metrics?.market_signals || []).map(referenceRelativeSignal);
   const signalTrends = metricSignals.length
     ? Object.fromEntries(metricSignals.map(signal => [signal.id, {
         label: signal.label,
@@ -2384,6 +2449,11 @@ function renderDashboard() {
   Object.entries(signalTrends).forEach(([key, t]) => {
     const card = document.createElement('div');
     card.className = 'signal-card';
+    if(!Array.isArray(t.history)||!t.history.length){
+      card.innerHTML=`<header><h4>${escapeHtml(t.label)}</h4><span class="signal-value">—</span></header><p>${escapeHtml(t.description||'Insufficient comparable evidence for the selected reference.')}</p>`;
+      document.getElementById('spark-row').appendChild(card);
+      return;
+    }
     const last = t.history[t.history.length - 1].value;
     const first = t.history[0].value;
     const change = last - first;
@@ -2491,10 +2561,11 @@ function renderCurrentRoster() {
 
 function renderModels(filter) {
   const schema = benchmarkSchema();
+  const refName=getRefModel()?.name||'selected reference';
   document.querySelector('#models-table thead').innerHTML = `<tr>
-    <th>Model</th><th>Provider</th><th>Quality vs ref</th>
+    <th>Model</th><th>Provider</th><th>Quality vs ${escapeHtml(refName)}</th>
     ${schema.map(b=>`<th class="tnum benchmark-col" title="${escapeHtml(b.description||'')}">${benchmarkHeader(b.label,b.max)}</th>`).join('')}
-    <th class="tnum">Input<span class="sublabel">$/Mtok</span></th><th class="tnum">Output<span class="sublabel">$/Mtok</span></th><th class="tnum">Cache<span class="sublabel">$/Mtok</span></th><th>Context</th><th class="tnum" title="End-to-end task-rate ratio. Fable 5 is fixed at 100; 300 means three times as many comparable tasks per unit time. Not tokens per second.">Task-speed index<span class="sublabel">Fable 5 = 100</span></th><th>Released</th>
+    <th class="tnum">Input<span class="sublabel">$/Mtok</span></th><th class="tnum">Output<span class="sublabel">$/Mtok</span></th><th class="tnum">Cache<span class="sublabel">$/Mtok</span></th><th>Context</th><th class="tnum" title="Fixed end-to-end task-rate index. Fable 5 is always 100; this column is not rebased by the reference selector.">Fixed task-speed index<span class="sublabel">Fable 5 = 100</span></th><th>Released</th>
     <th class="tnum">Speed score<span class="sublabel">0–100</span></th><th class="tnum">Cost efficiency<span class="sublabel">0–100</span></th></tr>`;
   const tbody = document.querySelector('#models-table tbody');
   tbody.innerHTML = '';
@@ -2648,6 +2719,7 @@ function bindBubbleInteractions(panel) {
 
 function renderModelAnalytics() {
   const host=document.getElementById('model-analytics'); if(!host)return;
+  const refName=getRefModel()?.name||'selected reference';
   const rows=data.models.filter(m=>m.tier!=='legacy'&&jurisdictionMatch(m.jurisdiction)).map(m=>({m,...modelScores(m)})).filter(r=>[r.quality,r.speed,r.cost].every(Number.isFinite));
   if(!rows.length){host.innerHTML='';return;}
   const w=1050,h=570,l=95,r=35,t=35,b=78;
@@ -2656,9 +2728,9 @@ function renderModelAnalytics() {
   const bubbles=rows.map((d,index)=>{const point=points[index],color=providerColor(d.m.provider),description=`${d.m.name}: speed score ${d.speed.toFixed(1)}, cost efficiency ${d.cost.toFixed(1)}, quality versus reference ${d.quality.toFixed(0)}%`;return `<g class="bubble-mark" data-bubble-index="${index}" data-label="${escapeHtml(description)}" tabindex="0" role="img" aria-label="${escapeHtml(description)}"><circle class="bubble-circle" cx="${point.cx}" cy="${point.cy}" r="${point.radius}" fill="${color}" fill-opacity=".28" stroke="${color}" stroke-width="1.5"><title>${escapeHtml(description)}</title></circle><text class="bubble-index" x="${point.cx}" y="${point.cy+3}" text-anchor="middle">${index+1}</text></g>`}).join('');
   const grid=[0,25,50,75,100].map(v=>`<line class="grid" x1="${x(v)}" y1="${t}" x2="${x(v)}" y2="${h-b}"/><line class="grid" x1="${l}" y1="${y(v)}" x2="${w-r}" y2="${y(v)}"/><text x="${x(v)}" y="${h-b+18}" text-anchor="middle">${v}</text><text x="${l-8}" y="${y(v)+3}" text-anchor="end">${v}</text>`).join('');
   const key=bubbleLabelKey(rows,d=>`Speed ${d.speed.toFixed(1)} · cost ${d.cost.toFixed(1)} · quality ${d.quality.toFixed(0)}%`);
-  const bubble=`<div class="analytics-panel"><h3>Speed × cost efficiency</h3><p>Right and up is better. Bubble area encodes quality vs the selected reference; provider color distinguishes the major labs. Numbers map directly to the key below.</p><div class="bubble-readout" aria-live="polite">Hover or focus a bubble or key entry to isolate it.</div><svg class="analytics-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Bubble chart comparing speed, cost efficiency and quality versus reference">${grid}<line class="axis" x1="${l}" y1="${h-b}" x2="${w-r}" y2="${h-b}"/><line class="axis" x1="${l}" y1="${t}" x2="${l}" y2="${h-b}"/>${bubbles}<text x="${(l+w-r)/2}" y="${h-18}" text-anchor="middle">SPEED SCORE →</text><text transform="translate(22 ${(t+h-b)/2}) rotate(-90)" text-anchor="middle">COST EFFICIENCY →</text></svg>${key}</div>`;
+  const bubble=`<div class="analytics-panel"><h3>Speed × cost efficiency</h3><p>Right and up is better. Bubble area encodes quality vs ${escapeHtml(refName)}; provider color distinguishes the major labs. Numbers map directly to the key below.</p><div class="bubble-readout" aria-live="polite">Hover or focus a bubble or key entry to isolate it.</div><svg class="analytics-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Bubble chart comparing speed, cost efficiency and quality versus ${escapeHtml(refName)}">${grid}<line class="axis" x1="${l}" y1="${h-b}" x2="${w-r}" y2="${h-b}"/><line class="axis" x1="${l}" y1="${t}" x2="${l}" y2="${h-b}"/>${bubbles}<text x="${(l+w-r)/2}" y="${h-18}" text-anchor="middle">SPEED SCORE →</text><text transform="translate(22 ${(t+h-b)/2}) rotate(-90)" text-anchor="middle">COST EFFICIENCY →</text></svg>${key}</div>`;
   const cells=rows.sort((a,b)=>b.quality-a.quality).map(d=>`<div class="model">${escapeHtml(d.m.name)}</div>${['quality','speed','cost'].map(k=>`<div style="background:rgba(${k==='cost'?'224,82,50':'76,150,122'},${.08+d[k]/100*.32})">${d[k].toFixed(1)}</div>`).join('')}`).join('');
-  host.innerHTML=bubble+`<div class="analytics-panel"><h3>Quality, speed and cost heat map</h3><p>Rows are ordered by quality vs the selected reference. No synthetic overall compound is applied.</p><div class="heatmap-grid"><div class="head">Model</div><div class="head">Quality vs ref</div><div class="head">Speed</div><div class="head">Cost</div>${cells}</div></div>`;
+  host.innerHTML=bubble+`<div class="analytics-panel"><h3>Quality, speed and cost heat map</h3><p>Rows are ordered by quality vs ${escapeHtml(refName)}. No synthetic overall compound is applied.</p><div class="heatmap-grid"><div class="head">Model</div><div class="head">Quality vs ${escapeHtml(refName)}</div><div class="head">Speed</div><div class="head">Cost</div>${cells}</div></div>`;
   bindBubbleInteractions(host.querySelector('.analytics-panel'));
 }
 
@@ -2977,7 +3049,7 @@ function renderCapabilityLegend() {
         </div>
         <div class="cap-legend-text">
           <p>Each radar shows 6 capability axes. The rubric runs <strong>1–50</strong> with the named bands below; the <strong style="color:var(--accent);">emphasized amber ring at 50</strong> marks the current rubric frontier. The radar's <strong>outer ring at 60</strong> is the visual cap, and the <strong>51–60 zone</strong> is the <em>effort-boost band</em> — values that fall there are not directly rated, they're derived: a model with a ceiling at 50 pushed above its medium-effort baseline by extra reasoning effort. The <strong style="color:var(--accent);">solid amber polygon</strong> is the primary model at the selected effort; the <strong style="color:var(--accent-cool);">dashed cyan polygon</strong> is the reference (set via the Reference dropdown top-right of the page).</p>
-          <p><strong>Effort calculus.</strong> Each axis's rating is the model's capability <em>at medium effort</em> (the natural baseline — matching the burn-matrix anchor where Opus 4.7 medium = 1.00×). The radar's <code>radar_effort_factor[medium] = 1.00</code> so primary equals reference at medium for the same model. Lower efforts shrink the polygon by each axis's <code>effort_sensitivity</code>; <strong>higher efforts grow it and may extend the polygon vertex past the outer level-50 ring</strong> — the ring is a rubric marker, not a hard cap, and a polygon outside it means the model is performing above its medium-effort baseline thanks to extra reasoning. Coding / Reasoning / Agentic respond strongly to effort; Knowledge / Multimodal barely.</p>
+          <p><strong>Effort calculus.</strong> Each axis's rating is the model's capability <em>at medium effort</em>, matching the burn matrix's selected-reference baseline. The radar's <code>radar_effort_factor[medium] = 1.00</code> so primary equals reference at medium for the same model. Lower efforts shrink the polygon by each axis's <code>effort_sensitivity</code>; <strong>higher efforts grow it and may extend the polygon vertex past the outer level-50 ring</strong> — the ring is a rubric marker, not a hard cap, and a polygon outside it means the model is performing above its medium-effort baseline thanks to extra reasoning. Coding / Reasoning / Agentic respond strongly to effort; Knowledge / Multimodal barely.</p>
         </div>
       </div>
       <table class="cap-legend-rubric">
@@ -3579,7 +3651,7 @@ function renderSelfHosting(hwFilter) {
   });
 
   const thead = document.querySelector('#self-host-table thead');
-  thead.innerHTML = '<tr><th>Model</th><th>Quality vs ref</th>' +
+  thead.innerHTML = `<tr><th>Model</th><th>Quality vs ${escapeHtml(getRefModel()?.name||'selected reference')}</th>` +
     hardware.map(hw => `<th style="text-align:center;">${hw.name}<br><span style="font-weight:400; color:var(--text-faint); font-size:0.65rem;">${hw.vram_gb}GB</span></th>`).join('') +
     '</tr>';
 
@@ -4087,7 +4159,7 @@ function renderCapabilityRadar() {
         <thead><tr>
           <th>#</th><th>Model</th><th>Provider</th>
           <th>Code · R&amp;A · K&amp;R · Comms · MM · Agent</th>
-          <th class="tnum">Composite</th><th class="tnum">vs ref</th>
+          <th class="tnum">Composite</th><th class="tnum">vs ${escapeHtml(refModel.name)}</th>
         </tr></thead>
         <tbody>
           ${board.map((row, i) => `
@@ -4129,7 +4201,7 @@ function renderDecisionMatrix() {
   if(board && !board.dataset.compoundExtended){
     board.dataset.compoundExtended='1';
     const head=board.querySelector('thead tr');
-    ['Quality vs ref','Speed','Cost'].forEach(label=>{const th=document.createElement('th');th.className='tnum';th.textContent=label;head.appendChild(th)});
+    [`Quality vs ${getRefModel()?.name||'selected reference'}`,'Speed','Cost'].forEach(label=>{const th=document.createElement('th');th.className='tnum';th.textContent=label;head.appendChild(th)});
     board.querySelectorAll('tbody tr[data-pick-model]').forEach(tr=>{
       const s=modelScores(modelById(tr.dataset.pickModel));
       ['quality','speed','cost'].forEach(k=>{const td=document.createElement('td');td.className='tnum metric-cell '+(k==='cost'?'cost':'');td.style.setProperty('--heat',(.06+(s[k]||0)/100*.25).toFixed(2));td.textContent=s[k]==null?'—':s[k].toFixed(1);tr.appendChild(td)});
@@ -4148,7 +4220,8 @@ function renderDecisionMatrix() {
   const points=rows.map((d,index)=>({id:index,name:d.m.name,cx:x(d.market),cy:y(d.cap),radius:6}));
   const marks=rows.map((d,index)=>{const point=points[index],color=providerColor(d.m.provider),description=`${d.m.name}: capability ${d.cap.toFixed(1)}, quality speed and cost mean ${d.market.toFixed(1)}`;return `<g class="bubble-mark" data-bubble-index="${index}" data-label="${escapeHtml(description)}" tabindex="0" role="img" aria-label="${escapeHtml(description)}"><circle class="bubble-circle" cx="${point.cx}" cy="${point.cy}" r="9" fill="${color}" fill-opacity=".82" stroke="#fff" stroke-width="1.5"><title>${escapeHtml(description)}</title></circle><text class="bubble-index" x="${point.cx}" y="${point.cy+3}" text-anchor="middle">${index+1}</text></g>`}).join('');
   const key=bubbleLabelKey(rows,d=>`Capability ${d.cap.toFixed(1)} · market ${d.market.toFixed(1)}`);
-  panel.innerHTML=`<h3>Capability × market position</h3><p>The vertical axis is the focus-weighted six-category capability score. The horizontal axis averages quality vs reference, speed, and cost efficiency. Numbers map directly to the provider-colored key below.</p><div class="bubble-readout" aria-live="polite">Hover or focus a bubble or key entry to isolate it.</div><svg class="analytics-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Matrix comparing capability and market scores">${grid}<line x1="${x(50)}" y1="${t}" x2="${x(50)}" y2="${h-b}" stroke="#c9c6bf" stroke-dasharray="4 4"/><line x1="${l}" y1="${y(50)}" x2="${w-r}" y2="${y(50)}" stroke="#c9c6bf" stroke-dasharray="4 4"/>${marks}<text x="${(l+w-r)/2}" y="${h-22}" text-anchor="middle">MEAN OF QUALITY VS REF + SPEED + COST →</text><text transform="translate(22 ${(t+h-b)/2}) rotate(-90)" text-anchor="middle">6-CATEGORY CAPABILITY SCORE →</text></svg>${key}`;
+  const refName=getRefModel()?.name||'selected reference';
+  panel.innerHTML=`<h3>Capability × market position</h3><p>The vertical axis is the focus-weighted six-category capability score. The horizontal axis averages quality vs ${escapeHtml(refName)}, speed, and cost efficiency. Numbers map directly to the provider-colored key below.</p><div class="bubble-readout" aria-live="polite">Hover or focus a bubble or key entry to isolate it.</div><svg class="analytics-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Matrix comparing capability and market scores relative to ${escapeHtml(refName)}">${grid}<line x1="${x(50)}" y1="${t}" x2="${x(50)}" y2="${h-b}" stroke="#c9c6bf" stroke-dasharray="4 4"/><line x1="${l}" y1="${y(50)}" x2="${w-r}" y2="${y(50)}" stroke="#c9c6bf" stroke-dasharray="4 4"/>${marks}<text x="${(l+w-r)/2}" y="${h-22}" text-anchor="middle">MEAN OF QUALITY VS ${escapeHtml(refName.toUpperCase())} + SPEED + COST →</text><text transform="translate(22 ${(t+h-b)/2}) rotate(-90)" text-anchor="middle">6-CATEGORY CAPABILITY SCORE →</text></svg>${key}`;
   bindBubbleInteractions(panel);
 }
 

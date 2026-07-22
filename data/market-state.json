@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-07-22T06:27:53Z",
+    "generated_at": "2026-07-22T08:32:51Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
@@ -36,24 +36,37 @@
       "unit": "",
       "delta": "Current, fast and retained compatibility models",
       "delta_dir": "up",
-      "trend": [
-        {
-          "date": "2026-01-01",
-          "value": 20
-        },
-        {
-          "date": "2026-04-01",
-          "value": 25
-        },
-        {
-          "date": "2026-07-01",
-        "value": 34
-        }
-      ]
+      "stacked_trend": {
+        "series": [
+          {
+            "key": "proprietary",
+            "label": "Proprietary",
+            "color": "#e05232"
+          },
+          {
+            "key": "open_weight",
+            "label": "Open-weight",
+            "color": "#16866f"
+          }
+        ],
+        "history": [
+          {
+            "date": "2026-05-18",
+            "proprietary": 20,
+            "open_weight": 3
+          },
+          {
+            "date": "2026-07-22",
+            "proprietary": 26,
+            "open_weight": 8
+          }
+        ],
+        "note": "Release-tag roster snapshots; announced open-weight releases are counted with open-weight models."
+      }
     },
     {
       "id": "best_open_pct",
-      "label": "Best open-weight vs Fable 5",
+      "label": "Best open-weight vs selected reference",
       "value": 99,
       "unit": "%",
       "delta": "Kimi K3; geometric mean across 14 overlapping vendor evals",
@@ -107,20 +120,33 @@
       "unit": "",
       "delta": "Commercial and open agent environments",
       "delta_dir": "up",
-      "trend": [
-        {
-          "date": "2026-01-01",
-          "value": 12
-        },
-        {
-          "date": "2026-04-01",
-          "value": 14
-        },
-        {
-          "date": "2026-07-01",
-          "value": 16
-        }
-      ]
+      "stacked_trend": {
+        "series": [
+          {
+            "key": "proprietary",
+            "label": "Proprietary",
+            "color": "#e05232"
+          },
+          {
+            "key": "open_source",
+            "label": "Open source",
+            "color": "#3d78c5"
+          }
+        ],
+        "history": [
+          {
+            "date": "2026-05-18",
+            "proprietary": 3,
+            "open_source": 11
+          },
+          {
+            "date": "2026-07-22",
+            "proprietary": 6,
+            "open_source": 10
+          }
+        ],
+        "note": "Release-tag roster snapshots classified from each harness license."
+      }
     },
     {
       "id": "documented_output_speed",
@@ -270,6 +296,11 @@
   "changelog": [
     {
       "date": "2026-07-22",
+      "tag": "fix",
+      "text": "Made the selected reference propagate through open-weight quality headlines, market-signal history, comparison headings, model analytics, self-hosting quality and capability market position. Replaced the model and harness inventory mini-lines with stacked proprietary/open category areas based on release-tag roster snapshots."
+    },
+    {
+      "date": "2026-07-22",
       "tag": "model",
       "text": "Added Google’s GA Gemini 3.6 Flash and Gemini 3.5 Flash-Lite with stable model IDs, 1M context, 64K output, current API pricing, Artificial Analysis intelligence and throughput measurements, and Google’s published coding and agentic benchmarks."
     },
@@ -337,11 +368,6 @@
       "date": "2026-06-01",
       "tag": "model",
       "text": "Nvidia Cosmos 3 launched — open physical-AI / robotics foundation model."
-    },
-    {
-      "date": "2026-05-28",
-      "tag": "model",
-      "text": "Anthropic releases Claude Opus 4.8 — flagship. SWE-bench Verified 88.6%, SWE-Pro 69.2%, AAII 61.4. Same headline $5/$25 but Fast Mode drops 3× to $10/$50."
     }
   ],
   "actions": [
