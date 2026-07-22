@@ -1,11 +1,12 @@
 {
   "meta": {
-    "generated_at": "2026-07-21T12:12:55Z",
+    "generated_at": "2026-07-22T06:27:53Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
   "executive_summary": {
     "models": [
+      "**Google reset the Flash price-performance curve on July 21.** Gemini 3.6 Flash is GA at $1.50/$7.50 per million tokens with stronger coding and agentic results than 3.5 Flash, while Gemini 3.5 Flash-Lite reaches roughly 490 output tok/s at $0.30/$2.50 for high-volume subagents and extraction.",
       "**Kimi K3 resets the open-weight frontier.** Moonshot reports a 2.8T sparse MoE, native vision, 1M context, and 99% of Fable 5 across 14 overlapping launch-suite evaluations; weights are promised by July 27.",
       "**GPT-5.6 now spans Sol, Terra and Luna**, giving leaders a deliberate capability, balanced, and high-throughput ladder under one family.",
       "**GPT-5.5 remains active in Codex and the API.** It is retained as a compatibility and portfolio option rather than being hidden by the newer 5.6 family.",
@@ -31,7 +32,7 @@
     {
       "id": "frontier_count",
       "label": "Models tracked",
-      "value": 32,
+      "value": 34,
       "unit": "",
       "delta": "Current, fast and retained compatibility models",
       "delta_dir": "up",
@@ -46,7 +47,7 @@
         },
         {
           "date": "2026-07-01",
-          "value": 31
+        "value": 34
         }
       ]
     },
@@ -124,16 +125,16 @@
     {
       "id": "documented_output_speed",
       "label": "Fastest documented API output",
-      "value": 260,
+      "value": 490,
       "unit": "tok/s",
-      "delta": "Kimi K2.7 Code high-speed; short-context vendor figure",
+      "delta": "Gemini 3.5 Flash-Lite; Artificial Analysis first-party API measurement",
       "delta_dir": "up",
       "signal_id": "output_throughput"
     },
     {
       "id": "quality_coverage",
       "label": "Models with quality evidence",
-      "value": "29/32",
+      "value": "31/34",
       "unit": "",
       "delta": "Unknown remains unknown; no zero-value substitution",
       "delta_dir": "neutral",
@@ -148,7 +149,7 @@
         },
         {
           "date": "2026-07-01",
-          "value": 29
+        "value": 31
         }
       ]
     }
@@ -268,6 +269,16 @@
   },
   "changelog": [
     {
+      "date": "2026-07-22",
+      "tag": "model",
+      "text": "Added Google’s GA Gemini 3.6 Flash and Gemini 3.5 Flash-Lite with stable model IDs, 1M context, 64K output, current API pricing, Artificial Analysis intelligence and throughput measurements, and Google’s published coding and agentic benchmarks."
+    },
+    {
+      "date": "2026-07-22",
+      "tag": "data",
+      "text": "Recorded Google’s broader Flash shift: Gemini 3.5 Flash Cyber remains restricted to governments and trusted CodeMender partners; Gemini Omni Flash and Nano Banana 2 Lite remain specialized media models rather than general-purpose roster entries."
+    },
+    {
       "date": "2026-07-21",
       "tag": "model",
       "text": "Added Apertus-v1.1-4B-Instruct, the largest newly released Apertus Mini checkpoint: fully open Apache 2.0 weights and data, 4K context, 1.7T-token distillation, 1,811 languages, and official BF16, FP8, NVFP4A16, INT3, INT4 and INT6 variants."
@@ -331,16 +342,6 @@
       "date": "2026-05-28",
       "tag": "model",
       "text": "Anthropic releases Claude Opus 4.8 — flagship. SWE-bench Verified 88.6%, SWE-Pro 69.2%, AAII 61.4. Same headline $5/$25 but Fast Mode drops 3× to $10/$50."
-    },
-    {
-      "date": "2026-05-27",
-      "tag": "harness",
-      "text": "Gemini CLI v0.44.0 — last major release before transition to Antigravity CLI on June 18 (free tier)."
-    },
-    {
-      "date": "2026-05-26",
-      "tag": "harness",
-      "text": "Codex CLI v0.134.0 — conversation-history search, iOS notification handoff, /archive, Windows elevated sandbox."
     }
   ],
   "actions": [
@@ -1143,27 +1144,79 @@
       }
     },
     {
+      "id": "gemini-3.6-flash",
+      "name": "Gemini 3.6 Flash",
+      "provider": "Google",
+      "tier": "fast",
+      "released": "2026-07-21",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1048576,
+      "context_label": "1M",
+      "swe_pro": 58.7,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "aaii_v4_1": 50,
+      "swe_bench_pro": 58.7,
+      "deep_swe_v1_1": 49,
+      "terminal_bench_2_1": 78,
+      "agents_last_exam": null,
+      "quality_vs_fable": 81.6,
+      "api_in": 1.5,
+      "api_out": 7.5,
+      "api_cache_hit": 0.15,
+      "batch_discount": 50,
+      "tok_per_sec": 304,
+      "subscription": "Gemini API · AI Studio · Gemini app · Antigravity",
+      "notes": "GA stable ID gemini-3.6-flash. Google reports fewer tool calls and 17% fewer output tokens than 3.5 Flash on the AA Index workload; Computer Use is preview. Artificial Analysis measured about 304 output tok/s at high thinking.",
+      "reasoning_capable": true,
+      "effort_default": "medium",
+      "effort_levels": [
+        "minimal",
+        "low",
+        "medium",
+        "high"
+      ],
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 42,
+        "reasoning": 38,
+        "knowledge": 45,
+        "comms": 40,
+        "multimodal": 47,
+        "agentic": 42
+      }
+    },
+    {
       "id": "gemini-3.5-flash",
       "name": "Gemini 3.5 Flash",
       "provider": "Google",
-      "tier": "fast",
+      "tier": "legacy",
       "released": "2026-05-19",
       "license": "proprietary",
       "jurisdiction": "US",
       "context": 1000000,
       "context_label": "1M",
-      "swe_pro": 30,
+      "swe_pro": 55.1,
       "swe_verified": 78,
       "livecodebench": 70,
       "aime": 75,
       "tau2": 68,
+      "aaii_v4_1": 50,
+      "swe_bench_pro": 55.1,
+      "deep_swe_v1_1": 37,
+      "terminal_bench_2_1": 76.2,
+      "agents_last_exam": null,
+      "quality_vs_fable": 76.1,
       "api_in": 1.5,
       "api_out": 9,
       "api_cache_hit": 0.375,
       "batch_discount": 50,
-      "tok_per_sec": 180,
+      "tok_per_sec": 165,
       "subscription": "Free CLI: 1000 req/day at 1M context",
-      "notes": "Shipped GA at Google I/O May 19, 2026. Frontier-grade quality, 4× faster than peers per Google.",
+      "notes": "Shipped GA at Google I/O May 19, 2026. Still offered, but Gemini 3.6 Flash is the recommended migration target with stronger agentic results and lower output-token pricing.",
       "reasoning_capable": true,
       "effort_default": "thinking-budget",
       "effort_levels": [
@@ -1183,10 +1236,56 @@
       }
     },
     {
+      "id": "gemini-3.5-flash-lite",
+      "name": "Gemini 3.5 Flash-Lite",
+      "provider": "Google",
+      "tier": "fast",
+      "released": "2026-07-21",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1048576,
+      "context_label": "1M",
+      "swe_pro": 54.2,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "aaii_v4_1": 36,
+      "swe_bench_pro": 54.2,
+      "deep_swe_v1_1": null,
+      "terminal_bench_2_1": 54,
+      "agents_last_exam": null,
+      "quality_vs_fable": 65.9,
+      "api_in": 0.3,
+      "api_out": 2.5,
+      "api_cache_hit": 0.03,
+      "batch_discount": 50,
+      "tok_per_sec": 490,
+      "subscription": "Gemini API · AI Studio · Gemini app rollout",
+      "notes": "GA stable ID gemini-3.5-flash-lite. Google positions it for high-volume subagents, document parsing and structured extraction; Artificial Analysis measured about 490 output tok/s. Computer Use availability differs across Google documentation and should be validated per API surface.",
+      "reasoning_capable": true,
+      "effort_default": "minimal",
+      "effort_levels": [
+        "minimal",
+        "low",
+        "medium",
+        "high"
+      ],
+      "cache_discount": 0.1,
+      "capability_levels": {
+        "coding": 32,
+        "reasoning": 28,
+        "knowledge": 34,
+        "comms": 32,
+        "multimodal": 38,
+        "agentic": 35
+      }
+    },
+    {
       "id": "gemini-3.1-flash-lite",
       "name": "Gemini 3.1 Flash Lite",
       "provider": "Google",
-      "tier": "fast",
+      "tier": "legacy",
       "released": "2026-03-10",
       "license": "proprietary",
       "jurisdiction": "US",
@@ -1629,7 +1728,7 @@
       "tier": "Gemini Advanced",
       "price_usd": 20,
       "limits": "Generous, soft caps",
-      "models": "Gemini 3.1 Pro · Flash",
+      "models": "Gemini 3.1 Pro · Gemini 3.6 Flash · Gemini 3.5 Flash-Lite",
       "features": "Workspace integration · 1M context"
     },
     {
@@ -3203,6 +3302,8 @@
       "monthly_usd": null,
       "components": [
         "GPT-5.6 Luna low — high-volume subagents and routine transformations",
+        "Gemini 3.5 Flash-Lite minimal — throughput-first extraction, parsing and parallel subagents",
+        "Gemini 3.6 Flash medium — Google-first coding, computer-use and multimodal agent loops",
         "GPT-5.6 Terra medium — default engineering, review and documentation",
         "GPT-5.6 Sol high or Claude Fable 5 high — escalation for hard, long-horizon tasks",
         "Qwen 3.6 35B-A3B or DeepSeek V4-Flash — local route for privacy-sensitive bulk work"
@@ -3233,14 +3334,14 @@
       {
         "tier": "Bulk (70%)",
         "use_for": "Classification, simple edits, triage, log parsing",
-        "preferred": "GPT-5.6 Luna low · Qwen 3.6 35B-A3B when local",
-        "cost_label": "$1/$6 Mtok before cache, batch and reasoning tokens"
+        "preferred": "Gemini 3.5 Flash-Lite minimal · GPT-5.6 Luna low · Qwen 3.6 35B-A3B when local",
+        "cost_label": "Gemini $0.30/$2.50; Luna $1/$6 Mtok before cache, batch and reasoning tokens"
       },
       {
         "tier": "Mid (25%)",
         "use_for": "Multi-file edits, code review, refactors, docs",
-        "preferred": "GPT-5.6 Terra medium",
-        "cost_label": "$2.50/$15 Mtok before cache, batch and reasoning tokens"
+        "preferred": "GPT-5.6 Terra medium · Gemini 3.6 Flash medium for Google-first or multimodal work",
+        "cost_label": "Terra $2.50/$15; Gemini $1.50/$7.50 Mtok before cache, batch and reasoning tokens"
       },
       {
         "tier": "Premium (5%)",
@@ -3252,7 +3353,7 @@
     "open_questions": [
       "Will the Nvidia Nemotron Coalition (Mistral, Cursor, Black Forest Labs, Thinking Machines) actually deliver a frontier-open consortium, or fragment within a quarter?",
       "How does the June 15 Anthropic billing restructure (Chat pool + Agent SDK credit pool) change Max economics for agentic workloads?",
-      "Does Gemini 3.5 Flash + free Antigravity CLI (post-June 18) reshape the free-tier hierarchy?",
+      "Does Gemini 3.6 Flash’s lower output price and stronger agentic performance displace 3.1 Pro for most coding workflows before Gemini 3.5 Pro arrives?",
       "DeepSeek V4-Pro permanent pricing ($0.435/$0.87) — does it force closed providers (OpenAI, Anthropic) to cut headline prices?",
       "SubQ 1M-Preview's subquadratic architecture — does the next year see other commercial non-transformer LLMs?"
     ],
@@ -3274,9 +3375,9 @@
               "rationale": "Cheapest reasoning setting on flagship"
             },
             "google": {
-              "model_id": "gemini-3.5-flash",
-              "effort": "low",
-              "rationale": "Free tier covers 1000 req/day at 1M context"
+              "model_id": "gemini-3.5-flash-lite",
+              "effort": "minimal",
+              "rationale": "Fastest Google route for cheap, high-volume pattern work"
             },
             "self_hosted": {
               "model_id": "gemma-4-26b-moe",
@@ -3315,9 +3416,9 @@
               "rationale": "Coding-specialised, ~⅓ burn of GPT-5.5 for near-identical SWE-Pro"
             },
             "google": {
-              "model_id": "gemini-3.1-pro",
-              "effort": "low",
-              "rationale": "1M context that works, generous free tier"
+              "model_id": "gemini-3.6-flash",
+              "effort": "medium",
+              "rationale": "58.7% SWE-Pro and stronger agentic coding than 3.5 Flash at lower output price"
             },
             "self_hosted": {
               "model_id": "gemma-4-31b-dense",
@@ -3334,7 +3435,7 @@
               "opus-4.7 @ medium"
             ],
             "google": [
-              "gemini-3.5-flash @ medium"
+              "gemini-3.1-pro @ high"
             ],
             "self_hosted": [
               "qwen-3-235b-a22b @ Q4_K_M"
@@ -3356,9 +3457,9 @@
               "rationale": "Strong on planning; medium gives consistent multi-file edits"
             },
             "google": {
-              "model_id": "gemini-3.1-pro",
+              "model_id": "gemini-3.6-flash",
               "effort": "medium",
-              "rationale": "1M context shines when many files are involved"
+              "rationale": "Improved multi-step coding loops, fewer unwanted edits and 1M context"
             },
             "self_hosted": {
               "model_id": "qwen-3.6-plus",
@@ -3374,7 +3475,9 @@
             "anthropic": [
               "opus-4.7 @ high"
             ],
-            "google": [],
+            "google": [
+              "gemini-3.1-pro @ high"
+            ],
             "self_hosted": [
               "gemma-4-31b-dense"
             ]
@@ -3397,7 +3500,7 @@
             "google": {
               "model_id": "gemini-3.1-pro",
               "effort": "high",
-              "rationale": "Strongest Google option; 1M context for whole-repo analysis"
+              "rationale": "Preview Pro remains the deepest Google reasoning route; compare 3.6 Flash before paying the premium"
             },
             "self_hosted": {
               "model_id": null,
@@ -3436,7 +3539,7 @@
             "google": {
               "model_id": null,
               "effort": null,
-              "rationale": "Gemini lacks max-equivalent for unsupervised work"
+              "rationale": "Gemini 3.6 Flash improves agent loops but still lacks a max-equivalent tier for the hardest unsupervised runs"
             },
             "self_hosted": {
               "model_id": null,
@@ -3470,9 +3573,9 @@
               "rationale": "Coding-tuned reviewer at ⅓ burn of GPT-5.5"
             },
             "google": {
-              "model_id": "gemini-3.1-pro",
+              "model_id": "gemini-3.6-flash",
               "effort": "medium",
-              "rationale": "Reviews benefit from long context across the PR"
+              "rationale": "Better instruction following and fewer unwanted code edits than 3.5 Flash"
             },
             "self_hosted": {
               "model_id": "gemma-4-31b-dense",
@@ -3487,7 +3590,9 @@
             "anthropic": [
               "opus-4.7 @ medium"
             ],
-            "google": [],
+            "google": [
+              "gemini-3.1-pro @ medium"
+            ],
             "self_hosted": [
               "qwen-3-235b-a22b"
             ]
@@ -3508,9 +3613,9 @@
               "rationale": "400K API context; degrades faster than Opus past 200K"
             },
             "google": {
-              "model_id": "gemini-3.1-pro",
+              "model_id": "gemini-3.6-flash",
               "effort": "high",
-              "rationale": "1M context, strongest free-tier long-context option"
+              "rationale": "Google reports a 54% 1M-context MRCR score, roughly double 3.5 Flash"
             },
             "self_hosted": {
               "model_id": null,
@@ -3525,7 +3630,9 @@
             "anthropic": [
               "opus-4.7 @ xhigh"
             ],
-            "google": [],
+            "google": [
+              "gemini-3.1-pro @ high"
+            ],
             "self_hosted": []
           }
         },
@@ -3544,9 +3651,9 @@
               "rationale": "Best subagent — 94% of GPT-5.4 coding at 6× less"
             },
             "google": {
-              "model_id": "gemini-3.5-flash",
-              "effort": "low",
-              "rationale": "Free tier perfect for fan-out subagents"
+              "model_id": "gemini-3.5-flash-lite",
+              "effort": "minimal",
+              "rationale": "Purpose-built for high-volume subagents at roughly 490 output tok/s"
             },
             "self_hosted": {
               "model_id": "gemma-4-26b-moe",
@@ -3583,9 +3690,9 @@
               "rationale": "Reasoning helps less here; medium-effort GPT-5.4 wins on $/quality"
             },
             "google": {
-              "model_id": "gemini-3.1-pro",
+              "model_id": "gemini-3.6-flash",
               "effort": "low",
-              "rationale": "Reasoning overkill; Gemini's prose competitive at low effort"
+              "rationale": "Lower output price than 3.5 Flash with improved knowledge-work and document analysis"
             },
             "self_hosted": {
               "model_id": "gemma-4-31b-dense",
@@ -3601,7 +3708,7 @@
               "haiku-4.5"
             ],
             "google": [
-              "gemini-3.5-flash @ medium"
+              "gemini-3.5-flash-lite @ low"
             ],
             "self_hosted": [
               "qwen-3-235b-a22b @ Q4_K_M"
@@ -3623,9 +3730,9 @@
               "rationale": "Pattern-heavy; minimal reasoning, fast turnaround"
             },
             "google": {
-              "model_id": "gemini-3.5-flash",
-              "effort": "low",
-              "rationale": "Free tier, fast"
+              "model_id": "gemini-3.5-flash-lite",
+              "effort": "minimal",
+              "rationale": "Lowest-latency current Google model for repetitive structured generation"
             },
             "self_hosted": {
               "model_id": "gemma-4-26b-moe",
@@ -3867,6 +3974,20 @@
         "low": 0.03,
         "medium": 0.05,
         "high": 0.09
+      },
+      {
+        "model_id": "gemini-3.6-flash",
+        "off": 0.017,
+        "low": 0.025,
+        "medium": 0.042,
+        "high": 0.076
+      },
+      {
+        "model_id": "gemini-3.5-flash-lite",
+        "off": 0.005,
+        "low": 0.008,
+        "medium": 0.014,
+        "high": 0.024
       }
     ],
     "non_reasoning_note": "Models without reasoning controls: Haiku 4.5 (Anthropic matrix above as fixed rate), GPT-5.5 Instant (ChatGPT default since May 5), Mistral Medium 3.5, DeepSeek V4-Pro/Flash, MiniMax M2.7, Kimi K2.6, GLM 4.6, Qwen 3.6 variants, all Llama 4 variants, Grok 4.1 Fast, SubQ 1M-Preview — burn at fixed rate per model regardless of effort knob.",
@@ -4369,6 +4490,42 @@
       "category": "Swiss AI Initiative",
       "title": "Apertus v1.1 4B Instruct model card",
       "url": "https://huggingface.co/swiss-ai/Apertus-v1.1-4B-Instruct"
+    },
+    {
+      "n": 77,
+      "category": "Google",
+      "title": "Introducing Gemini 3.6 Flash, 3.5 Flash-Lite and 3.5 Flash Cyber",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/"
+    },
+    {
+      "n": 78,
+      "category": "Google",
+      "title": "Gemini 3.6 Flash model documentation",
+      "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.6-flash"
+    },
+    {
+      "n": 79,
+      "category": "Google",
+      "title": "Gemini 3.5 Flash-Lite model documentation",
+      "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite"
+    },
+    {
+      "n": 80,
+      "category": "Google",
+      "title": "Gemini API release notes",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "n": 81,
+      "category": "Benchmarks",
+      "title": "Artificial Analysis — Gemini 3.6 Flash",
+      "url": "https://artificialanalysis.ai/models/gemini-3-6-flash"
+    },
+    {
+      "n": 82,
+      "category": "Benchmarks",
+      "title": "Artificial Analysis — Gemini 3.5 Flash-Lite",
+      "url": "https://artificialanalysis.ai/models/gemini-3-5-flash-lite"
     }
   ],
   "provider_sources": {
@@ -4386,7 +4543,14 @@
     "Google": [
       7,
       8,
-      9
+      9,
+      58,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82
     ],
     "Mistral": [
       10,
@@ -4457,7 +4621,13 @@
       60,
       61,
       62,
-      76
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82
     ],
     "harnesses": [
       23,
