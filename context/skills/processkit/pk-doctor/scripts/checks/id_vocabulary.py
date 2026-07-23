@@ -202,6 +202,11 @@ def run(ctx) -> list[CheckResult]:
 
     blocked: list[tuple[str, str, list[str]]] = []
     for entity_id in existing:
+        # LogEntry identifiers are append-only historical records.  A lexical
+        # policy change cannot safely remediate them, so report only IDs that
+        # can still be corrected by their owning lifecycle.
+        if entity_id.startswith("LOG-"):
+            continue
         token = ids.lexical_token_from_id(entity_id)
         if not token:
             continue
