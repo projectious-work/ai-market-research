@@ -41,6 +41,14 @@ set. Values from different benchmark versions must not share a column. Missing
 results stay null; the dashboard does not infer zero or manufacture a benchmark
 composite from sparse, non-overlapping evaluations.
 
+Do not merge a vendor launch table with an independent leaderboard into one
+ranking unless the model version, agent harness, dataset split, scoring rules,
+and evaluation date are demonstrably the same. Treat both as useful evidence:
+the former documents the vendor's measured configuration, while the latter can
+provide an independent public comparison. The July 2026 GPT-5.6 launch table
+and Scale's public SWE-bench Pro board are intentionally shown as separate
+sources for this reason.
+
 Each model instead has a curated `quality_vs_fable` anchor. Prefer a published
 multi-benchmark comparison against Fable 5. A historical normalized score or a
 shared SWE-Pro version may be used as a clearly documented fallback. The Kimi
@@ -203,6 +211,8 @@ and all infrastructure charges with that measurement.
 Primary sources for this refresh:
 
 - <https://openai.com/index/gpt-5-6/>
+- <https://labs.scale.com/api/pdf/leaderboard/swe_bench_pro_public>
+- <https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/>
 - <https://developers.openai.com/api/docs/models>
 - <https://platform.claude.com/docs/en/about-claude/models/overview>
 - <https://platform.claude.com/docs/en/manage-claude/api-and-data-retention>
