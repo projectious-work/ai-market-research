@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-07-22T08:32:51Z",
+    "generated_at": "2026-07-24T06:30:00Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
@@ -9,13 +9,15 @@
       "**Google reset the Flash price-performance curve on July 21.** Gemini 3.6 Flash is GA at $1.50/$7.50 per million tokens with stronger coding and agentic results than 3.5 Flash, while Gemini 3.5 Flash-Lite reaches roughly 490 output tok/s at $0.30/$2.50 for high-volume subagents and extraction.",
       "**Kimi K3 resets the open-weight frontier.** Moonshot reports a 2.8T sparse MoE, native vision, 1M context, and 99% of Fable 5 across 14 overlapping launch-suite evaluations; weights are promised by July 27.",
       "**GPT-5.6 now spans Sol, Terra and Luna**, giving leaders a deliberate capability, balanced, and high-throughput ladder under one family.",
+      "**Keep benchmark tables separate by harness.** OpenAI's GPT-5.6 launch results and Scale's public SWE-bench Pro leaderboard use different model versions and evaluation setups; use each as evidence, not as one directly rankable series.",
       "**GPT-5.5 remains active in Codex and the API.** It is retained as a compatibility and portfolio option rather than being hidden by the newer 5.6 family.",
       "**Claude Haiku 4.5 remains Anthropic’s latest verified Haiku.** No official Haiku 5 listing was found in Anthropic’s current model catalog."
     ],
     "harnesses": [
       "**Separate model capability from harness capability.** Tool execution, context management, isolation, and observability can dominate real workflow outcomes.",
       "**Subscription access is not a production routing contract.** Validate API, credit-pool, and third-party harness policies before standardizing an operating model.",
-      "**Maintain at least one portable fallback path** across providers for high-value workflows and operational incidents."
+      "**Maintain at least one portable fallback path** across providers for high-value workflows and operational incidents.",
+      "**Gemini Managed Agents now add background execution, remote MCP, custom functions and credential refresh.** That makes Google a more credible managed-agent control plane, but it does not substitute for workload-specific evaluation."
     ],
     "self_hosting": [
       "**Open weights are now a strategic option, not only a cost play.** Kimi K3, DeepSeek, Qwen, Nemotron, Mistral, and Llama cover different sovereignty and specialization needs.",
@@ -294,6 +296,11 @@
     }
   },
   "changelog": [
+    {
+      "date": "2026-07-24",
+      "tag": "benchmark",
+      "text": "Refreshed current-source evidence: added OpenAI's GPT-5.6 launch table, Google's Managed Agents update, and Scale's public SWE-bench Pro leaderboard. Clarified that vendor launch tables and the public leaderboard are not directly comparable because their model versions and harnesses differ."
+    },
     {
       "date": "2026-07-22",
       "tag": "fix",
@@ -4552,6 +4559,25 @@
       "category": "Benchmarks",
       "title": "Artificial Analysis — Gemini 3.5 Flash-Lite",
       "url": "https://artificialanalysis.ai/models/gemini-3-5-flash-lite"
+    },
+    {
+      "n": 83,
+      "category": "OpenAI",
+      "title": "GPT-5.6 launch and benchmark table",
+      "url": "https://openai.com/index/gpt-5-6/"
+    },
+    {
+      "n": 84,
+      "category": "Google",
+      "title": "Gemini API Managed Agents update",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/"
+    },
+    {
+      "n": 85,
+      "category": "Benchmarks",
+      "title": "Scale Labs SWE-bench Pro public leaderboard",
+      "url": "https://labs.scale.com/api/pdf/leaderboard/swe_bench_pro_public",
+      "note": "Public leaderboard values use their own model versions and evaluation setup; do not merge them mechanically with vendor launch tables."
     }
   ],
   "provider_sources": {
@@ -4564,7 +4590,8 @@
       4,
       5,
       6,
-      62
+      62,
+      83
     ],
     "Google": [
       7,
@@ -4576,7 +4603,8 @@
       79,
       80,
       81,
-      82
+      82,
+      84
     ],
     "Mistral": [
       10,
