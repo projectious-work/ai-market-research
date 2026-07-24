@@ -4,10 +4,10 @@ kind: WorkItem
 metadata:
   id: BACK-20260724_0626-CoolStone-v0-3-4-ai-refresh
   created: '2026-07-24T06:26:42+00:00'
-  updated: '2026-07-24T06:27:21+00:00'
+  updated: '2026-07-24T06:44:39+00:00'
 spec:
   title: Release v0.3.4 — AI market research refresh
-  state: in-progress
+  state: done
   type: process-instance
   priority: high
   description: Research current developments and benchmarks, update the report with
@@ -25,6 +25,7 @@ spec:
   - BACK-20260724_0626-BuoyantCliff-cut-and-publish-v0-3-4
   - BACK-20260724_0626-FluentShell-verify-deployed-release
   started_at: '2026-07-24T06:27:21+00:00'
+  completed_at: '2026-07-24T06:44:39+00:00'
 ---
 
 ## Transition note (2026-07-24T06:27:21+00:00)
