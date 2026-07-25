@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0-preview",
-  "researched_at": "2026-07-22",
+  "researched_at": "2026-07-25",
   "default_reference": "fable-5",
   "inclusion_policy": {
     "default_limit_per_provider": 3,
@@ -50,6 +50,33 @@
       "availability": "GA; API, Bedrock, Google Cloud, Microsoft Foundry",
       "caveat": "30-day retention; no zero-data-retention option",
       "source": "https://platform.claude.com/docs/en/about-claude/models/overview"
+    },
+    {
+      "id": "opus-5",
+      "name": "Claude Opus 5",
+      "family": "Claude 5",
+      "provider": "Anthropic",
+      "region": "US",
+      "channel": "commercial_api",
+      "scope": "core",
+      "status": "stable",
+      "context": "1M",
+      "price": "$5 / $25",
+      "license": "Proprietary",
+      "control": "effort",
+      "levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_level": "high",
+      "speed_band": "balanced",
+      "speed_note": "Anthropic comparative latency: moderate. Research-preview fast mode claims up to 2.5x higher output throughput at $10 / $50 per MTok.",
+      "availability": "GA; API, Bedrock, Google Cloud, Microsoft Foundry",
+      "caveat": "Adaptive thinking is on by default; disabling it is supported only through high effort. Independent benchmark results vary materially by effort level and should not be treated as a single generic score.",
+      "source": "https://platform.claude.com/docs/en/about-claude/models/whats-new-opus-5"
     },
     {
       "id": "opus-4.8",

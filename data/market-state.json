@@ -1,11 +1,12 @@
 {
   "meta": {
-    "generated_at": "2026-07-24T06:30:00Z",
+    "generated_at": "2026-07-25T00:00:00Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
   "executive_summary": {
     "models": [
+      "**Claude Opus 5 is now generally available.** Anthropic's new `claude-opus-5` targets complex agentic coding and enterprise work with a 1M-token context window, 128K maximum output, adaptive thinking by default, and unchanged $5/$25 per MTok base pricing. Independent benchmark values are not yet recorded here.",
       "**Google reset the Flash price-performance curve on July 21.** Gemini 3.6 Flash is GA at $1.50/$7.50 per million tokens with stronger coding and agentic results than 3.5 Flash, while Gemini 3.5 Flash-Lite reaches roughly 490 output tok/s at $0.30/$2.50 for high-volume subagents and extraction.",
       "**Kimi K3 resets the open-weight frontier.** Moonshot reports a 2.8T sparse MoE, native vision, 1M context, and 99% of Fable 5 across 14 overlapping launch-suite evaluations; weights are promised by July 27.",
       "**GPT-5.6 now spans Sol, Terra and Luna**, giving leaders a deliberate capability, balanced, and high-throughput ladder under one family.",
@@ -34,7 +35,7 @@
     {
       "id": "frontier_count",
       "label": "Models tracked",
-      "value": 34,
+      "value": 35,
       "unit": "",
       "delta": "Current, fast and retained compatibility models",
       "delta_dir": "up",
@@ -60,6 +61,11 @@
           {
             "date": "2026-07-22",
             "proprietary": 26,
+            "open_weight": 8
+          },
+          {
+            "date": "2026-07-25",
+            "proprietary": 27,
             "open_weight": 8
           }
         ],
@@ -162,7 +168,7 @@
     {
       "id": "quality_coverage",
       "label": "Models with quality evidence",
-      "value": "31/34",
+      "value": "31/35",
       "unit": "",
       "delta": "Unknown remains unknown; no zero-value substitution",
       "delta_dir": "neutral",
@@ -297,6 +303,11 @@
   },
   "changelog": [
     {
+      "date": "2026-07-25",
+      "tag": "model",
+      "text": "Added Claude Opus 5: general availability, 1M context, 128K maximum output, adaptive thinking by default, $5/$25 per MTok base pricing, and official cloud-platform availability. Added independent Artificial Analysis evidence (61 Intelligence Index at max effort; 52.3 output tok/s) with effort-specific caveats. Gemini 3.5 Flash Cyber remains limited to CodeMender government and trusted-partner pilots; GPT-Live and Muse Spark 1.1 remain non-API products, so none were added to the API roster. Claude Opus 4.7 Fast Mode was removed July 24."
+    },
+    {
       "date": "2026-07-24",
       "tag": "benchmark",
       "text": "Refreshed current-source evidence: added OpenAI's GPT-5.6 launch table, Google's Managed Agents update, and Scale's public SWE-bench Pro leaderboard. Clarified that vendor launch tables and the public leaderboard are not directly comparable because their model versions and harnesses differ."
@@ -401,6 +412,7 @@
       "livecodebench": null,
       "aime": null,
       "tau2": null,
+      "aaii": 61,
       "aaii": 59.9,
       "coding_agent_index": 77.2,
       "deep_swe": 69.7,
@@ -410,7 +422,7 @@
       "api_out": 50,
       "api_cache_hit": null,
       "batch_discount": null,
-      "tok_per_sec": null,
+      "tok_per_sec": 52.3,
       "subscription": "Claude API and supported cloud platforms",
       "notes": "Default reference for v2. Anthropic describes Fable 5 as its most capable widely released model. Adaptive thinking is always on. Comparative latency is slower. Retention is 30 days and zero-data-retention is not available.",
       "reasoning_capable": true,
@@ -606,6 +618,42 @@
       }
     },
     {
+      "id": "opus-5",
+      "name": "Claude Opus 5",
+      "provider": "Anthropic",
+      "tier": "frontier",
+      "released": "2026-07-24",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": 5,
+      "api_out": 25,
+      "api_cache_hit": 0.5,
+      "batch_discount": 50,
+      "tok_per_sec": null,
+      "subscription": "Claude API, Bedrock, Google Cloud, Microsoft Foundry",
+      "notes": "Current Anthropic Opus generation. 1M context and 128K maximum output. Adaptive thinking is enabled by default; effort defaults to high. Artificial Analysis reports a 61 Intelligence Index and 52.3 output tok/s at max effort; these figures are effort-specific. Research-preview Fast Mode is Claude API-only at $10/$50 per MTok and claims up to 2.5x higher output throughput.",
+      "reasoning_capable": true,
+      "effort_default": "high",
+      "effort_levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "cache_discount": 0.1,
+      "speed_class": "balanced",
+      "speed_evidence": "vendor-qualitative",
+      "cite": [86, 87]
+    },
+    {
       "id": "opus-4.8",
       "name": "Claude Opus 4.8",
       "provider": "Anthropic",
@@ -626,7 +674,7 @@
       "batch_discount": 50,
       "tok_per_sec": 55,
       "subscription": "Max 20× $200/mo · Max 5× $100/mo",
-      "notes": "Current Anthropic flagship. SWE-V 88.6%, SWE-Pro 69.2%, AAII 61.4. Fast Mode reduced 3× to $10/$50 (was $30/$150 on 4.7). 1M context standard.",
+      "notes": "Previous Opus generation, retained as an active compatibility option. SWE-V 88.6%, SWE-Pro 69.2%, AAII 61.4. Fast Mode reduced 3× to $10/$50 (was $30/$150 on 4.7). 1M context standard.",
       "reasoning_capable": true,
       "effort_default": "xhigh",
       "effort_levels": [
@@ -667,7 +715,7 @@
       "batch_discount": 50,
       "tok_per_sec": 50,
       "subscription": "Max 5× $100/mo · Pro $20/mo",
-      "notes": "Now legacy as of Opus 4.8 release May 28. Pricing unchanged. SWE-Verified 87.6%, SWE-Pro 64.3%.",
+      "notes": "Now legacy as of Opus 4.8 release May 28. Pricing unchanged. SWE-Verified 87.6%, SWE-Pro 64.3%. Fast Mode was removed July 24, 2026; standard-speed API access remains active.",
       "reasoning_capable": true,
       "effort_default": "xhigh",
       "effort_levels": [
@@ -4578,13 +4626,29 @@
       "title": "Scale Labs SWE-bench Pro public leaderboard",
       "url": "https://labs.scale.com/api/pdf/leaderboard/swe_bench_pro_public",
       "note": "Public leaderboard values use their own model versions and evaluation setup; do not merge them mechanically with vendor launch tables."
+    },
+    {
+      "n": 86,
+      "category": "Anthropic",
+      "title": "What's new in Claude Opus 5",
+      "url": "https://platform.claude.com/docs/en/about-claude/models/whats-new-opus-5",
+      "note": "Official launch specifications, pricing, availability, and migration behaviour."
+    },
+    {
+      "n": 87,
+      "category": "Benchmarks",
+      "title": "Artificial Analysis — Claude Opus 5",
+      "url": "https://artificialanalysis.ai/models/claude-opus-5",
+      "note": "Independent effort-specific intelligence, latency, throughput, and price analysis."
     }
   ],
   "provider_sources": {
     "Anthropic": [
       1,
       2,
-      3
+      3,
+      86,
+      87
     ],
     "OpenAI": [
       4,
@@ -4681,7 +4745,9 @@
       79,
       80,
       81,
-      82
+      82,
+      86,
+      87
     ],
     "harnesses": [
       23,
