@@ -5,10 +5,17 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Lifecycle: active](https://img.shields.io/badge/lifecycle-active-success.svg)](#project-status)
 
-A static intelligence report tracking the AI model and tooling landscape,
-focused on the decisions an AI infrastructure-oriented developer actually
-has to make: which models and configurations to use, which subscriptions to
-hold, which agent harness to run, and what to self-host.
+**Applied research — actively maintained.** Signal Room is inspectable
+decision support for AI infrastructure-oriented developers choosing models,
+configurations, subscriptions, agent harnesses, and self-hosting options.
+The current dataset is **as of 25 July 2026**; maintainers monitor material
+changes daily and perform a weekly review. The next scheduled review is the
+week of 27 July 2026.
+
+It is intentionally non-exhaustive: pricing can change, vendor-reported
+claims and heterogeneous benchmarks are not universally comparable, and its
+recommendations may not fit every workload. Evidence classes, source links,
+and measurement caveats stay visible so readers can make their own tradeoffs.
 
 **Live Signal Room:** <https://projectious-work.github.io/ai-market-research/>
 **Latest release:** <https://github.com/projectious-work/ai-market-research/releases/latest>
@@ -60,6 +67,16 @@ framework, package-manager build chain, or runtime CDN dependency.
 The research-data rules covering source rights, attribution, permitted use,
 retention, update verification, and privacy review are documented in
 [`docs/research-data-policy.md`](docs/research-data-policy.md).
+
+## A decision it can support
+
+For a high-volume coding subagent, compare the cost, speed, quality, and
+jurisdiction filters in the live report before selecting a lower-cost model
+instead of a frontier model by default. Treat the resulting recommendation as
+a starting point: the [data methodology](docs/data-methodology.md) explains
+the evidence classes and calculations, while the
+[research-data policy](docs/research-data-policy.md) explains source handling
+and verification.
 
 ## Quickstart
 
