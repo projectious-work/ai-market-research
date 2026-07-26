@@ -84,6 +84,15 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
   margin-top: 0.4rem;
 }
+.header-context {
+  max-width: 980px;
+  margin-top: 0.65rem;
+  color: #dbe3ec;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+.header-context strong { color: #fff; }
+.header-context a { color: #fff; text-decoration: underline; }
 .controls {
   display: flex;
   gap: 1.25rem;
@@ -1883,6 +1892,13 @@ __MARKET_DATA__
     <div>
       <div class="brand">projectious.work <span class="accent">· signal room</span></div>
       <div class="subtitle">Market state, actions and evidence in one continuous operating view</div>
+      <p class="header-context"><strong>Applied research — actively maintained.</strong>
+        Decision support for model, harness, subscription, and self-hosting
+        choices. Daily monitoring; weekly review (next: 27 July). Coverage is non-exhaustive:
+        prices move, vendor claims and heterogeneous benchmarks are not always
+        comparable, and recommendations need workload validation. Read the
+        <a href="https://github.com/projectious-work/ai-market-research/blob/main/docs/data-methodology.md" target="_blank" rel="noopener">methodology</a>
+        and <a href="https://github.com/projectious-work/ai-market-research/blob/main/docs/research-data-policy.md" target="_blank" rel="noopener">research-data policy</a>.</p>
     </div>
     <div class="dateline">
       <div id="generated-at">Loading…</div>
@@ -2169,7 +2185,7 @@ function cacheBurnFactor(modelId) {
 // ---------- INIT ----------
 function init() {
   document.getElementById('generated-at').textContent =
-    new Date(data.meta.generated_at).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+    `AS OF ${new Date(data.meta.generated_at).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()}`;
 
   // Reference model selector
   const refSel = document.getElementById('ref-model');
