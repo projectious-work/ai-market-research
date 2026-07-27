@@ -1,0 +1,102 @@
+baseURL: "https://projectious-work.github.io/ai-market-research/"
+title: Signal Room
+description: "Inspectable decision support for AI infrastructure-oriented developers choosing models, configurations, subscriptions, agent harnesses, and self-hosting options."
+theme: [docsy]
+enableRobotsTXT: true
+enableGitInfo: true
+enableEmoji: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+    parser:
+      attribute:
+        # Without block attributes, markdown such as `{.lead .display-6}`
+        # renders as visible literal text instead of applying the classes.
+        block: true
+        title: true
+  highlight:
+    noClasses: false
+  tableOfContents:
+    endLevel: 4
+
+outputs:
+  home: [HTML, RSS]
+  page: [HTML, markdown]
+  section: [HTML, RSS, print, markdown]
+
+params:
+  hugoMinVersion: "0.157.0"
+  productionURL: "https://projectious-work.github.io/ai-market-research/"
+  offlineSearch: true
+  offlineSearchSummaryLength: 200
+  offlineSearchMaxResults: 25
+  version: "main"
+  version_menu: "Releases"
+  version_menu_pagelinks: false
+  versions:
+    - name: "**Versions**"
+    - version: "main"
+      kind: latest
+      url: "https://projectious-work.github.io/ai-market-research/"
+  ui:
+    navbar_logo: true
+    navbar_theme: dark
+    showLightDarkModeMenu: true
+    sidebar_menu_compact: true
+    sidebar_menu_foldable: true
+    sidebar_search_disable: false
+    feedback:
+      enable: false
+  links:
+    user:
+      - name: GitHub
+        url: "https://github.com/projectious-work/ai-market-research"
+        icon: "fa-brands fa-github"
+        desc: Source code and issue tracker
+      - name: Latest release
+        url: "https://github.com/projectious-work/ai-market-research/releases/latest"
+        icon: "fa-solid fa-tag"
+        desc: Latest tagged release
+  copyright:
+    authors: "projectious"
+    from_year: 2026
+
+menu:
+  main:
+    - name: Signal Room
+      weight: 10
+      url: "/report/"
+    - name: Documentation
+      weight: 20
+      url: "/docs/"
+    - name: GitHub
+      weight: 30
+      url: "https://github.com/projectious-work/ai-market-research"
+      pre: "<i class='fa-brands fa-github' aria-hidden='true'></i>"
+
+module:
+  replacements:
+    - "github.com/FortAwesome/Font-Awesome -> ../node_modules/@fortawesome/fontawesome-free"
+    - "github.com/twbs/bootstrap -> ../node_modules/bootstrap"
+  mounts:
+    # Declaring any mount for a component replaces Hugo's default mount for
+    # that component. The vendor mounts below target `assets/` and `static/`,
+    # so both defaults must be restored explicitly — otherwise the project's
+    # brand SCSS, logo, and favicons are silently ignored in favour of the
+    # theme's own assets.
+    - source: assets
+      target: assets
+    - source: static
+      target: static
+    - source: node_modules/bootstrap
+      target: assets/vendor/bootstrap
+    - source: node_modules/@fortawesome/fontawesome-free
+      target: assets/vendor/Font-Awesome
+    - source: node_modules/@fortawesome/fontawesome-free/webfonts
+      target: static/webfonts
+
+taxonomies:
+  tag: tags
+  category: categories

@@ -1,0 +1,9 @@
+{{- /*
+  Emits a baseURL-aware absolute path for a static asset, e.g.
+  {{< site-url "report/dashboard.html" >}}. Needed because raw HTML in
+  markdown content (the report iframe/link) is not run through Hugo's
+  relURL/absURL pipeline the way template code is, so a hardcoded
+  root-relative href would drop the "/ai-market-research/" project-page
+  subpath baked into baseURL.
+*/ -}}
+{{- relURL (.Get 0) -}}

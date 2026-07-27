@@ -4,9 +4,10 @@ kind: DecisionRecord
 metadata:
   id: DEC-20260517_1455-DeftLynx-v0-2-0-deployment-local-deploy
   created: '2026-05-17T14:55:27+00:00'
+  updated: '2026-07-27T07:42:34+00:00'
 spec:
   title: 'v0.2.0 deployment: local deploy.sh + gh-pages branch source, no GitHub Actions'
-  state: accepted
+  state: superseded
   decision: 'Deploy `dist/dashboard.html` to GitHub Pages from the local container
     via a `src/scripts/deploy.sh` script that uses `git worktree` to commit and push
     a built site to a `gh-pages` orphan branch. The script auto-enables Pages on first
@@ -47,4 +48,5 @@ spec:
     run rewrites gh-pages with a fresh commit; deploy history is intentionally shallow
     (no need to rebase or merge).'
   decided_at: '2026-05-17T14:55:27+00:00'
+  superseded_by: DEC-20260727_0742-ClearSpring
 ---

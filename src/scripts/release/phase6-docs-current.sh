@@ -16,7 +16,7 @@ if [ "${RELEASE_NO_DOC_CHANGE:-0}" = "1" ]; then
 fi
 
 LAST_TAG="$(git describe --tags --abbrev=0 2>/dev/null || echo "")"
-DOC_PATHS=(README.md AGENTS.md CLAUDE.md docs/)
+DOC_PATHS=(README.md AGENTS.md CLAUDE.md docs/ content/ hugo.yaml assets/scss/ static/logo/)
 existing=()
 for p in "${DOC_PATHS[@]}"; do [ -e "$p" ] && existing+=("$p"); done
 

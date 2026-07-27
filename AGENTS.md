@@ -200,15 +200,20 @@ lifecycle is stable.
 ## Setup
 
 ```sh
-bash src/scripts/build.sh           # build dist/dashboard.html
+bash src/scripts/build.sh           # build dist/dashboard.html (the report)
 bash src/scripts/release-check.sh   # validate + rebuild + sanity check
-bash src/scripts/deploy.sh          # push dist/ to GitHub Pages (gh-pages branch)
+bash scripts/serve-docs.sh          # serve the Hugo/Docsy site locally, report embedded
+bash scripts/build-docs.sh          # build the Hugo/Docsy site into public/
+bash scripts/deploy-docs.sh         # push public/ to GitHub Pages (gh-pages branch)
 bash src/scripts/release.sh 0.2.0   # release-check → tag → push → deploy → gh release
 ```
 
-Site lives at <https://projectious-work.github.io/ai-market-research/>.
-Deploy uses `git worktree` against a `gh-pages` branch — no GitHub Actions
-workflow. See `DEC-20260517_1455-DeftLynx` for the architecture.
+Site lives at <https://projectious-work.github.io/ai-market-research/>, built
+with Hugo + Docsy and themed from the projectious.work brand (see
+`assets/scss/_variables_project.scss`); the report itself is embedded at
+`/report/`. Deploy uses `git worktree` against a `gh-pages` branch — no GitHub
+Actions workflow. See `DEC-20260727_0742-ClearSpring` for the architecture
+(supersedes `DEC-20260517_1455-DeftLynx`).
 
 <!-- pk-managed:pk-commands BEGIN -->
 <!-- pk-commands BEGIN -->

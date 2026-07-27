@@ -53,9 +53,10 @@ git -c "user.name=$TAG_NAME" -c "user.email=$TAG_EMAIL" tag -a "$TAG" -m "$TAG_M
 git push origin main
 git push origin "$TAG"
 
-# 4. deploy
+# 4. deploy (builds and publishes the Hugo/Docsy site, which embeds the
+#    freshly rebuilt report)
 DEPLOY_MSG="deploy: $TAG ($(git rev-parse --short HEAD))"
-bash "$REPO_ROOT/src/scripts/deploy.sh" --message "$DEPLOY_MSG"
+bash "$REPO_ROOT/scripts/deploy-docs.sh" --message "$DEPLOY_MSG"
 
 # 5. GitHub Release
 DASHBOARD_ASSET="/tmp/dashboard-$TAG.html"
