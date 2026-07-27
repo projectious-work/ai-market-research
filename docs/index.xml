@@ -13,37 +13,24 @@ and serving the Hugo/Docsy site additionally requires &lt;code&gt;hugo&lt;/code&
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="build-and-serve-the-documentation-site"&gt;Build and serve the documentation site&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Serve the Hugo/Docsy site locally at http://localhost:1313/, embedding a&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# freshly built report&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;bash scripts/serve-docs.sh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;bash docs/scripts/serve-docs.sh
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Produce a production build under public/&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;bash scripts/build-docs.sh
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;scripts/build-docs.sh&lt;/code&gt; and &lt;code&gt;scripts/serve-docs.sh&lt;/code&gt; both rebuild
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Produce a production build under docs/public/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;bash docs/scripts/build-docs.sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;docs/scripts/build-docs.sh&lt;/code&gt; and &lt;code&gt;docs/scripts/serve-docs.sh&lt;/code&gt; both rebuild
 &lt;code&gt;dist/dashboard.html&lt;/code&gt; via &lt;code&gt;src/scripts/build.sh&lt;/code&gt; and copy it to
 &lt;code&gt;static/report/dashboard.html&lt;/code&gt; before invoking Hugo, so the embedded report in
 &lt;a href="https://projectious-work.github.io/ai-market-research/report/"&gt;Signal Room&lt;/a&gt; always reflects the current data.&lt;/p&gt;</description></item><item><title>Project Status</title><link>https://projectious-work.github.io/ai-market-research/docs/project-status/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://projectious-work.github.io/ai-market-research/docs/project-status/</guid><description>&lt;p&gt;&lt;strong&gt;Lifecycle: active.&lt;/strong&gt; The market roster and published dashboard are actively
-maintained. Historical snapshots remain available for provenance, but only the
-current dashboard and latest tagged release are supported.&lt;/p&gt;
+maintained. Historical snapshots, when published, remain available for
+provenance, but only the current dashboard and latest tagged release are
+supported.&lt;/p&gt;
+&lt;p&gt;For the live revision, archived-snapshot policy, and release links, see
+&lt;a href="https://projectious-work.github.io/ai-market-research/revisions/"&gt;Revisions&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="what-this-is"&gt;What this is&lt;/h2&gt;
 &lt;p&gt;Signal Room is inspectable decision support: a manually rebuilt, single static
 dashboard that tracks model rosters, provider-native reasoning configurations,
 speed evidence, agent harnesses, and self-hosting economics, with evidence
-classes and source links kept visible throughout.&lt;/p&gt;
-&lt;h2 id="what-this-is-not"&gt;What this is not&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Not exhaustive. Pricing changes, and vendor-reported claims and
-heterogeneous benchmarks are not universally comparable.&lt;/li&gt;
-&lt;li&gt;Not a recommendation engine for every workload &amp;ndash; treat its outputs as a
-starting point, not a substitute for your own evaluation.&lt;/li&gt;
-&lt;li&gt;Not dynamically updated. There is no runtime CDN dependency or live data
-fetch; GitHub Pages serves a manually rebuilt static artifact.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="deployment-architecture"&gt;Deployment architecture&lt;/h2&gt;
-&lt;p&gt;GitHub Pages is fed from the root of the &lt;code&gt;gh-pages&lt;/code&gt; branch by a local build
-and deploy of this Hugo/Docsy site; no GitHub Actions workflow is used or
-permitted. See
-&lt;a href="https://github.com/projectious-work/ai-market-research/blob/main/context/decisions/DEC-20260727_0742-ClearSpring-migrate-the-published-site-from-raw.md"&gt;DEC-20260727_0742-ClearSpring&lt;/a&gt;,
-which supersedes
-&lt;a href="https://github.com/projectious-work/ai-market-research/blob/main/context/decisions/DEC-20260517_1455-DeftLynx-v0-2-0-deployment-local-deploy.md"&gt;DEC-20260517_1455-DeftLynx&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Data Methodology</title><link>https://projectious-work.github.io/ai-market-research/docs/data-methodology/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://projectious-work.github.io/ai-market-research/docs/data-methodology/</guid><description>&lt;p&gt;The dashboard has three canonical data inputs:&lt;/p&gt;
+classes and source links kept visible throughout.&lt;/p&gt;</description></item><item><title>Data Methodology</title><link>https://projectious-work.github.io/ai-market-research/docs/data-methodology/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://projectious-work.github.io/ai-market-research/docs/data-methodology/</guid><description>&lt;p&gt;The dashboard has three canonical data inputs:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;data/market-state.json&lt;/code&gt; preserves the original report schema and backward
 compatibility.&lt;/li&gt;

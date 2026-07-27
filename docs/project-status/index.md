@@ -9,8 +9,12 @@ LLMS index: [llms.txt](/ai-market-research/llms.txt)
 ---
 
 **Lifecycle: active.** The market roster and published dashboard are actively
-maintained. Historical snapshots remain available for provenance, but only the
-current dashboard and latest tagged release are supported.
+maintained. Historical snapshots, when published, remain available for
+provenance, but only the current dashboard and latest tagged release are
+supported.
+
+For the live revision, archived-snapshot policy, and release links, see
+[Revisions](/ai-market-research/revisions/).
 
 ## What this is
 
