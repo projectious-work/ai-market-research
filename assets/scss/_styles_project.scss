@@ -41,6 +41,8 @@
   --pj-surface-subtle: #{$midnight-1};
   --pj-border: #{$slate-4};
   --pj-text-muted: #{$slate-9};
+  --pj-on-dark: #{$midnight-dark-12};
+  --pj-on-dark-link: #{$orange-dark-11};
 
   // Motion (tokens/variables.css)
   --pj-duration-micro: 100ms;
@@ -84,6 +86,8 @@
   --pj-surface-subtle: #{$midnight-dark-3};
   --pj-border: rgba(255, 255, 255, 0.08);
   --pj-text-muted: #{$slate-dark-11};
+  --pj-on-dark: #{$midnight-dark-12};
+  --pj-on-dark-link: #{$orange-dark-11};
 
   --sr-mark-shell: #6b8db2;
   --sr-mark-wave: #{$brand-primary-dark};
@@ -567,14 +571,16 @@ kbd {
 .btn-accent {
   background-color: $orange-9;
   border-color: $orange-9;
-  color: #ffffff;
+  // White is only 3.87:1 on the brand orange. Midnight-dark-1 clears
+  // the 4.5:1 text threshold on both the default and hover states.
+  color: $midnight-dark-1;
 
   &:hover,
   &:focus,
   &:active {
-    background-color: $brand-accent-dark;
-    border-color: $brand-accent-dark;
-    color: #ffffff;
+    background-color: $orange-dark-10;
+    border-color: $orange-dark-10;
+    color: $midnight-dark-1;
   }
 }
 
@@ -613,11 +619,11 @@ kbd {
 .td-box--dark,
 .td-box--primary,
 .td-footer {
-  --bs-body-color: #{$midnight-dark-12};
-  --bs-heading-color: #{$midnight-dark-12};
-  --bs-emphasis-color: #{$midnight-dark-12};
+  --bs-body-color: var(--pj-on-dark);
+  --bs-heading-color: var(--pj-on-dark);
+  --bs-emphasis-color: var(--pj-on-dark);
   --bs-secondary-color: #{$slate-dark-11};
-  color: $midnight-dark-12;
+  color: var(--pj-on-dark);
 
   h1, h2, h3, h4, h5, h6,
   .h1, .h2, .h3, .h4, .h5, .h6,
@@ -627,21 +633,33 @@ kbd {
   p,
   li,
   dt,
-  dd {
-    color: $midnight-dark-12;
+  dd,
+  strong,
+  b,
+  .text-body,
+  .text-body-emphasis {
+    color: var(--pj-on-dark);
   }
 
   .lead {
-    color: $slate-dark-11; // 5.2:1 -- supporting copy, still AA
+    color: var(--pj-on-dark);
   }
 
   a:not(.btn) {
-    color: $midnight-dark-11;
+    color: var(--pj-on-dark-link);
 
     &:hover,
     &:focus {
-      color: $orange-dark-10; // accent-light, 5.3:1 on midnight
+      color: $orange-dark-12;
     }
+  }
+
+  // Inline code must not inherit a light-surface token when it appears in
+  // a dark cover, primary block, overlay, or footer.
+  :not(pre) > code {
+    background-color: $pj-code-bg;
+    color: $orange-dark-11;
+    border: 1px solid rgba(255, 255, 255, 0.12);
   }
 }
 
