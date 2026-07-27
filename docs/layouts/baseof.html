@@ -1,0 +1,30 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage"
+    {{- with .Site.Language.LanguageDirection }} dir="{{ . }}" {{- end -}}
+    {{ with .Site.Language.Lang }} lang="{{ . }}" {{- end }} {{/**/ -}}
+    class="no-js"
+    {{- $darkMode := partialCached "dark-mode-config.html" "dark-mode-global" -}}
+    {{- if $darkMode.enable }} data-theme-init{{ end }}>
+  <head>
+    {{ partial "head.html" . }}
+  </head>
+  <body class="td-{{ .Kind }}{{ with .Page.Params.body_class }} {{ . }}{{ end }}">
+    <header>
+      {{ partial "navbar.html" . }}
+    </header>
+    {{- /* Project override: Signal Room controls bar, right below the
+           navbar, only on pages carrying report state. Deliberately outside
+           <header> -- Docsy's header is a flex container sized around the
+           navbar alone, so a second flex-item child there gets squeezed
+           beside it (same row) instead of stacking below it. See
+           docs/layouts/_partials/report-controls.html. */ -}}
+    {{ if .Params.show_report_controls }}{{ partial "report-controls.html" . }}{{ end }}
+    <div class="container-fluid td-default td-outer">
+      <main role="main" class="td-main">
+        {{ block "main" . }}{{ end }}
+      </main>
+      {{ partial "footer.html" . }}
+    </div>
+    {{ partialCached "scripts.html" . }}
+  </body>
+</html>

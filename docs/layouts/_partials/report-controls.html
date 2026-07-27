@@ -1,0 +1,47 @@
+{{- /*
+  Signal Room controls bar: reference model, jurisdiction, and workload
+  selectors. Rendered once per page (not once per report fragment) so the
+  same bar appears below the navbar on the landing page and every Signal
+  Room section; report.js wires it up and persists the selection via
+  localStorage + the URL query string so it survives page navigation.
+
+  Shown only on pages that opt in via `show_report_controls: true` in front
+  matter (the landing page and content/report/* pages) -- Documentation and
+  Revisions pages don't carry report state, so they don't show this bar.
+
+  Docsy's navbar is position:fixed from 768px up, and Docsy only compensates
+  <main> for that -- this bar sits between <header> and <main>, so it needs
+  its own clearance (assets/scss/_styles_project.scss). The landing page's
+  blocks/cover hero already clears the fixed navbar itself (td-below-navbar),
+  so adding clearance here too would double it; only add it when there's no
+  cover block on this page.
+*/ -}}
+{{- $needsClearance := not (.HasShortcode "blocks/cover") -}}
+<div class="sr-controls-bar{{ if $needsClearance }} sr-controls-bar--clear-navbar{{ end }}" role="group" aria-label="Signal Room report controls">
+  <div class="sr-controls-bar__inner">
+    <div class="sr-control-group">
+      <span>Reference model:</span>
+      <select id="ref-model" aria-label="Reference model"></select>
+    </div>
+    <div class="sr-control-group">
+      <span>Jurisdiction:</span>
+      <select id="filter-jurisdiction" aria-label="Jurisdiction filter">
+        <option value="all">All</option>
+        <option value="US">US only</option>
+        <option value="EU">EU only</option>
+        <option value="China">China only</option>
+        <option value="not-China">Exclude China</option>
+      </select>
+    </div>
+    <div class="sr-control-group">
+      <span>Workload:</span>
+      <select id="filter-workload" aria-label="Workload filter" title="Cache hit rate assumption for burn calculations">
+        <option value="cold">Cold (0% cache)</option>
+        <option value="mixed" selected>Mixed (40% cache)</option>
+        <option value="warm">Warm (70% cache)</option>
+        <option value="hot">Hot (90% cache)</option>
+      </select>
+    </div>
+    <div class="sr-control-group sr-control-group--dateline" id="generated-at">Loading…</div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+{{- /*
+  Project override of Docsy's version menu.
+
+  Docsy's default reads a hand-maintained params.versions list. This reads
+  data/releases.json instead -- generated from real git tags by
+  scripts/generate-releases-data.sh (run before every Hugo build) -- so the
+  menu always reflects the actual release history without anyone hand-editing
+  hugo.yaml per release. "main" (the live, actively maintained site) is
+  listed first regardless of tags; historical tags link straight to their
+  GitHub release page rather than a rebuilt Hugo snapshot, since only the
+  live site and the latest tag are supported (see Project Status).
+*/ -}}
+{{ $menuName := .Site.Params.version_menu -}}
+{{ $releases := .Site.Data.releases | default slice -}}
+
+<div class="td-version-menu dropdown">
+  <a class="nav-link dropdown-toggle td-version-menu__title" href="#" role="button"
+    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="td-version-menu__title-text">
+      {{- $menuName -}}
+    </span>
+  </a>
+
+  <ul class="dropdown-menu">
+    <li>
+      <span class="dropdown-item disabled dropdown-item-text"><strong>{{ $menuName }}</strong></span>
+    </li>
+    <li>
+      <a class="dropdown-item{{ if eq .Site.Params.version "main" }} active{{ end }}"
+        {{ if eq .Site.Params.version "main" }}aria-current="page"{{ end }}
+        href="{{ .Site.Params.latest | default .Site.BaseURL | safeURL }}">
+        main <span class="text-muted">(latest, actively maintained)</span>
+      </a>
+    </li>
+    {{ if gt (len $releases) 0 -}}
+      <li><hr class="dropdown-divider"></li>
+      {{ range $releases -}}
+        <li>
+          <a class="dropdown-item" href="{{ .url | safeURL }}" target="_blank" rel="noopener">
+            {{ .tag }}
+            {{ with .date }}<span class="text-muted">{{ dateFormat "2 Jan 2006" . }}</span>{{ end }}
+          </a>
+        </li>
+      {{ end -}}
+    {{ end -}}
+  </ul>
+</div>

@@ -14,10 +14,20 @@ Placeholders:
 
 Idempotent. Re-running produces the same bytes when inputs and the git tag
 are unchanged.
+
+Besides dist/dashboard.html (the monolithic, self-contained artifact used
+for direct/offline viewing and as the GitHub release asset), this also
+splits the same template into the pieces the Hugo/Docsy site embeds
+natively per Signal Room page instead of iframing the whole file:
+  docs/static/report/report.css              — the <style> block, shared
+  docs/static/report/report.js                — the <script> block, shared
+  docs/static/report/sections/<slug>.html      — one per tab panel, each with
+                                                  its own embedded market-data
 """
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -31,6 +41,19 @@ OUTPUT = ROOT / "dist" / "dashboard.html"
 DATA_PLACEHOLDER = "__MARKET_DATA__"
 VERSION_PLACEHOLDER = "__APP_VERSION__"
 BUILD_PLACEHOLDER = "__BUILD_ID__"
+
+REPORT_STATIC_DIR = ROOT / "docs" / "static" / "report"
+SECTIONS_DIR = REPORT_STATIC_DIR / "sections"
+
+# tab-panel id (in the template) -> Signal Room section slug (in the Hugo site)
+SECTION_SLUGS = [
+    ("dashboard", "00-now"),
+    ("models", "01-market-economics"),
+    ("harnesses", "02-tools"),
+    ("self-hosting", "03-infrastructure"),
+    ("strategy", "04-decisions"),
+    ("sources", "05-evidence"),
+]
 
 
 def latest_tag() -> str:
@@ -55,6 +78,44 @@ def build_id() -> str:
         return out or "unknown"
     except (subprocess.CalledProcessError, FileNotFoundError):
         return "unknown"
+
+
+def extract_between(template: str, start_marker: str, end_marker: str) -> str:
+    start = template.index(start_marker) + len(start_marker)
+    end = template.index(end_marker, start)
+    return template[start:end].strip() + "\n"
+
+
+def extract_section_html(template: str, tab_id: str) -> str:
+    pattern = re.compile(
+        r'<section class="tab-panel(?: active)?" id="tab-' + re.escape(tab_id) + r'">.*?</section>',
+        re.DOTALL,
+    )
+    match = pattern.search(template)
+    if not match:
+        sys.exit(f"template section tab-{tab_id} not found")
+    return match.group(0)
+
+
+def write_report_fragments(template: str, minified_data: str) -> None:
+    css = extract_between(template, "<style>\n", "\n</style>")
+    js = extract_between(template, "<!-- ===== JAVASCRIPT ===== -->\n<script>\n", "\n</script>\n\n</body>")
+
+    REPORT_STATIC_DIR.mkdir(parents=True, exist_ok=True)
+    (REPORT_STATIC_DIR / "report.css").write_text(css, encoding="utf-8")
+    (REPORT_STATIC_DIR / "report.js").write_text(js, encoding="utf-8")
+
+    SECTIONS_DIR.mkdir(parents=True, exist_ok=True)
+    for tab_id, slug in SECTION_SLUGS:
+        section_html = extract_section_html(template, tab_id)
+        fragment = (
+            f'<script id="market-data" type="application/json">{minified_data}</script>\n'
+            f"{section_html}\n"
+        )
+        (SECTIONS_DIR / f"{slug}.html").write_text(fragment, encoding="utf-8")
+
+    print(f"built {len(SECTION_SLUGS)} report section fragments "
+          f"under {SECTIONS_DIR.relative_to(ROOT)}")
 
 
 def main() -> int:
@@ -108,6 +169,8 @@ def main() -> int:
     print(f"built {OUTPUT.relative_to(ROOT)} "
           f"({OUTPUT.stat().st_size:,} bytes, "
           f"release={version}, build={commit})")
+
+    write_report_fragments(template, minified)
     return 0
 
 

@@ -2,7 +2,8 @@
 title: Signal Room
 description: "Inspectable decision support for AI infrastructure-oriented developers choosing models, configurations, subscriptions, agent harnesses, and self-hosting options."
 params:
-  body_class: td-navbar-links-all-active
+  body_class: td-navbar-links-all-active td-report-page
+  show_report_controls: true
   ui:
     navbar_theme: dark
 ---
@@ -47,6 +48,12 @@ vendor-reported, or explicitly marked unknown, and every claim keeps a
 canonical source link.
 
 {{% /blocks/lead %}}
+
+<div class="container-fluid sr-now-section">
+
+{{< report-section "00-now" >}}
+
+</div>
 
 {{% blocks/section color="light" type="row" %}}
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Build the Hugo/Docsy documentation site, embedding a freshly built report.
 #
-# Unlike a documentation-only site, this project's homepage-equivalent page is
-# a self-contained interactive dashboard built by ../src/scripts/build.py from
-# ../data/*.json. That build runs first; its output is copied into
-# docs/static/report/dashboard.html so Hugo picks it up as a plain static asset
-# and docs/content/report/_index.md can embed it in an iframe.
+# The Signal Room section (00 Now on the landing page, 01-05 under /report/)
+# is not an iframe: ../src/scripts/build.py splits the same template used for
+# dist/dashboard.html into docs/static/report/{report.css,report.js} (shared)
+# and docs/static/report/sections/*.html (one per tab panel), which Hugo
+# injects directly via the report-section shortcode. That build runs first.
 set -euo pipefail
 
 DOCS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -60,17 +60,17 @@ if [[ ! -d "${DOCS_DIR}/node_modules" ]]; then
   fi
 fi
 
-echo "[1/2] building report (dist/dashboard.html)"
+echo "[1/3] building report (dist/dashboard.html + docs/static/report/*)"
 bash "${REPO_ROOT}/src/scripts/build.sh"
 if grep -q '__MARKET_DATA__' "${REPO_ROOT}/dist/dashboard.html"; then
   echo "fatal: dashboard still contains the data placeholder" >&2
   exit 1
 fi
-mkdir -p "${DOCS_DIR}/static/report"
-cp "${REPO_ROOT}/dist/dashboard.html" \
-  "${DOCS_DIR}/static/report/dashboard.html"
 
-echo "[2/2] building Hugo site"
+echo "[2/3] generating release history from git tags"
+bash "${DOCS_DIR}/scripts/generate-releases-data.sh"
+
+echo "[3/3] building Hugo site"
 cd "${DOCS_DIR}"
 hugo --gc --minify --cleanDestinationDir --baseURL "${DOCS_BASE_URL}" \
   "${BUILD_ARGS[@]}"

@@ -1,0 +1,18 @@
+{{/*
+  Brand typefaces. $td-enable-google-fonts is false (assets/scss/_variables_project.scss)
+  because Docsy's own font loading doesn't match the projectious.work brand
+  fonts, so they're loaded explicitly here instead:
+  Plus Jakarta Sans (headings/display), Source Sans 3 (body), IBM Plex Mono
+  (code) -- see brand/tokens/variables.css and assets/scss/_variables_project.scss.
+*/ -}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+{{- /*
+  Signal Room report styles, only on pages that embed report fragments
+  (landing page + content/report/*) -- see layouts/_partials/report-controls.html.
+*/ -}}
+{{- if .Params.show_report_controls -}}
+  <link rel="stylesheet" href="{{ "report/report.css" | relURL }}">
+{{- end -}}

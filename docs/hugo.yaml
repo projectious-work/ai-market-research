@@ -39,18 +39,10 @@ params:
   archive: false
   latest: "https://projectious-work.github.io/ai-market-research/"
   version_menu: "Revisions"
-  # Each revision owns its own site root. This avoids constructing invalid
-  # paths when an older snapshot lacks a page that exists on main.
-  version_menu_pagelinks: false
-  versions:
-    - name: "**Revisions**"
-    - version: "main"
-      kind: latest
-      url: "https://projectious-work.github.io/ai-market-research/"
-    - name: "---"
-    - name: "Revision index"
-      url: "https://projectious-work.github.io/ai-market-research/revisions/"
-      pagelinks: false
+  # The Revisions menu (layouts/_partials/navbar-version-selector.html,
+  # project override) reads data/releases.json -- generated from real git
+  # tags by scripts/generate-releases-data.sh -- instead of a hand-maintained
+  # params.versions list.
   ui:
     navbar_logo: true
     navbar_theme: dark

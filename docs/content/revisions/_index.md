@@ -1,14 +1,13 @@
 ---
 title: Revisions
 linkTitle: Revisions
-description: "Live and archived Signal Room documentation revisions."
+description: "Live revision and generated release history for Signal Room."
 weight: 30
 ---
 
-Signal Room has one supported, live revision and immutable documentation
-snapshots for selected tagged releases. A revision keeps the report, its
-methodology, and its published documentation together so a historical claim
-can be read in the context in which it was made.
+Signal Room has one supported, live revision. Every tagged release is listed
+below, generated from the repository's git tags rather than hand-maintained
+-- see [`scripts/generate-releases-data.sh`](https://github.com/projectious-work/ai-market-research/blob/main/docs/scripts/generate-releases-data.sh).
 
 ## Current revision
 
@@ -20,19 +19,18 @@ use for decisions and new work.
 - [Read the current documentation]({{< relref "/docs" >}})
 - [See the latest tagged release](https://github.com/projectious-work/ai-market-research/releases/latest)
 
-## Archived revisions
+## Release history
 
-An archived revision is published below a versioned path such as
-`/v0.4.0/`. It is an immutable snapshot: its pages retain their own navigation,
-assets, report, and a banner that directs readers back to the supported live
-revision. The **Revisions** picker in the site header takes readers to each
-revision's own site root.
+Each release is a tagged snapshot of the repository, with the built report
+(`dashboard.html`) and `LICENSE` attached as GitHub release assets -- not a
+separately rebuilt copy of this documentation site. This list is regenerated
+at every Hugo build; it is not hand-maintained.
 
-{{< archived-revision >}}
+{{< releases-table >}}
 
 ## Support policy
 
-Only `main` and the latest tagged release are supported. Archived revisions are
-kept for provenance: they document the evidence, methods, and market state at
-the time of publication, but they are not updated when provider pricing,
-models, benchmarks, or source pages change.
+Only `main` and the latest tagged release are supported. Older tags are kept
+for provenance -- they document the evidence, methods, and market state at
+the time of publication -- but their attached report is not updated when
+provider pricing, models, benchmarks, or source pages change.

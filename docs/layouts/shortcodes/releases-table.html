@@ -1,0 +1,22 @@
+{{- /*
+  Renders the full generated release list (data/releases.json, produced by
+  scripts/generate-releases-data.sh from real git tags). Used on the
+  Revisions page instead of the old archived-revision.html placeholder.
+*/ -}}
+{{- $releases := .Site.Data.releases | default slice -}}
+{{- if eq (len $releases) 0 -}}
+  <p><em>No tagged releases yet.</em></p>
+{{- else -}}
+<table>
+  <thead><tr><th>Release</th><th>Date</th><th>Assets</th></tr></thead>
+  <tbody>
+  {{- range $releases }}
+    <tr>
+      <td><a href="{{ .url | safeURL }}" target="_blank" rel="noopener">{{ .tag }}</a></td>
+      <td>{{ with .date }}{{ dateFormat "2 Jan 2006" . }}{{ end }}</td>
+      <td><a href="{{ .url | safeURL }}" target="_blank" rel="noopener">dashboard.html, LICENSE, source archive</a></td>
+    </tr>
+  {{- end }}
+  </tbody>
+</table>
+{{- end -}}

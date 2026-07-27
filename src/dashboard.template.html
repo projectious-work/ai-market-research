@@ -2161,9 +2161,34 @@ __MARKET_DATA__
 <!-- ===== JAVASCRIPT ===== -->
 <script>
 const data = JSON.parse(document.getElementById('market-data').textContent);
-let currentRef = data.meta.reference_default;
-let currentJurisdiction = 'all';
-let currentWorkload = data.quota_burn_matrix.default_workload || 'mixed';
+
+// Reference model / jurisdiction / workload selection used to be tab-local
+// state in one document. Each Signal Room section is now its own page, so
+// the selection is persisted across navigations: the URL query string wins
+// (shareable, reproducible links), falling back to localStorage, falling
+// back to the built-in defaults.
+const SR_STORAGE_KEY = 'signal-room-controls';
+function readStoredControls() {
+  try { return JSON.parse(localStorage.getItem(SR_STORAGE_KEY) || '{}'); }
+  catch { return {}; }
+}
+function writeStoredControls(next) {
+  try { localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(next)); } catch {}
+}
+function persistControls() {
+  writeStoredControls({ ref: currentRef, jurisdiction: currentJurisdiction, workload: currentWorkload });
+  const params = new URLSearchParams(location.search);
+  params.set('ref', currentRef);
+  params.set('jurisdiction', currentJurisdiction);
+  params.set('workload', currentWorkload);
+  history.replaceState(null, '', `${location.pathname}?${params.toString()}${location.hash}`);
+}
+
+const urlParams = new URLSearchParams(location.search);
+const storedControls = readStoredControls();
+let currentRef = urlParams.get('ref') || storedControls.ref || data.meta.reference_default;
+let currentJurisdiction = urlParams.get('jurisdiction') || storedControls.jurisdiction || 'all';
+let currentWorkload = urlParams.get('workload') || storedControls.workload || data.quota_burn_matrix.default_workload || 'mixed';
 
 // Cache-aware burn helpers
 function workloadHitRate() {
@@ -2184,32 +2209,53 @@ function cacheBurnFactor(modelId) {
 
 // ---------- INIT ----------
 function init() {
-  document.getElementById('generated-at').textContent =
-    `AS OF ${new Date(data.meta.generated_at).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()}`;
+  const generatedAt = document.getElementById('generated-at');
+  if (generatedAt) {
+    generatedAt.textContent =
+      `AS OF ${new Date(data.meta.generated_at).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()}`;
+  }
 
-  // Reference model selector
+  // Reference model selector. May be absent on a page that doesn't render
+  // the controls bar (none currently, but kept defensive).
   const refSel = document.getElementById('ref-model');
-  data.models.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.id;
-    opt.textContent = m.name;
-    if (m.id === currentRef) opt.selected = true;
-    refSel.appendChild(opt);
-  });
-  refSel.addEventListener('change', e => { currentRef = e.target.value; renderAll(); });
+  if (refSel) {
+    data.models.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m.id;
+      opt.textContent = m.name;
+      if (m.id === currentRef) opt.selected = true;
+      refSel.appendChild(opt);
+    });
+    // A stale ref (old localStorage/URL value after a roster change) matches
+    // no option; fall back to the default so the variable and the visible
+    // selection never disagree.
+    if (!data.models.some(m => m.id === currentRef)) {
+      currentRef = data.meta.reference_default;
+      refSel.value = currentRef;
+    }
+    refSel.addEventListener('change', e => { currentRef = e.target.value; persistControls(); renderAll(); });
+  }
 
-  document.getElementById('filter-jurisdiction').addEventListener('change', e => {
-    currentJurisdiction = e.target.value; renderAll();
-  });
+  const jurisdictionSel = document.getElementById('filter-jurisdiction');
+  if (jurisdictionSel) {
+    jurisdictionSel.value = currentJurisdiction;
+    jurisdictionSel.addEventListener('change', e => {
+      currentJurisdiction = e.target.value; persistControls(); renderAll();
+    });
+  }
 
   // Workload preset selector
   const workloadSel = document.getElementById('filter-workload');
-  workloadSel.value = currentWorkload;
-  workloadSel.addEventListener('change', e => {
-    currentWorkload = e.target.value; renderAll();
-  });
+  if (workloadSel) {
+    workloadSel.value = currentWorkload;
+    workloadSel.addEventListener('change', e => {
+      currentWorkload = e.target.value; persistControls(); renderAll();
+    });
+  }
 
-  // Tabs
+  // Tabs — only present in the monolithic single-file build (dist/dashboard.html);
+  // querySelectorAll returns an empty list on a split Signal Room page, so this
+  // is a no-op there.
   document.querySelectorAll('.tab').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -2400,6 +2446,7 @@ function referenceRelativeSignal(signal) {
 // ---------- DASHBOARD ----------
 function renderDashboard() {
   const grid = document.getElementById('dash-grid');
+  if (!grid) return;
   grid.innerHTML = '';
 
   // Headline
@@ -2576,14 +2623,16 @@ function renderCurrentRoster() {
 }
 
 function renderModels(filter) {
+  const theadEl = document.querySelector('#models-table thead');
+  const tbody = document.querySelector('#models-table tbody');
+  if (!theadEl || !tbody) return;
   const schema = benchmarkSchema();
   const refName=getRefModel()?.name||'selected reference';
-  document.querySelector('#models-table thead').innerHTML = `<tr>
+  theadEl.innerHTML = `<tr>
     <th>Model</th><th>Provider</th><th>Quality vs ${escapeHtml(refName)}</th>
     ${schema.map(b=>`<th class="tnum benchmark-col" title="${escapeHtml(b.description||'')}">${benchmarkHeader(b.label,b.max)}</th>`).join('')}
     <th class="tnum">Input<span class="sublabel">$/Mtok</span></th><th class="tnum">Output<span class="sublabel">$/Mtok</span></th><th class="tnum">Cache<span class="sublabel">$/Mtok</span></th><th>Context</th><th class="tnum" title="Fixed end-to-end task-rate index. Fable 5 is always 100; this column is not rebased by the reference selector.">Fixed task-speed index<span class="sublabel">Fable 5 = 100</span></th><th>Released</th>
     <th class="tnum">Speed score<span class="sublabel">0–100</span></th><th class="tnum">Cost efficiency<span class="sublabel">0–100</span></th></tr>`;
-  const tbody = document.querySelector('#models-table tbody');
   tbody.innerHTML = '';
   let models = data.models.filter(m => jurisdictionMatch(m.jurisdiction));
   if (filter === 'current') models = models.filter(m => m.tier === 'frontier' || m.tier === 'fast');
@@ -3582,6 +3631,7 @@ function renderEfficiencyLeaders() {
 
 function renderSubs() {
   const tbody = document.querySelector('#subs-table tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   data.subscriptions.forEach(s => {
     tbody.innerHTML += `
@@ -3599,6 +3649,7 @@ function renderSubs() {
 
 function renderPolicy() {
   const tbody = document.querySelector('#policy-table tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   data.agent_policies.forEach(p => {
     tbody.innerHTML += `
@@ -3623,6 +3674,7 @@ function fmtBool(v) {
 
 function renderHarnesses() {
   const tbody = document.querySelector('#harnesses-table tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   data.harnesses.forEach(h => {
     tbody.innerHTML += `
@@ -3667,11 +3719,12 @@ function renderSelfHosting(hwFilter) {
   });
 
   const thead = document.querySelector('#self-host-table thead');
+  const tbody = document.querySelector('#self-host-table tbody');
+  if (!thead || !tbody) return;
   thead.innerHTML = `<tr><th>Model</th><th>Quality vs ${escapeHtml(getRefModel()?.name||'selected reference')}</th>` +
     hardware.map(hw => `<th style="text-align:center;">${hw.name}<br><span style="font-weight:400; color:var(--text-faint); font-size:0.65rem;">${hw.vram_gb}GB</span></th>`).join('') +
     '</tr>';
 
-  const tbody = document.querySelector('#self-host-table tbody');
   tbody.innerHTML = '';
   data.self_hosting.models
     .filter(m => jurisdictionMatch(m.jurisdiction))
@@ -3701,6 +3754,7 @@ function renderSelfHosting(hwFilter) {
 
 function renderHardware() {
   const tbody = document.querySelector('#hardware-table tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   data.self_hosting.hardware_options.forEach(hw => {
     tbody.innerHTML += `
@@ -3757,6 +3811,7 @@ function renderHostingPrices() {
 
 function renderFrameworks() {
   const tbody = document.querySelector('#frameworks-table tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   data.self_hosting.frameworks.forEach(f => {
     tbody.innerHTML += `
@@ -3870,6 +3925,7 @@ function renderTaskFitTable(providerFilter) {
 function renderStrategy() {
   const s = data.strategy;
   const div = document.getElementById('strategy-content');
+  if (!div) return;
   const monthly = Number.isFinite(Number(s.current_recommendation.monthly_usd))
     ? `~$${Number(s.current_recommendation.monthly_usd)}/mo`
     : 'Workload-based cost';
