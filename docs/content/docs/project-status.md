@@ -6,8 +6,12 @@ description: "Lifecycle, support, and what is and is not covered by this report.
 ---
 
 **Lifecycle: active.** The market roster and published dashboard are actively
-maintained. Historical snapshots remain available for provenance, but only the
-current dashboard and latest tagged release are supported.
+maintained. Historical snapshots, when published, remain available for
+provenance, but only the current dashboard and latest tagged release are
+supported.
+
+For the live revision, archived-snapshot policy, and release links, see
+[Revisions]({{< relref "/revisions" >}}).
 
 ## What this is
 

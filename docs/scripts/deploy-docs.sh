@@ -3,28 +3,49 @@
 # it to GitHub Pages from a local checkout.
 #
 # This repository intentionally uses branch-based Pages. This script does not
-# create or invoke GitHub Actions; it publishes the static `public/` build to
+# create or invoke GitHub Actions; it publishes the static `docs/public/` build to
 # the `gh-pages` branch via a temporary git worktree, never force-pushing.
 #
 # Usage:
-#   bash scripts/deploy-docs.sh
-#   bash scripts/deploy-docs.sh --message "deploy: refresh signal room"
-#   bash scripts/deploy-docs.sh --skip-build
+#   bash docs/scripts/deploy-docs.sh
+#   DOCS_VERSION=v0.4.0 bash docs/scripts/deploy-docs.sh
+#   bash docs/scripts/deploy-docs.sh --message "deploy: refresh signal room"
+#   bash docs/scripts/deploy-docs.sh --skip-build
 set -euo pipefail
 
-ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "${ROOT_DIR}"
+DOCS_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "${DOCS_DIR}/.." && pwd)"
+cd "${REPO_ROOT}"
 
 PAGES_BRANCH="gh-pages"
 REMOTE="origin"
-BUILD_DIR="${ROOT_DIR}/public"
+BUILD_DIR="${DOCS_DIR}/public"
 DOCS_BASE_URL="${DOCS_BASE_URL:-https://projectious-work.github.io/ai-market-research/}"
+DOCS_VERSION="${DOCS_VERSION:-main}"
 COMMIT_MESSAGE=""
 SKIP_BUILD=0
 WORKTREE_DIR="$(mktemp -d)"
 
+if [[ ! "${DOCS_VERSION}" =~ ^[A-Za-z0-9._-]+$ ]]; then
+  echo "fatal: DOCS_VERSION may contain only letters, numbers, dots, underscores, or hyphens" >&2
+  exit 2
+fi
+
+if [[ "${DOCS_VERSION}" != "main" &&
+      "${DOCS_BASE_URL}" == "https://projectious-work.github.io/ai-market-research/" ]]; then
+  DOCS_BASE_URL="${DOCS_BASE_URL}${DOCS_VERSION}/"
+fi
+
+if [[ "${DOCS_VERSION}" == "main" ]]; then
+  PUBLISH_DIR=""
+  BUILD_DIR="${DOCS_DIR}/public"
+else
+  PUBLISH_DIR="${DOCS_VERSION}"
+  BUILD_DIR="${DOCS_DIR}/public/${DOCS_VERSION}"
+fi
+
 cleanup() {
-  git -C "${ROOT_DIR}" worktree remove --force "${WORKTREE_DIR}" >/dev/null 2>&1 || true
+  git -C "${REPO_ROOT}" worktree remove --force "${WORKTREE_DIR}" >/dev/null 2>&1 || true
   rmdir "${WORKTREE_DIR}" >/dev/null 2>&1 || true
 }
 trap cleanup EXIT INT TERM
@@ -79,7 +100,16 @@ REPO="${REPO_SLUG##*/}"
 
 if [ "$SKIP_BUILD" -eq 0 ]; then
   echo "[1/6] building Hugo site (embeds a freshly built report)"
-  DOCS_BASE_URL="${DOCS_BASE_URL}" bash "${ROOT_DIR}/scripts/build-docs.sh" --destination "${BUILD_DIR}"
+  if [[ "${DOCS_VERSION}" == "main" ]]; then
+    DOCS_BASE_URL="${DOCS_BASE_URL}" \
+      bash "${DOCS_DIR}/scripts/build-docs.sh" --destination "${BUILD_DIR}"
+  else
+    DOCS_BASE_URL="${DOCS_BASE_URL}" \
+    HUGO_PARAMS_VERSION="${DOCS_VERSION}" \
+    HUGO_PARAMS_ARCHIVE=true \
+    HUGO_PARAMS_LATEST="https://projectious-work.github.io/ai-market-research/" \
+      bash "${DOCS_DIR}/scripts/build-docs.sh" --destination "${BUILD_DIR}"
+  fi
 else
   echo "[1/6] using existing build (--skip-build)"
 fi
@@ -100,8 +130,15 @@ else
 fi
 
 echo "[3/6] staging Hugo build as the Pages payload"
-find "$WORKTREE_DIR" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-cp -R "${BUILD_DIR}/." "$WORKTREE_DIR/"
+if [[ -z "${PUBLISH_DIR}" ]]; then
+  find "$WORKTREE_DIR" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+  cp -R "${BUILD_DIR}/." "$WORKTREE_DIR/"
+else
+  VERSION_DIR="${WORKTREE_DIR}/${PUBLISH_DIR}"
+  mkdir -p "${VERSION_DIR}"
+  find "$VERSION_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+  cp -R "${BUILD_DIR}/." "$VERSION_DIR/"
+fi
 : > "$WORKTREE_DIR/.nojekyll"
 
 if [ -z "$COMMIT_MESSAGE" ]; then

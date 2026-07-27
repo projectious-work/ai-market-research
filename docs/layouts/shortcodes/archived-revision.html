@@ -1,0 +1,11 @@
+{{ if .Site.Params.archive -}}
+  <p>You are viewing an archived revision. It is retained for provenance; use
+  the <a href="{{ .Site.Params.latest | safeURL }}">current revision</a> for
+  maintained research and documentation.</p>
+{{ else -}}
+  <p>No Hugo/Docsy revision snapshot has been published yet. Existing release
+  artifacts remain available from the
+  <a href="https://github.com/projectious-work/ai-market-research/releases">
+  GitHub releases page</a>. The first compatible snapshot will be added here
+  when it is deployed.</p>
+{{ end -}}

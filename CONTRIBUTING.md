@@ -5,7 +5,7 @@ maintainability of the Signal Room are welcome.
 
 ## Research changes
 
-Follow [`content/docs/research-data-policy.md`](content/docs/research-data-policy.md)
+Follow [`docs/content/docs/research-data-policy.md`](docs/content/docs/research-data-policy.md)
 (published at
 [docs/research-data-policy](https://projectious-work.github.io/ai-market-research/docs/research-data-policy/)).
 In particular:
@@ -51,14 +51,14 @@ Refresh the JSON inputs and citations manually, run the validation above, and
 then publish the Hugo/Docsy site (which embeds a freshly built report) with:
 
 ```sh
-bash scripts/deploy-docs.sh --message "deploy: refresh signal room"
+bash docs/scripts/deploy-docs.sh --message "deploy: refresh signal room"
 ```
 
 Deployment is a local, non-force push to the `gh-pages` branch. GitHub Actions
 workflows are not permitted in this repository; the deploy script rejects a
 `.github/workflows/` directory. Do not use `--skip-build` unless the exact
 artifact has already been reviewed. Preview locally first with
-`bash scripts/serve-docs.sh` (Hugo + Docsy, port 1313).
+`bash docs/scripts/serve-docs.sh` (Hugo + Docsy, port 1313).
 
 Versioned releases use the gated process described in `AGENTS.md`; do not cut
 a tag or invoke the release-cut phase before its preceding gates pass.

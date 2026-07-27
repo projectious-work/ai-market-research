@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="static/logo/signal-room-light.svg" alt="Signal Room" width="96" height="96">
+<img src="docs/static/logo/signal-room-light.svg" alt="Signal Room" width="96" height="96">
 
 # Signal Room
 
@@ -30,7 +30,7 @@
 **Signal Room report:** <https://projectious-work.github.io/ai-market-research/report/>
 **Latest release:** [![Latest release](https://img.shields.io/github/v/release/projectious-work/ai-market-research?label=%20&color=E05232)](https://github.com/projectious-work/ai-market-research/releases/latest)
 
-[![Signal Room starting page](docs/assets/signal-room-start.png)](https://projectious-work.github.io/ai-market-research/report/)
+[![Signal Room starting page](docs/readme-assets/signal-room-start.png)](https://projectious-work.github.io/ai-market-research/report/)
 
 ## What this is
 
@@ -74,7 +74,7 @@ the documentation site additionally requires `hugo` (extended) and
 ```sh
 bash src/scripts/build.sh           # build the report: dist/dashboard.html
 bash src/scripts/release-check.sh   # validate + rebuild + sanity-check
-bash scripts/serve-docs.sh          # serve the Hugo/Docsy site, report at /report/
+bash docs/scripts/serve-docs.sh     # serve the Hugo/Docsy site, report at /report/
 ```
 
 Full walkthrough:
@@ -89,7 +89,7 @@ No GitHub Actions workflow is used or permitted. Architecture:
 
 ```sh
 bash src/scripts/release-check.sh
-bash scripts/deploy-docs.sh --message "deploy: refresh signal room"
+bash docs/scripts/deploy-docs.sh --message "deploy: refresh signal room"
 ```
 
 The deploy script rebuilds the report and the Hugo site by default, stages
@@ -115,9 +115,9 @@ data/                          Source JSON, normalized metrics, archives
 src/                           Report template, build script, briefing prompt
 dist/                          Built dashboard.html (gitignored)
 content/ assets/ layouts/      Hugo + Docsy documentation site
-static/logo/                   Signal Room mark (light/dark/mono variants)
+docs/static/logo/              Signal Room mark (light/dark/mono variants)
 scripts/{build,serve,deploy}-docs.sh   Hugo site build / serve / publish
-themes/docsy/                  Docsy theme (git submodule)
+docs/themes/docsy/             Docsy theme (git submodule)
 context/                       processkit project context (decisions, logs, …)
 AGENTS.md                      Provider-neutral agent instructions
 ```

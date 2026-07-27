@@ -1,0 +1,20 @@
+{{/*
+  Project override of Docsy's version banner.
+
+  Versioned builds set params.archive through deploy-docs.sh. Keep
+  the live site quiet, but make the support boundary unmistakable on immutable
+  historical snapshots.
+*/ -}}
+{{ if .Site.Params.archive -}}
+  {{ $latestURL := .Site.Params.latest -}}
+  {{ $currentVersion := .Site.Params.version -}}
+  <div class="pageinfo pageinfo-primary" role="note">
+    <p>
+      {{ with $currentVersion }}Revision {{ . | markdownify }} is an archived
+      snapshot.{{ end }} It is retained for provenance and is no longer
+      actively maintained.
+      {{ with $latestURL }}See the <a href="{{ . | safeURL }}">current
+      revision</a> for supported research and documentation.{{ end }}
+    </p>
+  </div>
+{{ end -}}

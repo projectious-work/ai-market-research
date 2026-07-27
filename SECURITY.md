@@ -27,8 +27,8 @@ dependency. Research inputs must still be treated as untrusted content:
 - keep source URLs free of access tokens and user information;
 - inspect rendered text and links before deployment;
 - run `bash src/scripts/release-check.sh` before publishing;
-- deploy only through `scripts/deploy-docs.sh`, without force-pushing; and
+- deploy only through `docs/scripts/deploy-docs.sh`, without force-pushing; and
 - do not add GitHub Actions workflows or expose repository secrets to a build.
 
-See [`content/docs/research-data-policy.md`](content/docs/research-data-policy.md)
+See [`docs/content/docs/research-data-policy.md`](docs/content/docs/research-data-policy.md)
 for the full provenance, rights, retention, verification, and privacy rules.

@@ -33,13 +33,24 @@ params:
   offlineSearchSummaryLength: 200
   offlineSearchMaxResults: 25
   version: "main"
-  version_menu: "Releases"
+  # deploy-docs.sh overrides these simple parameter names for immutable
+  # versioned snapshots. Avoid underscores here: Hugo treats them as nesting
+  # separators when parameters are supplied through environment variables.
+  archive: false
+  latest: "https://projectious-work.github.io/ai-market-research/"
+  version_menu: "Revisions"
+  # Each revision owns its own site root. This avoids constructing invalid
+  # paths when an older snapshot lacks a page that exists on main.
   version_menu_pagelinks: false
   versions:
-    - name: "**Versions**"
+    - name: "**Revisions**"
     - version: "main"
       kind: latest
       url: "https://projectious-work.github.io/ai-market-research/"
+    - name: "---"
+    - name: "Revision index"
+      url: "https://projectious-work.github.io/ai-market-research/revisions/"
+      pagelinks: false
   ui:
     navbar_logo: true
     navbar_theme: dark
@@ -71,8 +82,11 @@ menu:
     - name: Documentation
       weight: 20
       url: "/docs/"
-    - name: GitHub
+    - name: Revisions
       weight: 30
+      url: "/revisions/"
+    - name: GitHub
+      weight: 40
       url: "https://github.com/projectious-work/ai-market-research"
       pre: "<i class='fa-brands fa-github' aria-hidden='true'></i>"
 
