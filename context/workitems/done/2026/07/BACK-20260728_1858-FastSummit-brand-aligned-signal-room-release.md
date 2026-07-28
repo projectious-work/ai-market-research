@@ -4,10 +4,10 @@ kind: WorkItem
 metadata:
   id: BACK-20260728_1858-FastSummit-brand-aligned-signal-room-release
   created: '2026-07-28T18:58:33+00:00'
-  updated: '2026-07-28T19:51:56+00:00'
+  updated: '2026-07-28T20:22:56+00:00'
 spec:
   title: Release v0.3.5 brand-aligned Signal Room
-  state: in-progress
+  state: done
   type: process-instance
   priority: high
   description: Patch release covering the Hugo/Docsy landing-page structure, duplicate
@@ -27,8 +27,19 @@ spec:
   - BACK-20260728_1858-NeatBrook-release-cut
   - BACK-20260728_1858-RoyalBison-release-post-verified
   started_at: '2026-07-28T19:51:56+00:00'
+  completed_at: '2026-07-28T20:22:56+00:00'
 ---
 
 ## Transition note (2026-07-28T19:51:56+00:00)
 
 Starting the gated v0.3.5 patch-release execution after brand and contrast validation.
+
+
+## Transition note (2026-07-28T20:22:56+00:00)
+
+All ten v0.3.5 release phases completed; phase 5 carries an explicit evidence-backed waiver for unrelated pre-existing processkit findings.
+
+
+## Transition note (2026-07-28T20:22:56+00:00)
+
+v0.3.5 published and post-verified.
