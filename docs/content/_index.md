@@ -9,7 +9,7 @@ params:
 ---
 
 {{% blocks/cover
-  title="What should you actually run, and what will it cost you?"
+  title="What should you run at what cost?"
   image_anchor="top"
   height="full td-below-navbar"
 %}}
@@ -17,15 +17,12 @@ params:
 <div class="sr-status-banner" role="note">
   <span class="sr-status-banner__tag">Active</span>
   <span class="sr-status-banner__text">
-    Applied research, actively maintained. Maintainers monitor material
-    changes daily and perform a weekly review.
+    Applied research, actively maintained.
   </span>
 </div>
 
-Signal Room tracks the current model roster, provider-native reasoning
-configurations, speed evidence, agent harnesses, and self-hosting economics --
-with evidence classes and source links that stay visible so you can make your
-own tradeoffs.
+Signal Room tracks a selection of high-impact models, provider-native reasoning
+configurations, speed evidence, agent harnesses, and self-hosting economics.
 {.lead .display-6}
 
 <div class="td-cta-buttons my-5">
@@ -38,22 +35,6 @@ own tradeoffs.
 </div>
 
 {{% /blocks/cover %}}
-
-{{% blocks/lead color="white" %}}
-
-Choosing a model, a reasoning configuration, an agent harness, or a self-hosting
-setup means comparing vendor claims that are rarely apples to apples. Signal
-Room is a non-exhaustive, inspectable report: every number is either measured,
-vendor-reported, or explicitly marked unknown, and every claim keeps a
-canonical source link.
-
-{{% /blocks/lead %}}
-
-<div class="container-fluid sr-now-section">
-
-{{< report-section "00-now" >}}
-
-</div>
 
 {{% blocks/section color="light" type="row" %}}
 
@@ -85,6 +66,22 @@ local Mac configurations, and open-weight model fit.
 {{% /blocks/feature %}}
 
 {{% /blocks/section %}}
+
+{{% blocks/lead color="white" %}}
+
+Choosing a model, a reasoning configuration, an agent harness, or a self-hosting
+setup means comparing vendor claims that are rarely apples to apples. Signal
+Room is a non-exhaustive, inspectable report: every number is either measured,
+vendor-reported, or explicitly marked unknown, and every claim keeps a
+canonical source link.
+
+{{% /blocks/lead %}}
+
+<div class="container-fluid sr-now-section">
+
+{{< report-section "00-now" >}}
+
+</div>
 
 {{% blocks/section color="primary" type="row" %}}
 

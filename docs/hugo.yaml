@@ -82,11 +82,8 @@ menu:
     - name: News
       weight: 30
       url: "/blog/"
-    - name: Revisions
-      weight: 40
-      url: "/revisions/"
     - name: GitHub
-      weight: 50
+      weight: 40
       url: "https://github.com/projectious-work/ai-market-research"
       pre: "<i class='fa-brands fa-github' aria-hidden='true'></i>"
 

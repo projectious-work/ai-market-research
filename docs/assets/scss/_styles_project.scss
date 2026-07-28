@@ -28,12 +28,14 @@
   --pj-orange-9: #{$orange-9};
   --pj-orange-10: #{$orange-10};
   --pj-orange-11: #{$orange-11};
+  --pj-accent-solid: #{$brand-accent-solid};
 
   --pj-slate-2: #{$slate-2};
   --pj-slate-4: #{$slate-4};
   --pj-slate-7: #{$slate-7};
   --pj-slate-8: #{$slate-8};
   --pj-slate-9: #{$slate-9};
+  --pj-slate-10: #{$slate-10};
   --pj-slate-11: #{$slate-11};
   --pj-slate-12: #{$slate-12};
 
@@ -41,6 +43,8 @@
   --pj-surface-subtle: #{$midnight-1};
   --pj-border: #{$slate-4};
   --pj-text-muted: #{$slate-9};
+  --pj-success-text: #2f7d65;
+  --pj-danger-text: #a8261c;
   --pj-on-dark: #{$midnight-dark-12};
   --pj-on-dark-link: #{$orange-dark-11};
 
@@ -73,12 +77,14 @@
   --pj-orange-9: #{$orange-dark-9};
   --pj-orange-10: #{$orange-dark-10};
   --pj-orange-11: #{$orange-dark-11};
+  --pj-accent-solid: #{$brand-accent-solid};
 
   --pj-slate-2: #{$slate-dark-2};
   --pj-slate-4: #{$slate-dark-4};
   --pj-slate-7: #{$slate-dark-7};
   --pj-slate-8: #{$slate-dark-8};
   --pj-slate-9: #{$slate-dark-9};
+  --pj-slate-10: #{$slate-dark-10};
   --pj-slate-11: #{$slate-dark-11};
   --pj-slate-12: #{$slate-dark-12};
 
@@ -86,6 +92,8 @@
   --pj-surface-subtle: #{$midnight-dark-3};
   --pj-border: rgba(255, 255, 255, 0.08);
   --pj-text-muted: #{$slate-dark-11};
+  --pj-success-text: #7fc0aa;
+  --pj-danger-text: #{$orange-dark-11};
   --pj-on-dark: #{$midnight-dark-12};
   --pj-on-dark-link: #{$orange-dark-11};
 
@@ -581,18 +589,18 @@ kbd {
 
 .td-cta-buttons .btn-primary,
 .btn-accent {
-  background-color: $orange-9;
-  border-color: $orange-9;
-  // White is only 3.87:1 on the brand orange. Midnight-dark-1 clears
-  // the 4.5:1 text threshold on both the default and hover states.
-  color: $midnight-dark-1;
+  // v1.0.0 introduced accent-solid specifically for normal-size white
+  // button labels: 4.72:1, compared with 3.87:1 on identity orange.
+  background-color: $brand-accent-solid;
+  border-color: $brand-accent-solid;
+  color: #ffffff;
 
   &:hover,
   &:focus,
   &:active {
-    background-color: $orange-dark-10;
-    border-color: $orange-dark-10;
-    color: $midnight-dark-1;
+    background-color: $orange-11;
+    border-color: $orange-11;
+    color: #ffffff;
   }
 }
 
@@ -706,10 +714,29 @@ kbd {
   box-shadow: $box-shadow;
 }
 
+[data-bs-theme="dark"] .td-box--light {
+  background-color: var(--pj-midnight-1);
+  color: var(--pj-midnight-12);
+}
+
 // Feature icons pick up the accent.
 .td-box .h4 > i,
 .td-box .feature-icon {
   color: $orange-9;
+}
+
+// Links on light landing/content surfaces use the brand's low-text midnight
+// step. Bootstrap's generated default blue is 4.41:1 on midnight-1 and falls
+// just short of AA for normal-size text.
+.td-box--light a:not(.btn),
+.td-box--secondary a:not(.btn),
+.td-content a:not(.btn) {
+  color: var(--pj-midnight-11);
+
+  &:hover,
+  &:focus {
+    color: var(--pj-orange-11);
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -950,8 +977,8 @@ body.td-report-page .td-content {
 // i.e. unreadable dark-on-dark. Restore contrast for the report's own
 // light theme specifically, with enough specificity to win.
 .td-content .sr-report-scope :not(pre) > code {
-  background-color: #f3f1ed;
-  color: #1d3352;
+  background-color: var(--pj-midnight-2);
+  color: var(--pj-orange-11);
 }
 
 // Docsy's own fixed-navbar compensation (themes/docsy's td/_main.scss and

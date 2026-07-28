@@ -124,15 +124,28 @@ def scope_css(css: str, scope_selector: str) -> str:
                 depth -= 1
             j += 1
         body = css[brace_pos + 1:j - 1]
-        header_stripped = header.strip()
+        # A comment immediately before a selector is part of `header` in this
+        # lightweight parser. If left in place, `/* note */ :root` becomes
+        # `.sr-report-scope /* note */ :root`, an impossible descendant
+        # selector that silently disables the report's newer token block.
+        # Preserve comments as standalone output, but classify and rewrite
+        # only the actual selector / at-rule text.
+        comments = re.findall(r"/\*.*?\*/", header, flags=re.DOTALL)
+        clean_header = re.sub(r"/\*.*?\*/", "", header,
+                              flags=re.DOTALL)
+        header_stripped = clean_header.strip()
+        comment_prefix = "".join(comments)
 
         if header_stripped.startswith(("@media", "@supports")):
-            out.append(f"{header}{{{scope_css(body, scope_selector)}}}")
+            out.append(
+                f"{comment_prefix}{clean_header}"
+                f"{{{scope_css(body, scope_selector)}}}"
+            )
         elif header_stripped.startswith("@"):
-            out.append(f"{header}{{{body}}}")
+            out.append(f"{comment_prefix}{clean_header}{{{body}}}")
         else:
             new_selectors = []
-            for sel in header.split(","):
+            for sel in clean_header.split(","):
                 sel = sel.strip()
                 if not sel:
                     continue
@@ -140,7 +153,9 @@ def scope_css(css: str, scope_selector: str) -> str:
                     new_selectors.append(scope_selector)
                 else:
                     new_selectors.append(f"{scope_selector} {sel}")
-            out.append(f"{', '.join(new_selectors)} {{{body}}}")
+            out.append(
+                f"{comment_prefix}{', '.join(new_selectors)} {{{body}}}"
+            )
         i = j
     return "".join(out)
 

@@ -6,23 +6,24 @@
 <title>AI Market Briefing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0c10;
-  --bg-elev: #11141a;
-  --bg-card: #161a22;
-  --border: #232936;
-  --border-strong: #2e3645;
-  --text: #d8dde6;
-  --text-dim: #8892a6;
-  --text-faint: #5a6377;
-  --accent: #ffb84d;
-  --accent-hot: #ff5e3a;
-  --accent-cool: #4dd0ff;
-  --green: #4ade80;
-  --red: #ef4444;
-  --yellow: #fbbf24;
+  --bg: #f8f9fb;
+  --bg-elev: #f0f3f8;
+  --bg-card: #ffffff;
+  --border: #dadce0;
+  --border-strong: #adb2ba;
+  --text: #142438;
+  --text-dim: #5c6f82;
+  --text-faint: #4a5e74;
+  --accent: #e05232;
+  --accent-solid: #cc4528;
+  --accent-hot: #b84228;
+  --accent-cool: #3a5a82;
+  --green: #2f7d65;
+  --red: #a8261c;
+  --yellow: #946416;
   --anthropic: #d97757;
   --openai: #10a37f;
   --google: #4285f4;
@@ -33,14 +34,14 @@
   --meta: #0866ff;
   --alibaba: #ff6a00;
   --opensource: #4ade80;
-  --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
-  --serif: 'Fraunces', Georgia, serif;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--mono);
+  font-family: 'Source Sans 3', system-ui, sans-serif;
   font-size: 13px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -600,7 +601,7 @@ td.model-name .sublabel {
 /* burn bar colours */
 .bm-burn-low    { background: #4ade80; }   /* < 0.5× */
 .bm-burn-mid    { background: #fbbf24; }   /* 0.5-1.5× */
-.bm-burn-high   { background: #ff5e3a; }   /* 1.5-3× */
+.bm-burn-high   { background: #c04424; }   /* 1.5-3× */
 .bm-burn-xhigh  { background: #ef4444; }   /* >3× */
 /* quality bar colours */
 .bm-qual-poor   { background: #ef4444; }   /* <70% */
@@ -958,7 +959,7 @@ td.model-name .sublabel {
 }
 @media (max-width: 760px) { .bm-radar-legend { grid-template-columns: 1fr; } }
 .bm-radar-legend-radar {
-  background: #0d1118;
+  background: var(--bg-card);
   border-radius: 4px;
   padding: 0.4rem;
 }
@@ -1247,7 +1248,7 @@ td.model-name .sublabel {
 }
 @media (max-width: 880px) { .cap-legend-grid { grid-template-columns: 1fr; } }
 .cap-legend-figure {
-  background: #0d1118;
+  background: var(--bg-card);
   border-radius: 4px;
   padding: 0.6rem 0.4rem 0.4rem;
   overflow: visible;
@@ -1733,15 +1734,34 @@ details .detail-body {
 
 /* ============ SIGNAL ROOM PRODUCTION THEME ============ */
 :root {
-  --bg: #f5f4f2; --bg-elev: #ebe8e2; --bg-card: #ffffff;
-  --border: #e0ded9; --border-strong: #c9c6bf;
-  --text: #18202a; --text-dim: #546a82; --text-faint: #6e757d;
-  --accent: #e05232; --accent-hot: #b83d25; --accent-cool: #1d5c72;
-  --green: #28705a; --red: #a84040; --yellow: #946416;
-  --mono: 'IBM Plex Mono', 'JetBrains Mono', Consolas, monospace;
-  --serif: 'Plus Jakarta Sans', 'Source Sans 3', 'Segoe UI', sans-serif;
+  --bg: var(--pj-midnight-1, #f8f9fb);
+  --bg-elev: var(--pj-midnight-2, #f0f3f8);
+  --bg-card: var(--pj-surface, #ffffff);
+  --border: var(--pj-slate-4, #dadce0);
+  --border-strong: var(--pj-slate-7, #adb2ba);
+  --text: var(--pj-midnight-12, #142438);
+  --text-dim: var(--pj-slate-11, #5c6f82);
+  --text-faint: var(--pj-slate-11, #5c6f82);
+  /* Orange step 11 is the brand's accessible low-text accent. Identity
+     orange remains available to Docsy as --pj-orange-9. */
+  --accent: var(--pj-orange-11, #c04424);
+  --accent-solid: var(--pj-accent-solid, #cc4528);
+  --accent-hot: var(--pj-orange-11, #c04424);
+  --accent-cool: var(--pj-midnight-11, #3a5a82);
+  --green: var(--pj-success-text, #2f7d65);
+  --red: var(--pj-danger-text, #a8261c);
+  --yellow: #946416;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --body: 'Source Sans 3', system-ui, sans-serif;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 9px;
+  --radius-xl: 13px;
+  --shadow-1: 0 1px 3px rgba(0,0,0,.06);
+  --shadow-2: 0 4px 12px rgba(0,0,0,.08);
 }
-html, body { max-width:100%; overflow-x:clip; background:var(--bg); color:var(--text); font-family:'Source Sans 3','Segoe UI',sans-serif; }
+html, body { max-width:100%; overflow-x:clip; background:var(--bg); color:var(--text); font-family:var(--body); }
 .masthead { background:#1d3352; border:0; color:#fff; padding:1rem 2rem; }
 .brand { color:#fff; font-family:var(--serif); font-size:1.2rem; letter-spacing:0; }
 .brand .accent { color:#fff; font-style:normal; font-weight:400; }
@@ -1881,6 +1901,280 @@ th[data-sort-dir='desc']::after { content:'  ↓'; color:#e05232; }
 #decision-matrix .analytics-svg { min-height:520px; }
 @media(max-width:900px){.signal-grid,.analytics-grid{grid-template-columns:1fr}.heatmap-grid{grid-template-columns:110px repeat(3,minmax(64px,1fr))}.bubble-key{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.masthead{padding:1rem}.signal-card header{display:block}.heatmap-grid{font-size:9px;grid-template-columns:90px repeat(3,minmax(54px,1fr))}.bubble-key{grid-template-columns:1fr}}
+
+/* ============ PROJECTIOUS BRAND v1.0.0 ============ */
+/*
+ * The structural dashboard rules above own layout and data visualisation.
+ * This final layer owns every visual-system decision: brand tokens, type
+ * roles, surfaces, controls, focus, and readable light/dark text. In Docsy,
+ * build.py scopes :root to .sr-report-scope; the --pj-* values therefore
+ * follow the site's active Bootstrap colour mode automatically.
+ */
+html, body {
+  font-size: 14px;
+  line-height: 1.6;
+}
+a { color:var(--accent-cool); text-decoration:underline; text-underline-offset:.14em; }
+a:hover { color:var(--accent-hot); }
+h1, h2, h3, h4, h5, h6,
+.brand, .sect-head, .dash-headline h2, .strat-card h3,
+.analytics-panel h3, .signal-card h4 {
+  font-family:var(--serif);
+  color:var(--text);
+  letter-spacing:-.3px;
+}
+p, li, .sect-sub, .subtitle, .header-context, .detail-body {
+  font-family:var(--body);
+}
+code, .mono, table, .value, .signal-value, .num,
+.pill, .chip, .effort-tag, .hosting-trend, .hosting-baseline {
+  font-family:var(--mono);
+}
+:focus-visible {
+  outline:2px solid var(--accent-solid);
+  outline-offset:2px;
+}
+
+.masthead {
+  background:#132440;
+  border-bottom:3px solid var(--accent);
+  color:#c5daf0;
+  padding:1rem 2rem;
+}
+.brand, .brand .accent { color:#c5daf0; font-style:normal; }
+.brand { font-weight:700; }
+.brand .accent { font-family:var(--body); font-weight:400; }
+.subtitle, .dateline, .control-group, .header-context { color:#97a8b8; }
+.header-context strong { color:#c5daf0; }
+.masthead a { color:#f09878; }
+.controls { border-color:rgba(255,255,255,.12); }
+.control-group select {
+  background:#131e2b;
+  color:#c5daf0;
+  border:1px solid #47545f;
+  border-radius:var(--radius-md);
+  font-family:var(--body);
+}
+
+.tabs {
+  background:var(--bg-card);
+  border-color:var(--border);
+  box-shadow:var(--shadow-1);
+}
+.tab {
+  color:var(--text-dim);
+  font-family:var(--serif);
+  font-weight:600;
+  letter-spacing:0;
+}
+.tab:hover { color:var(--text); background:var(--bg-elev); }
+.tab.active {
+  color:var(--text);
+  background:var(--bg-card);
+  border-bottom:3px solid var(--accent);
+}
+.tab .num { color:var(--accent-hot); }
+
+main { max-width:1480px; }
+.dash-grid { gap:1rem; }
+.dash-headline, .stat-tile, .dash-section, .strat-card,
+.radar-shell, .radar-meta, .radar-leaderboard, .table-wrap,
+.eff-leaders, .bm-section, .analytics-panel, #decision-matrix {
+  min-width:0;
+  max-width:100%;
+  background:var(--bg-card);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-1);
+}
+.dash-headline { border-left:4px solid var(--accent); }
+.dash-headline h2, .sect-head { color:var(--text); }
+.dash-headline p, .sect-sub, .dash-section p, .strat-card p,
+.analytics-panel p, .signal-card p { color:var(--text-dim); }
+.stat-tile .label, .dash-section h3, .spark-card .label,
+.composite-label, .radar-meta h3 {
+  color:var(--text-dim);
+  font-family:var(--body);
+  font-size:.6875rem;
+  font-weight:600;
+  line-height:1.3;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.stat-tile .value, .signal-card .signal-value { color:var(--text); }
+.stat-tile, .dash-section { padding:1.25rem; }
+.dash-section h3 {
+  padding-bottom:.625rem;
+  border-bottom:1px solid var(--border);
+}
+.signal-grid {
+  gap:1rem;
+  background:transparent;
+  border:0;
+}
+.signal-card {
+  min-width:0;
+  padding:1rem;
+  background:var(--bg-elev);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+}
+.signal-card h4 { color:var(--text); }
+.trend-chart .grid { stroke:var(--border); }
+.trend-chart .line { stroke:var(--accent); }
+.trend-chart .area { fill:var(--pj-orange-2, #fef0ea); }
+.trend-chart text { fill:var(--text-dim); }
+.trend-chart .dot { fill:var(--accent); stroke:var(--bg-card); }
+
+.action-list { margin-top:.75rem; }
+.action-list li {
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  align-items:start;
+  gap:.75rem;
+  padding:.875rem 0;
+  color:var(--text);
+  border-bottom:1px solid var(--border);
+  font-size:.9375rem;
+  line-height:1.55;
+}
+.action-list li::before { content:none; }
+.action-priority {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:2.25rem;
+  padding:.125rem .375rem;
+  border-radius:var(--radius-sm);
+  background:var(--accent-solid);
+  color:#fff;
+  font:600 .75rem/1.5 var(--mono);
+}
+
+.table-wrap { overflow-x:auto; }
+table { color:var(--text); font-size:.8125rem; }
+thead th, th {
+  background:var(--bg-elev);
+  color:var(--text-dim);
+  border-color:var(--border);
+  font-weight:500;
+}
+td { color:var(--text); border-color:var(--border); }
+tbody tr:hover { background:var(--pj-midnight-2, #f0f3f8); }
+.table-tools {
+  background:var(--bg-card);
+  border-color:var(--border);
+}
+.table-tools input, .table-tools select,
+.eff-controls select, .eff-controls input[type="number"],
+.radar-chip select {
+  background:var(--bg-card);
+  color:var(--text);
+  border:1px solid var(--border-strong);
+  border-radius:var(--radius-md);
+  font-family:var(--body);
+}
+.table-tools input::placeholder { color:var(--text-dim); opacity:1; }
+th[data-sort]::after { color:var(--text-dim); }
+th[data-sort-dir='asc']::after,
+th[data-sort-dir='desc']::after { color:var(--accent-hot); }
+.sublabel, .sub-note, .disclaimer, .hosting-baseline { color:var(--text-dim); }
+.metric-cell, .metric-cell.cost { color:var(--text); }
+.hosting-trend strong { color:var(--green); }
+
+.filter-btn, .taskfit-filter, .bm-variant-picker button {
+  background:var(--bg-card);
+  color:var(--text-dim);
+  border:1px solid var(--border-strong);
+  border-radius:var(--radius-md);
+  font-family:var(--serif);
+  font-weight:600;
+}
+.filter-btn:hover, .taskfit-filter:hover, .bm-variant-picker button:hover {
+  color:var(--text);
+  border-color:var(--accent);
+}
+.filter-btn.active, .taskfit-filter.active, .bm-variant-picker button.active {
+  background:var(--accent-solid);
+  border-color:var(--accent-solid);
+  color:#fff;
+}
+
+.analytics-grid { gap:1rem; }
+.analytics-panel { padding:1rem; }
+.analytics-svg text { fill:var(--text-dim); }
+.analytics-svg .axis { stroke:var(--border-strong); }
+.analytics-svg .grid { stroke:var(--border); }
+.bubble-mark .bubble-index {
+  fill:var(--text);
+  stroke:var(--bg-card);
+}
+.bubble-mark:focus .bubble-circle,
+.bubble-mark.active .bubble-circle { stroke:var(--text); }
+.bubble-readout { color:var(--text); }
+.bubble-key-item { color:var(--text-dim); }
+.bubble-key-item:hover, .bubble-key-item:focus-visible,
+.bubble-key-item.active { background:var(--bg-elev); }
+.bubble-key-index {
+  background:var(--bg-card);
+  color:var(--text);
+}
+.bubble-key-item strong { color:var(--text); }
+
+.pill, .chip, .effort-tag {
+  border-radius:9999px;
+}
+.pill {
+  color:var(--text) !important;
+  background:var(--bg-elev);
+  border-color:var(--border-strong);
+}
+.cite, .cite a,
+.cap-legend-title,
+.cap-legend-rubric td.ax-name strong,
+.bm-radar-legend-axes dt,
+#bm-radar-tooltip .axes-tbl tbody tr td:first-child {
+  color:var(--accent);
+}
+.cap-legend {
+  border-radius:var(--radius-lg);
+  background:var(--bg-elev);
+}
+.cap-legend-figure {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+}
+.cap-legend-figure-caption {
+  color:var(--text-dim);
+  border-top-color:var(--border);
+}
+.cap-legend-figure-caption em { color:var(--text-dim); }
+.bm-radar-legend-radar {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+}
+.detail-body, details .detail-body {
+  background:var(--bg-elev);
+  color:var(--text-dim);
+  border-left-color:var(--accent);
+  border-radius:0 var(--radius-md) var(--radius-md) 0;
+}
+details summary { color:var(--accent-cool); }
+.heatmap-grid .head { background:#1d3352; color:#c5daf0; }
+.heatmap-grid .model { background:var(--bg-elev); color:var(--text); }
+.heatmap-grid > div { border-color:var(--bg-card); }
+.feature-yes { color:var(--green); }
+.feature-no { color:var(--text-dim); }
+.feature-partial { color:var(--yellow); }
+
+@media (max-width:700px) {
+  .masthead, main, .tabs { padding-left:1rem; padding-right:1rem; }
+  .action-list li { grid-template-columns:1fr; gap:.375rem; }
+  .action-priority { justify-self:start; }
+}
 </style>
 </head>
 <body>
@@ -1898,7 +2192,7 @@ __MARKET_DATA__
       <div class="subtitle">Market state, actions and evidence in one continuous operating view</div>
       <p class="header-context"><strong>Applied research — actively maintained.</strong>
         Decision support for model, harness, subscription, and self-hosting
-        choices. Daily monitoring; weekly review (next: 27 July). Coverage is non-exhaustive:
+        choices. Daily monitoring; weekly review (next: 03 August). Coverage is non-exhaustive:
         prices move, vendor claims and heterogeneous benchmarks are not always
         comparable, and recommendations need workload validation. Read the
         <a href="https://github.com/projectious-work/ai-market-research/blob/main/docs/content/docs/data-methodology.md" target="_blank" rel="noopener">methodology</a>
@@ -2479,20 +2773,6 @@ function renderDashboard() {
     grid.appendChild(tile);
   });
 
-  // Executive summaries (4 sections)
-  const summaries = [
-    { title: '01 · Models', body: data.executive_summary.models },
-    { title: '02 · Harnesses', body: data.executive_summary.harnesses },
-    { title: '03 · Self-hosting', body: data.executive_summary.self_hosting },
-    { title: '04 · Strategy', body: data.executive_summary.strategy }
-  ];
-  summaries.forEach(s => {
-    const div = document.createElement('div');
-    div.className = 'dash-section';
-    div.innerHTML = `<h3>${s.title}</h3>${executiveBullets(s.body)}`;
-    grid.appendChild(div);
-  });
-
   // Trend sparklines
   const trendSect = document.createElement('div');
   trendSect.className = 'dash-section full';
@@ -2532,24 +2812,18 @@ function renderDashboard() {
     document.getElementById('spark-row') ? document.getElementById('spark-row').appendChild(card) : trendSect.querySelector('.spark-row').appendChild(card);
   });
 
-  // Changelog
-  const cl = document.createElement('div');
-  cl.className = 'dash-section full';
-  cl.innerHTML = `<h3>Changelog</h3><details class="changelog-details"><summary>${data.changelog.length} recorded updates · expand history</summary>` +
-    data.changelog.map(c => `
-      <div class="changelog-item">
-        <div class="changelog-date">${c.date}</div>
-        <div class="changelog-text"><span class="changelog-tag ${c.tag}">${c.tag}</span>${escapeHtml(c.text)}</div>
-      </div>
-    `).join('') + '</details>';
-  grid.appendChild(cl);
-
   // Action items
   const ac = document.createElement('div');
   ac.className = 'dash-section full';
   ac.innerHTML = `<h3>Executive action agenda</h3><p>Generic next-phase actions for leaders steering an AI transformation portfolio.</p><ul class="action-list">` +
-    data.actions.map(a => `<li>${escapeHtml(a)}</li>`).join('') + `</ul>`;
+    data.actions.map(actionItemMarkup).join('') + `</ul>`;
   grid.appendChild(ac);
+}
+
+function actionItemMarkup(value) {
+  const match = String(value).match(/^(P\d)\s*·\s*(.+)$/);
+  if (!match) return `<li><span>${escapeHtml(value)}</span></li>`;
+  return `<li><span class="action-priority">${escapeHtml(match[1])}</span><span>${escapeHtml(match[2])}</span></li>`;
 }
 
 function signalExplanation(key, label) {
@@ -2923,7 +3197,7 @@ function renderBurnMatrix() {
       <span style="margin-right:0.5rem;"><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.6rem;">Burn:</strong></span>
       <span><span style="display:inline-block; width:10px; height:10px; background:#4ade80; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&lt;0.5×</span>
       <span><span style="display:inline-block; width:10px; height:10px; background:#fbbf24; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>0.5–1.5×</span>
-      <span><span style="display:inline-block; width:10px; height:10px; background:#ff5e3a; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>1.5–3×</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#c04424; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>1.5–3×</span>
       <span><span style="display:inline-block; width:10px; height:10px; background:#ef4444; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&gt;3×</span>
       <span style="margin-left:1rem;"><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.6rem;">Quality:</strong></span>
       <span><span style="display:inline-block; width:10px; height:10px; background:#ef4444; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&lt;70%</span>
@@ -3238,8 +3512,8 @@ function renderMiniRadar(model, size, opts) {
   // When labels are shown, widen the viewBox so perimeter text isn't clipped.
   // Caller can override via opts.labelPad for tighter packing in small containers.
   const labelPad = opts.labelPad != null ? opts.labelPad : ((opts.showLabels || opts.showShortLabels) ? Math.max(60, size * 0.30) : 0);
-  const labelColor = opts.labelColor || '#d8dde6';
-  const captionColor = opts.captionColor || '#8892a6';
+  const labelColor = opts.labelColor || '#142438';
+  const captionColor = opts.captionColor || '#5c6f82';
   const vbX = -labelPad;
   const vbW = size + labelPad * 2;
   const w = opts.width || (size + labelPad * 2);
@@ -3251,7 +3525,7 @@ function renderMiniRadar(model, size, opts) {
     return `${(cx + r * Math.cos(ang)).toFixed(1)},${(cy + r * Math.sin(ang)).toFixed(1)}`;
   }).join(' ');
   // Outer ring at visual max (60) — drawn faintest
-  svg += `<polygon points="${outerRing}" fill="none" stroke="#2e3645" stroke-width="0.5" />`;
+  svg += `<polygon points="${outerRing}" fill="none" stroke="#adb2ba" stroke-width="0.5" />`;
   // Inner rings at rubric levels. For small radars draw 20 + 40 + 50; for large radars draw all 10/20/30/40/50.
   const ringLevels = opts.zoomComparison
     ? [0.25,0.5,0.75].map(portion=>domainMin+domainRange*portion)
@@ -3262,7 +3536,7 @@ function renderMiniRadar(model, size, opts) {
       const ang = startAngle + (2 * Math.PI * i / axes.length);
       return `${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`;
     }).join(' ');
-    svg += `<polygon points="${ring}" fill="none" stroke="#232936" stroke-width="0.3" />`;
+    svg += `<polygon points="${ring}" fill="none" stroke="#dadce0" stroke-width="0.3" />`;
   }
   // The 50 ring — emphasized (current rubric frontier)
   if (RUBRIC_MAX >= domainMin && RUBRIC_MAX <= max) {
@@ -3271,13 +3545,13 @@ function renderMiniRadar(model, size, opts) {
       const ang = startAngle + (2 * Math.PI * i / axes.length);
       return `${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`;
     }).join(' ');
-    svg += `<polygon points="${ring}" fill="none" stroke="#ffb84d" stroke-width="${size > 100 ? 1.0 : 0.8}" stroke-opacity="0.55" />`;
+    svg += `<polygon points="${ring}" fill="none" stroke="#e05232" stroke-width="${size > 100 ? 1.0 : 0.8}" stroke-opacity="0.55" />`;
   }
   // Spokes (for larger / legend radars)
   if (opts.showSpokes) {
     axes.forEach((_, i) => {
       const ang = startAngle + (2 * Math.PI * i / axes.length);
-      svg += `<line x1="${cx}" y1="${cy}" x2="${(cx + r * Math.cos(ang)).toFixed(1)}" y2="${(cy + r * Math.sin(ang)).toFixed(1)}" stroke="#232936" stroke-width="0.3" />`;
+      svg += `<line x1="${cx}" y1="${cy}" x2="${(cx + r * Math.cos(ang)).toFixed(1)}" y2="${(cy + r * Math.sin(ang)).toFixed(1)}" stroke="#dadce0" stroke-width="0.3" />`;
     });
   }
 
@@ -3288,26 +3562,26 @@ function renderMiniRadar(model, size, opts) {
       if (!pts) return;
       const fillOp = entry.fillOpacity != null ? entry.fillOpacity : (0.06 + idx * 0.04);
       const strokeOp = entry.strokeOpacity != null ? entry.strokeOpacity : (0.4 + idx * 0.12);
-      svg += `<polygon points="${polyStr(pts)}" fill="${entry.color || '#ffb84d'}" fill-opacity="${fillOp.toFixed(2)}" stroke="${entry.color || '#ffb84d'}" stroke-width="${entry.strokeWidth || 1}" stroke-opacity="${strokeOp.toFixed(2)}" stroke-linejoin="round" />`;
+      svg += `<polygon points="${polyStr(pts)}" fill="${entry.color || '#e05232'}" fill-opacity="${fillOp.toFixed(2)}" stroke="${entry.color || '#e05232'}" stroke-width="${entry.strokeWidth || 1}" stroke-opacity="${strokeOp.toFixed(2)}" stroke-linejoin="round" />`;
     });
   } else {
     // Reference overlay (drawn behind primary)
     const refPts = ptsFromLevels(refLevels);
     if (refPts) {
-      svg += `<polygon points="${polyStr(refPts)}" fill="#4dd0ff" fill-opacity="0.07" stroke="#4dd0ff" stroke-width="${size > 100 ? 1.2 : 0.9}" stroke-dasharray="${size > 100 ? '3 3' : '2 2'}" />`;
+      svg += `<polygon points="${polyStr(refPts)}" fill="#3a5a82" fill-opacity="0.07" stroke="#3a5a82" stroke-width="${size > 100 ? 1.2 : 0.9}" stroke-dasharray="${size > 100 ? '3 3' : '2 2'}" />`;
     }
     // Primary polygon
     const pts = ptsFromLevels(primaryLevels);
     if (pts && polyStr(pts)) {
-      svg += `<polygon points="${polyStr(pts)}" fill="#ffb84d" fill-opacity="${size > 100 ? 0.18 : 0.28}" stroke="#ffb84d" stroke-width="${size > 100 ? 1.6 : 1.2}" stroke-linejoin="round" />`;
+      svg += `<polygon points="${polyStr(pts)}" fill="#e05232" fill-opacity="${size > 100 ? 0.18 : 0.28}" stroke="#e05232" stroke-width="${size > 100 ? 1.6 : 1.2}" stroke-linejoin="round" />`;
       if (size >= 50) {
         pts.forEach((p, i) => {
           if (!p) return;
           const v = primaryLevels[axes[i].key];
           const boosted = v != null && v > max;
           const rDot = boosted ? (size > 100 ? 3.5 : 2.2) : (size > 100 ? 2.5 : 1.6);
-          const fill = boosted ? '#ff5e3a' : '#ffb84d';
-          const stroke = boosted ? '#ffb84d' : '#0a0c10';
+          const fill = boosted ? '#c04424' : '#e05232';
+          const stroke = boosted ? '#e05232' : '#ffffff';
           const sw = boosted ? (size > 100 ? 1.3 : 0.9) : (size > 100 ? 1 : 0.6);
           svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${rDot}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" />`;
         });
@@ -3326,12 +3600,12 @@ function renderMiniRadar(model, size, opts) {
       else if (lx > cx + 3) anchor = 'start';
       const txt = opts.showLabels ? a.label.toUpperCase() : a.short.toUpperCase();
       const fs = opts.showLabels ? 9 : 8;
-      svg += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${labelColor}" font-family="JetBrains Mono, monospace" font-size="${fs}" font-weight="650" letter-spacing="0.08em">${txt}</text>`;
+      svg += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${labelColor}" font-family="IBM Plex Mono, monospace" font-size="${fs}" font-weight="600" letter-spacing="0.08em">${txt}</text>`;
     });
   }
 
   if(opts.zoomComparison){
-    svg += `<text x="${cx}" y="${size-3}" text-anchor="middle" fill="${captionColor}" font-family="JetBrains Mono, monospace" font-size="8">ZOOMED AXIS ${domainMin}–${max}</text>`;
+    svg += `<text x="${cx}" y="${size-3}" text-anchor="middle" fill="${captionColor}" font-family="IBM Plex Mono, monospace" font-size="8">ZOOMED AXIS ${domainMin}–${max}</text>`;
   }
 
   svg += '</svg>';
@@ -3513,7 +3787,7 @@ function applyBurnVariantD(container) {
         td.innerHTML = '<span style="color:var(--text-faint); font-size:0.65rem;">no rating</span>';
       } else {
         // Build levelSets: one per effort, palette from cool to warm
-        const palette = ['#4dd0ff', '#a3e3ff', '#ffd9a8', '#ffb84d', '#ff8a3a'];
+        const palette = ['#3a5a82', '#7490b2', '#f0a48c', '#e05232', '#c04424'];
         const levelSets = efforts.map((eff, idx) => {
           const color = palette[Math.min(idx, palette.length - 1)];
           return {
@@ -4013,14 +4287,14 @@ function renderRadarSVG(model, overlay, opts = {}) {
 
   // Theme palette (inlined so the SVG is self-sufficient).
   const C = {
-    bg:        '#0a0c10',
-    ring:      '#232936',
-    ringOuter: '#2e3645',
-    primary:   '#ffb84d',
-    overlay:   '#4dd0ff',
-    hot:       '#ff5e3a',
-    text:      '#d8dde6',
-    faint:     '#5a6377',
+    bg:        '#ffffff',
+    ring:      '#dadce0',
+    ringOuter: '#adb2ba',
+    primary:   '#e05232',
+    overlay:   '#3a5a82',
+    hot:       '#c04424',
+    text:      '#142438',
+    faint:     '#5c6f82',
   };
 
   const axisDef = axes.map((a, i) => {
@@ -4047,7 +4321,7 @@ function renderRadarSVG(model, overlay, opts = {}) {
   let svg = `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">`;
 
   // Backdrop circle (subtle readout halo)
-  svg += `<circle cx="${cx}" cy="${cy}" r="${(r * 1.04).toFixed(1)}" fill="#0d1118" stroke="none" />`;
+  svg += `<circle cx="${cx}" cy="${cy}" r="${(r * 1.04).toFixed(1)}" fill="#f8f9fb" stroke="none" />`;
 
   // Concentric hex graticule rings at rubric milestones 10/20/30/40/50/60.
   // The 50 ring is emphasized (rubric frontier); 60 is the outer visual cap.
@@ -4078,7 +4352,7 @@ function renderRadarSVG(model, overlay, opts = {}) {
     const rr = r * lvl / max;
     const tx = cx + rr * tickAxis.cos + 5;
     const ty = cy + rr * tickAxis.sin + 3;
-    svg += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" fill="${C.faint}" font-family="JetBrains Mono, monospace" font-size="8">${lvl}</text>`;
+    svg += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" fill="${C.faint}" font-family="IBM Plex Mono, monospace" font-size="8">${lvl}</text>`;
   }
 
   // Overlay (comparison) polygon — drawn behind primary
@@ -4107,11 +4381,11 @@ function renderRadarSVG(model, overlay, opts = {}) {
     let anchor = 'middle';
     if (p.lx < cx - 5) anchor = 'end';
     else if (p.lx > cx + 5) anchor = 'start';
-    svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${C.text}" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" letter-spacing="0.1em">${p.short.toUpperCase()}</text>`;
+    svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${C.text}" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="500" letter-spacing="0.1em">${p.short.toUpperCase()}</text>`;
     const v = (model && model.capability_levels || {})[p.key];
     const sub = bandName(p.key, v);
     if (sub) {
-      svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 16).toFixed(1)}" text-anchor="${anchor}" fill="${C.faint}" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.08em">${sub.toUpperCase()}</text>`;
+      svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 16).toFixed(1)}" text-anchor="${anchor}" fill="${C.faint}" font-family="IBM Plex Mono, monospace" font-size="8" letter-spacing="0.08em">${sub.toUpperCase()}</text>`;
     }
   });
 
