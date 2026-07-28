@@ -488,7 +488,19 @@ body {
 }
 
 // Inline code follows the surrounding surface, not the dark block treatment.
-:not(pre) > code {
+// Docsy's own theme also styles inline code (.td-content p code and
+// friends, in its own stylesheet) with background: var(--td-pre-bg) and
+// color: inherit -- i.e. the same dark surface as <pre> blocks, but with
+// whatever the surrounding paragraph's (usually dark navy) text color
+// happens to be, rather than a color chosen to be legible on that dark
+// background. Since --td-pre-bg is set dark deliberately (brand rule:
+// code blocks are always dark), that combination is dark-on-dark wherever
+// it wins over the rule below on specificity. Restated here, scoped to
+// .td-content so it wins the same way Docsy's own rule does.
+:not(pre) > code,
+.td-content p code,
+.td-content li > code,
+.td-content table code {
   font-family: $font-family-monospace;
   font-size: 0.8125rem;
   padding: 0.125rem 0.375rem;
@@ -930,6 +942,18 @@ body.td-report-page .td-content {
   max-width: none;
 }
 
+// Docsy's "always dark" inline-code rule (.td-content p code, further up
+// this file) beats the report's own inline <code> styling on specificity
+// alone (.td-content p code > :not(pre) > code) and sets background:
+// var(--td-pre-bg) with color: inherit -- a dark code surface with
+// whatever dark navy text color the report's own prose already uses,
+// i.e. unreadable dark-on-dark. Restore contrast for the report's own
+// light theme specifically, with enough specificity to win.
+.td-content .sr-report-scope :not(pre) > code {
+  background-color: #f3f1ed;
+  color: #1d3352;
+}
+
 // Docsy's own fixed-navbar compensation (themes/docsy's td/_main.scss and
 // td/_default.scss: +4rem padding-top on <main>/first section) assumes
 // nothing else sits between the fixed navbar and main content. The controls
@@ -944,6 +968,13 @@ body.td-report-page .td-content {
 
   body.td-report-page.td-default main > section:first-of-type {
     padding-top: 1.5rem;
+  }
+
+  // The landing page's cover hero (blocks/cover) is td-below-navbar and
+  // would otherwise ALSO clear the fixed navbar with its own margin-top,
+  // stacking with the controls bar's clearance right above it.
+  body.td-report-page .td-cover-block.td-below-navbar {
+    margin-top: 0;
   }
 }
 

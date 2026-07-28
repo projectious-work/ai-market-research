@@ -10,14 +10,13 @@
   Revisions pages don't carry report state, so they don't show this bar.
 
   Docsy's navbar is position:fixed from 768px up, and Docsy only compensates
-  <main> for that -- this bar sits between <header> and <main>, so it needs
-  its own clearance (assets/scss/_styles_project.scss). The landing page's
-  blocks/cover hero already clears the fixed navbar itself (td-below-navbar),
-  so adding clearance here too would double it; only add it when there's no
-  cover block on this page.
+  <main> for that -- this bar sits between <header> and <main>, so it always
+  needs its own clearance (assets/scss/_styles_project.scss). On the landing
+  page, the blocks/cover hero that follows would ALSO add its own navbar
+  clearance (td-below-navbar); that redundant margin is cancelled in the
+  same stylesheet, under body.td-report-page, so the two don't stack.
 */ -}}
-{{- $needsClearance := not (.HasShortcode "blocks/cover") -}}
-<div class="sr-controls-bar{{ if $needsClearance }} sr-controls-bar--clear-navbar{{ end }}" role="group" aria-label="Signal Room report controls">
+<div class="sr-controls-bar sr-controls-bar--clear-navbar" role="group" aria-label="Signal Room report controls">
   <div class="sr-controls-bar__inner">
     <div class="sr-control-group">
       <span>Reference model:</span>

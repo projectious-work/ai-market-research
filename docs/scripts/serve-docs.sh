@@ -30,9 +30,12 @@ fi
 echo "[1/3] building report (dist/dashboard.html + docs/static/report/*)"
 bash "${REPO_ROOT}/src/scripts/build.sh"
 
-echo "[2/3] generating release history from git tags"
+echo "[2/4] generating release history from git tags"
 bash "${DOCS_DIR}/scripts/generate-releases-data.sh"
 
-echo "[3/3] serving Hugo site at ${DOCS_BASE_URL}"
+echo "[3/4] generating changelog posts"
+python3 "${DOCS_DIR}/scripts/generate-changelog-posts.py"
+
+echo "[4/4] serving Hugo site at ${DOCS_BASE_URL}"
 cd "${DOCS_DIR}"
 hugo server --buildDrafts --disableFastRender --baseURL "${DOCS_BASE_URL}" "$@"

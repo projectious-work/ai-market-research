@@ -67,10 +67,13 @@ if grep -q '__MARKET_DATA__' "${REPO_ROOT}/dist/dashboard.html"; then
   exit 1
 fi
 
-echo "[2/3] generating release history from git tags"
+echo "[2/4] generating release history from git tags"
 bash "${DOCS_DIR}/scripts/generate-releases-data.sh"
 
-echo "[3/3] building Hugo site"
+echo "[3/4] generating changelog posts"
+python3 "${DOCS_DIR}/scripts/generate-changelog-posts.py"
+
+echo "[4/4] building Hugo site"
 cd "${DOCS_DIR}"
 hugo --gc --minify --cleanDestinationDir --baseURL "${DOCS_BASE_URL}" \
   "${BUILD_ARGS[@]}"

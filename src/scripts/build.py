@@ -86,6 +86,65 @@ def extract_between(template: str, start_marker: str, end_marker: str) -> str:
     return template[start:end].strip() + "\n"
 
 
+REPORT_SCOPE_CLASS = "sr-report-scope"
+
+
+def scope_css(css: str, scope_selector: str) -> str:
+    """Rewrite report.css so every rule only applies inside `scope_selector`.
+
+    The monolithic dist/dashboard.html owns the whole document (html, body,
+    bare `a`/`table`/`th` selectors, a `:root` theme, etc.) by design. When
+    the same stylesheet is loaded on a Hugo page instead, those bare/root
+    rules leak onto the entire site -- Docsy's own navbar font size, page
+    overflow behavior, and colors all get silently overridden. This makes
+    every top-level rule descend from `scope_selector` instead, and folds
+    `html`/`body`/`:root` rules onto the scope element itself so its own
+    background/font/reset still applies to the embedded fragment's subtree.
+
+    Only handles the shapes this stylesheet actually uses: plain rules,
+    `@media`/`@supports` (recursed into), and other at-rules (`@font-face`,
+    `@keyframes`, `@import`) left untouched since their internals aren't
+    selector lists. Not a general CSS parser.
+    """
+    out = []
+    i = 0
+    n = len(css)
+    while i < n:
+        brace_pos = css.find("{", i)
+        if brace_pos == -1:
+            out.append(css[i:])
+            break
+        header = css[i:brace_pos]
+        depth = 1
+        j = brace_pos + 1
+        while depth > 0 and j < n:
+            if css[j] == "{":
+                depth += 1
+            elif css[j] == "}":
+                depth -= 1
+            j += 1
+        body = css[brace_pos + 1:j - 1]
+        header_stripped = header.strip()
+
+        if header_stripped.startswith(("@media", "@supports")):
+            out.append(f"{header}{{{scope_css(body, scope_selector)}}}")
+        elif header_stripped.startswith("@"):
+            out.append(f"{header}{{{body}}}")
+        else:
+            new_selectors = []
+            for sel in header.split(","):
+                sel = sel.strip()
+                if not sel:
+                    continue
+                if sel in ("html", "body", ":root"):
+                    new_selectors.append(scope_selector)
+                else:
+                    new_selectors.append(f"{scope_selector} {sel}")
+            out.append(f"{', '.join(new_selectors)} {{{body}}}")
+        i = j
+    return "".join(out)
+
+
 def extract_section_html(template: str, tab_id: str) -> str:
     pattern = re.compile(
         r'<section class="tab-panel(?: active)?" id="tab-' + re.escape(tab_id) + r'">.*?</section>',
@@ -100,17 +159,20 @@ def extract_section_html(template: str, tab_id: str) -> str:
 def write_report_fragments(template: str, minified_data: str) -> None:
     css = extract_between(template, "<style>\n", "\n</style>")
     js = extract_between(template, "<!-- ===== JAVASCRIPT ===== -->\n<script>\n", "\n</script>\n\n</body>")
+    scoped_css = scope_css(css, f".{REPORT_SCOPE_CLASS}")
 
     REPORT_STATIC_DIR.mkdir(parents=True, exist_ok=True)
-    (REPORT_STATIC_DIR / "report.css").write_text(css, encoding="utf-8")
+    (REPORT_STATIC_DIR / "report.css").write_text(scoped_css, encoding="utf-8")
     (REPORT_STATIC_DIR / "report.js").write_text(js, encoding="utf-8")
 
     SECTIONS_DIR.mkdir(parents=True, exist_ok=True)
     for tab_id, slug in SECTION_SLUGS:
         section_html = extract_section_html(template, tab_id)
         fragment = (
+            f'<div class="{REPORT_SCOPE_CLASS}">\n'
             f'<script id="market-data" type="application/json">{minified_data}</script>\n'
             f"{section_html}\n"
+            f"</div>\n"
         )
         (SECTIONS_DIR / f"{slug}.html").write_text(fragment, encoding="utf-8")
 

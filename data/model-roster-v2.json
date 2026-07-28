@@ -794,6 +794,26 @@
         "4B"
       ],
       "source": "https://huggingface.co/swiss-ai/Apertus-v1.1-4B-Instruct"
+    },
+    {
+      "id": "inkling",
+      "name": "Inkling",
+      "family": "Inkling",
+      "provider": "Thinking Machines Lab",
+      "region": "US",
+      "channel": "open_weight",
+      "scope": "core",
+      "status": "stable",
+      "context": "1M",
+      "price": "No metered API; open weights + Tinker fine-tuning platform",
+      "license": "Apache 2.0",
+      "control": "n/a",
+      "levels": [],
+      "default_level": null,
+      "speed_band": "unknown",
+      "speed_note": "No published throughput figure; not yet independently benchmarked for this roster.",
+      "availability": "Open weights (Hugging Face), Tinker fine-tuning platform, third-party inference providers",
+      "source": "https://thinkingmachines.ai/model-card/inkling/"
     }
   ],
   "watchlist": [

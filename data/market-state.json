@@ -183,7 +183,7 @@
         },
         {
           "date": "2026-07-01",
-        "value": 31
+          "value": 31
         }
       ]
     }
@@ -303,6 +303,11 @@
   },
   "changelog": [
     {
+      "date": "2026-07-28",
+      "tag": "model",
+      "text": "Added Thinking Machines Lab and its first model, Inkling: a 975B-parameter (41B active) open-weight (Apache 2.0) multimodal MoE with 1M-token context, released 2026-07-15. No first-party per-token API pricing is published (monetized via the Tinker fine-tuning platform); benchmark scores are published on the model card but not yet normalized into this roster's comparable set, so quality/speed/cost fields are left unknown rather than estimated."
+    },
+    {
       "date": "2026-07-25",
       "tag": "model",
       "text": "Added Claude Opus 5: general availability, 1M context, 128K maximum output, adaptive thinking by default, $5/$25 per MTok base pricing, and official cloud-platform availability. Added independent Artificial Analysis evidence (61 Intelligence Index at max effort; 52.3 output tok/s) with effort-specific caveats. Gemini 3.5 Flash Cyber remains limited to CodeMender government and trusted-partner pilots; GPT-Live and Muse Spark 1.1 remain non-API products, so none were added to the API roster. Claude Opus 4.7 Fast Mode was removed July 24."
@@ -412,7 +417,6 @@
       "livecodebench": null,
       "aime": null,
       "tau2": null,
-      "aaii": 61,
       "aaii": 59.9,
       "coding_agent_index": 77.2,
       "deep_swe": 69.7,
@@ -651,7 +655,10 @@
       "cache_discount": 0.1,
       "speed_class": "balanced",
       "speed_evidence": "vendor-qualitative",
-      "cite": [86, 87]
+      "cite": [
+        86,
+        87
+      ]
     },
     {
       "id": "opus-4.8",
@@ -1749,6 +1756,33 @@
       "tok_per_sec": null,
       "subscription": "Self-hosted weights",
       "notes": "Largest newly released Apertus v1.1 distilled checkpoint. Dense 4.6B storage / 3.8B compute parameters, trained on 1.7T tokens, supports 1,811 languages, and ships in BF16 plus server and Apple-oriented quantizations. No comparable coding-agent, throughput, or API-price evidence is published.",
+      "reasoning_capable": false,
+      "effort_default": null,
+      "effort_levels": [],
+      "cache_discount": null
+    },
+    {
+      "id": "inkling",
+      "name": "Inkling",
+      "provider": "Thinking Machines Lab",
+      "tier": "frontier",
+      "released": "2026-07-15",
+      "license": "Apache 2.0",
+      "jurisdiction": "US",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Open weights (Hugging Face); fine-tuning and inference via the Tinker platform and third-party providers",
+      "notes": "975B-parameter multimodal MoE (41B active), 66-layer decoder-only transformer, 1M-token context. Text/image/audio input, text-only output. No first-party per-token API pricing published -- Thinking Machines monetizes via the Tinker fine-tuning platform rather than metered inference. A smaller Inkling-Small (12B active) companion model was released alongside it. Benchmark results are published on the model card across reasoning, agentic, coding, factuality, vision, audio, and safety categories but are not yet normalized into this roster's comparable benchmark set.",
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
@@ -4640,6 +4674,12 @@
       "title": "Artificial Analysis — Claude Opus 5",
       "url": "https://artificialanalysis.ai/models/claude-opus-5",
       "note": "Independent effort-specific intelligence, latency, throughput, and price analysis."
+    },
+    {
+      "n": 88,
+      "category": "Thinking Machines Lab",
+      "title": "Inkling model card",
+      "url": "https://thinkingmachines.ai/model-card/inkling/"
     }
   ],
   "provider_sources": {
@@ -4714,7 +4754,10 @@
     "Swiss AI Initiative": [
       76
     ],
-    "SubQ": []
+    "SubQ": [],
+    "Thinking Machines Lab": [
+      88
+    ]
   },
   "section_sources": {
     "models": [

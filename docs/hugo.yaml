@@ -39,6 +39,11 @@ params:
   archive: false
   latest: "https://projectious-work.github.io/ai-market-research/"
   version_menu: "Revisions"
+  # Docsy's navbar only renders the version-menu dropdown at all when
+  # params.versions is truthy (themes/docsy's navbar.html); the actual
+  # release list no longer lives here (see below), so this just needs to
+  # be non-empty.
+  versions: true
   # The Revisions menu (layouts/_partials/navbar-version-selector.html,
   # project override) reads data/releases.json -- generated from real git
   # tags by scripts/generate-releases-data.sh -- instead of a hand-maintained
@@ -74,11 +79,14 @@ menu:
     - name: Documentation
       weight: 20
       url: "/docs/"
-    - name: Revisions
+    - name: News
       weight: 30
+      url: "/blog/"
+    - name: Revisions
+      weight: 40
       url: "/revisions/"
     - name: GitHub
-      weight: 40
+      weight: 50
       url: "https://github.com/projectious-work/ai-market-research"
       pre: "<i class='fa-brands fa-github' aria-hidden='true'></i>"
 

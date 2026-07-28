@@ -25,6 +25,11 @@
       </main>
       {{ partial "footer.html" . }}
     </div>
-    {{ partialCached "scripts.html" . }}
+    {{/* Not partialCached: scripts.html renders hooks/body-end.html, whose
+         output now depends on .Params.show_report_controls. partialCached
+         with no variant key reuses the first-rendered output for every
+         page, so whichever page (report or not) happened to render first
+         would silently apply to all the others too. */ -}}
+    {{ partial "scripts.html" . }}
   </body>
 </html>
