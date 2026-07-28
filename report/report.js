@@ -313,20 +313,6 @@ function renderDashboard() {
     grid.appendChild(tile);
   });
 
-  // Executive summaries (4 sections)
-  const summaries = [
-    { title: '01 · Models', body: data.executive_summary.models },
-    { title: '02 · Harnesses', body: data.executive_summary.harnesses },
-    { title: '03 · Self-hosting', body: data.executive_summary.self_hosting },
-    { title: '04 · Strategy', body: data.executive_summary.strategy }
-  ];
-  summaries.forEach(s => {
-    const div = document.createElement('div');
-    div.className = 'dash-section';
-    div.innerHTML = `<h3>${s.title}</h3>${executiveBullets(s.body)}`;
-    grid.appendChild(div);
-  });
-
   // Trend sparklines
   const trendSect = document.createElement('div');
   trendSect.className = 'dash-section full';
@@ -366,24 +352,18 @@ function renderDashboard() {
     document.getElementById('spark-row') ? document.getElementById('spark-row').appendChild(card) : trendSect.querySelector('.spark-row').appendChild(card);
   });
 
-  // Changelog
-  const cl = document.createElement('div');
-  cl.className = 'dash-section full';
-  cl.innerHTML = `<h3>Changelog</h3><details class="changelog-details"><summary>${data.changelog.length} recorded updates · expand history</summary>` +
-    data.changelog.map(c => `
-      <div class="changelog-item">
-        <div class="changelog-date">${c.date}</div>
-        <div class="changelog-text"><span class="changelog-tag ${c.tag}">${c.tag}</span>${escapeHtml(c.text)}</div>
-      </div>
-    `).join('') + '</details>';
-  grid.appendChild(cl);
-
   // Action items
   const ac = document.createElement('div');
   ac.className = 'dash-section full';
   ac.innerHTML = `<h3>Executive action agenda</h3><p>Generic next-phase actions for leaders steering an AI transformation portfolio.</p><ul class="action-list">` +
-    data.actions.map(a => `<li>${escapeHtml(a)}</li>`).join('') + `</ul>`;
+    data.actions.map(actionItemMarkup).join('') + `</ul>`;
   grid.appendChild(ac);
+}
+
+function actionItemMarkup(value) {
+  const match = String(value).match(/^(P\d)\s*·\s*(.+)$/);
+  if (!match) return `<li><span>${escapeHtml(value)}</span></li>`;
+  return `<li><span class="action-priority">${escapeHtml(match[1])}</span><span>${escapeHtml(match[2])}</span></li>`;
 }
 
 function signalExplanation(key, label) {
@@ -757,7 +737,7 @@ function renderBurnMatrix() {
       <span style="margin-right:0.5rem;"><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.6rem;">Burn:</strong></span>
       <span><span style="display:inline-block; width:10px; height:10px; background:#4ade80; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&lt;0.5×</span>
       <span><span style="display:inline-block; width:10px; height:10px; background:#fbbf24; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>0.5–1.5×</span>
-      <span><span style="display:inline-block; width:10px; height:10px; background:#ff5e3a; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>1.5–3×</span>
+      <span><span style="display:inline-block; width:10px; height:10px; background:#c04424; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>1.5–3×</span>
       <span><span style="display:inline-block; width:10px; height:10px; background:#ef4444; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&gt;3×</span>
       <span style="margin-left:1rem;"><strong style="color:var(--text); font-family:var(--mono); letter-spacing:0.06em; text-transform:uppercase; font-size:0.6rem;">Quality:</strong></span>
       <span><span style="display:inline-block; width:10px; height:10px; background:#ef4444; border-radius:1px; vertical-align:-1px; margin-right:3px;"></span>&lt;70%</span>
@@ -1072,8 +1052,8 @@ function renderMiniRadar(model, size, opts) {
   // When labels are shown, widen the viewBox so perimeter text isn't clipped.
   // Caller can override via opts.labelPad for tighter packing in small containers.
   const labelPad = opts.labelPad != null ? opts.labelPad : ((opts.showLabels || opts.showShortLabels) ? Math.max(60, size * 0.30) : 0);
-  const labelColor = opts.labelColor || '#d8dde6';
-  const captionColor = opts.captionColor || '#8892a6';
+  const labelColor = opts.labelColor || '#142438';
+  const captionColor = opts.captionColor || '#5c6f82';
   const vbX = -labelPad;
   const vbW = size + labelPad * 2;
   const w = opts.width || (size + labelPad * 2);
@@ -1085,7 +1065,7 @@ function renderMiniRadar(model, size, opts) {
     return `${(cx + r * Math.cos(ang)).toFixed(1)},${(cy + r * Math.sin(ang)).toFixed(1)}`;
   }).join(' ');
   // Outer ring at visual max (60) — drawn faintest
-  svg += `<polygon points="${outerRing}" fill="none" stroke="#2e3645" stroke-width="0.5" />`;
+  svg += `<polygon points="${outerRing}" fill="none" stroke="#adb2ba" stroke-width="0.5" />`;
   // Inner rings at rubric levels. For small radars draw 20 + 40 + 50; for large radars draw all 10/20/30/40/50.
   const ringLevels = opts.zoomComparison
     ? [0.25,0.5,0.75].map(portion=>domainMin+domainRange*portion)
@@ -1096,7 +1076,7 @@ function renderMiniRadar(model, size, opts) {
       const ang = startAngle + (2 * Math.PI * i / axes.length);
       return `${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`;
     }).join(' ');
-    svg += `<polygon points="${ring}" fill="none" stroke="#232936" stroke-width="0.3" />`;
+    svg += `<polygon points="${ring}" fill="none" stroke="#dadce0" stroke-width="0.3" />`;
   }
   // The 50 ring — emphasized (current rubric frontier)
   if (RUBRIC_MAX >= domainMin && RUBRIC_MAX <= max) {
@@ -1105,13 +1085,13 @@ function renderMiniRadar(model, size, opts) {
       const ang = startAngle + (2 * Math.PI * i / axes.length);
       return `${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`;
     }).join(' ');
-    svg += `<polygon points="${ring}" fill="none" stroke="#ffb84d" stroke-width="${size > 100 ? 1.0 : 0.8}" stroke-opacity="0.55" />`;
+    svg += `<polygon points="${ring}" fill="none" stroke="#e05232" stroke-width="${size > 100 ? 1.0 : 0.8}" stroke-opacity="0.55" />`;
   }
   // Spokes (for larger / legend radars)
   if (opts.showSpokes) {
     axes.forEach((_, i) => {
       const ang = startAngle + (2 * Math.PI * i / axes.length);
-      svg += `<line x1="${cx}" y1="${cy}" x2="${(cx + r * Math.cos(ang)).toFixed(1)}" y2="${(cy + r * Math.sin(ang)).toFixed(1)}" stroke="#232936" stroke-width="0.3" />`;
+      svg += `<line x1="${cx}" y1="${cy}" x2="${(cx + r * Math.cos(ang)).toFixed(1)}" y2="${(cy + r * Math.sin(ang)).toFixed(1)}" stroke="#dadce0" stroke-width="0.3" />`;
     });
   }
 
@@ -1122,26 +1102,26 @@ function renderMiniRadar(model, size, opts) {
       if (!pts) return;
       const fillOp = entry.fillOpacity != null ? entry.fillOpacity : (0.06 + idx * 0.04);
       const strokeOp = entry.strokeOpacity != null ? entry.strokeOpacity : (0.4 + idx * 0.12);
-      svg += `<polygon points="${polyStr(pts)}" fill="${entry.color || '#ffb84d'}" fill-opacity="${fillOp.toFixed(2)}" stroke="${entry.color || '#ffb84d'}" stroke-width="${entry.strokeWidth || 1}" stroke-opacity="${strokeOp.toFixed(2)}" stroke-linejoin="round" />`;
+      svg += `<polygon points="${polyStr(pts)}" fill="${entry.color || '#e05232'}" fill-opacity="${fillOp.toFixed(2)}" stroke="${entry.color || '#e05232'}" stroke-width="${entry.strokeWidth || 1}" stroke-opacity="${strokeOp.toFixed(2)}" stroke-linejoin="round" />`;
     });
   } else {
     // Reference overlay (drawn behind primary)
     const refPts = ptsFromLevels(refLevels);
     if (refPts) {
-      svg += `<polygon points="${polyStr(refPts)}" fill="#4dd0ff" fill-opacity="0.07" stroke="#4dd0ff" stroke-width="${size > 100 ? 1.2 : 0.9}" stroke-dasharray="${size > 100 ? '3 3' : '2 2'}" />`;
+      svg += `<polygon points="${polyStr(refPts)}" fill="#3a5a82" fill-opacity="0.07" stroke="#3a5a82" stroke-width="${size > 100 ? 1.2 : 0.9}" stroke-dasharray="${size > 100 ? '3 3' : '2 2'}" />`;
     }
     // Primary polygon
     const pts = ptsFromLevels(primaryLevels);
     if (pts && polyStr(pts)) {
-      svg += `<polygon points="${polyStr(pts)}" fill="#ffb84d" fill-opacity="${size > 100 ? 0.18 : 0.28}" stroke="#ffb84d" stroke-width="${size > 100 ? 1.6 : 1.2}" stroke-linejoin="round" />`;
+      svg += `<polygon points="${polyStr(pts)}" fill="#e05232" fill-opacity="${size > 100 ? 0.18 : 0.28}" stroke="#e05232" stroke-width="${size > 100 ? 1.6 : 1.2}" stroke-linejoin="round" />`;
       if (size >= 50) {
         pts.forEach((p, i) => {
           if (!p) return;
           const v = primaryLevels[axes[i].key];
           const boosted = v != null && v > max;
           const rDot = boosted ? (size > 100 ? 3.5 : 2.2) : (size > 100 ? 2.5 : 1.6);
-          const fill = boosted ? '#ff5e3a' : '#ffb84d';
-          const stroke = boosted ? '#ffb84d' : '#0a0c10';
+          const fill = boosted ? '#c04424' : '#e05232';
+          const stroke = boosted ? '#e05232' : '#ffffff';
           const sw = boosted ? (size > 100 ? 1.3 : 0.9) : (size > 100 ? 1 : 0.6);
           svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${rDot}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" />`;
         });
@@ -1160,12 +1140,12 @@ function renderMiniRadar(model, size, opts) {
       else if (lx > cx + 3) anchor = 'start';
       const txt = opts.showLabels ? a.label.toUpperCase() : a.short.toUpperCase();
       const fs = opts.showLabels ? 9 : 8;
-      svg += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${labelColor}" font-family="JetBrains Mono, monospace" font-size="${fs}" font-weight="650" letter-spacing="0.08em">${txt}</text>`;
+      svg += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${labelColor}" font-family="IBM Plex Mono, monospace" font-size="${fs}" font-weight="600" letter-spacing="0.08em">${txt}</text>`;
     });
   }
 
   if(opts.zoomComparison){
-    svg += `<text x="${cx}" y="${size-3}" text-anchor="middle" fill="${captionColor}" font-family="JetBrains Mono, monospace" font-size="8">ZOOMED AXIS ${domainMin}–${max}</text>`;
+    svg += `<text x="${cx}" y="${size-3}" text-anchor="middle" fill="${captionColor}" font-family="IBM Plex Mono, monospace" font-size="8">ZOOMED AXIS ${domainMin}–${max}</text>`;
   }
 
   svg += '</svg>';
@@ -1347,7 +1327,7 @@ function applyBurnVariantD(container) {
         td.innerHTML = '<span style="color:var(--text-faint); font-size:0.65rem;">no rating</span>';
       } else {
         // Build levelSets: one per effort, palette from cool to warm
-        const palette = ['#4dd0ff', '#a3e3ff', '#ffd9a8', '#ffb84d', '#ff8a3a'];
+        const palette = ['#3a5a82', '#7490b2', '#f0a48c', '#e05232', '#c04424'];
         const levelSets = efforts.map((eff, idx) => {
           const color = palette[Math.min(idx, palette.length - 1)];
           return {
@@ -1847,14 +1827,14 @@ function renderRadarSVG(model, overlay, opts = {}) {
 
   // Theme palette (inlined so the SVG is self-sufficient).
   const C = {
-    bg:        '#0a0c10',
-    ring:      '#232936',
-    ringOuter: '#2e3645',
-    primary:   '#ffb84d',
-    overlay:   '#4dd0ff',
-    hot:       '#ff5e3a',
-    text:      '#d8dde6',
-    faint:     '#5a6377',
+    bg:        '#ffffff',
+    ring:      '#dadce0',
+    ringOuter: '#adb2ba',
+    primary:   '#e05232',
+    overlay:   '#3a5a82',
+    hot:       '#c04424',
+    text:      '#142438',
+    faint:     '#5c6f82',
   };
 
   const axisDef = axes.map((a, i) => {
@@ -1881,7 +1861,7 @@ function renderRadarSVG(model, overlay, opts = {}) {
   let svg = `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">`;
 
   // Backdrop circle (subtle readout halo)
-  svg += `<circle cx="${cx}" cy="${cy}" r="${(r * 1.04).toFixed(1)}" fill="#0d1118" stroke="none" />`;
+  svg += `<circle cx="${cx}" cy="${cy}" r="${(r * 1.04).toFixed(1)}" fill="#f8f9fb" stroke="none" />`;
 
   // Concentric hex graticule rings at rubric milestones 10/20/30/40/50/60.
   // The 50 ring is emphasized (rubric frontier); 60 is the outer visual cap.
@@ -1912,7 +1892,7 @@ function renderRadarSVG(model, overlay, opts = {}) {
     const rr = r * lvl / max;
     const tx = cx + rr * tickAxis.cos + 5;
     const ty = cy + rr * tickAxis.sin + 3;
-    svg += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" fill="${C.faint}" font-family="JetBrains Mono, monospace" font-size="8">${lvl}</text>`;
+    svg += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" fill="${C.faint}" font-family="IBM Plex Mono, monospace" font-size="8">${lvl}</text>`;
   }
 
   // Overlay (comparison) polygon — drawn behind primary
@@ -1941,11 +1921,11 @@ function renderRadarSVG(model, overlay, opts = {}) {
     let anchor = 'middle';
     if (p.lx < cx - 5) anchor = 'end';
     else if (p.lx > cx + 5) anchor = 'start';
-    svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${C.text}" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" letter-spacing="0.1em">${p.short.toUpperCase()}</text>`;
+    svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="${C.text}" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="500" letter-spacing="0.1em">${p.short.toUpperCase()}</text>`;
     const v = (model && model.capability_levels || {})[p.key];
     const sub = bandName(p.key, v);
     if (sub) {
-      svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 16).toFixed(1)}" text-anchor="${anchor}" fill="${C.faint}" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.08em">${sub.toUpperCase()}</text>`;
+      svg += `<text x="${p.lx.toFixed(1)}" y="${(p.ly + 16).toFixed(1)}" text-anchor="${anchor}" fill="${C.faint}" font-family="IBM Plex Mono, monospace" font-size="8" letter-spacing="0.08em">${sub.toUpperCase()}</text>`;
     }
   });
 
