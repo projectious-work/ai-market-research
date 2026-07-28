@@ -8,7 +8,7 @@ None.
 
 None.
 
-## Applied (6)
+## Applied (8)
 
 | Date       | Migration                                | Notes |
 |------------|------------------------------------------|-------|
@@ -18,6 +18,8 @@ None.
 | 2026-07-21 | MIG-20260721_1236-HappyRobin-declare-canonical-roleslot-lifecycle-event-types — local-project  → | Declare canonical RoleSlot lifecycle event types |
 | 2026-07-23 | MIG-20260722_1625-ContentSync-processkit-content-sync — processkit v0.27.5 → v0.28.1 | 0 changed upstream, 0 conflicts, 5 new, 16 removed, 0 stale-removed (6 groups affected) |
 | 2026-07-23 | MIG-20260722_1625-RuntimeSync-aibox-runtime — aibox-runtime-home 0.28.2 → 0.28.4 | 0 changed upstream, 0 conflicts, 1 new, 0 removed (1 groups affected) |
+| 2026-07-28 | MIG-20260725_2046-ContentSync-processkit-content-sync — processkit v0.28.1 → v0.28.4 | 0 changed upstream, 0 conflicts, 9 new, 0 removed, 0 stale-removed (2 groups affected) |
+| 2026-07-28 | MIG-20260726_1911-RuntimeSync-aibox-runtime — aibox-runtime-home 0.28.12 → 0.28.14 | 0 changed upstream, 0 conflicts, 1 new, 0 removed (1 groups affected) |
 
 ## Rejected (1)
 
