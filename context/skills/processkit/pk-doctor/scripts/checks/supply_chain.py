@@ -179,6 +179,13 @@ def _iter_files(root: Path, names: set[str]) -> list[Path]:
         return found
 
     for dirpath, dirnames, filenames in os.walk(root):
+        current = Path(dirpath)
+        # A nested Git worktree is a separately governed repository. Its
+        # dependency manifests must be audited and locked in that repository,
+        # not by the parent project's health check.
+        if current != root and (current / ".git").exists():
+            dirnames[:] = []
+            continue
         dirnames[:] = [
             d
             for d in dirnames
