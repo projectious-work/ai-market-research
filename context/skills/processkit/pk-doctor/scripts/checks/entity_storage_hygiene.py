@@ -294,7 +294,10 @@ def _legacy_locations(repo_root: Path) -> list[CheckResult]:
 
 
 def _migration_briefings(repo_root: Path) -> list[CheckResult]:
-    briefings = _cli_migration_briefings(repo_root)
+    briefings = [
+        path for path in _cli_migration_briefings(repo_root)
+        if not _is_cli_migration_completed(path)
+    ]
     if not briefings:
         return []
     return [CheckResult(
