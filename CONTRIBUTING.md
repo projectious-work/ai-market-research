@@ -33,6 +33,35 @@ git config --local user.email info@projectious.work
 repository-local configuration so unrelated repositories retain their own Git
 identity.
 
+## Branching and deployment policy
+
+The repository has two long-lived branches:
+
+- `development` is the integration branch for ordinary work.
+- `main` is the published branch. Releases are tagged and deployed only from
+  `main`.
+
+Create short-lived branches from `development` using a typed prefix, for
+example `feat/42-provider-refresh`, `fix/citation-link`, `docs/methodology`,
+`refactor/report-builder`, or `chore/dependency-lock`. Open a focused pull
+request to `development`; squash-merge it after review and validation, then
+delete the short-lived branch.
+
+For a release, first ensure `development` is green and includes every intended
+change. Open a release pull request from `development` to `main` and merge it
+with a merge commit. Run the gated release process from `main`, which creates
+the version tag, deploys the Hugo/Docsy site, and publishes the GitHub Release.
+Then merge `main` back into `development` so the branches remain aligned.
+
+For an urgent production fix, branch `fix/<short-description>` from `main`.
+Merge it into `main`, release from `main`, and then merge `main` back into
+`development` before resuming ordinary work.
+
+Protect both `main` and `development`: require pull requests, disallow direct
+pushes, force pushes, and branch deletion, and require the applicable
+validation checks. Keep `main` as GitHub's default branch for consumers; set
+`development` explicitly as the base branch for normal feature pull requests.
+
 ## Validate changes
 
 The workflow is deliberately local and deterministic:
