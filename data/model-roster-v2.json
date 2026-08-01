@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0-preview",
-  "researched_at": "2026-07-25",
+  "researched_at": "2026-08-01",
   "default_reference": "fable-5",
   "inclusion_policy": {
     "default_limit_per_provider": 3,
@@ -187,7 +187,7 @@
       "scope": "core",
       "status": "stable",
       "context": "1.05M",
-      "price": "$2.50 / $15",
+      "price": "$2 / $12; cached input $0.20",
       "license": "Proprietary",
       "control": "reasoning effort",
       "levels": [
@@ -202,7 +202,7 @@
       "speed_band": "balanced",
       "speed_note": "OpenAI reports coding-agent work in roughly one-third of Fable 5's time; no comparable output-tokens/s figure is published.",
       "availability": "GA; ChatGPT, Codex, API",
-      "source": "https://developers.openai.com/api/docs/models"
+      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-terra"
     },
     {
       "id": "gpt-5.6-luna",
@@ -214,7 +214,7 @@
       "scope": "core",
       "status": "stable",
       "context": "1.05M",
-      "price": "$1 / $6",
+      "price": "$0.20 / $1.20; cached input $0.02",
       "license": "Proprietary",
       "control": "reasoning effort",
       "levels": [
@@ -229,7 +229,7 @@
       "speed_band": "fast",
       "speed_note": "OpenAI positions Luna as the fastest tier and reports coding-agent work in roughly one-third of Fable 5's time; no comparable output-tokens/s figure is published.",
       "availability": "GA; ChatGPT, Codex, API",
-      "source": "https://openai.com/index/gpt-5-6/"
+      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
     },
     {
       "id": "gpt-5.5",
@@ -550,9 +550,9 @@
       "region": "China",
       "channel": "open_weight",
       "scope": "core",
-      "status": "preview",
+      "status": "public_beta",
       "context": "1M",
-      "price": "API and self-hosted",
+      "price": "Flash $0.14 / $0.28; cached input $0.0028",
       "license": "MIT",
       "control": "mode",
       "levels": [
@@ -562,13 +562,13 @@
       ],
       "default_level": "think",
       "speed_band": "balanced",
-      "speed_note": "Flash is the speed/economy variant; exact comparable latency is unknown.",
-      "availability": "API and weights",
+      "speed_note": "V4-Flash-0731 reports 82.7 on Terminal-Bench 2.1 at max effort in DeepSeek Harness minimal mode; comparable latency remains unknown.",
+      "availability": "V4-Flash-0731 API public beta and weights; future 2x peak-hours pricing announced without an effective date",
       "variants": [
         "Pro",
         "Flash"
       ],
-      "source": "https://api-docs.deepseek.com/news/news260424/"
+      "source": "https://api-docs.deepseek.com/updates/"
     },
     {
       "id": "qwen-3.6",

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "researched_at": "2026-07-22",
+  "researched_at": "2026-08-01",
   "currency": "USD",
   "reference_options": [
     "fable-5",
@@ -159,7 +159,7 @@
       "explanation": "Lowest 30% input / 70% output list-price blend among models meeting the report's frontier quality floor. Lower is better; batch and caching are excluded.",
       "unit": "$/Mtok",
       "direction": "down",
-      "current": 4.5,
+      "current": 0.9,
       "history": [
         {
           "date": "2026-01-01",
@@ -188,9 +188,13 @@
         {
           "date": "2026-07-01",
           "value": 4.5
+        },
+        {
+          "date": "2026-08-01",
+          "value": 0.9
         }
       ],
-      "source": "https://developers.openai.com/api/docs/models"
+      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
     },
     {
       "id": "open_weight_quality",
@@ -364,8 +368,8 @@
       "api_cached_input": 0.5,
       "api_output": 30,
       "blended_price": 22.5,
-      "cost_score": 32.1,
-      "scq_compound": 62.6,
+      "cost_score": 22.6,
+      "scq_compound": 55.7,
       "speed_evidence": "OpenAI reports 61% less task time than Fable 5 on an AAII comparison at max reasoning.",
       "source": "https://openai.com/index/gpt-5-6/"
     },
@@ -385,14 +389,14 @@
       "quality_coverage": 1,
       "task_speed_index": 300,
       "speed_score": 86.6,
-      "api_input": 2.5,
-      "api_cached_input": 0.25,
-      "api_output": 15,
-      "blended_price": 11.25,
-      "cost_score": 61.3,
-      "scq_compound": 78.7,
+      "api_input": 2,
+      "api_cached_input": 0.2,
+      "api_output": 12,
+      "blended_price": 9,
+      "cost_score": 44.6,
+      "scq_compound": 70.8,
       "speed_evidence": "OpenAI reports roughly one-third of Fable 5 task time for the family coding comparison.",
-      "source": "https://openai.com/index/gpt-5-6/"
+      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-terra"
     },
     {
       "model_id": "gpt-5.6-luna",
@@ -410,14 +414,14 @@
       "quality_coverage": 1,
       "task_speed_index": 320,
       "speed_score": 89.4,
-      "api_input": 1,
-      "api_cached_input": 0.1,
-      "api_output": 6,
-      "blended_price": 4.5,
+      "api_input": 0.2,
+      "api_cached_input": 0.02,
+      "api_output": 1.2,
+      "blended_price": 0.9,
       "cost_score": 100,
-      "scq_compound": 92.5,
+      "scq_compound": 92.6,
       "speed_evidence": "OpenAI calls Luna the fastest tier; 320 is a conservative planning index above the cited 300 family comparison and must not be treated as measured tok/s.",
-      "source": "https://openai.com/index/gpt-5-6/"
+      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
     },
     {
       "model_id": "kimi-k3",
@@ -436,7 +440,7 @@
       "api_cached_input": 0.3,
       "api_output": 15,
       "blended_price": 11.4,
-      "cost_score": 60.8,
+      "cost_score": 38.9,
       "scq_compound": null,
       "speed_evidence": "No comparable end-to-end task-time or output-throughput figure published for K3 at launch.",
       "source": "https://www.kimi.com/resources/kimi-k3-pricing"
@@ -461,8 +465,8 @@
       "api_cached_input": 0.5,
       "api_output": 25,
       "blended_price": 19,
-      "cost_score": 39.3,
-      "scq_compound": 61.4,
+      "cost_score": 26.7,
+      "scq_compound": 54,
       "speed_evidence": "Planning index based on moderate vendor latency and optional fast mode; validate in the local harness.",
       "source": "https://platform.claude.com/docs/en/about-claude/models/overview"
     },
@@ -602,7 +606,7 @@
           98
         ],
         "capability_compound": 96.5,
-        "scq_compound": 62.6
+        "scq_compound": 55.7
       },
       {
         "model_id": "gpt-5.6-terra",
@@ -615,7 +619,7 @@
           95
         ],
         "capability_compound": 92.5,
-        "scq_compound": 78.7
+        "scq_compound": 70.8
       },
       {
         "model_id": "gpt-5.6-luna",
@@ -628,7 +632,7 @@
           91
         ],
         "capability_compound": 88.7,
-        "scq_compound": 92.5
+        "scq_compound": 92.6
       },
       {
         "model_id": "opus-4.8",
@@ -641,7 +645,7 @@
           94
         ],
         "capability_compound": 91.8,
-        "scq_compound": 61.4
+        "scq_compound": 54
       },
       {
         "model_id": "gemini-3.1-pro",
@@ -703,7 +707,7 @@
       },
       {
         "model_id": "gpt-5.6-terra",
-        "base_blended_price": 11.25,
+        "base_blended_price": 9,
         "cache_read_ratio": 0.1,
         "efforts": [
           "none",
@@ -716,7 +720,7 @@
       },
       {
         "model_id": "gpt-5.6-luna",
-        "base_blended_price": 4.5,
+        "base_blended_price": 0.9,
         "cache_read_ratio": 0.1,
         "efforts": [
           "none",
@@ -963,6 +967,16 @@
   ],
   "changelog": [
     {
+      "date": "2026-08-01",
+      "tag": "pricing",
+      "text": "Refreshed OpenAI's live GPT-5.6 API rate card: Terra is now $2/$12 per million input/output tokens and Luna is $0.20/$1.20, with cached input at $0.20 and $0.02 respectively. Recomputed the 30/70 workload blend, cost-efficiency scores, SCQ compounds and burn baselines; the provider page does not state when the rates changed."
+    },
+    {
+      "date": "2026-08-01",
+      "tag": "benchmark",
+      "text": "Recorded DeepSeek V4-Flash-0731's July 31 public-beta evidence: Terminal-Bench 2.1 82.7 and Agents' Last Exam 25.2 at max effort in DeepSeek Harness minimal mode. Additional vendor-reported NL2Repo, Cybergym, Toolathlon and Automation Bench results remain narrative evidence rather than new shared columns."
+    },
+    {
       "date": "2026-07-22",
       "tag": "method",
       "text": "Marked the open-weight quality history as a Fable-anchored source series that is rebased in the browser against the selected reference; fixed task-speed remains explicitly Fable-indexed."
@@ -1029,7 +1043,31 @@
       "id": "openai-models",
       "title": "OpenAI model catalog",
       "url": "https://developers.openai.com/api/docs/models",
-      "accessed": "2026-07-18"
+      "accessed": "2026-08-01"
+    },
+    {
+      "id": "openai-gpt-5-6-terra",
+      "title": "GPT-5.6 Terra model and pricing",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+      "accessed": "2026-08-01"
+    },
+    {
+      "id": "openai-gpt-5-6-luna",
+      "title": "GPT-5.6 Luna model and pricing",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+      "accessed": "2026-08-01"
+    },
+    {
+      "id": "deepseek-v4-flash-0731",
+      "title": "DeepSeek V4-Flash-0731 public-beta update",
+      "url": "https://api-docs.deepseek.com/updates/",
+      "accessed": "2026-08-01"
+    },
+    {
+      "id": "deepseek-v4-pricing",
+      "title": "DeepSeek V4 models and pricing",
+      "url": "https://api-docs.deepseek.com/quick_start/pricing/",
+      "accessed": "2026-08-01"
     },
     {
       "id": "anthropic-models",

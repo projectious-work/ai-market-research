@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-01T00:00:00Z",
+    "generated_at": "2026-07-28T00:00:00Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
@@ -84,7 +84,7 @@
     {
       "id": "cheapest_frontier_api",
       "label": "Lowest frontier blended API price",
-      "value": 0.9,
+      "value": 4.5,
       "unit": "$/Mtok",
       "delta": "GPT-5.6 Luna; 30% input / 70% output blend",
       "delta_dir": "down",
@@ -303,16 +303,6 @@
   },
   "changelog": [
     {
-      "date": "2026-08-01",
-      "tag": "pricing",
-      "text": "Updated GPT-5.6 Terra to $2/$12 per million input/output tokens and Luna to $0.20/$1.20 from OpenAI's live model pages. Recomputed the tracked 30/70 workload blends and effort-burn ratios; the exact effective date of the rate change is not published."
-    },
-    {
-      "date": "2026-08-01",
-      "tag": "model",
-      "text": "Updated DeepSeek V4-Flash to the 0731 public beta with 1M context, 384K max output, thinking/non-thinking modes, $0.14/$0.28 per-million pricing, $0.0028 cached input, and vendor-reported agent results including Terminal-Bench 2.1 82.7 and Agents' Last Exam 25.2."
-    },
-    {
       "date": "2026-07-28",
       "tag": "model",
       "text": "Added Thinking Machines Lab and its first model, Inkling: a 975B-parameter (41B active) open-weight (Apache 2.0) multimodal MoE with 1M-token context, released 2026-07-15. No first-party per-token API pricing is published (monetized via the Tinker fine-tuning platform); benchmark scores are published on the model card but not yet normalized into this roster's comparable set, so quality/speed/cost fields are left unknown rather than estimated."
@@ -522,13 +512,13 @@
       "deep_swe": 69.6,
       "terminal_bench": 87.4,
       "agents_last_exam": 50.4,
-      "api_in": 2,
-      "api_out": 12,
-      "api_cache_hit": 0.2,
+      "api_in": 2.5,
+      "api_out": 15,
+      "api_cache_hit": 0.25,
       "batch_discount": 50,
       "tok_per_sec": null,
       "subscription": "ChatGPT, Codex and API",
-      "notes": "Balanced GPT-5.6 tier and recommended default engineering route. Current official pricing was rechecked 2026-08-01; the provider does not publish the price-change date.",
+      "notes": "Balanced GPT-5.6 tier and recommended default engineering route. Comparable task-speed evidence is indexed in report-metrics.json.",
       "reasoning_capable": true,
       "effort_default": "medium",
       "effort_levels": [
@@ -566,13 +556,13 @@
       "deep_swe": 67.2,
       "terminal_bench": 84.7,
       "agents_last_exam": 50.3,
-      "api_in": 0.2,
-      "api_out": 1.2,
-      "api_cache_hit": 0.02,
+      "api_in": 1,
+      "api_out": 6,
+      "api_cache_hit": 0.1,
       "batch_discount": 50,
       "tok_per_sec": null,
       "subscription": "ChatGPT, Codex and API",
-      "notes": "Fastest, most affordable GPT-5.6 tier; recommended for high-volume subagents with verification and escalation. Current official pricing was rechecked 2026-08-01; the provider does not publish the price-change date.",
+      "notes": "Fastest, most affordable GPT-5.6 tier; recommended for high-volume subagents with verification and escalation.",
       "reasoning_capable": true,
       "effort_default": "medium",
       "effort_levels": [
@@ -1458,7 +1448,7 @@
       "name": "DeepSeek V4-Flash",
       "provider": "DeepSeek",
       "tier": "fast",
-      "released": "2026-07-31",
+      "released": "2026-04-24",
       "license": "MIT",
       "jurisdiction": "China",
       "context": 1000000,
@@ -1468,21 +1458,16 @@
       "livecodebench": 88,
       "aime": 82,
       "tau2": 72,
-      "terminal_bench_2_1": 82.7,
-      "agents_last_exam": 25.2,
       "api_in": 0.14,
       "api_out": 0.28,
-      "api_cache_hit": 0.0028,
+      "api_cache_hit": 0.014,
       "batch_discount": null,
       "tok_per_sec": 90,
       "subscription": "API + open weights",
-      "notes": "V4-Flash-0731 public beta; 284B/13B active MoE, 1M context and 384K max output. DeepSeek reports Terminal-Bench 2.1 82.7 and Agents' Last Exam 25.2 at max effort in its unreleased minimal harness; internal DSBench results are not normalized here. A future 2x peak-hours rate is announced, but no effective date is published.",
-      "reasoning_capable": true,
-      "effort_default": "think",
-      "effort_levels": [
-        "non-think",
-        "think"
-      ],
+      "notes": "284B/13B active MoE. Cheap large-context option. MIT license.",
+      "reasoning_capable": false,
+      "effort_default": null,
+      "effort_levels": [],
       "cache_discount": 0.02,
       "capability_levels": {
         "coding": 40,
@@ -3960,23 +3945,23 @@
       },
       {
         "model_id": "gpt-5.6-terra",
-        "minimal": 0.18,
-        "low": 0.26,
-        "medium": 0.4,
-        "high": 0.68,
-        "xhigh": 1.08,
-        "max": 1.6,
-        "note": "Two-fifths of Sol's 30/70 list-price blend; effort factors remain estimates."
+        "minimal": 0.225,
+        "low": 0.325,
+        "medium": 0.5,
+        "high": 0.85,
+        "xhigh": 1.35,
+        "max": 2,
+        "note": "Half Sol list price at every base token; effort factors remain estimates."
       },
       {
         "model_id": "gpt-5.6-luna",
-        "minimal": 0.018,
-        "low": 0.026,
-        "medium": 0.04,
-        "high": 0.068,
-        "xhigh": 0.108,
-        "max": 0.16,
-        "note": "Four percent of Sol's 30/70 list-price blend; effort factors remain estimates."
+        "minimal": 0.09,
+        "low": 0.13,
+        "medium": 0.2,
+        "high": 0.34,
+        "xhigh": 0.54,
+        "max": 0.8,
+        "note": "One-fifth Sol list price at every base token; effort factors remain estimates."
       },
       {
         "model_id": "gpt-5.5",
@@ -4120,7 +4105,7 @@
         "high": 0.024
       }
     ],
-    "non_reasoning_note": "Models without reasoning controls: Haiku 4.5 (Anthropic matrix above as fixed rate), GPT-5.5 Instant (ChatGPT default since May 5), Mistral Medium 3.5, MiniMax M2.7, Kimi K2.6, GLM 4.6, Qwen 3.6 variants, all Llama 4 variants, Grok 4.1 Fast, SubQ 1M-Preview — burn at fixed rate per model regardless of effort knob. DeepSeek V4-Flash-0731 now exposes thinking and non-thinking modes.",
+    "non_reasoning_note": "Models without reasoning controls: Haiku 4.5 (Anthropic matrix above as fixed rate), GPT-5.5 Instant (ChatGPT default since May 5), Mistral Medium 3.5, DeepSeek V4-Pro/Flash, MiniMax M2.7, Kimi K2.6, GLM 4.6, Qwen 3.6 variants, all Llama 4 variants, Grok 4.1 Fast, SubQ 1M-Preview — burn at fixed rate per model regardless of effort knob.",
     "effort_quality_factors": {
       "minimal": 0.65,
       "low": 0.85,
@@ -4695,31 +4680,6 @@
       "category": "Thinking Machines Lab",
       "title": "Inkling model card",
       "url": "https://thinkingmachines.ai/model-card/inkling/"
-    },
-    {
-      "n": 89,
-      "category": "OpenAI",
-      "title": "GPT-5.6 Terra model and pricing",
-      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-terra"
-    },
-    {
-      "n": 90,
-      "category": "OpenAI",
-      "title": "GPT-5.6 Luna model and pricing",
-      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
-    },
-    {
-      "n": 91,
-      "category": "DeepSeek",
-      "title": "DeepSeek V4-Flash-0731 public-beta update",
-      "url": "https://api-docs.deepseek.com/updates/",
-      "note": "Vendor-reported benchmark results use DeepSeek Harness minimal mode at max effort; DSBench results are internal."
-    },
-    {
-      "n": 92,
-      "category": "DeepSeek",
-      "title": "DeepSeek V4 models and pricing",
-      "url": "https://api-docs.deepseek.com/quick_start/pricing/"
     }
   ],
   "provider_sources": {
@@ -4735,9 +4695,7 @@
       5,
       6,
       62,
-      83,
-      89,
-      90
+      83
     ],
     "Google": [
       7,
@@ -4760,9 +4718,7 @@
       12
     ],
     "DeepSeek": [
-      13,
-      91,
-      92
+      13
     ],
     "MiniMax": [
       14
@@ -4834,11 +4790,7 @@
       81,
       82,
       86,
-      87,
-      89,
-      90,
-      91,
-      92
+      87
     ],
     "harnesses": [
       23,
