@@ -17,6 +17,8 @@ and fixes, in the order they happened.
 
 Section pages:
 
+- [Updated DeepSeek V4-Flash to the 0731 public beta with 1M context, 384K max output...](/ai-market-research/blog/2026/2026-08-01-updated-deepseek-v4-flash-to-the-0731-public-beta-with-1m-co/)
+- [Updated GPT-5.6 Terra to $2/$12 per million input/output tokens and Luna to...](/ai-market-research/blog/2026/2026-08-01-updated-gpt-5-6-terra-to-2-12-per-million-input-output-token/)
 - [Added Thinking Machines Lab and its first model, Inkling: a 975B-parameter (41B...](/ai-market-research/blog/2026/2026-07-28-added-thinking-machines-lab-and-its-first-model-inkling-a-97/)
 - [Added Claude Opus 5: general availability, 1M context, 128K maximum output, adaptive...](/ai-market-research/blog/2026/2026-07-25-added-claude-opus-5-general-availability-1m-context-128k-max/)
 - [Refreshed current-source evidence: added OpenAI's GPT-5.6 launch table, Google's...](/ai-market-research/blog/2026/2026-07-24-refreshed-current-source-evidence-added-openai-s-gpt-5-6-lau/)

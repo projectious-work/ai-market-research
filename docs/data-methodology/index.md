@@ -57,6 +57,13 @@ provide an independent public comparison. The July 2026 GPT-5.6 launch table
 and Scale's public SWE-bench Pro board are intentionally shown as separate
 sources for this reason.
 
+The July 31 DeepSeek V4-Flash-0731 update is handled the same way. Its
+Terminal-Bench 2.1 and Agents' Last Exam values are shown with the vendor's
+max-effort, DeepSeek Harness minimal-mode caveat. NL2Repo, Cybergym,
+Toolathlon, Automation Bench, and the internal DSBench sets remain narrative
+evidence until their versions, harnesses, and public reproducibility are
+sufficient for a shared comparison column.
+
 Each model instead has a curated `quality_vs_fable` anchor. Prefer a published
 multi-benchmark comparison against Fable 5. A historical normalized score or a
 shared SWE-Pro version may be used as a clearly documented fallback. The Kimi
@@ -218,6 +225,10 @@ and all infrastructure charges with that measurement.
 
 Primary sources for this refresh:
 
+- <https://developers.openai.com/api/docs/models/gpt-5.6-terra>
+- <https://developers.openai.com/api/docs/models/gpt-5.6-luna>
+- <https://api-docs.deepseek.com/updates/>
+- <https://api-docs.deepseek.com/quick_start/pricing/>
 - <https://openai.com/index/gpt-5-6/>
 - <https://labs.scale.com/api/pdf/leaderboard/swe_bench_pro_public>
 - <https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/>
