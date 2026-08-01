@@ -15,7 +15,12 @@
 #       ports:
 #         - "5432:5432"
 #
-services: {}
+
+services:
+  ai-market-research:
+    ports:
+      - "127.0.0.1:1320:1320"
+
 #
 # Example — add depends_on to the main service:
 #
