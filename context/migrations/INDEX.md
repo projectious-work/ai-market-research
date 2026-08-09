@@ -8,7 +8,7 @@ None.
 
 None.
 
-## Applied (9)
+## Applied (10)
 
 | Date       | Migration                                | Notes |
 |------------|------------------------------------------|-------|
@@ -21,6 +21,7 @@ None.
 | 2026-07-28 | MIG-20260725_2046-ContentSync-processkit-content-sync — processkit v0.28.1 → v0.28.4 | 0 changed upstream, 0 conflicts, 9 new, 0 removed, 0 stale-removed (2 groups affected) |
 | 2026-07-28 | MIG-20260726_1911-RuntimeSync-aibox-runtime — aibox-runtime-home 0.28.12 → 0.28.14 | 0 changed upstream, 0 conflicts, 1 new, 0 removed (1 groups affected) |
 | 2026-08-01 | MIG-20260801_0717-ContentSync-processkit-content-sync — processkit v0.28.4 → v0.28.5 | 0 changed upstream, 1 conflicts, 0 new, 0 removed, 0 stale-removed (1 groups affected) |
+| 2026-08-07 | MIG-20260807_1902-CordialPearl-record-append-only-corrections-for-historical — local-project  → | Record append-only corrections for historical LogEntry IDs containing blocked process vocabulary |
 
 ## Rejected (1)
 

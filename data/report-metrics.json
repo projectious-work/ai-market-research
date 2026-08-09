@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "researched_at": "2026-08-01",
+  "researched_at": "2026-08-08",
   "currency": "USD",
   "reference_options": [
     "fable-5",
@@ -194,7 +194,7 @@
           "value": 0.9
         }
       ],
-      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
+      "source": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/"
     },
     {
       "id": "open_weight_quality",
@@ -370,8 +370,8 @@
       "blended_price": 22.5,
       "cost_score": 22.6,
       "scq_compound": 55.7,
-      "speed_evidence": "OpenAI reports 61% less task time than Fable 5 on an AAII comparison at max reasoning.",
-      "source": "https://openai.com/index/gpt-5-6/"
+      "speed_evidence": "OpenAI introduced API Fast mode on July 30, claiming up to 2.5× Standard speed at 2× price with no intelligence change; the base task-speed index remains a separate vendor comparison.",
+      "source": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/"
     },
     {
       "model_id": "gpt-5.6-terra",
@@ -396,7 +396,7 @@
       "cost_score": 44.6,
       "scq_compound": 70.8,
       "speed_evidence": "OpenAI reports roughly one-third of Fable 5 task time for the family coding comparison.",
-      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-terra"
+      "source": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/"
     },
     {
       "model_id": "gpt-5.6-luna",
@@ -421,7 +421,7 @@
       "cost_score": 100,
       "scq_compound": 92.6,
       "speed_evidence": "OpenAI calls Luna the fastest tier; 320 is a conservative planning index above the cited 300 family comparison and must not be treated as measured tok/s.",
-      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
+      "source": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/"
     },
     {
       "model_id": "kimi-k3",
@@ -967,9 +967,19 @@
   ],
   "changelog": [
     {
+      "date": "2026-08-08",
+      "tag": "model",
+      "text": "Added Muse Spark 1.1 to the roster as a Meta Model API public-preview route for US developers. It is positioned as a coding, tool-use, computer-use and multimodal agent model with 1M context. Its vendor-reported coding scores remain excluded from the shared quality composite because the evaluation harnesses are not directly comparable."
+    },
+    {
+      "date": "2026-08-07",
+      "tag": "pricing",
+      "text": "Corrected the price-change history using OpenAI's July 30 announcement: Terra fell 20% from $2.50/$15 to $2/$12 per MTok and Luna fell 80% from $1/$6 to $0.20/$1.20. Added the paid Codex and ChatGPT Work credit reduction, unchanged subscription prices and quota budgets, and Sol API Fast mode (up to 2.5× Standard speed at 2× price)."
+    },
+    {
       "date": "2026-08-01",
       "tag": "pricing",
-      "text": "Refreshed OpenAI's live GPT-5.6 API rate card: Terra is now $2/$12 per million input/output tokens and Luna is $0.20/$1.20, with cached input at $0.20 and $0.02 respectively. Recomputed the 30/70 workload blend, cost-efficiency scores, SCQ compounds and burn baselines; the provider page does not state when the rates changed."
+      "text": "Refreshed OpenAI's live GPT-5.6 API rate card: Terra is now $2/$12 per million input/output tokens and Luna is $0.20/$1.20, with cached input at $0.20 and $0.02 respectively. Recomputed the 30/70 workload blend, cost-efficiency scores, SCQ compounds and burn baselines. Superseded on August 7 with the official July 30 effective date and full change details."
     },
     {
       "date": "2026-08-01",
@@ -1056,6 +1066,36 @@
       "title": "GPT-5.6 Luna model and pricing",
       "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
       "accessed": "2026-08-01"
+    },
+    {
+      "id": "openai-gpt-5-6-price-performance",
+      "title": "GPT-5.6 price-performance update",
+      "url": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/",
+      "accessed": "2026-08-07"
+    },
+    {
+      "id": "openai-gpt-5-6-chat-access",
+      "title": "GPT-5.6 Sol improvement and Luna access expansion",
+      "url": "https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/",
+      "accessed": "2026-08-07"
+    },
+    {
+      "id": "meta-muse-spark-1-1",
+      "title": "Introducing Muse Spark 1.1",
+      "url": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/",
+      "accessed": "2026-08-08"
+    },
+    {
+      "id": "meta-model-api-muse-spark",
+      "title": "Meta Model API: Muse Spark",
+      "url": "https://developer.meta.com/ai/",
+      "accessed": "2026-08-08"
+    },
+    {
+      "id": "meta-muse-spark-1-1-pricing",
+      "title": "Muse Spark 1.1 API pricing reference",
+      "url": "https://www.llmreference.com/provider/meta-model-api/muse-spark-1.1",
+      "accessed": "2026-08-08"
     },
     {
       "id": "deepseek-v4-flash-0731",

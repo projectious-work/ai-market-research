@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-01T00:00:00Z",
+    "generated_at": "2026-08-08T00:00:00Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
@@ -9,7 +9,10 @@
       "**Claude Opus 5 is now generally available.** Anthropic's new `claude-opus-5` targets complex agentic coding and enterprise work with a 1M-token context window, 128K maximum output, adaptive thinking by default, and unchanged $5/$25 per MTok base pricing. Independent benchmark values are not yet recorded here.",
       "**Google reset the Flash price-performance curve on July 21.** Gemini 3.6 Flash is GA at $1.50/$7.50 per million tokens with stronger coding and agentic results than 3.5 Flash, while Gemini 3.5 Flash-Lite reaches roughly 490 output tok/s at $0.30/$2.50 for high-volume subagents and extraction.",
       "**Kimi K3 resets the open-weight frontier.** Moonshot reports a 2.8T sparse MoE, native vision, 1M context, and 99% of Fable 5 across 14 overlapping launch-suite evaluations; weights are promised by July 27.",
-      "**GPT-5.6 now spans Sol, Terra and Luna**, giving leaders a deliberate capability, balanced, and high-throughput ladder under one family.",
+      "**GPT-5.6 Luna and Terra became materially cheaper on July 30.** Luna fell 80% to $0.20/$1.20 per MTok and Terra 20% to $2/$12; their paid Codex and ChatGPT Work usage also consumes fewer credits, while subscription prices and quota budgets did not change.",
+      "**GPT-5.6 now spans Sol, Terra and Luna**, giving leaders a deliberate capability, balanced, and high-throughput ladder under one family. Sol API Fast mode replaces Priority Processing: OpenAI claims up to 2.5× Standard speed at 2× price, with unchanged intelligence.",
+      "**Luna is expanding beyond API routing.** OpenAI says it becomes the default for Free and Go users, with unlimited text chats and a higher-reasoning Think option rolling out subject to abuse guardrails. This is a ChatGPT product update, not an API capability change.",
+      "**Muse Spark 1.1 is Meta's new coding-and-agent watchlist route.** Its 1M-token multimodal model is available through Meta Model API's US public preview at a reported $1.25/$4.25 per MTok. Meta reports solid coding and tool-use results, but those vendor results are not directly comparable with the report's mixed-harness benchmark series.",
       "**Keep benchmark tables separate by harness.** OpenAI's GPT-5.6 launch results and Scale's public SWE-bench Pro leaderboard use different model versions and evaluation setups; use each as evidence, not as one directly rankable series.",
       "**GPT-5.5 remains active in Codex and the API.** It is retained as a compatibility and portfolio option rather than being hidden by the newer 5.6 family.",
       "**Claude Haiku 4.5 remains Anthropic’s latest verified Haiku.** No official Haiku 5 listing was found in Anthropic’s current model catalog."
@@ -303,9 +306,19 @@
   },
   "changelog": [
     {
+      "date": "2026-08-08",
+      "tag": "model",
+      "text": "Added Meta Muse Spark 1.1 as a preview coding and agentic route: 1M context, multimodal inputs, tool/computer use, Meta Model API public preview for US developers, and reported $1.25/$4.25 per-MTok pricing. Meta's Terminal-Bench 2.1 (80.0), SWE-Bench Pro (61.5), and DeepSWE 1.1 (53.3) are retained as vendor-reported evidence only; no cross-harness ranking was inferred."
+    },
+    {
+      "date": "2026-08-07",
+      "tag": "pricing",
+      "text": "Corrected the GPT-5.6 pricing history from OpenAI's July 30 announcement: Terra fell 20% from $2.50/$15 to $2/$12 per MTok and Luna fell 80% from $1/$6 to $0.20/$1.20. The report now records lower paid Codex and ChatGPT Work credit consumption, unchanged subscription prices and quota budgets, Sol API Fast mode (up to 2.5× Standard speed at 2× price), and the August 6 ChatGPT Luna access expansion."
+    },
+    {
       "date": "2026-08-01",
       "tag": "pricing",
-      "text": "Updated GPT-5.6 Terra to $2/$12 per million input/output tokens and Luna to $0.20/$1.20 from OpenAI's live model pages. Recomputed the tracked 30/70 workload blends and effort-burn ratios; the exact effective date of the rate change is not published."
+      "text": "Updated GPT-5.6 Terra to $2/$12 per million input/output tokens and Luna to $0.20/$1.20 from OpenAI's live model pages. Recomputed the tracked 30/70 workload blends and effort-burn ratios. Superseded on August 7 with OpenAI's published July 30 effective date and full price-change details."
     },
     {
       "date": "2026-08-01",
@@ -484,7 +497,7 @@
       "batch_discount": 50,
       "tok_per_sec": null,
       "subscription": "ChatGPT, Codex and API",
-      "notes": "Flagship GPT-5.6 tier. Official benchmark table and pricing; speed is stored as an end-to-end task index in report-metrics.json, not tok/s.",
+      "notes": "Flagship GPT-5.6 tier. API Fast mode replaced Priority Processing on July 30: OpenAI claims up to 2.5× Standard speed at 2× Standard price with no intelligence change. Speed is otherwise stored as an end-to-end task index in report-metrics.json, not tok/s.",
       "reasoning_capable": true,
       "effort_default": "medium",
       "effort_levels": [
@@ -528,7 +541,7 @@
       "batch_discount": 50,
       "tok_per_sec": null,
       "subscription": "ChatGPT, Codex and API",
-      "notes": "Balanced GPT-5.6 tier and recommended default engineering route. Current official pricing was rechecked 2026-08-01; the provider does not publish the price-change date.",
+      "notes": "Balanced GPT-5.6 tier and recommended default engineering route. On July 30, API list pricing fell 20% from $2.50/$15 to $2/$12 per MTok; paid Codex and ChatGPT Work usage also consumes fewer credits. Subscription prices and quota budgets did not change.",
       "reasoning_capable": true,
       "effort_default": "medium",
       "effort_levels": [
@@ -572,7 +585,7 @@
       "batch_discount": 50,
       "tok_per_sec": null,
       "subscription": "ChatGPT, Codex and API",
-      "notes": "Fastest, most affordable GPT-5.6 tier; recommended for high-volume subagents with verification and escalation. Current official pricing was rechecked 2026-08-01; the provider does not publish the price-change date.",
+      "notes": "Fastest, most affordable GPT-5.6 tier; recommended for high-volume subagents with verification and escalation. On July 30, API list pricing fell 80% from $1/$6 to $0.20/$1.20 per MTok; paid Codex and ChatGPT Work usage also consumes fewer credits. Subscription prices and quota budgets did not change. ChatGPT is also rolling Luna out as the Free and Go default, with unlimited text chats and a Think option; that product change does not alter API routing.",
       "reasoning_capable": true,
       "effort_default": "medium",
       "effort_levels": [
@@ -1491,6 +1504,45 @@
         "comms": 25,
         "multimodal": 5,
         "agentic": 25
+      }
+    },
+    {
+      "id": "muse-spark-1.1",
+      "name": "Muse Spark 1.1",
+      "provider": "Meta",
+      "tier": "balanced",
+      "released": "2026-07-09",
+      "license": "proprietary",
+      "jurisdiction": "US",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": 61.5,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "terminal_bench_2_1": 80,
+      "deep_swe_v1_1": 53.3,
+      "api_in": 1.25,
+      "api_out": 4.25,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Meta AI Thinking · Meta Model API public preview (US developers) · OpenRouter",
+      "notes": "Meta's 1M-context, natively multimodal reasoning model is aimed at coding, tool use, computer use and multi-agent workflows. Meta reports Terminal-Bench 2.1 80.0, SWE-Bench Pro 61.5 and DeepSWE 1.1 53.3; its evaluation configurations must not be mixed mechanically with this report's other benchmark evidence. $1.25/$4.25 per-MTok pricing is reported by an API reference; Meta's indexed launch material confirms public-preview access but not the rate card.",
+      "reasoning_capable": true,
+      "effort_default": "thinking",
+      "effort_levels": [
+        "thinking"
+      ],
+      "cache_discount": null,
+      "capability_levels": {
+        "coding": 44,
+        "reasoning": 43,
+        "knowledge": 40,
+        "comms": 40,
+        "multimodal": 47,
+        "agentic": 46
       }
     },
     {
@@ -3465,13 +3517,13 @@
         "tier": "Bulk (70%)",
         "use_for": "Classification, simple edits, triage, log parsing",
         "preferred": "Gemini 3.5 Flash-Lite minimal · GPT-5.6 Luna low · Qwen 3.6 35B-A3B when local",
-        "cost_label": "Gemini $0.30/$2.50; Luna $1/$6 Mtok before cache, batch and reasoning tokens"
+        "cost_label": "Gemini $0.30/$2.50; Luna $0.20/$1.20 Mtok before cache, batch and reasoning tokens"
       },
       {
         "tier": "Mid (25%)",
         "use_for": "Multi-file edits, code review, refactors, docs",
         "preferred": "GPT-5.6 Terra medium · Gemini 3.6 Flash medium for Google-first or multimodal work",
-        "cost_label": "Terra $2.50/$15; Gemini $1.50/$7.50 Mtok before cache, batch and reasoning tokens"
+        "cost_label": "Terra $2/$12; Gemini $1.50/$7.50 Mtok before cache, batch and reasoning tokens"
       },
       {
         "tier": "Premium (5%)",
@@ -4720,6 +4772,41 @@
       "category": "DeepSeek",
       "title": "DeepSeek V4 models and pricing",
       "url": "https://api-docs.deepseek.com/quick_start/pricing/"
+    },
+    {
+      "n": 93,
+      "category": "OpenAI",
+      "title": "GPT-5.6 price-performance update",
+      "url": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/",
+      "note": "Official July 30 pricing, paid-subscription credit, and Sol API Fast mode details."
+    },
+    {
+      "n": 94,
+      "category": "OpenAI",
+      "title": "GPT-5.6 Sol improvement and Luna access expansion",
+      "url": "https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/",
+      "note": "Official August 6 ChatGPT product update; it does not change the API model contract."
+    },
+    {
+      "n": 95,
+      "category": "Meta",
+      "title": "Introducing Muse Spark 1.1",
+      "url": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/",
+      "note": "Official launch: agentic/coding focus and Meta Model API public-preview availability."
+    },
+    {
+      "n": 96,
+      "category": "Meta",
+      "title": "Meta Model API: Muse Spark",
+      "url": "https://developer.meta.com/ai/",
+      "note": "Official developer overview and vendor benchmark table; public preview is US-only."
+    },
+    {
+      "n": 97,
+      "category": "Meta",
+      "title": "Muse Spark 1.1 API pricing reference",
+      "url": "https://www.llmreference.com/provider/meta-model-api/muse-spark-1.1",
+      "note": "Secondary pricing reference; Meta's indexed launch material does not publish the rate card."
     }
   ],
   "provider_sources": {
@@ -4737,7 +4824,14 @@
       62,
       83,
       89,
-      90
+      90,
+      93,
+      94
+    ],
+    "Meta": [
+      95,
+      96,
+      97
     ],
     "Google": [
       7,

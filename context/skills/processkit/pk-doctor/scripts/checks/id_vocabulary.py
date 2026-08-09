@@ -214,25 +214,15 @@ def run(ctx) -> list[CheckResult]:
         if words:
             blocked.append((entity_id, token, words))
     for entity_id, token, words in blocked[:20]:
-        historical_log = entity_id.startswith("LOG-")
         results.append(CheckResult(
-            severity="INFO" if historical_log else "WARN",
+            severity="WARN",
             category=CATEGORY,
-            id=(
-                "id-vocabulary.blocked-word-historical"
-                if historical_log else "id-vocabulary.blocked-word"
-            ),
-            message=(
-                f"historical append-only LogEntry {entity_id} uses blocked "
-                f"process word(s) in {token!r}: {words}; future IDs must "
-                "avoid them"
-                if historical_log else
-                f"{entity_id} uses blocked process word(s) in {token!r}: {words}"
-            ),
+            id="id-vocabulary.blocked-word",
+            message=f"{entity_id} uses blocked process word(s) in {token!r}: {words}",
             entity_ref=entity_id,
-            suggested_fix=(None if historical_log else
-                "avoid operational/process vocabulary in future generated IDs"),
-            action_required=not historical_log,
+            suggested_fix=(
+                "avoid operational/process vocabulary in future generated IDs"
+            ),
         ))
 
     if _sqlite_vec_available():
