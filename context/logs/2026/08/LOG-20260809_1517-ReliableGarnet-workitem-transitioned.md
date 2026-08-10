@@ -1,0 +1,15 @@
+---
+apiVersion: processkit.projectious.work/v2
+kind: LogEntry
+metadata:
+  id: LOG-20260809_1517-ReliableGarnet-workitem-transitioned
+  created: '2026-08-09T15:17:25+00:00'
+spec:
+  event_type: workitem.transitioned
+  timestamp: '2026-08-09T15:17:25+00:00'
+  summary: Transitioned WorkItem 'BACK-20260808_1933-AgileEagle-release-privacy-clean'
+    from 'review' to 'done'
+  subject: BACK-20260808_1933-AgileEagle-release-privacy-clean
+  subject_kind: WorkItem
+  actor: BACK-20260808_1933-AgileEagle-release-privacy-clean
+---

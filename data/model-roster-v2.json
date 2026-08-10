@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0-preview",
-  "researched_at": "2026-08-01",
+  "researched_at": "2026-08-08",
   "default_reference": "fable-5",
   "inclusion_policy": {
     "default_limit_per_provider": 3,
@@ -173,9 +173,9 @@
       ],
       "default_level": "medium",
       "speed_band": "balanced",
-      "speed_note": "OpenAI reports max reasoning completes comparable AAII work in 61% less time than Fable 5; no comparable output-tokens/s figure is published.",
+      "speed_note": "OpenAI reports max reasoning completes comparable AAII work in 61% less time than Fable 5. API Fast mode, introduced July 30, claims up to 2.5x Standard speed at 2x price with unchanged intelligence; no comparable output-tokens/s figure is published.",
       "availability": "GA; ChatGPT, Codex, API",
-      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-sol"
+      "source": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/"
     },
     {
       "id": "gpt-5.6-terra",
@@ -200,9 +200,9 @@
       ],
       "default_level": "medium",
       "speed_band": "balanced",
-      "speed_note": "OpenAI reports coding-agent work in roughly one-third of Fable 5's time; no comparable output-tokens/s figure is published.",
-      "availability": "GA; ChatGPT, Codex, API",
-      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-terra"
+      "speed_note": "OpenAI reports coding-agent work in roughly one-third of Fable 5's time; no comparable output-tokens/s figure is published. July 30 list-price cut: 20% from $2.50/$15; paid Codex and ChatGPT Work usage also consumes fewer credits.",
+      "availability": "GA; ChatGPT, Codex, API; subscription prices and quota budgets unchanged",
+      "source": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/"
     },
     {
       "id": "gpt-5.6-luna",
@@ -227,9 +227,32 @@
       ],
       "default_level": "medium",
       "speed_band": "fast",
-      "speed_note": "OpenAI positions Luna as the fastest tier and reports coding-agent work in roughly one-third of Fable 5's time; no comparable output-tokens/s figure is published.",
-      "availability": "GA; ChatGPT, Codex, API",
-      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
+      "speed_note": "OpenAI positions Luna as the fastest tier and reports coding-agent work in roughly one-third of Fable 5's time; no comparable output-tokens/s figure is published. July 30 list-price cut: 80% from $1/$6; paid Codex and ChatGPT Work usage also consumes fewer credits.",
+      "availability": "GA; ChatGPT, Codex, API; rolling out as Free and Go default with unlimited text chats and a Think option",
+      "source": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/"
+    },
+    {
+      "id": "muse-spark-1.1",
+      "name": "Muse Spark 1.1",
+      "family": "Muse Spark",
+      "provider": "Meta",
+      "region": "US",
+      "channel": "commercial_api",
+      "scope": "core",
+      "status": "preview",
+      "context": "1M",
+      "price": "$1.25 / $4.25 (reported; official indexed launch material does not list rates)",
+      "license": "Proprietary",
+      "control": "Thinking mode",
+      "levels": [
+        "thinking"
+      ],
+      "default_level": "thinking",
+      "speed_band": "unknown",
+      "speed_note": "No comparable throughput or end-to-end task-time measurement is published. Meta positions 1.1 for coding, tool use, computer use, and long-horizon agentic workflows.",
+      "availability": "Meta Model API public preview for US developers; Meta AI Thinking; OpenRouter",
+      "caveat": "Meta-reported benchmark figures are not mechanically comparable with the report's mixed-harness series. Verify US-preview access, pricing, reliability, and data handling on the intended workload before standardizing.",
+      "source": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/"
     },
     {
       "id": "gpt-5.5",
