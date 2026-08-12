@@ -4,9 +4,10 @@ kind: WorkItem
 metadata:
   id: BACK-20260808_1933-RobustRabbit-release-v0-4-1
   created: '2026-08-08T19:33:08+00:00'
+  updated: '2026-08-12T08:30:11+00:00'
 spec:
   title: Release v0.4.1
-  state: backlog
+  state: done
   type: process-instance
   priority: high
   description: Patch release for refreshed model-market analysis, including GPT-5.6
@@ -23,4 +24,20 @@ spec:
   - BACK-20260808_1933-FirmTide-release-notes-drafted
   - BACK-20260808_1933-ThriftyIvy-release-cut
   - BACK-20260808_1933-FairDawn-release-post-verified
+  started_at: '2026-08-12T08:30:11+00:00'
+  completed_at: '2026-08-12T08:30:11+00:00'
 ---
+
+## Transition note (2026-08-12T08:30:11+00:00)
+
+All release phases executed.
+
+
+## Transition note (2026-08-12T08:30:11+00:00)
+
+All ten release gates passed.
+
+
+## Transition note (2026-08-12T08:30:11+00:00)
+
+v0.4.1 published and post-verified.
