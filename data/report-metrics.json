@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "researched_at": "2026-08-08",
+  "researched_at": "2026-08-12",
   "currency": "USD",
   "reference_options": [
     "fable-5",
@@ -967,6 +967,16 @@
   ],
   "changelog": [
     {
+      "date": "2026-08-12",
+      "tag": "model",
+      "text": "Added Nemotron 3.5 Lightning 30B-A3B as NVIDIA's efficient open-weight reasoning and agent model: 30B total/3B active, hybrid Mamba-2 MoE, 1M context, reasoning on/off, tools, OpenMDW-1.1 commercial-use terms, and BF16/NVFP4 deployment variants. Official NeMo-harness benchmarks are retained with cross-harness caveats."
+    },
+    {
+      "date": "2026-08-12",
+      "tag": "model",
+      "text": "Added Muse Glimmer 30B as an Apache-2.0 local coding and agent route. Meta publishes a 29.6B dense multimodal architecture, 131K+ native context, four reasoning-strength levels, tool use, 24GB quantized deployment, and a DFlash speculative drafter. Vendor benchmark and hardware-specific throughput results are retained with harness caveats; CanItRun supplies separate calculated VRAM planning evidence."
+    },
+    {
       "date": "2026-08-08",
       "tag": "model",
       "text": "Added Muse Spark 1.1 to the roster as a Meta Model API public-preview route for US developers. It is positioned as a coding, tool-use, computer-use and multimodal agent model with 1M context. Its vendor-reported coding scores remain excluded from the shared quality composite because the evaluation harnesses are not directly comparable."
@@ -1096,6 +1106,30 @@
       "title": "Muse Spark 1.1 API pricing reference",
       "url": "https://www.llmreference.com/provider/meta-model-api/muse-spark-1.1",
       "accessed": "2026-08-08"
+    },
+    {
+      "id": "meta-muse-glimmer-30b",
+      "title": "Muse Glimmer 30B model card",
+      "url": "https://huggingface.co/meta-models/Muse-Glimmer-30B",
+      "accessed": "2026-08-12"
+    },
+    {
+      "id": "canitrun-muse-glimmer-30b",
+      "title": "Muse Glimmer 30B VRAM requirements",
+      "url": "https://canitrun.dev/models/muse-glimmer-30b/",
+      "accessed": "2026-08-12"
+    },
+    {
+      "id": "nvidia-nemotron-3-5-lightning-model-card",
+      "title": "Nemotron 3.5 Lightning 30B-A3B model card",
+      "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16",
+      "accessed": "2026-08-12"
+    },
+    {
+      "id": "nvidia-nemotron-3-5-lightning-api",
+      "title": "Nemotron 3.5 Lightning API and deployment",
+      "url": "https://build.nvidia.com/nvidia/nemotron-3.5-lightning-30b-a3b",
+      "accessed": "2026-08-12"
     },
     {
       "id": "deepseek-v4-flash-0731",

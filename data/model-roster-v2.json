@@ -255,6 +255,56 @@
       "source": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/"
     },
     {
+      "id": "muse-glimmer-30b",
+      "name": "Muse Glimmer 30B",
+      "family": "Muse Glimmer",
+      "provider": "Meta",
+      "region": "self-hosted",
+      "channel": "open_weight",
+      "scope": "core",
+      "status": "stable",
+      "context": "131K+",
+      "price": "Self-hosted (Apache 2.0; infrastructure cost applies)",
+      "license": "Apache 2.0",
+      "control": "reasoning strength",
+      "levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_level": "high",
+      "speed_band": "hardware-dependent",
+      "speed_note": "Meta reports 74.9 tok/s baseline and 233.4 tok/s with its DFlash drafter on an RTX 5090; 23.7/37.8 tok/s on an M4 Max and 26.6/50.2 tok/s on an M5 Max. These batch-1 greedy measurements are hardware- and runtime-specific.",
+      "availability": "Ungated open weights on Hugging Face; BF16, two 4-bit variants, DFlash drafter, and separate perception encoder",
+      "caveat": "Meta's launch benchmarks are vendor-reported and must not be combined mechanically with different harnesses. CanItRun estimates 19.2 GB total VRAM at Q4_K_M and 8K context and about 21.0 GB at the full native context; validate the selected quantization and runtime on target hardware.",
+      "source": "https://huggingface.co/meta-models/Muse-Glimmer-30B"
+    },
+    {
+      "id": "nemotron-3.5-lightning-30b-a3b",
+      "name": "Nemotron 3.5 Lightning 30B-A3B",
+      "family": "Nemotron 3.5 Lightning",
+      "provider": "NVIDIA",
+      "region": "self-hosted",
+      "channel": "open_weight",
+      "scope": "core",
+      "status": "stable",
+      "context": "1M (256K on single H100 reference deployment)",
+      "price": "Self-hosted (OpenMDW-1.1; infrastructure cost applies)",
+      "license": "OpenMDW-1.1 (commercial use permitted)",
+      "control": "thinking mode and reasoning budget",
+      "levels": [
+        "off",
+        "on"
+      ],
+      "default_level": "on",
+      "speed_band": "fast",
+      "speed_note": "30B-total/3B-active hybrid Mamba-2 MoE designed for efficient inference. NVIDIA provides NVFP4, W4A16, DSpark, DFlash, and MTP deployment paths, but the launch card does not publish one portable output-tokens/s value.",
+      "availability": "GA open weights; BF16 and optimized NVFP4 variants; free NVIDIA API prototype; self-hosted NIM/vLLM deployment",
+      "caveat": "NVIDIA's launch scores use its NeMo Gym/Evaluator recipes and must not be merged mechanically with other harnesses. BF16 requires one 80GB H100/A100 for the 256K reference deployment; 1M reference recipes use larger Blackwell or multi-GPU configurations.",
+      "source": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16"
+    },
+    {
       "id": "gpt-5.5",
       "name": "GPT-5.5",
       "family": "GPT-5.5",

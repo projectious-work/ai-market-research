@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-08T00:00:00Z",
+    "generated_at": "2026-08-12T00:00:00Z",
     "reference_default": "fable-5",
     "report_metrics_file": "data/report-metrics.json"
   },
@@ -13,6 +13,8 @@
       "**GPT-5.6 now spans Sol, Terra and Luna**, giving leaders a deliberate capability, balanced, and high-throughput ladder under one family. Sol API Fast mode replaces Priority Processing: OpenAI claims up to 2.5× Standard speed at 2× price, with unchanged intelligence.",
       "**Luna is expanding beyond API routing.** OpenAI says it becomes the default for Free and Go users, with unlimited text chats and a higher-reasoning Think option rolling out subject to abuse guardrails. This is a ChatGPT product update, not an API capability change.",
       "**Muse Spark 1.1 is Meta's new coding-and-agent watchlist route.** Its 1M-token multimodal model is available through Meta Model API's US public preview at a reported $1.25/$4.25 per MTok. Meta reports solid coding and tool-use results, but those vendor results are not directly comparable with the report's mixed-harness benchmark series.",
+      "**Muse Glimmer 30B brings Meta's agent stack to one consumer GPU.** The Apache-2.0, 29.6B dense multimodal model has 131K+ native context, four reasoning-strength levels, tool use, and a DFlash drafter. Meta targets 24GB hardware with its 17GB quant; CanItRun calculates about 21GB total at Q4 and full context.",
+      "**Nemotron 3.5 Lightning targets efficient local and data-centre agents.** NVIDIA's new 30B-total/3B-active hybrid Mamba-MoE has 1M context, reasoning on/off, tool calling, reproducible evaluation recipes, and commercial-use OpenMDW-1.1 weights in BF16 and optimized NVFP4 variants.",
       "**Keep benchmark tables separate by harness.** OpenAI's GPT-5.6 launch results and Scale's public SWE-bench Pro leaderboard use different model versions and evaluation setups; use each as evidence, not as one directly rankable series.",
       "**GPT-5.5 remains active in Codex and the API.** It is retained as a compatibility and portfolio option rather than being hidden by the newer 5.6 family.",
       "**Claude Haiku 4.5 remains Anthropic’s latest verified Haiku.** No official Haiku 5 listing was found in Anthropic’s current model catalog."
@@ -305,6 +307,16 @@
     }
   },
   "changelog": [
+    {
+      "date": "2026-08-12",
+      "tag": "model",
+      "text": "Added NVIDIA Nemotron 3.5 Lightning 30B-A3B: a 30B-total/3B-active hybrid Mamba-2 MoE with 1M context, reasoning on/off, tool calling, OpenMDW-1.1 commercial-use weights, BF16 and NVFP4 releases, and reproducible NeMo evaluation recipes. NVIDIA reports SWE-Bench Verified 51.56, Terminal-Bench 2.1 24.58, MMLU-Pro 81.94, GPQA Diamond 75.44, and IFBench 71.88; these remain vendor-harness evidence."
+    },
+    {
+      "date": "2026-08-12",
+      "tag": "model",
+      "text": "Added Meta Muse Glimmer 30B as an open-weight local agent and coding route: 29.6B dense multimodal architecture, 131K+ native context, Apache 2.0 license, tool use, low/medium/high/xhigh reasoning strength, and 24GB quantized deployment. Meta's SWE-Bench Pro (51.2), SWE-Bench Verified (76.0), Terminal-Bench 2.1 (51.7), MCP Atlas (75.5), and other launch results remain vendor-reported evidence. CanItRun's calculated Q4 deployment totals are retained as hardware-planning evidence, not measured throughput."
+    },
     {
       "date": "2026-08-08",
       "tag": "model",
@@ -1543,6 +1555,100 @@
         "comms": 40,
         "multimodal": 47,
         "agentic": 46
+      }
+    },
+    {
+      "id": "muse-glimmer-30b",
+      "name": "Muse Glimmer 30B",
+      "provider": "Meta",
+      "tier": "balanced",
+      "released": "2026-08-10",
+      "license": "apache-2.0",
+      "jurisdiction": "self-hosted",
+      "context": 131072,
+      "context_label": "131K+",
+      "parameters_b": 29.6,
+      "swe_pro": 51.2,
+      "swe_verified": 76,
+      "livecodebench": null,
+      "aime": 94.7,
+      "tau2": null,
+      "terminal_bench_2_1": 51.7,
+      "mcp_atlas": 75.5,
+      "deepsearch_qa": 74.6,
+      "scicode": 43.6,
+      "mmmu_pro": 74,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Open weights · self-hosted · Apache 2.0",
+      "notes": "Dense 29.6B text-and-image agent model distilled from Muse Spark, with 131,072+ native context, a separate 1.8B ViT-G/14 perception encoder, and an optional DFlash speculative drafter. Meta targets 24GB hardware with its 17GB quant and reports 233.4 tok/s with DFlash on RTX 5090; CanItRun estimates 19.2GB Q4 total at 8K and about 21GB at full context. Benchmark and throughput figures are vendor/hardware-specific and are not normalized across harnesses.",
+      "reasoning_capable": true,
+      "effort_default": "high",
+      "effort_levels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "cache_discount": null,
+      "capability_levels": {
+        "coding": 42,
+        "reasoning": 44,
+        "knowledge": 41,
+        "comms": 38,
+        "multimodal": 43,
+        "agentic": 45
+      }
+    },
+    {
+      "id": "nemotron-3.5-lightning-30b-a3b",
+      "name": "Nemotron 3.5 Lightning 30B-A3B",
+      "provider": "NVIDIA",
+      "tier": "balanced",
+      "released": "2026-08-11",
+      "license": "openmdw-1.1",
+      "jurisdiction": "self-hosted",
+      "context": 1048576,
+      "context_label": "1M",
+      "parameters_b": 30,
+      "active_parameters_b": 3,
+      "swe_pro": null,
+      "swe_verified": 51.56,
+      "swe_multilingual": 39.33,
+      "livecodebench": null,
+      "aime": null,
+      "gpqa_diamond": 75.44,
+      "mmlu_pro": 81.94,
+      "ifbench": 71.88,
+      "tau2": null,
+      "tau3_banking": 9.28,
+      "terminal_bench_2_1": 24.58,
+      "scicode": 32.6,
+      "aa_lcr": 52,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Open weights · NVIDIA API prototype · self-hosted NIM/vLLM",
+      "notes": "GA 30B-total/3B-active hybrid Mamba-2, MoE, attention, and multi-token-prediction model for reasoning, coding, planning, and tools. Supports 1M context, with a 256K single-H100 BF16 reference; BF16 and NVFP4 variants plus DSpark, DFlash, MTP, and W4A16 paths are published. Scores use NVIDIA's reproducible NeMo Gym/Evaluator recipes and are not normalized across other vendors' harnesses.",
+      "reasoning_capable": true,
+      "effort_default": "on",
+      "effort_levels": [
+        "off",
+        "on"
+      ],
+      "cache_discount": null,
+      "capability_levels": {
+        "coding": 35,
+        "reasoning": 40,
+        "knowledge": 40,
+        "comms": 39,
+        "multimodal": 5,
+        "agentic": 38
       }
     },
     {
@@ -4807,6 +4913,34 @@
       "title": "Muse Spark 1.1 API pricing reference",
       "url": "https://www.llmreference.com/provider/meta-model-api/muse-spark-1.1",
       "note": "Secondary pricing reference; Meta's indexed launch material does not publish the rate card."
+    },
+    {
+      "n": 98,
+      "category": "Meta",
+      "title": "Muse Glimmer 30B model card",
+      "url": "https://huggingface.co/meta-models/Muse-Glimmer-30B",
+      "note": "Official architecture, license, context, deployment, throughput, benchmark, safety, and intended-use evidence."
+    },
+    {
+      "n": 99,
+      "category": "Hardware",
+      "title": "Muse Glimmer 30B VRAM requirements",
+      "url": "https://canitrun.dev/models/muse-glimmer-30b/",
+      "note": "Independent calculated quantization, KV-cache, and GPU-fit estimates; not a substitute for workload testing."
+    },
+    {
+      "n": 100,
+      "category": "NVIDIA",
+      "title": "Nemotron 3.5 Lightning 30B-A3B model card",
+      "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16",
+      "note": "Official architecture, license, context, training, deployment, benchmark, and reproducibility evidence."
+    },
+    {
+      "n": 101,
+      "category": "NVIDIA",
+      "title": "Nemotron 3.5 Lightning API and deployment",
+      "url": "https://build.nvidia.com/nvidia/nemotron-3.5-lightning-30b-a3b",
+      "note": "Official free prototype endpoint and optimized self-hosted deployment entry point."
     }
   ],
   "provider_sources": {
@@ -4831,7 +4965,13 @@
     "Meta": [
       95,
       96,
-      97
+      97,
+      98,
+      99
+    ],
+    "NVIDIA": [
+      100,
+      101
     ],
     "Google": [
       7,
