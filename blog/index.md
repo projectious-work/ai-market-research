@@ -17,6 +17,7 @@ and fixes, in the order they happened.
 
 Section pages:
 
+- [Added Meta Muse Spark 1.1 as a preview coding and agentic route: 1M context...](/ai-market-research/blog/2026/2026-08-08-added-meta-muse-spark-1-1-as-a-preview-coding-and-agentic-ro/)
 - [Corrected the GPT-5.6 pricing history from OpenAI's July 30 announcement: Terra fell...](/ai-market-research/blog/2026/2026-08-07-corrected-the-gpt-5-6-pricing-history-from-openai-s-july-30/)
 - [Updated DeepSeek V4-Flash to the 0731 public beta with 1M context, 384K max output...](/ai-market-research/blog/2026/2026-08-01-updated-deepseek-v4-flash-to-the-0731-public-beta-with-1m-co/)
 - [Updated GPT-5.6 Terra to $2/$12 per million input/output tokens and Luna to...](/ai-market-research/blog/2026/2026-08-01-updated-gpt-5-6-terra-to-2-12-per-million-input-output-token/)

@@ -33,6 +33,11 @@ at every Hugo build; it is not hand-maintained.
   <thead><tr><th>Release</th><th>Date</th><th>Assets</th></tr></thead>
   <tbody>
     <tr>
+      <td><a href="https://github.com/projectious-work/ai-market-research/releases/tag/v0.4.1" target="_blank" rel="noopener">v0.4.1</a></td>
+      <td>12 Aug 2026</td>
+      <td><a href="https://github.com/projectious-work/ai-market-research/releases/tag/v0.4.1" target="_blank" rel="noopener">dashboard.html, LICENSE, source archive</a></td>
+    </tr>
+    <tr>
       <td><a href="https://github.com/projectious-work/ai-market-research/releases/tag/v0.4.0" target="_blank" rel="noopener">v0.4.0</a></td>
       <td>1 Aug 2026</td>
       <td><a href="https://github.com/projectious-work/ai-market-research/releases/tag/v0.4.0" target="_blank" rel="noopener">dashboard.html, LICENSE, source archive</a></td>
