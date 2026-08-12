@@ -17,6 +17,8 @@ and fixes, in the order they happened.
 
 Section pages:
 
+- [Added Meta Muse Glimmer 30B as an open-weight local agent and coding route: 29.6B...](/ai-market-research/blog/2026/2026-08-12-added-meta-muse-glimmer-30b-as-an-open-weight-local-agent-an/)
+- [Added NVIDIA Nemotron 3.5 Lightning 30B-A3B: a 30B-total/3B-active hybrid Mamba-2 MoE...](/ai-market-research/blog/2026/2026-08-12-added-nvidia-nemotron-3-5-lightning-30b-a3b-a-30b-total-3b-a/)
 - [Added Meta Muse Spark 1.1 as a preview coding and agentic route: 1M context...](/ai-market-research/blog/2026/2026-08-08-added-meta-muse-spark-1-1-as-a-preview-coding-and-agentic-ro/)
 - [Corrected the GPT-5.6 pricing history from OpenAI's July 30 announcement: Terra fell...](/ai-market-research/blog/2026/2026-08-07-corrected-the-gpt-5-6-pricing-history-from-openai-s-july-30/)
 - [Updated DeepSeek V4-Flash to the 0731 public beta with 1M context, 384K max output...](/ai-market-research/blog/2026/2026-08-01-updated-deepseek-v4-flash-to-the-0731-public-beta-with-1m-co/)
