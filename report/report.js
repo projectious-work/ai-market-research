@@ -453,7 +453,7 @@ function renderModels(filter) {
     <th class="tnum">Speed score<span class="sublabel">0–100</span></th><th class="tnum">Cost efficiency<span class="sublabel">0–100</span></th></tr>`;
   tbody.innerHTML = '';
   let models = data.models.filter(m => jurisdictionMatch(m.jurisdiction));
-  if (filter === 'current') models = models.filter(m => m.tier === 'frontier' || m.tier === 'fast');
+  if (filter === 'current') models = models.filter(m => m.tier !== 'legacy');
   else if (filter === 'frontier') models = models.filter(m => m.tier === 'frontier');
   else if (filter === 'fast') models = models.filter(m => m.tier === 'fast');
   else if (filter === 'legacy') models = models.filter(m => m.tier === 'legacy' || m.tier === 'frontier' || m.tier === 'fast');
@@ -1953,7 +1953,7 @@ function renderCapabilityRadar() {
   if (!refModel) { div.innerHTML = '<p class="sect-sub">No reference model selected.</p>'; return; }
 
   const weights = focusWeights();
-  const rated = data.models.filter(m => m.capability_levels && (m.tier === 'frontier' || m.tier === 'fast'));
+  const rated = data.models.filter(m => m.capability_levels && m.tier !== 'legacy');
   if (!currentRadarPrimary) {
     const others = rated.filter(m => m.id !== refModel.id)
                         .map(m => [m, composite(m, weights)])
