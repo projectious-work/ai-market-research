@@ -15,10 +15,11 @@ For the live revision, archived-snapshot policy, and release links, see
 
 ## What this is
 
-Signal Room is inspectable decision support: a manually rebuilt, single static
-dashboard that tracks model rosters, provider-native reasoning configurations,
-speed evidence, agent harnesses, and self-hosting economics, with evidence
-classes and source links kept visible throughout.
+Signal Room is inspectable decision support. The website currently presents a
+static, explicitly labelled dashboard mockup for models, benchmarks,
+capabilities, subscriptions, agent harnesses, and self-hosting. The separate
+research build remains available to maintainers while the new dashboard's live
+data contract is designed section by section.
 
 ## What this is not
 
@@ -32,7 +33,8 @@ classes and source links kept visible throughout.
 ## Deployment architecture
 
 GitHub Pages is fed from the root of the `gh-pages` branch by a local build
-and deploy of this Hugo/Docsy site; no GitHub Actions workflow is used or
+and deploy of this Hugo site using `brand-theme-hugo-vanilla`; no GitHub
+Actions workflow is used or
 permitted. See
 [DEC-20260727_0742-ClearSpring](https://github.com/projectious-work/ai-market-research/blob/main/context/decisions/DEC-20260727_0742-ClearSpring-migrate-the-published-site-from-raw.md),
 which supersedes

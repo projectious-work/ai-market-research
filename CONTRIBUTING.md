@@ -50,7 +50,7 @@ delete the short-lived branch.
 For a release, first ensure `development` is green and includes every intended
 change. Open a release pull request from `development` to `main` and merge it
 with a merge commit. Run the gated release process from `main`, which creates
-the version tag, deploys the Hugo/Docsy site, and publishes the GitHub Release.
+the version tag, deploys the Hugo site, and publishes the GitHub Release.
 Then merge `main` back into `development` so the branches remain aligned.
 
 For an urgent production fix, branch `fix/<short-description>` from `main`.
@@ -77,7 +77,7 @@ affects presentation or data interpretation.
 ## Refresh and deploy
 
 Refresh the JSON inputs and citations manually, run the validation above, and
-then publish the Hugo/Docsy site (which embeds a freshly built report) with:
+then publish the Hugo site with:
 
 ```sh
 bash docs/scripts/deploy-docs.sh --message "deploy: refresh signal room"
@@ -87,7 +87,8 @@ Deployment is a local, non-force push to the `gh-pages` branch. GitHub Actions
 workflows are not permitted in this repository; the deploy script rejects a
 `.github/workflows/` directory. Do not use `--skip-build` unless the exact
 artifact has already been reviewed. Preview locally first with
-`bash docs/scripts/serve-docs.sh` (Hugo + Docsy, port 1313).
+`bash docs/scripts/serve-docs.sh` (Hugo with the pinned projectious.work brand
+theme, port 1320).
 
 Versioned releases use the gated process described in `AGENTS.md`; do not cut
 a tag or invoke the release-cut phase before its preceding gates pass.

@@ -10,6 +10,11 @@ OUT="${ROOT_DIR}/data/releases.json"
 REPO_URL="https://github.com/projectious-work/ai-market-research"
 
 mkdir -p "$(dirname "${OUT}")"
+# Keep the temporary file outside Hugo's watched data directory. Hugo attempts
+# to parse every file created there, even when it has an intentionally unknown
+# temporary suffix.
+TMP_OUT="$(mktemp "${REPO_ROOT}/.releases-json.XXXXXX")"
+trap 'rm -f "${TMP_OUT}"' EXIT
 
 TAGS="$(git -C "${REPO_ROOT}" tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname)"
 
@@ -28,7 +33,12 @@ TAGS="$(git -C "${REPO_ROOT}" tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refna
   done <<< "${TAGS}"
   echo ""
   echo "]"
-} > "${OUT}"
+} > "${TMP_OUT}"
+
+# Hugo watches the data directory while serving. Replace the completed file in
+# one operation so it never observes a partially written JSON document.
+mv "${TMP_OUT}" "${OUT}"
+trap - EXIT
 
 COUNT="$(printf '%s\n' "${TAGS}" | grep -c . || true)"
 echo "wrote ${OUT} (${COUNT} tags)"

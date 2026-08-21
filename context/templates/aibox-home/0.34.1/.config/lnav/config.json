@@ -1,0 +1,104 @@
+{
+  "$schema": "https://lnav.org/schemas/config-v1.schema.json",
+  "ui": {
+    "theme": "aibox",
+    "theme-defs": {
+      "aibox": {
+        "status-styles": {
+          "active": {
+            "background-color": "#3C4245",
+            "color": "#A7C080"
+          },
+          "alert": {
+            "background-color": "#3C4245",
+            "bold": true,
+            "color": "#E67E80"
+          },
+          "inactive": {
+            "background-color": "#3C4245",
+            "color": "#949F97"
+          },
+          "info": {
+            "background-color": "#3C4245",
+            "color": "#83C092"
+          },
+          "text": {
+            "background-color": "#3C4245",
+            "color": "#D3C6AA"
+          },
+          "title": {
+            "background-color": "#7FBBB3",
+            "bold": true,
+            "color": "#000000"
+          },
+          "warn": {
+            "background-color": "#3C4245",
+            "bold": true,
+            "color": "#DBBC7F"
+          }
+        },
+        "styles": {
+          "alt-text": {
+            "color": "#949F97",
+            "italic": true
+          },
+          "disabled-focused": {
+            "background-color": "#3C4245",
+            "color": "#949F97"
+          },
+          "error": {
+            "bold": true,
+            "color": "#E67E80"
+          },
+          "focused": {
+            "background-color": "#476061",
+            "color": "#FFFFFF"
+          },
+          "identifier": {
+            "color": "#7FBBB3"
+          },
+          "info": {
+            "color": "#83C092"
+          },
+          "invalid-msg": {
+            "bold": true,
+            "color": "#E67E80",
+            "underline": false
+          },
+          "ok": {
+            "color": "#A7C080"
+          },
+          "popup": {
+            "background-color": "#3C4245",
+            "color": "#D3C6AA"
+          },
+          "selected-text": {
+            "background-color": "#476061",
+            "color": "#FFFFFF"
+          },
+          "table-border": {
+            "color": "#7FBBB3"
+          },
+          "text": {
+            "background-color": "#2D353B",
+            "color": "#D3C6AA"
+          },
+          "warning": {
+            "bold": true,
+            "color": "#DBBC7F"
+          }
+        },
+        "vars": {
+          "black": "#2D353B",
+          "blue": "#7FBBB3",
+          "cyan": "#83C092",
+          "green": "#A7C080",
+          "magenta": "#E69875",
+          "red": "#E67E80",
+          "white": "#D3C6AA",
+          "yellow": "#DBBC7F"
+        }
+      }
+    }
+  }
+}

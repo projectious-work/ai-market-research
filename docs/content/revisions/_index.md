@@ -11,11 +11,11 @@ below, generated from the repository's git tags rather than hand-maintained
 
 ## Current revision
 
-**main** is the actively maintained site. It contains the current Signal Room,
+**main** is the actively maintained site. It contains the current Dashboard,
 current methodology, and the latest research-data policy. It is the revision to
 use for decisions and new work.
 
-- [Open the current Signal Room]({{< relref "/report" >}})
+- [Open the current Dashboard]({{< relref "/dashboard" >}})
 - [Read the current documentation]({{< relref "/docs" >}})
 - [See the latest tagged release](https://github.com/projectious-work/ai-market-research/releases/latest)
 

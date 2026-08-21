@@ -15,19 +15,13 @@ Placeholders:
 Idempotent. Re-running produces the same bytes when inputs and the git tag
 are unchanged.
 
-Besides dist/dashboard.html (the monolithic, self-contained artifact used
-for direct/offline viewing and as the GitHub release asset), this also
-splits the same template into the pieces the Hugo/Docsy site embeds
-natively per Signal Room page instead of iframing the whole file:
-  docs/static/report/report.css              — the <style> block, shared
-  docs/static/report/report.js                — the <script> block, shared
-  docs/static/report/sections/<slug>.html      — one per tab panel, each with
-                                                  its own embedded market-data
+The only output is dist/dashboard.html: the monolithic, self-contained artifact
+used for direct/offline viewing and as the GitHub release asset. The Hugo site
+has its own theme-native, mock-data dashboard and does not embed this artifact.
 """
 from __future__ import annotations
 
 import json
-import re
 import subprocess
 import sys
 from pathlib import Path
@@ -41,20 +35,6 @@ OUTPUT = ROOT / "dist" / "dashboard.html"
 DATA_PLACEHOLDER = "__MARKET_DATA__"
 VERSION_PLACEHOLDER = "__APP_VERSION__"
 BUILD_PLACEHOLDER = "__BUILD_ID__"
-
-REPORT_STATIC_DIR = ROOT / "docs" / "static" / "report"
-SECTIONS_DIR = REPORT_STATIC_DIR / "sections"
-
-# tab-panel id (in the template) -> Signal Room section slug (in the Hugo site)
-SECTION_SLUGS = [
-    ("dashboard", "00-now"),
-    ("models", "01-market-economics"),
-    ("harnesses", "02-tools"),
-    ("self-hosting", "03-infrastructure"),
-    ("strategy", "04-decisions"),
-    ("sources", "05-evidence"),
-]
-
 
 def latest_tag() -> str:
     try:
@@ -78,121 +58,6 @@ def build_id() -> str:
         return out or "unknown"
     except (subprocess.CalledProcessError, FileNotFoundError):
         return "unknown"
-
-
-def extract_between(template: str, start_marker: str, end_marker: str) -> str:
-    start = template.index(start_marker) + len(start_marker)
-    end = template.index(end_marker, start)
-    return template[start:end].strip() + "\n"
-
-
-REPORT_SCOPE_CLASS = "sr-report-scope"
-
-
-def scope_css(css: str, scope_selector: str) -> str:
-    """Rewrite report.css so every rule only applies inside `scope_selector`.
-
-    The monolithic dist/dashboard.html owns the whole document (html, body,
-    bare `a`/`table`/`th` selectors, a `:root` theme, etc.) by design. When
-    the same stylesheet is loaded on a Hugo page instead, those bare/root
-    rules leak onto the entire site -- Docsy's own navbar font size, page
-    overflow behavior, and colors all get silently overridden. This makes
-    every top-level rule descend from `scope_selector` instead, and folds
-    `html`/`body`/`:root` rules onto the scope element itself so its own
-    background/font/reset still applies to the embedded fragment's subtree.
-
-    Only handles the shapes this stylesheet actually uses: plain rules,
-    `@media`/`@supports` (recursed into), and other at-rules (`@font-face`,
-    `@keyframes`, `@import`) left untouched since their internals aren't
-    selector lists. Not a general CSS parser.
-    """
-    out = []
-    i = 0
-    n = len(css)
-    while i < n:
-        brace_pos = css.find("{", i)
-        if brace_pos == -1:
-            out.append(css[i:])
-            break
-        header = css[i:brace_pos]
-        depth = 1
-        j = brace_pos + 1
-        while depth > 0 and j < n:
-            if css[j] == "{":
-                depth += 1
-            elif css[j] == "}":
-                depth -= 1
-            j += 1
-        body = css[brace_pos + 1:j - 1]
-        # A comment immediately before a selector is part of `header` in this
-        # lightweight parser. If left in place, `/* note */ :root` becomes
-        # `.sr-report-scope /* note */ :root`, an impossible descendant
-        # selector that silently disables the report's newer token block.
-        # Preserve comments as standalone output, but classify and rewrite
-        # only the actual selector / at-rule text.
-        comments = re.findall(r"/\*.*?\*/", header, flags=re.DOTALL)
-        clean_header = re.sub(r"/\*.*?\*/", "", header,
-                              flags=re.DOTALL)
-        header_stripped = clean_header.strip()
-        comment_prefix = "".join(comments)
-
-        if header_stripped.startswith(("@media", "@supports")):
-            out.append(
-                f"{comment_prefix}{clean_header}"
-                f"{{{scope_css(body, scope_selector)}}}"
-            )
-        elif header_stripped.startswith("@"):
-            out.append(f"{comment_prefix}{clean_header}{{{body}}}")
-        else:
-            new_selectors = []
-            for sel in clean_header.split(","):
-                sel = sel.strip()
-                if not sel:
-                    continue
-                if sel in ("html", "body", ":root"):
-                    new_selectors.append(scope_selector)
-                else:
-                    new_selectors.append(f"{scope_selector} {sel}")
-            out.append(
-                f"{comment_prefix}{', '.join(new_selectors)} {{{body}}}"
-            )
-        i = j
-    return "".join(out)
-
-
-def extract_section_html(template: str, tab_id: str) -> str:
-    pattern = re.compile(
-        r'<section class="tab-panel(?: active)?" id="tab-' + re.escape(tab_id) + r'">.*?</section>',
-        re.DOTALL,
-    )
-    match = pattern.search(template)
-    if not match:
-        sys.exit(f"template section tab-{tab_id} not found")
-    return match.group(0)
-
-
-def write_report_fragments(template: str, minified_data: str) -> None:
-    css = extract_between(template, "<style>\n", "\n</style>")
-    js = extract_between(template, "<!-- ===== JAVASCRIPT ===== -->\n<script>\n", "\n</script>\n\n</body>")
-    scoped_css = scope_css(css, f".{REPORT_SCOPE_CLASS}")
-
-    REPORT_STATIC_DIR.mkdir(parents=True, exist_ok=True)
-    (REPORT_STATIC_DIR / "report.css").write_text(scoped_css, encoding="utf-8")
-    (REPORT_STATIC_DIR / "report.js").write_text(js, encoding="utf-8")
-
-    SECTIONS_DIR.mkdir(parents=True, exist_ok=True)
-    for tab_id, slug in SECTION_SLUGS:
-        section_html = extract_section_html(template, tab_id)
-        fragment = (
-            f'<div class="{REPORT_SCOPE_CLASS}">\n'
-            f'<script id="market-data" type="application/json">{minified_data}</script>\n'
-            f"{section_html}\n"
-            f"</div>\n"
-        )
-        (SECTIONS_DIR / f"{slug}.html").write_text(fragment, encoding="utf-8")
-
-    print(f"built {len(SECTION_SLUGS)} report section fragments "
-          f"under {SECTIONS_DIR.relative_to(ROOT)}")
 
 
 def main() -> int:
@@ -247,7 +112,6 @@ def main() -> int:
           f"({OUTPUT.stat().st_size:,} bytes, "
           f"release={version}, build={commit})")
 
-    write_report_fragments(template, minified)
     return 0
 
 

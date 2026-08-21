@@ -1,22 +1,25 @@
 {{- /*
-  Renders the full generated release list (data/releases.json, produced by
-  scripts/generate-releases-data.sh from real git tags). Used on the
-  Revisions page instead of the old archived-revision.html placeholder.
+  Renders the generated release list (data/releases.json, produced by
+  scripts/generate-releases-data.sh). The upstream theme's table render hook
+  cannot iterate generated data, so this small shortcode supplies the rows
+  while matching its `.tablewrap` accessibility and overflow primitive.
 */ -}}
-{{- $releases := .Site.Data.releases | default slice -}}
+{{- $releases := hugo.Data.releases | default slice -}}
 {{- if eq (len $releases) 0 -}}
   <p><em>No tagged releases yet.</em></p>
 {{- else -}}
-<table>
-  <thead><tr><th>Release</th><th>Date</th><th>Assets</th></tr></thead>
-  <tbody>
-  {{- range $releases }}
-    <tr>
-      <td><a href="{{ .url | safeURL }}" target="_blank" rel="noopener">{{ .tag }}</a></td>
-      <td>{{ with .date }}{{ dateFormat "2 Jan 2006" . }}{{ end }}</td>
-      <td><a href="{{ .url | safeURL }}" target="_blank" rel="noopener">dashboard.html, LICENSE, source archive</a></td>
-    </tr>
-  {{- end }}
-  </tbody>
-</table>
+<div class="tablewrap" tabindex="0" role="region" aria-label="Release history">
+  <table>
+    <thead><tr><th>Release</th><th>Date</th><th>Assets</th></tr></thead>
+    <tbody>
+    {{- range $releases }}
+      <tr>
+        <td><a href="{{ .url | safeURL }}" target="_blank" rel="noopener noreferrer">{{ .tag }}</a></td>
+        <td>{{ with .date }}{{ dateFormat "2 Jan 2006" . }}{{ end }}</td>
+        <td><a href="{{ .url | safeURL }}" target="_blank" rel="noopener noreferrer">dashboard.html, LICENSE, source archive</a></td>
+      </tr>
+    {{- end }}
+    </tbody>
+  </table>
+</div>
 {{- end -}}
