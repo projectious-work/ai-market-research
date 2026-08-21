@@ -1,96 +1,32 @@
----
-title: Signal Room
-description: "Inspectable decision support for AI infrastructure-oriented developers choosing models, configurations, subscriptions, agent harnesses, and self-hosting options."
-params:
-  body_class: td-navbar-links-all-active td-report-page
-  show_report_controls: true
-  ui:
-    navbar_theme: dark
----
++++
+title = "Signal Room"
+description = "A clear starting point for exploring model, harness, and self-hosting research."
+eyebrow = "Inspectable AI infrastructure research"
+tagline = "A calm way to explore model comparisons, agent harnesses, subscriptions, and self-hosting notes."
+[[cta]]
+  label = "Open the Dashboard"
+  href = "/dashboard/"
+[[cta]]
+  label = "Read the Documentation"
+  href = "/docs/"
+  variant = "secondary"
++++
 
-{{% blocks/cover
-  title="What should you run at what cost?"
-  image_anchor="top"
-  height="full td-below-navbar"
-%}}
+## Explore the research
 
-<div class="sr-status-banner" role="note">
-  <span class="sr-status-banner__tag">Active</span>
-  <span class="sr-status-banner__text">
-    Applied research, actively maintained.
-  </span>
-</div>
+{{< cards cols="3" >}}
+  {{< card title="Dashboard" subtitle="Browse the model, harness, and self-hosting views. New dashboard values are labelled static examples." link="/dashboard/" icon="list" >}}
+  {{< card title="Documentation" subtitle="Read the methodology, source policy, quickstart, and maintained source register." link="/docs/" icon="book" >}}
+  {{< card title="Change Log" subtitle="Follow dated entries generated from the repository changelog, including updates and corrections." link="/changelog/" icon="clock" >}}
+{{< /cards >}}
 
-Signal Room tracks a selection of high-impact models, provider-native reasoning
-configurations, speed evidence, agent harnesses, and self-hosting economics.
-{.lead .display-6}
+## Evidence stays visible
 
-<div class="td-cta-buttons my-5">
-  <a class="btn btn-lg btn-primary me-3" href="{{< relref "/report" >}}">
-    Open the Signal Room
-  </a>
-  <a class="btn btn-lg btn-secondary" href="{{< relref "/docs" >}}">
-    Read the methodology
-  </a>
-</div>
+Published research keeps its evidence class, source link, and caveat visible.
+Numbers in the new Dashboard views are intentionally marked as examples until
+the live data presentation is connected to this information architecture.
 
-{{% /blocks/cover %}}
-
-{{% blocks/section color="light" type="row" %}}
-
-{{% blocks/feature icon="fa-layer-group" title="Model roster & configurations" %}}
-
-Anthropic, OpenAI, Google, xAI, Meta, Mistral, Cursor, and major Chinese labs,
-with provider-native reasoning effort, thinking levels, and token budgets.
-
-[Read the data methodology]({{< relref "/docs/data-methodology" >}})
-
-{{% /blocks/feature %}}
-
-{{% blocks/feature icon="fa-gauge-high" title="Speed & cost evidence" %}}
-
-Time to first token, output throughput, task latency, and quota-burn cross
-matrices -- vendor claims and unknowns are labelled, never blended together.
-
-[Open the Signal Room]({{< relref "/report" >}})
-
-{{% /blocks/feature %}}
-
-{{% blocks/feature icon="fa-server" title="Agent harnesses & self-hosting" %}}
-
-Claude Code, OpenCode, Codex CLI, and more, alongside dated GPU-hosting prices,
-local Mac configurations, and open-weight model fit.
-
-[Read the research-data policy]({{< relref "/docs/research-data-policy" >}})
-
-{{% /blocks/feature %}}
-
-{{% /blocks/section %}}
-
-{{% blocks/lead color="white" %}}
-
-Choosing a model, a reasoning configuration, an agent harness, or a self-hosting
-setup means comparing vendor claims that are rarely apples to apples. Signal
-Room is a non-exhaustive, inspectable report: every number is either measured,
-vendor-reported, or explicitly marked unknown, and every claim keeps a
-canonical source link.
-
-{{% /blocks/lead %}}
-
-<div class="container-fluid sr-now-section">
-
-{{< report-section "00-now" >}}
-
-</div>
-
-{{% blocks/section color="primary" type="row" %}}
-
-<div class="col-lg-8">
-<h2>Inspect the evidence, not just the conclusion</h2>
-<p class="lead">Every figure in the report traces back to an evidence class, a source, and an update date. Use it to reach your own conclusion, not to take ours on faith.</p>
-</div>
-<div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
-<a class="btn btn-lg btn-light" href="{{< relref "/report" >}}">Open the Signal Room</a>
-</div>
-
-{{% /blocks/section %}}
+{{< callout type="info" title="Mock data notice" >}}
+The Dashboard is currently a static information-architecture fixture. Its
+labels, rows, and values are examples rather than current market claims.
+{{< /callout >}}

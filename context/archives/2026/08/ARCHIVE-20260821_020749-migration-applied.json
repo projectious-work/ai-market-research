@@ -1,0 +1,294 @@
+{
+  "archive_id": "ARCHIVE-20260821_020749-migration-applied",
+  "archive_path": "context/archives/2026/08/ARCHIVE-20260821_020749-migration-applied.tar.gz",
+  "created_at": "2026-08-21T02:07:49+00:00",
+  "entities": [
+    {
+      "apiVersion": "processkit.projectious.work/v2",
+      "body_index": "## Plan\n\n1. Dry-run the four explicit old-to-new identifier mappings and confirm target IDs are unused.\n2. Rename each active Binding file and metadata.id to a deterministic semantic ID while leaving its relationship spec unchanged.\n3. Emit entity.renamed audit events mapping every old ID to its new ID; do not rewrite append-only historical logs.\n4. Reindex, verify RoleSlot resolution, run Binding schema/storage checks, and apply this Migration.\n\n## Rollback\n\nReverse the four filename and metadata.id mappings, reindex, and emit correcting entity.renamed events. Historical LogEntries remain untouched in both directions.\n",
+      "id": "MIG-20260721_1236-DaringRaven-normalize-active-roleslot-binding-identifiers",
+      "kind": "Migration",
+      "labels": {},
+      "member_path": "context/migrations/applied/MIG-20260721_1236-DaringRaven-normalize-active-roleslot-binding-identifiers.md",
+      "metadata": {
+        "created": "2026-07-21T12:36:58+00:00",
+        "id": "MIG-20260721_1236-DaringRaven-normalize-active-roleslot-binding-identifiers",
+        "updated": "2026-07-21T13:28:25+00:00"
+      },
+      "original_path": "context/migrations/applied/MIG-20260721_1236-DaringRaven-normalize-active-roleslot-binding-identifiers.md",
+      "sha256": "9b993cf2d5b138a1bbc0485f3505429e44cc58c457cea2de2001aa614862ad98",
+      "spec": {
+        "affected_files": [
+          {
+            "classification": "changed-locally-only",
+            "path": "context/bindings/BIND-20260516_0934-AlertAnchor-role-slot-fill.md"
+          },
+          {
+            "classification": "changed-locally-only",
+            "path": "context/bindings/BIND-20260516_0934-FluentStar-role-slot-fill.md"
+          },
+          {
+            "classification": "changed-locally-only",
+            "path": "context/bindings/BIND-20260516_0934-KindSummit-role-slot-fill.md"
+          },
+          {
+            "classification": "changed-locally-only",
+            "path": "context/bindings/BIND-20260516_0934-MindfulSage-role-slot-fill.md"
+          }
+        ],
+        "affected_groups": [],
+        "applied_at": "2026-07-21T13:28:25+00:00",
+        "apply_mode": "one-shot",
+        "generated_at": "2026-07-21T12:36:58+00:00",
+        "generated_by": "migration-management.draft_migration",
+        "kind": "data-fix",
+        "plan": "",
+        "progress_notes": [
+          {
+            "actor": "mcp",
+            "note": "Renamed four active RoleSlot Bindings to deterministic IDs, emitted entity.renamed audit mappings, reindexed with zero parse errors, and verified binding/storage checks are clean.",
+            "timestamp": "2026-07-21T13:28:25+00:00"
+          }
+        ],
+        "related_decisions": [
+          "DEC-20260721_1235-StrongCrow-resolve-pk-doctor-findings-without-rewriting"
+        ],
+        "source": "local-project",
+        "source_api_version": "processkit.projectious.work/v2",
+        "source_processkit_version": "2.0.0-alpha.1",
+        "started_at": "2026-07-21T12:37:04+00:00",
+        "state": "applied",
+        "summary": "Normalize active RoleSlot Binding identifiers",
+        "target_api_version": "processkit.projectious.work/v2",
+        "target_processkit_version": "2.0.0-alpha.1"
+      },
+      "storage_location": "context/archives/2026/08/ARCHIVE-20260821_020749-migration-applied.tar.gz::context/migrations/applied/MIG-20260721_1236-DaringRaven-normalize-active-roleslot-binding-identifiers.md"
+    },
+    {
+      "apiVersion": "processkit.projectious.work/v2",
+      "body_index": "## Plan\n\n1. Dry-run the three-value vocabulary extension against the composed LogEntry schema.\n2. Add role_slot.created, role_slot.filled, and role_slot.closed to the authoritative source and compatibility schema.\n3. Regenerate the committed LogEntry schema output and confirm only the declared vocabulary changes.\n4. Reload schema caches, run schema-vocabulary checks, and apply this Migration.\n\n## Rollback\n\nRemove only the three added values, regenerate the output, reload caches, and record a correcting Migration. Existing append-only logs are never edited.\n",
+      "id": "MIG-20260721_1236-HappyRobin-declare-canonical-roleslot-lifecycle-event-types",
+      "kind": "Migration",
+      "labels": {},
+      "member_path": "context/migrations/applied/MIG-20260721_1236-HappyRobin-declare-canonical-roleslot-lifecycle-event-types.md",
+      "metadata": {
+        "created": "2026-07-21T12:36:58+00:00",
+        "id": "MIG-20260721_1236-HappyRobin-declare-canonical-roleslot-lifecycle-event-types",
+        "updated": "2026-07-21T13:28:25+00:00"
+      },
+      "original_path": "context/migrations/applied/MIG-20260721_1236-HappyRobin-declare-canonical-roleslot-lifecycle-event-types.md",
+      "sha256": "e5bff37a9ad7fcb07dced470184ce40e13043b735599ac198d01f67344e1dc11",
+      "spec": {
+        "affected_files": [
+          {
+            "classification": "changed-locally-only",
+            "path": "context/schemas/src/compositions/logentry.yaml"
+          },
+          {
+            "classification": "changed-locally-only",
+            "path": "context/schemas/_generated/logentry.yaml"
+          },
+          {
+            "classification": "changed-locally-only",
+            "path": "context/schemas/logentry.yaml"
+          }
+        ],
+        "affected_groups": [],
+        "applied_at": "2026-07-21T13:28:25+00:00",
+        "apply_mode": "one-shot",
+        "generated_at": "2026-07-21T12:36:58+00:00",
+        "generated_by": "migration-management.draft_migration",
+        "kind": "schema-extension",
+        "plan": "",
+        "progress_notes": [
+          {
+            "actor": "mcp",
+            "note": "Added three canonical RoleSlot lifecycle event types, regenerated the LogEntry schema, reloaded caches, and verified pk-doctor schema vocabulary is clean.",
+            "timestamp": "2026-07-21T13:28:25+00:00"
+          }
+        ],
+        "related_decisions": [
+          "DEC-20260721_1235-StrongCrow-resolve-pk-doctor-findings-without-rewriting"
+        ],
+        "source": "local-project",
+        "source_api_version": "processkit.projectious.work/v2",
+        "source_processkit_version": "2.0.0-alpha.1",
+        "started_at": "2026-07-21T12:37:04+00:00",
+        "state": "applied",
+        "summary": "Declare canonical RoleSlot lifecycle event types",
+        "target_api_version": "processkit.projectious.work/v2",
+        "target_processkit_version": "2.0.0-alpha.1"
+      },
+      "storage_location": "context/archives/2026/08/ARCHIVE-20260821_020749-migration-applied.tar.gz::context/migrations/applied/MIG-20260721_1236-HappyRobin-declare-canonical-roleslot-lifecycle-event-types.md"
+    },
+    {
+      "apiVersion": "processkit.projectious.work/v1",
+      "body_index": "# Migration MIG-20260721_0918-ContentSync-processkit-content-sync\n\nFrom `v0.27.1` to `v0.27.5` (source: `https://github.com/projectious-work/processkit.git`).\n\n0 changed upstream, 0 conflicts, 17 new, 0 removed, 0 stale-removed (5 groups affected)\n\n## Counts\n\n- unchanged: 706\n- changed-locally-only: 1\n- changed-upstream-only: 0\n- conflict: 0\n- new-upstream: 17\n- removed-upstream: 0\n- removed-upstream-stale: 0\n\n## Changes by group\n\n### AGENTS\n\n**changed-locally-only**\n\n- `AGENTS.md` \u2192 `AGENTS.md`\n\n### lib\n\n**new-upstream**\n\n- `context/skills/_lib/processkit/schema_generation.py` \u2192 `context/skills/_lib/processkit/schema_generation.py`\n\n### schemas/_generated\n\n**new-upstream**\n\n- `context/schemas/_generated/binding.yaml` \u2192 `context/schemas/_generated/binding.yaml`\n- `context/schemas/_generated/decisionrecord.yaml` \u2192 `context/schemas/_generated/decisionrecord.yaml`\n- `context/schemas/_generated/workitem.yaml` \u2192 `context/schemas/_generated/workitem.yaml`\n- `context/schemas/_generated/logentry.yaml` \u2192 `context/schemas/_generated/logentry.yaml`\n\n### schemas/src\n\n**new-upstream**\n\n- `context/schemas/src/fragments/record.yaml` \u2192 `context/schemas/src/fragments/record.yaml`\n- `context/schemas",
+      "id": "MIG-20260721_0918-ContentSync-processkit-content-sync",
+      "kind": "Migration",
+      "labels": {},
+      "member_path": "context/migrations/applied/MIG-20260721_0918-ContentSync-processkit-content-sync.md",
+      "metadata": {
+        "created": "2026-07-21T09:18:49+00:00",
+        "id": "MIG-20260721_0918-ContentSync-processkit-content-sync",
+        "updated": "2026-07-21T10:05:24+00:00"
+      },
+      "original_path": "context/migrations/applied/MIG-20260721_0918-ContentSync-processkit-content-sync.md",
+      "sha256": "c5443b68c65a30e6c38a2aa1090da7de6fd44c2305f41d999de7449362d1be2f",
+      "spec": {
+        "affected_files": [
+          {
+            "classification": "changed-locally-only",
+            "path": "AGENTS.md"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/_generated/binding.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/_generated/decisionrecord.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/_generated/logentry.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/_generated/workitem.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/compositions/decisionrecord.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/compositions/logentry.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/fragments/entity.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/fragments/generation.yaml.j2"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/fragments/record.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/fragments/relationship.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/fragments/versioned.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/primitives/binding.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/primitives/workitem.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/registry.yaml"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/schemas/src/templates/schema.yaml.j2"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/_lib/processkit/schema_generation.py"
+          },
+          {
+            "classification": "new-upstream",
+            "path": "context/skills/processkit/repository-portfolio-review/SKILL.md"
+          }
+        ],
+        "affected_groups": [
+          "AGENTS",
+          "lib",
+          "schemas/_generated",
+          "schemas/src",
+          "skills/processkit"
+        ],
+        "applied_at": "2026-07-21T10:05:24+00:00",
+        "from_version": "v0.27.1",
+        "generated_at": "2026-07-21T09:18:49+00:00",
+        "generated_by": "aibox apply",
+        "progress_notes": [
+          {
+            "actor": "mcp",
+            "note": "Verified installer-applied processkit v0.27.1\u2192v0.27.5 content sync: 17 upstream additions present, zero conflicts/removals, and local-only AGENTS.md preserved.",
+            "timestamp": "2026-07-21T10:05:24+00:00"
+          }
+        ],
+        "source": "processkit",
+        "source_url": "https://github.com/projectious-work/processkit.git",
+        "started_at": "2026-07-21T10:05:24+00:00",
+        "state": "applied",
+        "summary": "0 changed upstream, 0 conflicts, 17 new, 0 removed, 0 stale-removed (5 groups affected)",
+        "to_version": "v0.27.5"
+      },
+      "storage_location": "context/archives/2026/08/ARCHIVE-20260821_020749-migration-applied.tar.gz::context/migrations/applied/MIG-20260721_0918-ContentSync-processkit-content-sync.md"
+    },
+    {
+      "apiVersion": "processkit.projectious.work/v1",
+      "body_index": "# Migration MIG-20260717_1210-RuntimeSync-aibox-runtime\n\nManaged `.aibox-home/` runtime changes from `0.27.2` to `0.27.5`.\n\n0 changed upstream, 0 conflicts, 1 new, 1 removed (2 groups affected)\n\n## Counts\n\n- unchanged: 41\n- changed-locally-only: 0\n- changed-upstream-only: 0\n- conflict: 0\n- new-upstream: 1\n- removed-upstream: 1\n\n- removed-upstream-stale: 0\n\n## Changes by group\n\n### runtime-claude\n\n**removed-upstream**\n\n- `.aibox-home/.claude/keybindings.json` -> `.aibox-home/.claude/keybindings.json`\n\n### runtime-git\n\n**new-upstream**\n\n- `.aibox-home/.config/git/aibox-github.inc` -> `.aibox-home/.config/git/aibox-github.inc`\n",
+      "id": "MIG-20260717_1210-RuntimeSync-aibox-runtime",
+      "kind": "Migration",
+      "labels": {},
+      "member_path": "context/migrations/applied/MIG-20260717_1210-RuntimeSync-aibox-runtime.md",
+      "metadata": {
+        "created": "2026-07-17T12:10:31+00:00",
+        "id": "MIG-20260717_1210-RuntimeSync-aibox-runtime",
+        "updated": "2026-07-17T12:19:41+00:00"
+      },
+      "original_path": "context/migrations/applied/MIG-20260717_1210-RuntimeSync-aibox-runtime.md",
+      "sha256": "7852fe5271db7b29c6561b4473c24441739337e24b65d2adb5e6f405534bb8cb",
+      "spec": {
+        "affected_files": [
+          {
+            "classification": "removed-upstream",
+            "path": ".claude/keybindings.json"
+          },
+          {
+            "classification": "new-upstream",
+            "path": ".config/git/aibox-github.inc"
+          }
+        ],
+        "affected_groups": [
+          "runtime-claude",
+          "runtime-git"
+        ],
+        "applied_at": "2026-07-17T12:19:41+00:00",
+        "from_version": "0.27.2",
+        "generated_at": "2026-07-17T12:10:31+00:00",
+        "generated_by": "aibox apply",
+        "progress_notes": [
+          {
+            "actor": "mcp",
+            "note": "Applied unambiguous aibox runtime synchronization: no conflicts or locally changed files.",
+            "timestamp": "2026-07-17T12:19:41+00:00"
+          }
+        ],
+        "source": "aibox-runtime-home",
+        "source_url": "aibox://runtime-home",
+        "started_at": "2026-07-17T12:19:41+00:00",
+        "state": "applied",
+        "summary": "0 changed upstream, 0 conflicts, 1 new, 1 removed (2 groups affected)",
+        "to_version": "0.27.5"
+      },
+      "storage_location": "context/archives/2026/08/ARCHIVE-20260821_020749-migration-applied.tar.gz::context/migrations/applied/MIG-20260717_1210-RuntimeSync-aibox-runtime.md"
+    }
+  ],
+  "kind": "Migration",
+  "older_than_days": 30,
+  "sha256": "0cab2ab2f57bf43b2f1aefb5825bf8b6002fc2a972305c2dae0d042b10102a25",
+  "state": "applied"
+}

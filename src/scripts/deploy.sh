@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deprecated: the published site is now the Hugo/Docsy site built by
+# Deprecated: the published site is now the branded Hugo site built by
 # docs/scripts/build-docs.sh, not a raw dist/dashboard.html copied to gh-pages
 # root. This wrapper delegates to docs/scripts/deploy-docs.sh so existing
 # callers (and muscle memory) keep working.

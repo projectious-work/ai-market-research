@@ -1743,7 +1743,7 @@ details .detail-body {
   --text-dim: var(--pj-slate-11, #5c6f82);
   --text-faint: var(--pj-slate-11, #5c6f82);
   /* Orange step 11 is the brand's accessible low-text accent. Identity
-     orange remains available to Docsy as --pj-orange-9. */
+     orange remains available as --pj-orange-9. */
   --accent: var(--pj-orange-11, #c04424);
   --accent-solid: var(--pj-accent-solid, #cc4528);
   --accent-hot: var(--pj-orange-11, #c04424);
@@ -1906,9 +1906,8 @@ th[data-sort-dir='desc']::after { content:'  ↓'; color:#e05232; }
 /*
  * The structural dashboard rules above own layout and data visualisation.
  * This final layer owns every visual-system decision: brand tokens, type
- * roles, surfaces, controls, focus, and readable light/dark text. In Docsy,
- * build.py scopes :root to .sr-report-scope; the --pj-* values therefore
- * follow the site's active Bootstrap colour mode automatically.
+ * roles, surfaces, controls, focus, and readable light/dark text. The
+ * standalone report owns its complete colour-mode implementation.
  */
 html, body {
   font-size: 14px;

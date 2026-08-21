@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Generate Docsy blog posts from the Signal Room data changelog.
+"""Generate theme-native release notes from the Signal Room data changelog.
 
 data/market-state.json's `changelog` array is the single source of truth
 for "what changed and when" (model additions, benchmark refreshes, fixes).
 Rather than maintaining a separate hand-written news feed, this generates
-one blog post per entry so the changelog gets a proper dated, tagged,
-RSS-syndicated news section for free. Regenerated on every build --
+one change-log entry per item so the site gets a proper dated, tagged,
+RSS-syndicated release-history section. Regenerated on every build --
 never hand-edit the output.
 """
 from __future__ import annotations
@@ -17,7 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "market-state.json"
-OUT_DIR = ROOT / "docs" / "content" / "blog"
+OUT_DIR = ROOT / "docs" / "content" / "changelog"
 
 TAG_LABELS = {
     "model": "Model roster",

@@ -6,8 +6,9 @@ description: "Build the report, validate the data, and open it locally."
 ---
 
 Requires `python3`, `bash`, `git`, and (for deploys) the `gh` CLI. Building
-and serving the Hugo/Docsy site additionally requires `hugo` (extended) and
-`node`/`npm`.
+and serving the website additionally requires Hugo Extended, Go, and
+Node.js/npm. Go resolves the pinned theme module; npm supplies Tailwind and
+Tabler Icons.
 
 ## Build the report
 
@@ -25,18 +26,18 @@ xdg-open dist/dashboard.html
 ## Build and serve the documentation site
 
 ```sh
-# Serve the Hugo/Docsy site locally at http://localhost:1313/, embedding a
-# freshly built report
+# Serve the projectious.work-branded site at http://localhost:1320/
 bash docs/scripts/serve-docs.sh
 
 # Produce a production build under docs/public/
 bash docs/scripts/build-docs.sh
 ```
 
-`docs/scripts/build-docs.sh` and `docs/scripts/serve-docs.sh` both rebuild
-`dist/dashboard.html` via `src/scripts/build.sh` and copy it to
-`static/report/dashboard.html` before invoking Hugo, so the embedded report in
-[Signal Room]({{< relref "/report" >}}) always reflects the current data.
+The website consumes the exact
+`github.com/projectious-work/brand-theme-hugo-vanilla@v0.3.3` Hugo Module.
+Its [Dashboard]({{< relref "/dashboard" >}}) intentionally contains labelled
+mock data while each future live section receives its own evidence and filter
+contract. Build the separate research artifact with `src/scripts/build.sh`.
 
 ## Deploy
 

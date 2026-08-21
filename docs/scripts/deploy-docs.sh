@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the Hugo/Docsy site (which embeds a freshly built report) and publish
+# Build the Hugo site with the pinned projectious.work brand theme and publish
 # it to GitHub Pages from a local checkout.
 #
 # This repository intentionally uses branch-based Pages. This script does not
@@ -115,8 +115,9 @@ else
 fi
 
 [ -s "${BUILD_DIR}/index.html" ] || { echo "fatal: ${BUILD_DIR}/index.html is missing or empty" >&2; exit 1; }
-[ -s "${BUILD_DIR}/report/report.js" ] || { echo "fatal: ${BUILD_DIR}/report/report.js is missing or empty" >&2; exit 1; }
-[ -s "${BUILD_DIR}/report/01-market-economics/index.html" ] || { echo "fatal: ${BUILD_DIR}/report/01-market-economics/index.html is missing or empty" >&2; exit 1; }
+[ -s "${BUILD_DIR}/dashboard/index.html" ] || { echo "fatal: ${BUILD_DIR}/dashboard/index.html is missing or empty" >&2; exit 1; }
+[ -s "${BUILD_DIR}/docs/index.html" ] || { echo "fatal: ${BUILD_DIR}/docs/index.html is missing or empty" >&2; exit 1; }
+[ -s "${BUILD_DIR}/changelog/index.html" ] || { echo "fatal: ${BUILD_DIR}/changelog/index.html is missing or empty" >&2; exit 1; }
 
 echo "[2/6] preparing ${PAGES_BRANCH} worktree"
 git fetch --quiet "$REMOTE" "$PAGES_BRANCH" 2>/dev/null || true
@@ -219,5 +220,5 @@ SITE_URL="$(printf '%s' "$PAGES_JSON" | python3 -c \
 echo
 echo "deploy ok"
 echo "site:   $SITE_URL"
-echo "report: ${SITE_URL%/}/report/"
+echo "dashboard: ${SITE_URL%/}/dashboard/"
 echo "source: $PAGES_BRANCH:/"

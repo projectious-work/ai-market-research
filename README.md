@@ -27,10 +27,10 @@
 ---
 
 **Site:** <https://projectious-work.github.io/ai-market-research/>
-**Signal Room report:** <https://projectious-work.github.io/ai-market-research/report/>
+**Dashboard:** <https://projectious-work.github.io/ai-market-research/dashboard/>
 **Latest release:** [![Latest release](https://img.shields.io/github/v/release/projectious-work/ai-market-research?label=%20&color=E05232)](https://github.com/projectious-work/ai-market-research/releases/latest)
 
-[![Signal Room starting page](docs/readme-assets/signal-room-start.png)](https://projectious-work.github.io/ai-market-research/report/)
+[![Signal Room starting page](docs/readme-assets/signal-room-start.png)](https://projectious-work.github.io/ai-market-research/dashboard/)
 
 ## What this is
 
@@ -56,10 +56,10 @@ for the full breakdown, formulas, and evidence classes.
 - `src/dashboard.template.html` + `src/scripts/build.py` — validate and embed
   the JSON inputs into a single self-contained `dist/dashboard.html`. No
   JavaScript framework, build chain, or runtime CDN dependency.
-- `content/` `assets/` `layouts/` `static/` — the Hugo + Docsy documentation
-  site, styled from the
-  [projectious.work brand system](https://github.com/projectious-work/brand).
-  The report is embedded full-bleed at `/report/`.
+- `docs/content/` and `docs/hugo.yaml` — the Hugo website consuming the pinned
+  [`brand-theme-hugo-vanilla` v0.3.3](https://github.com/projectious-work/brand-theme-hugo-vanilla/releases/tag/v0.3.3)
+  module. The website provides a landing page, mock Dashboard, Documentation,
+  and Change Log without embedding the legacy report UI.
 
 Research-data rules (source rights, attribution, retention, verification,
 privacy review) are documented in
@@ -68,13 +68,12 @@ privacy review) are documented in
 ## Quick start
 
 Requires `python3`, `bash`, `git`, and (for deploys) the `gh` CLI. Building
-the documentation site additionally requires `hugo` (extended) and
-`node`/`npm`.
+the website additionally requires Hugo Extended, Go, and Node.js/npm.
 
 ```sh
 bash src/scripts/build.sh           # build the report: dist/dashboard.html
 bash src/scripts/release-check.sh   # validate + rebuild + sanity-check
-bash docs/scripts/serve-docs.sh     # serve the Hugo/Docsy site, report at /report/
+bash docs/scripts/serve-docs.sh     # serve the branded site on port 1320
 ```
 
 Full walkthrough:
@@ -92,7 +91,7 @@ bash src/scripts/release-check.sh
 bash docs/scripts/deploy-docs.sh --message "deploy: refresh signal room"
 ```
 
-The deploy script rebuilds the report and the Hugo site by default, stages
+The deploy script rebuilds the Hugo site by default, stages
 the payload in a temporary Git worktree, pushes `gh-pages` without force, and
 verifies that Pages uses the legacy branch source with HTTPS.
 
@@ -114,10 +113,10 @@ Do not cut a version directly before the release gates have been evaluated.
 data/                          Source JSON, normalized metrics, archives
 src/                           Report template, build script, briefing prompt
 dist/                          Built dashboard.html (gitignored)
-content/ assets/ layouts/      Hugo + Docsy documentation site
+docs/content/ docs/hugo.yaml   Hugo site content and configuration
 docs/static/logo/              Signal Room mark (light/dark/mono variants)
 scripts/{build,serve,deploy}-docs.sh   Hugo site build / serve / publish
-docs/themes/docsy/             Docsy theme (git submodule)
+docs/go.mod                    Pinned projectious.work brand theme module
 context/                       processkit project context (decisions, logs, …)
 AGENTS.md                      Provider-neutral agent instructions
 ```

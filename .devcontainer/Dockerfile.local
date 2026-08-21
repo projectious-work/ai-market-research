@@ -15,3 +15,10 @@
 #
 #   FROM aibox
 #   COPY --from=builder /app/dist /workspace/dist
+
+# Hugo Modules shell out to Go when resolving the pinned projectious.work
+# brand theme. Keep the toolchain in the development image so local builds and
+# the watch server behave the same after a container rebuild.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends golang-go \
+    && rm -rf /var/lib/apt/lists/*

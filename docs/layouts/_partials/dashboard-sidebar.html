@@ -1,0 +1,57 @@
+{{- $current := . -}}
+{{- $dashboard := site.GetPage "/dashboard" -}}
+{{- $models := site.GetPage "/dashboard/models" -}}
+{{- $benchmarks := site.GetPage "/dashboard/models/benchmarks" -}}
+{{- $capabilities := site.GetPage "/dashboard/models/capabilities" -}}
+{{- $subscriptions := site.GetPage "/dashboard/models/subscriptions" -}}
+{{- $harnesses := site.GetPage "/dashboard/harnesses" -}}
+{{- $selfHosting := site.GetPage "/dashboard/self-hosting" -}}
+<aside class="example-app__sidebar" aria-label="Dashboard navigation">
+  <div class="example-app__brand">
+    <span class="example-app__brandmark" aria-hidden="true"></span>
+    <span>Signal Room</span>
+  </div>
+  <nav>
+    <div class="example-app__navgroup">
+      <span>Dashboard</span>
+      <a href="{{ $dashboard.RelPermalink }}"{{ if eq $current $dashboard }} aria-current="page"{{ end }}>
+        {{ partial "icon.html" (dict "name" "layout-dashboard" "class" "ico--sm") }}
+        <span>Overview</span>
+      </a>
+    </div>
+    <div class="example-app__navgroup">
+      <span>Models</span>
+      <a href="{{ $models.RelPermalink }}"{{ if eq $current $models }} aria-current="page"{{ end }}>
+        {{ partial "icon.html" (dict "name" "brain" "class" "ico--sm") }}
+        <span>Models overview</span>
+      </a>
+      <a href="{{ $benchmarks.RelPermalink }}"{{ if eq $current $benchmarks }} aria-current="page"{{ end }}>
+        {{ partial "icon.html" (dict "name" "chart-bar" "class" "ico--sm") }}
+        <span>Benchmarks</span>
+      </a>
+      <a href="{{ $capabilities.RelPermalink }}"{{ if eq $current $capabilities }} aria-current="page"{{ end }}>
+        {{ partial "icon.html" (dict "name" "sparkles" "class" "ico--sm") }}
+        <span>Capabilities</span>
+      </a>
+      <a href="{{ $subscriptions.RelPermalink }}"{{ if eq $current $subscriptions }} aria-current="page"{{ end }}>
+        {{ partial "icon.html" (dict "name" "credit-card" "class" "ico--sm") }}
+        <span>Subscriptions</span>
+      </a>
+    </div>
+    <div class="example-app__navgroup">
+      <span>Research areas</span>
+      <a href="{{ $harnesses.RelPermalink }}"{{ if eq $current $harnesses }} aria-current="page"{{ end }}>
+        {{ partial "icon.html" (dict "name" "terminal-2" "class" "ico--sm") }}
+        <span>Harnesses</span>
+      </a>
+      <a href="{{ $selfHosting.RelPermalink }}"{{ if eq $current $selfHosting }} aria-current="page"{{ end }}>
+        {{ partial "icon.html" (dict "name" "server" "class" "ico--sm") }}
+        <span>Self-Hosting</span>
+      </a>
+    </div>
+  </nav>
+  <div class="example-app__environment">
+    <span class="example-status example-status--warn">Mockup</span>
+    <strong>No live data</strong>
+  </div>
+</aside>

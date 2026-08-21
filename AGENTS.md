@@ -202,18 +202,18 @@ lifecycle is stable.
 ```sh
 bash src/scripts/build.sh           # build dist/dashboard.html (the report)
 bash src/scripts/release-check.sh   # validate + rebuild + sanity check
-bash docs/scripts/serve-docs.sh     # serve the Hugo/Docsy site locally, report embedded
-bash docs/scripts/build-docs.sh     # build the Hugo/Docsy site into docs/public/
+bash docs/scripts/serve-docs.sh     # serve the Hugo site locally on port 1320
+bash docs/scripts/build-docs.sh     # build the branded Hugo site into docs/public/
 bash docs/scripts/deploy-docs.sh    # push docs/public/ to GitHub Pages (gh-pages branch)
 bash src/scripts/release.sh 0.2.0   # release-check → tag → push → deploy → gh release
 ```
 
 Site lives at <https://projectious-work.github.io/ai-market-research/>, built
-with Hugo + Docsy and themed from the projectious.work brand (see
-`docs/assets/scss/_variables_project.scss`); the report itself is embedded at
-`/report/`. Deploy uses `git worktree` against a `gh-pages` branch — no GitHub
-Actions workflow. See `DEC-20260727_0742-ClearSpring` for the architecture
-(supersedes `DEC-20260517_1455-DeftLynx`).
+with Hugo and the pinned `brand-theme-hugo-vanilla` module. The primary routes
+are `/dashboard/`, `/docs/`, and `/changelog/`. Deploy uses `git worktree`
+against a `gh-pages` branch — no GitHub Actions workflow. See
+`DEC-20260727_0742-ClearSpring` for the deployment architecture (supersedes
+`DEC-20260517_1455-DeftLynx`).
 
 <!-- pk-managed:pk-commands BEGIN -->
 <!-- pk-commands BEGIN -->

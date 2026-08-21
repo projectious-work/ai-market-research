@@ -1,9 +1,0 @@
-{{- /*
-  Signal Room report script, only on pages that embed report fragments --
-  see layouts/_partials/report-controls.html and layouts/shortcodes/report-section.html.
-  Loaded once per page (defer so it runs after the fragment's own embedded
-  market-data script tag, regardless of where in the DOM each sits).
-*/ -}}
-{{- if .Params.show_report_controls -}}
-  <script src="{{ "report/report.js" | relURL }}" defer></script>
-{{- end -}}
