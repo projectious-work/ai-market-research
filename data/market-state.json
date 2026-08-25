@@ -484,7 +484,11 @@
         "comms": 48,
         "multimodal": 45,
         "agentic": 50
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.6-sol",
@@ -528,7 +532,11 @@
         "comms": 48,
         "multimodal": 48,
         "agentic": 49
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.6-terra",
@@ -572,7 +580,11 @@
         "comms": 46,
         "multimodal": 45,
         "agentic": 48
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.6-luna",
@@ -616,7 +628,11 @@
         "comms": 45,
         "multimodal": 43,
         "agentic": 46
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "kimi-k3",
@@ -654,7 +670,11 @@
         "comms": 46,
         "multimodal": 47,
         "agentic": 48
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "opus-5",
@@ -693,6 +713,10 @@
       "cite": [
         86,
         87
+      ],
+      "modalities": [
+        "text",
+        "image"
       ]
     },
     {
@@ -734,7 +758,11 @@
         "comms": 50,
         "multimodal": 34,
         "agentic": 50
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "opus-4.7",
@@ -775,7 +803,11 @@
         "comms": 50,
         "multimodal": 32,
         "agentic": 50
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "sonnet-4.6",
@@ -815,7 +847,11 @@
         "comms": 42,
         "multimodal": 31,
         "agentic": 41
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "haiku-4.5",
@@ -850,7 +886,11 @@
         "comms": 30,
         "multimodal": 18,
         "agentic": 28
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.5",
@@ -891,7 +931,11 @@
         "comms": 40,
         "multimodal": 41,
         "agentic": 38
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.5-pro",
@@ -930,7 +974,11 @@
         "comms": 42,
         "multimodal": 42,
         "agentic": 42
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.4",
@@ -971,7 +1019,11 @@
         "comms": 30,
         "multimodal": 30,
         "agentic": 30
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.4-mini",
@@ -1012,7 +1064,11 @@
         "comms": 30,
         "multimodal": 30,
         "agentic": 30
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.4-nano",
@@ -1051,7 +1107,11 @@
         "comms": 20,
         "multimodal": 20,
         "agentic": 20
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.3-codex",
@@ -1092,7 +1152,11 @@
         "comms": 27,
         "multimodal": 8,
         "agentic": 38
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.3-codex-spark",
@@ -1127,7 +1191,10 @@
         "comms": 25,
         "multimodal": 0,
         "agentic": 28
-      }
+      },
+      "modalities": [
+        "text"
+      ]
     },
     {
       "id": "gpt-5.2",
@@ -1158,7 +1225,11 @@
         "high"
       ],
       "notes": "Codex picker keeps it for 'long-running agents' (specifically tuned for autonomy). Otherwise eclipsed by 5.3-Codex.",
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.2-codex",
@@ -1189,7 +1260,11 @@
         "high"
       ],
       "notes": "Predecessor to 5.3-Codex. Legacy.",
-      "cache_discount": 0.1
+      "cache_discount": 0.1,
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gpt-5.5-instant",
@@ -1224,7 +1299,11 @@
         "comms": 30,
         "multimodal": 30,
         "agentic": 10
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "gemini-3.1-pro",
@@ -1264,7 +1343,13 @@
         "comms": 41,
         "multimodal": 50,
         "agentic": 29
-      }
+      },
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ]
     },
     {
       "id": "gemini-3.6-flash",
@@ -1310,7 +1395,13 @@
         "comms": 40,
         "multimodal": 47,
         "agentic": 42
-      }
+      },
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ]
     },
     {
       "id": "gemini-3.5-flash",
@@ -1356,7 +1447,13 @@
         "comms": 30,
         "multimodal": 40,
         "agentic": 20
-      }
+      },
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ]
     },
     {
       "id": "gemini-3.5-flash-lite",
@@ -1402,7 +1499,13 @@
         "comms": 32,
         "multimodal": 38,
         "agentic": 35
-      }
+      },
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ]
     },
     {
       "id": "gemini-3.1-flash-lite",
@@ -1441,7 +1544,13 @@
         "comms": 25,
         "multimodal": 35,
         "agentic": 15
-      }
+      },
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ]
     },
     {
       "id": "deepseek-v4-pro",
@@ -1476,7 +1585,10 @@
         "comms": 30,
         "multimodal": 8,
         "agentic": 28
-      }
+      },
+      "modalities": [
+        "text"
+      ]
     },
     {
       "id": "deepseek-v4-flash",
@@ -1516,7 +1628,10 @@
         "comms": 25,
         "multimodal": 5,
         "agentic": 25
-      }
+      },
+      "modalities": [
+        "text"
+      ]
     },
     {
       "id": "muse-spark-1.1",
@@ -1555,7 +1670,11 @@
         "comms": 40,
         "multimodal": 47,
         "agentic": 46
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "muse-glimmer-30b",
@@ -1601,7 +1720,11 @@
         "comms": 38,
         "multimodal": 43,
         "agentic": 45
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "nemotron-3.5-lightning-30b-a3b",
@@ -1649,7 +1772,10 @@
         "comms": 39,
         "multimodal": 5,
         "agentic": 38
-      }
+      },
+      "modalities": [
+        "text"
+      ]
     },
     {
       "id": "minimax-m2.7",
@@ -1684,7 +1810,10 @@
         "comms": 30,
         "multimodal": 20,
         "agentic": 20
-      }
+      },
+      "modalities": [
+        "text"
+      ]
     },
     {
       "id": "grok-4.3",
@@ -1722,7 +1851,11 @@
         "comms": 34,
         "multimodal": 34,
         "agentic": 34
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "grok-4.1-fast",
@@ -1757,7 +1890,11 @@
         "comms": 26,
         "multimodal": 26,
         "agentic": 22
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "mistral-medium-3.5",
@@ -1792,7 +1929,11 @@
         "comms": 30,
         "multimodal": 10,
         "agentic": 20
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "mistral-large-3",
@@ -1831,7 +1972,11 @@
         "comms": 36,
         "multimodal": 20,
         "agentic": 28
-      }
+      },
+      "modalities": [
+        "text",
+        "image"
+      ]
     },
     {
       "id": "subq-1m-preview",
@@ -1866,12 +2011,15 @@
         "comms": 30,
         "multimodal": 5,
         "agentic": 28
-      }
+      },
+      "modalities": [
+        "text"
+      ]
     },
     {
       "id": "nemotron-3-ultra",
       "name": "Nvidia Nemotron 3 Ultra",
-      "provider": "Nvidia",
+      "provider": "NVIDIA",
       "tier": "frontier",
       "released": "2026-06-04",
       "license": "NVIDIA Open Model License",
@@ -1905,7 +2053,10 @@
         "comms": 34,
         "multimodal": 10,
         "agentic": 34
-      }
+      },
+      "modalities": [
+        "text"
+      ]
     },
     {
       "id": "apertus-v1.1-4b-instruct",
@@ -1932,7 +2083,10 @@
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
-      "cache_discount": null
+      "cache_discount": null,
+      "modalities": [
+        "text"
+      ]
     },
     {
       "id": "inkling",
@@ -1959,7 +2113,354 @@
       "reasoning_capable": false,
       "effort_default": null,
       "effort_levels": [],
-      "cache_discount": null
+      "cache_discount": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio"
+      ]
+    },
+    {
+      "id": "qwen3.8-max",
+      "name": "Qwen3.8 Max",
+      "provider": "Alibaba",
+      "tier": "frontier",
+      "released": "2026-08-03",
+      "license": "proprietary",
+      "jurisdiction": "China",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": 2,
+      "api_out": 6,
+      "api_cache_hit": 0.25,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Alibaba Cloud Model Studio API",
+      "notes": "Alibaba's 2.4T-parameter multimodal flagship supports thinking and non-thinking modes, a 1M-token context, and up to 131K output tokens. USD rates normalize the official international 14.988/44.965/1.874 CNY-denominated list-price equivalents. Weights were announced separately and are not assumed by this API record.",
+      "reasoning_capable": true,
+      "effort_default": "thinking",
+      "effort_levels": [
+        "non-thinking",
+        "thinking"
+      ],
+      "cache_discount": 0.125,
+      "cite": [
+        102,
+        103
+      ],
+      "modalities": [
+        "text",
+        "image"
+      ]
+    },
+    {
+      "id": "qwen3.6-27b",
+      "name": "Qwen3.6 27B",
+      "provider": "Alibaba",
+      "tier": "balanced",
+      "released": "2026-04-22",
+      "license": "Apache 2.0",
+      "jurisdiction": "self-hosted",
+      "context": 256000,
+      "context_label": "256K",
+      "swe_pro": 53.5,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Open weights; self-hosted or third-party inference",
+      "notes": "Dense 27B Apache-2.0 model aimed at local agentic coding. The vendor reports 53.5 on its refined SWE-bench Pro setup; independent reproduction found strong harness sensitivity, so the score is not directly comparable across agents.",
+      "reasoning_capable": true,
+      "effort_default": "thinking",
+      "effort_levels": [
+        "non-thinking",
+        "thinking"
+      ],
+      "cache_discount": null,
+      "cite": [
+        104
+      ],
+      "modalities": [
+        "text"
+      ]
+    },
+    {
+      "id": "glm-5.3",
+      "name": "GLM-5.3",
+      "provider": "Z.ai",
+      "tier": "frontier",
+      "released": "2026-08-14",
+      "license": "open weights",
+      "jurisdiction": "China / self-hosted",
+      "context": 1000000,
+      "context_label": "1M",
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Z.ai API and open weights",
+      "notes": "Coding- and cybersecurity-focused post-training update to the GLM-5.2 base. Z.ai reports a 1M context and leading open-weight results on Terminal Bench 3.0 and Agents' Last Exam. Metered API pricing was not yet present on the first-party price table at review time.",
+      "reasoning_capable": true,
+      "effort_default": "high",
+      "effort_levels": [
+        "high",
+        "max"
+      ],
+      "cache_discount": null,
+      "cite": [
+        105
+      ],
+      "modalities": [
+        "text"
+      ]
+    },
+    {
+      "id": "tencent-hy3",
+      "name": "Tencent Hy3",
+      "provider": "Tencent",
+      "tier": "frontier",
+      "released": "2026-07-17",
+      "license": "Apache 2.0",
+      "jurisdiction": "self-hosted",
+      "context": 256000,
+      "context_label": "256K",
+      "parameters_b": 295,
+      "active_parameters_b": 21,
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Open weights; self-hosted",
+      "notes": "Apache-2.0 295B MoE with 21B active parameters, 256K context, tool use, and no-think/low/high reasoning controls. Tencent recommends an eight-GPU deployment for the BF16 checkpoint.",
+      "reasoning_capable": true,
+      "effort_default": "no-think",
+      "effort_levels": [
+        "no-think",
+        "low",
+        "high"
+      ],
+      "cache_discount": null,
+      "cite": [
+        106
+      ],
+      "modalities": [
+        "text"
+      ]
+    },
+    {
+      "id": "seed2.1",
+      "name": "Seed2.1",
+      "provider": "ByteDance",
+      "tier": "frontier",
+      "released": "2026-06-23",
+      "license": "proprietary",
+      "jurisdiction": "China",
+      "context": null,
+      "context_label": "Not published",
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Volcano Engine API; Seed2.1 Pro and Turbo",
+      "notes": "ByteDance's proprietary productivity-agent family focuses on reliable cross-tool and cross-environment task delivery. The public launch material does not expose a stable context limit or directly comparable USD token pricing.",
+      "reasoning_capable": true,
+      "effort_default": null,
+      "effort_levels": [],
+      "cache_discount": null,
+      "cite": [
+        107
+      ],
+      "modalities": [
+        "text"
+      ]
+    },
+    {
+      "id": "mimo-v2-flash",
+      "name": "MiMo-V2-Flash",
+      "provider": "Xiaomi",
+      "tier": "balanced",
+      "released": "2025-12-16",
+      "license": "open weights",
+      "jurisdiction": "self-hosted",
+      "context": 256000,
+      "context_label": "256K",
+      "parameters_b": 309,
+      "active_parameters_b": 15,
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Open weights; self-hosted; Xiaomi MiMo API",
+      "notes": "309B-total/15B-active MoE for efficient reasoning, coding, and agentic workflows. It combines hybrid attention, multi-token prediction, a 256K context, and FP8 deployment support. First-party USD API pricing was not published in the reviewed source.",
+      "reasoning_capable": true,
+      "effort_default": "thinking",
+      "effort_levels": [
+        "thinking"
+      ],
+      "cache_discount": null,
+      "cite": [
+        108
+      ],
+      "modalities": [
+        "text"
+      ]
+    },
+    {
+      "id": "inkling-small",
+      "name": "Inkling Small",
+      "provider": "Thinking Machines Lab",
+      "tier": "balanced",
+      "released": "2026-07-15",
+      "license": "Apache 2.0",
+      "jurisdiction": "self-hosted",
+      "context": 1000000,
+      "context_label": "1M",
+      "parameters_b": 276,
+      "active_parameters_b": 12,
+      "swe_pro": 55.9,
+      "swe_verified": 80.2,
+      "livecodebench": null,
+      "aime": 95.5,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": 160,
+      "subscription": "Open weights; self-hosted; third-party inference endpoints",
+      "notes": "Smaller multimodal companion to Inkling with 276B total and 12B active parameters, text/image/audio input, 1M context, and NVFP4 deployment support. Hugging Face reports up to 160 tok/s on its tested endpoint configuration.",
+      "reasoning_capable": true,
+      "effort_default": "medium",
+      "effort_levels": [
+        "none",
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "cache_discount": null,
+      "cite": [
+        109
+      ],
+      "modalities": [
+        "text",
+        "image",
+        "audio"
+      ]
+    },
+    {
+      "id": "apertus-v1.5-8b",
+      "name": "Apertus v1.5 8B",
+      "provider": "Swiss AI Initiative",
+      "tier": "fast",
+      "released": "2026-08-06",
+      "license": "Apache 2.0",
+      "jurisdiction": "Switzerland",
+      "context": 262144,
+      "context_label": "262K",
+      "parameters_b": 8,
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Open weights; self-hosted; Public AI inference",
+      "notes": "Fully open multilingual and multimodal model with open weights, data and recipes. Supports text, image and audio input, 262K context, optional thinking mode, and tool use outside thinking mode.",
+      "reasoning_capable": true,
+      "effort_default": "non-thinking",
+      "effort_levels": [
+        "non-thinking",
+        "thinking"
+      ],
+      "cache_discount": null,
+      "cite": [
+        110
+      ],
+      "modalities": [
+        "text",
+        "image",
+        "audio"
+      ]
+    },
+    {
+      "id": "apertus-v1.5-70b",
+      "name": "Apertus v1.5 70B",
+      "provider": "Swiss AI Initiative",
+      "tier": "balanced",
+      "released": "2026-08-06",
+      "license": "Apache 2.0",
+      "jurisdiction": "Switzerland",
+      "context": 262144,
+      "context_label": "262K",
+      "parameters_b": 70,
+      "swe_pro": null,
+      "swe_verified": null,
+      "livecodebench": null,
+      "aime": null,
+      "tau2": null,
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null,
+      "batch_discount": null,
+      "tok_per_sec": null,
+      "subscription": "Open weights; self-hosted; Public AI inference",
+      "notes": "Larger Apertus v1.5 checkpoint with the same fully open multilingual, multimodal, 262K-context design. Adds optional thinking mode and improved instruction following and tool use.",
+      "reasoning_capable": true,
+      "effort_default": "non-thinking",
+      "effort_levels": [
+        "non-thinking",
+        "thinking"
+      ],
+      "cache_discount": null,
+      "cite": [
+        110
+      ],
+      "modalities": [
+        "text",
+        "image",
+        "audio"
+      ]
     }
   ],
   "subscriptions": [
@@ -4941,6 +5442,69 @@
       "title": "Nemotron 3.5 Lightning API and deployment",
       "url": "https://build.nvidia.com/nvidia/nemotron-3.5-lightning-30b-a3b",
       "note": "Official free prototype endpoint and optimized self-hosted deployment entry point."
+    },
+    {
+      "n": 102,
+      "category": "Alibaba/Qwen",
+      "title": "Qwen3.8 Max model information",
+      "url": "https://help.aliyun.com/en/model-studio/qwen3-8-max",
+      "note": "Official context, output limit, modes, caching and regional list pricing."
+    },
+    {
+      "n": 103,
+      "category": "Alibaba/Qwen",
+      "title": "Alibaba Qwen3.8 Max announcement",
+      "url": "https://www.alibabagroup.com/en-US/document-2021044032125272064",
+      "note": "Official release date, architecture scale, modalities and API availability."
+    },
+    {
+      "n": 104,
+      "category": "Alibaba/Qwen",
+      "title": "Qwen3.6 open-weight model family",
+      "url": "https://github.com/QwenLM/Qwen3.6",
+      "note": "Official 27B release, Apache-2.0 license, deployment and benchmark evidence."
+    },
+    {
+      "n": 105,
+      "category": "Z.ai",
+      "title": "GLM-5.3 release",
+      "url": "https://z.ai/blog/glm-5.3",
+      "note": "Official release, context, intended use and vendor benchmark evidence."
+    },
+    {
+      "n": 106,
+      "category": "Tencent",
+      "title": "Tencent Hy3 model card",
+      "url": "https://github.com/Tencent-Hunyuan/Hy3",
+      "note": "Official architecture, context, license, reasoning controls and deployment evidence."
+    },
+    {
+      "n": 107,
+      "category": "ByteDance",
+      "title": "Seed2.1 official release",
+      "url": "https://seed.bytedance.com/en/blog/seed2-1-officially-released-advancing-ai-productivity",
+      "note": "Official family availability, positioning and agent-capability evidence."
+    },
+    {
+      "n": 108,
+      "category": "Xiaomi",
+      "title": "MiMo-V2-Flash model card",
+      "url": "https://github.com/XiaomiMiMo/MiMo-V2-Flash",
+      "note": "Official architecture, context, open-weight and deployment evidence."
+    },
+    {
+      "n": 109,
+      "category": "Thinking Machines Lab",
+      "title": "Inkling Small model card and release overview",
+      "url": "https://huggingface.co/thinkingmachines/Inkling-Small",
+      "note": "Official license, architecture, modalities, benchmarks and deployment evidence."
+    },
+    {
+      "n": 110,
+      "category": "Swiss AI Initiative",
+      "title": "Apertus v1.5 70B and 8B model card",
+      "url": "https://huggingface.co/swiss-ai/Apertus-v1.5-70B",
+      "note": "Official family sizes, context, modalities, license, reasoning and tool-use evidence."
     }
   ],
   "provider_sources": {
@@ -4963,6 +5527,8 @@
       94
     ],
     "Meta": [
+      20,
+      21,
       95,
       96,
       97,
@@ -4970,6 +5536,9 @@
       99
     ],
     "NVIDIA": [
+      41,
+      42,
+      43,
       100,
       101
     ],
@@ -5001,13 +5570,15 @@
     "MiniMax": [
       14
     ],
-    "Meta": [
-      20,
-      21
-    ],
     "Alibaba": [
       20,
-      21
+      21,
+      102,
+      103,
+      104
+    ],
+    "ByteDance": [
+      107
     ],
     "Moonshot": [
       20,
@@ -5019,11 +5590,6 @@
     "Zhipu": [
       20,
       21
-    ],
-    "Nvidia": [
-      41,
-      42,
-      43
     ],
     "Cohere": [
       20,

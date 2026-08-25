@@ -5,6 +5,9 @@
 # never tracked. Removed from history in the v0.2.2 privacy sweep.
 input/
 
+# Local research downloads and generated design staging files.
+tmp/
+
 # Release-process privacy markers (per-maintainer, local-only); copy
 # from privacy-markers.txt.template and add real markers there.
 src/scripts/release/privacy-markers.txt

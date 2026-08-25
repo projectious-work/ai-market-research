@@ -17,6 +17,10 @@ command -v go >/dev/null 2>&1 || {
   echo "Go is required to resolve the pinned Hugo theme module." >&2
   exit 1
 }
+command -v python3 >/dev/null 2>&1 || {
+  echo "python3 is required to generate model and release metadata." >&2
+  exit 1
+}
 
 if [[ ! -x "${DOCS_DIR}/node_modules/.bin/tailwindcss" ||
       ! -d "${DOCS_DIR}/node_modules/@tabler/icons" ]]; then
@@ -27,13 +31,16 @@ if [[ ! -x "${DOCS_DIR}/node_modules/.bin/tailwindcss" ||
   fi
 fi
 
-echo "[1/3] generating release history from git tags"
+echo "[1/4] generating release history from git tags"
 bash "${DOCS_DIR}/scripts/generate-releases-data.sh"
 
-echo "[2/3] generating changelog posts"
+echo "[2/4] generating model roster"
+python3 "${DOCS_DIR}/scripts/generate-model-roster.py"
+
+echo "[3/4] generating changelog posts"
 python3 "${DOCS_DIR}/scripts/generate-changelog-posts.py"
 
-echo "[3/3] serving Hugo site at ${DOCS_BASE_URL}"
+echo "[4/4] serving Hugo site at ${DOCS_BASE_URL}"
 cd "${DOCS_DIR}"
 hugo server --buildDrafts --disableFastRender --baseURL "${DOCS_BASE_URL}" \
-  --bind 0.0.0.0 --port 1320 "$@"
+  --bind 0.0.0.0 --port 1320 --renderToMemory --noHTTPCache "$@"

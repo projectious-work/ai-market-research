@@ -8,14 +8,10 @@ None.
 
 None.
 
-## Applied (12)
+## Applied (9)
 
 | Date       | Migration                                | Notes |
 |------------|------------------------------------------|-------|
-| 2026-07-17 | MIG-20260717_1210-RuntimeSync-aibox-runtime — aibox-runtime-home 0.27.2 → 0.27.5 | 0 changed upstream, 0 conflicts, 1 new, 1 removed (2 groups affected) |
-| 2026-07-21 | MIG-20260721_0918-ContentSync-processkit-content-sync — processkit v0.27.1 → v0.27.5 | 0 changed upstream, 0 conflicts, 17 new, 0 removed, 0 stale-removed (5 groups affected) |
-| 2026-07-21 | MIG-20260721_1236-DaringRaven-normalize-active-roleslot-binding-identifiers — local-project  → | Normalize active RoleSlot Binding identifiers |
-| 2026-07-21 | MIG-20260721_1236-HappyRobin-declare-canonical-roleslot-lifecycle-event-types — local-project  → | Declare canonical RoleSlot lifecycle event types |
 | 2026-07-23 | MIG-20260722_1625-ContentSync-processkit-content-sync — processkit v0.27.5 → v0.28.1 | 0 changed upstream, 0 conflicts, 5 new, 16 removed, 0 stale-removed (6 groups affected) |
 | 2026-07-23 | MIG-20260722_1625-RuntimeSync-aibox-runtime — aibox-runtime-home 0.28.2 → 0.28.4 | 0 changed upstream, 0 conflicts, 1 new, 0 removed (1 groups affected) |
 | 2026-07-28 | MIG-20260725_2046-ContentSync-processkit-content-sync — processkit v0.28.1 → v0.28.4 | 0 changed upstream, 0 conflicts, 9 new, 0 removed, 0 stale-removed (2 groups affected) |
@@ -24,6 +20,7 @@ None.
 | 2026-08-07 | MIG-20260807_1902-CordialPearl-record-append-only-corrections-for-historical — local-project  → | Record append-only corrections for historical LogEntry IDs containing blocked process vocabulary |
 | 2026-08-20 | MIG-20260819_0422-RuntimeSync-aibox-runtime — aibox-runtime-home 0.32.6 → 0.33.2 | 0 changed upstream, 0 conflicts, 1 new, 0 removed (1 groups affected) |
 | 2026-08-20 | MIG-20260820_1814-RuntimeSync-aibox-runtime — aibox-runtime-home 0.33.2 → 0.34.1 | 0 changed upstream, 0 conflicts, 3 new, 0 removed (1 groups affected) |
+| 2026-08-25 | MIG-20260824_1616-RuntimeSync-aibox-runtime — aibox-runtime-home 0.34.1 → 0.34.7 | 0 changed upstream, 0 conflicts, 3 new, 0 removed (2 groups affected) |
 
 ## Rejected (1)
 

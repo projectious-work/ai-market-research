@@ -1,0 +1,22 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} &middot; {{ site.Title }}{{ end }}</title>
+{{ partial "seo.html" . }}
+{{- $favicon16 := resources.Get "logo/png/favicon-16.png" -}}
+{{- $favicon32 := resources.Get "logo/png/favicon-32.png" -}}
+{{- $faviconLight := resources.Get "logo/svg/icon-small-light.svg" -}}
+{{- $faviconDark := resources.Get "logo/svg/icon-dark.svg" -}}
+{{- $appleTouchIcon := resources.Get "logo/png/apple-touch-icon-180.png" -}}
+<link rel="icon" type="image/png" href="{{ $favicon16.RelPermalink }}" sizes="16x16">
+<link rel="icon" type="image/png" href="{{ $favicon32.RelPermalink }}" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="{{ $faviconLight.RelPermalink }}" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="{{ $faviconDark.RelPermalink }}" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="{{ $appleTouchIcon.RelPermalink }}" sizes="180x180">
+{{ partial "styles.html" . }}
+{{- /* Blocking, in <head>, so the stored colour mode applies before first paint.
+       Fingerprinted like every other asset — it was the one script left on a
+       stable URL, so a theme update could sit stale in a cache. */ -}}
+{{ partial "script.html" (dict "src" "theme.js") }}
+{{ if or .Params.math site.Params.math }}{{ partial "math.html" . }}{{ end }}
+{{ range .AlternativeOutputFormats }}<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}">
+{{ end }}

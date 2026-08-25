@@ -34,7 +34,7 @@ bash docs/scripts/build-docs.sh
 ```
 
 The website consumes the exact
-`github.com/projectious-work/brand-theme-hugo-vanilla@v0.3.3` Hugo Module.
+`github.com/projectious-work/brand-theme-hugo-vanilla@v0.3.6` Hugo Module.
 Its [Dashboard]({{< relref "/dashboard" >}}) intentionally contains labelled
 mock data while each future live section receives its own evidence and filter
 contract. Build the separate research artifact with `src/scripts/build.sh`.

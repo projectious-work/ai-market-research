@@ -1,0 +1,7 @@
+{{- $markLight := resources.Get "logo/svg/icon-light.svg" -}}
+{{- $markDark := resources.Get "logo/svg/icon-dark.svg" -}}
+<a class="header__brand" href="{{ partial "url.html" "" }}">
+  <img class="header__mark header__mark--light" src="{{ $markLight.RelPermalink }}" alt="" width="26" height="26">
+  <img class="header__mark header__mark--dark" src="{{ $markDark.RelPermalink }}" alt="" width="26" height="26">
+  <span class="signal-wordmark"><span class="signal-wordmark__projectious">projectious</span><span class="sep">&middot;</span><span class="signal-wordmark__signal">signal</span></span>
+</a>

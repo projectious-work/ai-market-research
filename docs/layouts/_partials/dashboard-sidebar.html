@@ -1,16 +1,13 @@
 {{- $current := . -}}
 {{- $dashboard := site.GetPage "/dashboard" -}}
 {{- $models := site.GetPage "/dashboard/models" -}}
+{{- $roster := site.GetPage "/dashboard/models/roster" -}}
 {{- $benchmarks := site.GetPage "/dashboard/models/benchmarks" -}}
 {{- $capabilities := site.GetPage "/dashboard/models/capabilities" -}}
 {{- $subscriptions := site.GetPage "/dashboard/models/subscriptions" -}}
 {{- $harnesses := site.GetPage "/dashboard/harnesses" -}}
 {{- $selfHosting := site.GetPage "/dashboard/self-hosting" -}}
 <aside class="example-app__sidebar" aria-label="Dashboard navigation">
-  <div class="example-app__brand">
-    <span class="example-app__brandmark" aria-hidden="true"></span>
-    <span>Signal Room</span>
-  </div>
   <nav>
     <div class="example-app__navgroup">
       <span>Dashboard</span>
@@ -23,7 +20,11 @@
       <span>Models</span>
       <a href="{{ $models.RelPermalink }}"{{ if eq $current $models }} aria-current="page"{{ end }}>
         {{ partial "icon.html" (dict "name" "brain" "class" "ico--sm") }}
-        <span>Models overview</span>
+        <span>Overview</span>
+      </a>
+      <a href="{{ $roster.RelPermalink }}"{{ if eq $current $roster }} aria-current="page"{{ end }}>
+        {{ partial "icon.html" (dict "name" "list-details" "class" "ico--sm") }}
+        <span>Roster</span>
       </a>
       <a href="{{ $benchmarks.RelPermalink }}"{{ if eq $current $benchmarks }} aria-current="page"{{ end }}>
         {{ partial "icon.html" (dict "name" "chart-bar" "class" "ico--sm") }}
@@ -50,8 +51,4 @@
       </a>
     </div>
   </nav>
-  <div class="example-app__environment">
-    <span class="example-status example-status--warn">Mockup</span>
-    <strong>No live data</strong>
-  </div>
 </aside>
