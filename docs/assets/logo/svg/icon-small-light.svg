@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="400" height="400" role="img" aria-label="signal room">
+  <mask id="cut-s" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+    <rect x="0" y="0" width="40" height="40" fill="#ffffff"></rect>
+    <rect x="29.6" y="15.4" width="11" height="9.4" rx="0.8" fill="#000000"></rect>
+  </mask>
+  <mask id="gap-s" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+    <rect x="0" y="0" width="40" height="40" fill="#000000"></rect>
+    <rect x="29.6" y="15.4" width="11" height="9.4" rx="0.8" fill="#ffffff"></rect>
+  </mask>
+  <g mask="url(#cut-s)">
+    <path d="M20.0,3.2C29.6,3.2 36.0,12.0 34.4,22.4C32.8,30.4 25.6,36.0 18.4,36.0C11.2,36.0 4.8,30.4 5.6,20.0C6.4,10.4 12.0,3.2 20.0,3.2Z" fill="#1d3352"></path>
+    <path d="M10.4,29.6C9.6,20.0 13.6,10.4 20.8,8.0C27.2,6.4 31.2,12.0 32.0,19.2L31.2,24.8C27.2,31.2 16.8,32.8 12.0,30.4Z" fill="#ffffff"></path>
+  </g>
+  <path d="M20.0,3.2C29.6,3.2 36.0,12.0 34.4,22.4C32.8,30.4 25.6,36.0 18.4,36.0C11.2,36.0 4.8,30.4 5.6,20.0C6.4,10.4 12.0,3.2 20.0,3.2Z" fill="#ffffff" mask="url(#gap-s)"></path>
+  <path d="M18.8,15.4 L21.8,26.8 L24.2,20.1 L37.8,20.1" fill="none" stroke="#e05232" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>

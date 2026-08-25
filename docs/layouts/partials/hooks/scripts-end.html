@@ -1,0 +1,60 @@
+<script>
+  (() => {
+    const roster = document.querySelector("[data-roster]");
+    if (!roster) return;
+
+    const body = roster.querySelector("[data-roster-body]");
+    const rows = Array.from(body.rows);
+    const search = roster.querySelector("[data-roster-search]");
+    const provider = roster.querySelector("[data-roster-provider]");
+    const pricing = roster.querySelector("[data-roster-pricing]");
+    const summary = roster.querySelector("[data-roster-summary]");
+    const empty = roster.querySelector("[data-roster-empty]");
+    let sortColumn = -1;
+    let sortDirection = 1;
+
+    const applyFilters = () => {
+      const query = search.value.trim().toLocaleLowerCase();
+      let visible = 0;
+      rows.forEach((row) => {
+        const matchesSearch = !query || row.textContent.toLocaleLowerCase().includes(query);
+        const matchesProvider = !provider.value || row.dataset.provider === provider.value;
+        const matchesPricing = !pricing.value || row.dataset.pricing === pricing.value;
+        row.hidden = !(matchesSearch && matchesProvider && matchesPricing);
+        if (!row.hidden) visible += 1;
+      });
+      summary.textContent = `${visible} of ${rows.length} models`;
+      empty.hidden = visible !== 0;
+    };
+
+    const compareRows = (left, right, column, type) => {
+      const a = left.cells[column];
+      const b = right.cells[column];
+      const aMissing = a.dataset.missing === "true";
+      const bMissing = b.dataset.missing === "true";
+      if (aMissing !== bMissing) return aMissing ? 1 : -1;
+      if (aMissing) return 0;
+      const aValue = a.dataset.sortValue || a.textContent.trim();
+      const bValue = b.dataset.sortValue || b.textContent.trim();
+      if (type === "number") return Number(aValue) - Number(bValue);
+      return aValue.localeCompare(bValue, undefined, { sensitivity: "base", numeric: true });
+    };
+
+    roster.querySelectorAll("[data-sort-column]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const column = Number(button.dataset.sortColumn);
+        sortDirection = sortColumn === column ? -sortDirection : 1;
+        sortColumn = column;
+        rows.sort((a, b) => compareRows(a, b, column, button.dataset.sortType) * sortDirection);
+        rows.forEach((row) => body.append(row));
+        roster.querySelectorAll("th[aria-sort]").forEach((header) => header.setAttribute("aria-sort", "none"));
+        button.closest("th").setAttribute("aria-sort", sortDirection === 1 ? "ascending" : "descending");
+      });
+    });
+
+    search.addEventListener("input", applyFilters);
+    provider.addEventListener("change", applyFilters);
+    pricing.addEventListener("change", applyFilters);
+    applyFilters();
+  })();
+</script>

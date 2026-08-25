@@ -647,7 +647,7 @@
       "id": "qwen-3.6",
       "name": "Qwen3.6",
       "family": "Qwen3.6",
-      "provider": "Alibaba Qwen",
+      "provider": "Alibaba",
       "region": "China",
       "channel": "open_weight",
       "scope": "core",

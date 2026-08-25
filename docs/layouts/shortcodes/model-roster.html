@@ -1,0 +1,75 @@
+{{- $roster := index hugo.Data "model-roster" -}}
+{{- $models := $roster.models -}}
+{{- $providers := slice -}}
+{{- range $models -}}
+  {{- $providers = $providers | append .provider -}}
+{{- end -}}
+<div class="roster" data-roster>
+  <div class="roster-controls" aria-label="Roster filters">
+    <label class="roster-control">
+      <span>Search</span>
+      <input type="search" data-roster-search placeholder="Search models, families, and providers" autocomplete="off">
+    </label>
+    <label class="roster-control">
+      <span>Provider</span>
+      <select data-roster-provider>
+        <option value="">All providers</option>
+        {{- range sort (uniq $providers) }}
+        <option value="{{ . | lower }}">{{ . }}</option>
+        {{- end }}
+      </select>
+    </label>
+    <label class="roster-control">
+      <span>Pricing</span>
+      <select data-roster-pricing>
+        <option value="">All models</option>
+        <option value="complete">Complete pricing</option>
+        <option value="partial">Missing a price</option>
+      </select>
+    </label>
+  </div>
+  <p class="roster-summary" data-roster-summary aria-live="polite"></p>
+  <p class="roster-legend"><span aria-hidden="true">&#10003;</span> supported <span aria-hidden="true">&middot;</span> not supported or not documented</p>
+  <div class="tablewrap roster-tablewrap" tabindex="0" role="region" aria-label="Model roster">
+    <table class="roster-table">
+      <thead>
+        <tr>
+          <th scope="col" aria-sort="none"><button type="button" data-sort-column="0" data-sort-type="text">Model</button></th>
+          <th scope="col" aria-sort="none"><button type="button" data-sort-column="1" data-sort-type="text">Family</button></th>
+          <th scope="col" aria-sort="none"><button type="button" data-sort-column="2" data-sort-type="text">Lab</button></th>
+          <th scope="col" aria-sort="none"><button type="button" data-sort-column="3" data-sort-type="number">Context</button></th>
+          <th scope="col" class="roster-modality">Text</th>
+          <th scope="col" class="roster-modality">Image</th>
+          <th scope="col" class="roster-modality">Audio</th>
+          <th scope="col" class="roster-modality">Video</th>
+          <th scope="col" aria-sort="none"><button type="button" data-sort-column="8" data-sort-type="number">Input [USD/m tokens]</button></th>
+          <th scope="col" aria-sort="none"><button type="button" data-sort-column="9" data-sort-type="number">Output [USD/m tokens]</button></th>
+          <th scope="col" aria-sort="none"><button type="button" data-sort-column="10" data-sort-type="number">Cached [USD/m tokens]</button></th>
+        </tr>
+      </thead>
+      <tbody data-roster-body>
+        {{- range $models }}
+        {{- $model := . -}}
+        {{- $complete := and (ne .api_in nil) (ne .api_out nil) (ne .api_cache_hit nil) -}}
+        <tr data-provider="{{ .provider | lower }}" data-pricing="{{ if $complete }}complete{{ else }}partial{{ end }}">
+          <td data-sort-value="{{ .name }}">{{ if .is_new }}<span class="badge badge--accent roster-new">New</span>{{ end }}{{ .name }}</td>
+          <td data-sort-value="{{ .family }}">{{ .family }}</td>
+          <td data-sort-value="{{ .provider }}">{{ .provider }}</td>
+          <td data-number{{ if eq .context nil }} data-missing="true"{{ end }} data-sort-value="{{ with .context }}{{ . }}{{ end }}">
+            {{ .context_label }}
+            {{- with .context_note }}<small class="roster-help" tabindex="0" title="Pricing threshold: the provider charges a different token price when the prompt exceeds this context size.">{{ . }}</small>{{ end }}
+          </td>
+          {{- range slice "text" "image" "audio" "video" }}
+          {{- $supported := in $model.modalities . -}}
+          <td class="roster-modality" aria-label="{{ . | title }}: {{ if $supported }}supported{{ else }}not supported or not documented{{ end }}"><span aria-hidden="true">{{ if $supported }}&#10003;{{ else }}&middot;{{ end }}</span></td>
+          {{- end }}
+          <td data-number{{ if eq .api_in nil }} data-missing="true"{{ end }} data-sort-value="{{ with .api_in }}{{ . }}{{ end }}">{{ with .api_in }}{{ printf "%.2f" . }}{{ else }}<span class="roster-help" tabindex="0" title="No published input price is available in the research data.">&mdash;</span>{{ end }}</td>
+          <td data-number{{ if eq .api_out nil }} data-missing="true"{{ end }} data-sort-value="{{ with .api_out }}{{ . }}{{ end }}">{{ with .api_out }}{{ printf "%.2f" . }}{{ else }}<span class="roster-help" tabindex="0" title="No published output price is available in the research data.">&mdash;</span>{{ end }}</td>
+          <td data-number{{ if eq .api_cache_hit nil }} data-missing="true"{{ end }} data-sort-value="{{ with .api_cache_hit }}{{ . }}{{ end }}">{{ with .api_cache_hit }}{{ printf "%.2f" . }}{{ else }}<span class="roster-help" tabindex="0" title="No published cached-input price is available in the research data.">&mdash;</span>{{ end }}</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </div>
+  <p class="roster-empty" data-roster-empty hidden>No models match these filters.</p>
+</div>

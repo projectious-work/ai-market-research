@@ -57,7 +57,7 @@ for the full breakdown, formulas, and evidence classes.
   the JSON inputs into a single self-contained `dist/dashboard.html`. No
   JavaScript framework, build chain, or runtime CDN dependency.
 - `docs/content/` and `docs/hugo.yaml` — the Hugo website consuming the pinned
-  [`brand-theme-hugo-vanilla` v0.3.3](https://github.com/projectious-work/brand-theme-hugo-vanilla/releases/tag/v0.3.3)
+  [`brand-theme-hugo-vanilla` v0.3.6](https://github.com/projectious-work/brand-theme-hugo-vanilla/releases/tag/v0.3.6)
   module. The website provides a landing page, mock Dashboard, Documentation,
   and Change Log without embedding the legacy report UI.
 
@@ -114,7 +114,7 @@ data/                          Source JSON, normalized metrics, archives
 src/                           Report template, build script, briefing prompt
 dist/                          Built dashboard.html (gitignored)
 docs/content/ docs/hugo.yaml   Hugo site content and configuration
-docs/static/logo/              Signal Room mark (light/dark/mono variants)
+docs/assets/logo/              Signal Room marks, lockups, and browser icons
 scripts/{build,serve,deploy}-docs.sh   Hugo site build / serve / publish
 docs/go.mod                    Pinned projectious.work brand theme module
 context/                       processkit project context (decisions, logs, …)

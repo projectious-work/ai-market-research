@@ -6,13 +6,12 @@
       <section class="example-stage" aria-labelledby="dashboard-title">
         <header class="example-hero example-hero--compact">
           <div>
-            <span class="overline">Static presentation mockup</span>
+            <span class="overline">{{ .Params.overline | default "Market intelligence" }}</span>
             <h1 id="dashboard-title">{{ .Title }}</h1>
             {{ with .Description }}<p>{{ . }}</p>{{ end }}
           </div>
-          <span class="example-status example-status--warn">Example data</span>
         </header>
-        <article class="prose">
+        <article class="prose{{ if .Params.wide }} prose--wide{{ end }}">
           {{ .Content }}
         </article>
       </section>

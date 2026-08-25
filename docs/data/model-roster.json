@@ -1,0 +1,774 @@
+{
+  "researched_at": null,
+  "models": [
+    {
+      "name": "Qwen3.6 27B",
+      "is_new": true,
+      "family": "Qwen3.6",
+      "provider": "Alibaba",
+      "context": 256000,
+      "context_label": "256K",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Qwen3.8 Max",
+      "is_new": true,
+      "family": "Qwen3.8",
+      "provider": "Alibaba",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 2,
+      "api_out": 6,
+      "api_cache_hit": 0.25
+    },
+    {
+      "name": "Claude Haiku 4.5",
+      "is_new": false,
+      "family": "Claude 4",
+      "provider": "Anthropic",
+      "context": 200000,
+      "context_label": "200K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 1,
+      "api_out": 5,
+      "api_cache_hit": 0.1
+    },
+    {
+      "name": "Claude Opus 4.7",
+      "is_new": false,
+      "family": "Claude 4",
+      "provider": "Anthropic",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 5,
+      "api_out": 25,
+      "api_cache_hit": 0.5
+    },
+    {
+      "name": "Claude Opus 4.8",
+      "is_new": false,
+      "family": "Claude 4",
+      "provider": "Anthropic",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 5,
+      "api_out": 25,
+      "api_cache_hit": 0.5
+    },
+    {
+      "name": "Claude Sonnet 4.6",
+      "is_new": false,
+      "family": "Claude 4",
+      "provider": "Anthropic",
+      "context": 200000,
+      "context_label": "200K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 3,
+      "api_out": 15,
+      "api_cache_hit": 0.3
+    },
+    {
+      "name": "Claude Fable 5",
+      "is_new": false,
+      "family": "Claude 5",
+      "provider": "Anthropic",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 10,
+      "api_out": 50,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Claude Opus 5",
+      "is_new": false,
+      "family": "Claude 5",
+      "provider": "Anthropic",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 5,
+      "api_out": 25,
+      "api_cache_hit": 0.5
+    },
+    {
+      "name": "Seed2.1",
+      "is_new": true,
+      "family": "Seed2",
+      "provider": "ByteDance",
+      "context": null,
+      "context_label": "Not published",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "DeepSeek V4-Flash",
+      "is_new": false,
+      "family": "DeepSeek V4",
+      "provider": "DeepSeek",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": 0.14,
+      "api_out": 0.28,
+      "api_cache_hit": 0.0028
+    },
+    {
+      "name": "DeepSeek V4-Pro",
+      "is_new": false,
+      "family": "DeepSeek V4",
+      "provider": "DeepSeek",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": 0.435,
+      "api_out": 0.87,
+      "api_cache_hit": 0.043
+    },
+    {
+      "name": "Gemini 3.1 Flash Lite",
+      "is_new": false,
+      "family": "Gemini 3",
+      "provider": "Google",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ],
+      "api_in": 0.25,
+      "api_out": 1.5,
+      "api_cache_hit": 0.0625
+    },
+    {
+      "name": "Gemini 3.1 Pro",
+      "is_new": false,
+      "family": "Gemini 3",
+      "provider": "Google",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ],
+      "api_in": 2,
+      "api_out": 12,
+      "api_cache_hit": 0.5
+    },
+    {
+      "name": "Gemini 3.5 Flash",
+      "is_new": false,
+      "family": "Gemini 3",
+      "provider": "Google",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ],
+      "api_in": 1.5,
+      "api_out": 9,
+      "api_cache_hit": 0.375
+    },
+    {
+      "name": "Gemini 3.5 Flash-Lite",
+      "is_new": false,
+      "family": "Gemini 3",
+      "provider": "Google",
+      "context": 1048576,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ],
+      "api_in": 0.3,
+      "api_out": 2.5,
+      "api_cache_hit": 0.03
+    },
+    {
+      "name": "Gemini 3.6 Flash",
+      "is_new": false,
+      "family": "Gemini 3",
+      "provider": "Google",
+      "context": 1048576,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ],
+      "api_in": 1.5,
+      "api_out": 7.5,
+      "api_cache_hit": 0.15
+    },
+    {
+      "name": "Muse Glimmer 30B",
+      "is_new": false,
+      "family": "Muse Glimmer",
+      "provider": "Meta",
+      "context": 131072,
+      "context_label": "131K+",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Muse Spark 1.1",
+      "is_new": false,
+      "family": "Muse Spark",
+      "provider": "Meta",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 1.25,
+      "api_out": 4.25,
+      "api_cache_hit": null
+    },
+    {
+      "name": "MiniMax M2.7",
+      "is_new": false,
+      "family": "MiniMax M2.7",
+      "provider": "MiniMax",
+      "context": 205000,
+      "context_label": "205K",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": 0.3,
+      "api_out": 1.2,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Mistral Large 3",
+      "is_new": false,
+      "family": "Mistral 3",
+      "provider": "Mistral",
+      "context": 256000,
+      "context_label": "256K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 2,
+      "api_out": 6,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Mistral Medium 3.5",
+      "is_new": false,
+      "family": "Mistral 3",
+      "provider": "Mistral",
+      "context": 256000,
+      "context_label": "256K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 2,
+      "api_out": 6,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Kimi K3",
+      "is_new": false,
+      "family": "Kimi K3",
+      "provider": "Moonshot AI",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 3,
+      "api_out": 15,
+      "api_cache_hit": 0.3
+    },
+    {
+      "name": "Nvidia Nemotron 3 Ultra",
+      "is_new": false,
+      "family": "Nemotron 3",
+      "provider": "NVIDIA",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": 1.5,
+      "api_out": 6,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Nemotron 3.5 Lightning 30B-A3B",
+      "is_new": false,
+      "family": "Nemotron 3.5 Lightning",
+      "provider": "NVIDIA",
+      "context": 1048576,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "GPT-5.2",
+      "is_new": false,
+      "family": "GPT-5.2",
+      "provider": "OpenAI",
+      "context": 200000,
+      "context_label": "200K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 1.25,
+      "api_out": 8,
+      "api_cache_hit": 0.125
+    },
+    {
+      "name": "GPT-5.2-Codex",
+      "is_new": false,
+      "family": "GPT-5.2",
+      "provider": "OpenAI",
+      "context": 200000,
+      "context_label": "200K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 1.25,
+      "api_out": 8,
+      "api_cache_hit": 0.125
+    },
+    {
+      "name": "GPT-5.3-Codex",
+      "is_new": false,
+      "family": "GPT-5.3",
+      "provider": "OpenAI",
+      "context": 200000,
+      "context_label": "200K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 1.5,
+      "api_out": 10,
+      "api_cache_hit": 0.15
+    },
+    {
+      "name": "GPT-5.3-Codex-Spark",
+      "is_new": false,
+      "family": "GPT-5.3",
+      "provider": "OpenAI",
+      "context": 128000,
+      "context_label": "128K",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "GPT-5.4",
+      "is_new": false,
+      "family": "GPT-5.4",
+      "provider": "OpenAI",
+      "context": 400000,
+      "context_label": "400K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 2.5,
+      "api_out": 15,
+      "api_cache_hit": 0.25
+    },
+    {
+      "name": "GPT-5.4 Mini",
+      "is_new": false,
+      "family": "GPT-5.4",
+      "provider": "OpenAI",
+      "context": 400000,
+      "context_label": "400K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 0.4,
+      "api_out": 1.6,
+      "api_cache_hit": 0.04
+    },
+    {
+      "name": "GPT-5.4 Nano",
+      "is_new": false,
+      "family": "GPT-5.4",
+      "provider": "OpenAI",
+      "context": 400000,
+      "context_label": "400K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 0.1,
+      "api_out": 0.4,
+      "api_cache_hit": 0.01
+    },
+    {
+      "name": "GPT-5.5",
+      "is_new": false,
+      "family": "GPT-5.5",
+      "provider": "OpenAI",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": "272K threshold",
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 5,
+      "api_out": 30,
+      "api_cache_hit": 0.5
+    },
+    {
+      "name": "GPT-5.5 Instant",
+      "is_new": false,
+      "family": "GPT-5.5",
+      "provider": "OpenAI",
+      "context": 400000,
+      "context_label": "400K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 1.5,
+      "api_out": 6,
+      "api_cache_hit": 0.15
+    },
+    {
+      "name": "GPT-5.5 Pro",
+      "is_new": false,
+      "family": "GPT-5.5",
+      "provider": "OpenAI",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 30,
+      "api_out": 180,
+      "api_cache_hit": 3
+    },
+    {
+      "name": "GPT-5.6 Luna",
+      "is_new": false,
+      "family": "GPT-5.6",
+      "provider": "OpenAI",
+      "context": 1050000,
+      "context_label": "1.05M",
+      "context_note": "272K pricing threshold",
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 0.2,
+      "api_out": 1.2,
+      "api_cache_hit": 0.02
+    },
+    {
+      "name": "GPT-5.6 Sol",
+      "is_new": false,
+      "family": "GPT-5.6",
+      "provider": "OpenAI",
+      "context": 1050000,
+      "context_label": "1.05M",
+      "context_note": "272K pricing threshold",
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 5,
+      "api_out": 30,
+      "api_cache_hit": 0.5
+    },
+    {
+      "name": "GPT-5.6 Terra",
+      "is_new": false,
+      "family": "GPT-5.6",
+      "provider": "OpenAI",
+      "context": 1050000,
+      "context_label": "1.05M",
+      "context_note": "272K pricing threshold",
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 2,
+      "api_out": 12,
+      "api_cache_hit": 0.2
+    },
+    {
+      "name": "SubQ 1M-Preview",
+      "is_new": false,
+      "family": "SubQ",
+      "provider": "SubQ",
+      "context": 12000000,
+      "context_label": "12M",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": 1,
+      "api_out": 5,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Apertus v1.1 4B Instruct",
+      "is_new": false,
+      "family": "Apertus v1.1",
+      "provider": "Swiss AI Initiative",
+      "context": 4096,
+      "context_label": "4K",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Apertus v1.5 70B",
+      "is_new": true,
+      "family": "Apertus v1.5",
+      "provider": "Swiss AI Initiative",
+      "context": 262144,
+      "context_label": "262K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Apertus v1.5 8B",
+      "is_new": true,
+      "family": "Apertus v1.5",
+      "provider": "Swiss AI Initiative",
+      "context": 262144,
+      "context_label": "262K",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Tencent Hy3",
+      "is_new": true,
+      "family": "Hunyuan Hy3",
+      "provider": "Tencent",
+      "context": 256000,
+      "context_label": "256K",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Inkling",
+      "is_new": false,
+      "family": "Inkling",
+      "provider": "Thinking Machines Lab",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Inkling Small",
+      "is_new": true,
+      "family": "Inkling",
+      "provider": "Thinking Machines Lab",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image",
+        "audio"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "Grok 4.1 Fast",
+      "is_new": false,
+      "family": "Grok 4",
+      "provider": "xAI",
+      "context": 2000000,
+      "context_label": "2M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 0.2,
+      "api_out": 0.5,
+      "api_cache_hit": 0.05
+    },
+    {
+      "name": "Grok 4.3",
+      "is_new": false,
+      "family": "Grok 4",
+      "provider": "xAI",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "api_in": 1.25,
+      "api_out": 2.5,
+      "api_cache_hit": 0.31
+    },
+    {
+      "name": "MiMo-V2-Flash",
+      "is_new": true,
+      "family": "MiMo V2",
+      "provider": "Xiaomi",
+      "context": 256000,
+      "context_label": "256K",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    },
+    {
+      "name": "GLM-5.3",
+      "is_new": true,
+      "family": "GLM-5",
+      "provider": "Z.ai",
+      "context": 1000000,
+      "context_label": "1M",
+      "context_note": null,
+      "modalities": [
+        "text"
+      ],
+      "api_in": null,
+      "api_out": null,
+      "api_cache_hit": null
+    }
+  ]
+}
